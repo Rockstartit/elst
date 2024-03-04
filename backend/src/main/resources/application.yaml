@@ -1,0 +1,29 @@
+server:
+  port: ${PORT:8500}
+spring:
+  application:
+    name: elst
+  flyway:
+    enabled: true
+    default-schema: elst
+  jpa:
+    generate-ddl: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:mysql://${DATABASE_URL:localhost:3306}/${SCHEMA:elst}?rewriteBatchedStatements=true
+    username: ${DB_USERNAME:elst}
+    password: ${DB_PASSWORD:elst-pw}
+  modulith:
+    moments:
+      enable-time-machine: false
+      locale: de_DE
+  mustache:
+    enabled: false
+    check-template-location: false
+  mvc:
+    format:
+      date: iso
+      date-time: iso
+      time: iso

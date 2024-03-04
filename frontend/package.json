@@ -1,0 +1,48 @@
+{
+  "name": "e-learning-tool-frontend",
+  "version": "0.0.1",
+  "description": "A tool for specifying e-learning courses",
+  "productName": "E-Learning Specification Tool",
+  "author": "Daniel Augustin <uzhpf@student.kit.edu>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev -m pwa",
+    "build": "quasar build -m pwa"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.9",
+    "axios": "^1.6.5",
+    "quasar": "^2.14.2",
+    "vue": "^3.4.18",
+    "vue-i18n": "^9.9.0",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^7.0.0",
+    "@openapitools/openapi-generator-cli": "^2.9.0",
+    "@quasar/app-vite": "^1.7.3",
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.20.1",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3",
+    "workbox-build": "^7.0.0",
+    "workbox-cacheable-response": "^7.0.0",
+    "workbox-core": "^7.0.0",
+    "workbox-expiration": "^7.0.0",
+    "workbox-precaching": "^7.0.0",
+    "workbox-routing": "^7.0.0",
+    "workbox-strategies": "^7.0.0"
+  },
+  "engines": {
+    "node": "^24 || ^22 || ^20 || ^18 || ^16 || ^14.19",
+    "npm": ">= 6.14.12",
+    "yarn": ">= 1.21.1"
+  }
+}
