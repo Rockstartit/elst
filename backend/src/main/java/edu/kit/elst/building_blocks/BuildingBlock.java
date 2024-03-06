@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Getter
@@ -51,5 +52,9 @@ public class BuildingBlock {
 
     void release() {
         this.releaseStatus = ReleaseStatus.RELEASED;
+    }
+
+    public Collection<Property> properties() {
+        return Collections.unmodifiableCollection(properties);
     }
 }
