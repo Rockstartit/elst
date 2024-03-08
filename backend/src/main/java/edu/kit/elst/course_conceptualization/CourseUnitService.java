@@ -12,13 +12,13 @@ import java.util.Collection;
 public class CourseUnitService {
     private final Courses courses;
     private final CourseUnits courseUnits;
+    private final Pages pages;
     private final CourseTopics courseTopics;
 
     public CourseUnitId addCourseUnit(CourseVersion version) {
-        Course course = courses.findById(version)
-                .orElseThrow(() -> new CourseNotFoundException(version));
+        Course course = courses.getReferenceById(version);
 
-        CourseUnit courseUnit = course.addUnit();
+        CourseUnit courseUnit = new CourseUnit(course);
         courseUnits.save(courseUnit);
 
         return courseUnit.id();
@@ -26,6 +26,7 @@ public class CourseUnitService {
 
     public void removeCourseUnit(CourseUnitId courseUnitId) {
         courseTopics.deleteAllByCourseUnitId(courseUnitId);
+        pages.deleteAllByCourseUnitId(courseUnitId);
         courseUnits.deleteById(courseUnitId);
     }
 

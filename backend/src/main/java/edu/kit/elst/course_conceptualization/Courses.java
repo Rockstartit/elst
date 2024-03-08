@@ -1,14 +1,14 @@
 package edu.kit.elst.course_conceptualization;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-interface Courses extends CrudRepository<Course, CourseVersion> {
+interface Courses extends JpaRepository<Course, CourseVersion> {
     default CourseVersion newCourseVersion() {
         return new CourseVersion(UUID.randomUUID(), 1);
     }

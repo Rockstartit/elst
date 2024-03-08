@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface CourseUnits extends JpaRepository<CourseUnit, CourseUnitId> {
-    static CourseUnitId nextIdentity() {
-        return new CourseUnitId(UUID.randomUUID());
+public interface Pages extends JpaRepository<Page, PageId> {
+    static PageId nextIdentity() {
+        return new PageId(UUID.randomUUID());
     }
+
+    void deleteAllByCourseUnitId(CourseUnitId courseUnitId);
 }

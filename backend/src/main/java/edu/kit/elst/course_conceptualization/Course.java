@@ -1,13 +1,13 @@
 package edu.kit.elst.course_conceptualization;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Entity
 @Setter
@@ -27,19 +27,10 @@ public class Course {
     @Embedded
     private Prerequisite prerequisite;
 
-    @Getter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "course")
-    private Collection<CourseUnit> courseUnits;
-
     Course(CourseVersion version, CourseInformation courseInformation) {
         this.version = version;
         this.courseInformation = courseInformation;
 
         this.prerequisite = null;
-        this.courseUnits = new ArrayList<>();
-    }
-
-    public CourseUnit addUnit() {
-        return new CourseUnit(this);
     }
 }

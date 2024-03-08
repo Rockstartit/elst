@@ -41,9 +41,6 @@ public class CourseUnit {
             })
     private Collection<StudyMaterial> studyMaterials;
 
-    @OneToMany(mappedBy = "topic")
-    private Collection<Topic> topics;
-
     CourseUnit(Course course) {
         this.id = CourseUnits.nextIdentity();
         this.course = course;
@@ -78,9 +75,5 @@ public class CourseUnit {
 
     public Collection<LearningGoal> learningGoals() {
         return Collections.unmodifiableCollection(learningGoals);
-    }
-
-    public Topic addTopic(String title) {
-        return new Topic(this, title);
     }
 }

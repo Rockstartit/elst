@@ -14,10 +14,9 @@ public class CourseTopicService {
     private final CourseTopics courseTopics;
 
     public TopicId addTopic(CourseUnitId courseUnitId, String title) {
-        CourseUnit courseUnit = courseUnits.findById(courseUnitId)
-                .orElseThrow(() -> new CourseUnitNotFoundException(courseUnitId));
+        CourseUnit courseUnit = courseUnits.getReferenceById(courseUnitId);
 
-        Topic topic = courseUnit.addTopic(title);
+        Topic topic = new Topic(courseUnit, title);
         courseTopics.save(topic);
 
         return topic.topicId();
