@@ -77,6 +77,29 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- OpenAPI -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.2.20</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.codegen.v3</groupId>
+            <artifactId>swagger-codegen-maven-plugin</artifactId>
+            <version>3.0.51</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -103,6 +126,66 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>io.swagger.codegen.v3</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>3.0.51</version>
+                <configuration>
+                    <inputSpec>${project.basedir}/src/main/resources/api/openapi-building-blocks.yaml</inputSpec>
+                    <modelPackage>edut.kit.elst.rest_api</modelPackage>
+                    <apiPackage>edut.kit.elst.rest_api</apiPackage>
+                    <generateApiTests>false</generateApiTests>
+                    <generateModelTests>false</generateModelTests>
+                    <language>spring</language>
+                    <additionalProperties>
+                        <additionalProperty>ignoreImportMappings=false</additionalProperty>
+                    </additionalProperties>
+                    <generateSupportingFiles>false</generateSupportingFiles>
+                    <configOptions>
+                        <sourceFolder>src/gen/java/main</sourceFolder>
+                        <interfaceOnly>true</interfaceOnly>
+                        <java8>true</java8>
+                        <useTags>true</useTags>
+                    </configOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>courses-openapi</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api/openapi-courses.yaml</inputSpec>
+                            <language>spring</language>
+                            <modelPackage>edut.kit.elst.rest_api</modelPackage>
+                            <apiPackage>edut.kit.elst.rest_api</apiPackage>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includes>
+                        <include>${project.basedir}/target/generated-sources/swagger/src/gen/java/**/*.java</include>
+                    </includes>
+                    <regex>false</regex>
+                    <token>javax.servlet</token>
+                    <value>jakarta.servlet</value>
                 </configuration>
             </plugin>
         </plugins>

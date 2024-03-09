@@ -1,0 +1,635 @@
+openapi: 3.0.3
+info:
+  title: Course Conceptualization
+  description: E-Learning Specification Tool Courses
+  version: 1.0.0
+servers:
+  - url: http://localhost:8500
+security:
+  - bearerAuth: []
+paths:
+  /courses:
+    get:
+      tags:
+        - Course
+      summary: Get all courses
+      operationId: getAllCourses
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Course"
+        401:
+          description: Not Authenticated
+    post:
+      tags:
+        - Course
+      summary: Create new course
+      operationId: createCourse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourseRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /courses/{courseId}:
+    patch:
+      tags:
+        - Course
+      summary: Edit course
+      operationId: editCourse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditCourseRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Course
+      summary: Delete course
+      operationId: deleteCourse
+      parameters:
+        - name: courseId
+          in: query
+          description: Id of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /courses/{courseId}/evolve:
+    post:
+      tags:
+        - Course
+      summary: Evolve course
+      operationId: evolveCourse
+      parameters:
+        - name: courseId
+          in: query
+          description: Id of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /courses/{courseId}/course-units:
+    post:
+      tags:
+        - Course Unit
+      summary: Create course unit
+      operationId: createCourseUnit
+      parameters:
+        - name: courseId
+          in: query
+          description: Id of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /course-units/{courseUnitId}:
+    patch:
+      tags:
+        - Course Unit
+      summary: Edit course unit
+      operationId: editCourseUnit
+      parameters:
+        - name: courseUnitId
+          in: query
+          description: Id of course unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditCourseUnitRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Course Unit
+      summary: Delete course unit
+      operationId: deleteCourseUnit
+      parameters:
+        - name: courseUnitId
+          in: query
+          description: Id of course unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /course-units/{courseUnitId}/topics:
+    post:
+      tags:
+        - Course Unit
+      summary: Create Topic
+      operationId: createTopic
+      parameters:
+        - name: courseUnitId
+          in: query
+          description: Id of course unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTopicRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /topics/{topicId}:
+    patch:
+      tags:
+        - Course Unit
+      summary: Edit topic
+      operationId: editTopic
+      parameters:
+        - name: topicId
+          in: query
+          description: Id of topic
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditTopicRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Course Unit
+      summary: Delete topic
+      operationId: deleteTopic
+      parameters:
+        - name: topicId
+          in: query
+          description: Id of topic
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /topics/{topicId}/subtopics:
+    post:
+      tags:
+        - Course Unit
+      summary: Create Subtopic
+      operationId: createSubtopic
+      parameters:
+        - name: topicId
+          in: query
+          description: Id of topic
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddSubtopicRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /topics/{topicId}/subtopics/{subtopicId}:
+    patch:
+      tags:
+        - Course Unit
+      summary: Edit subtopic
+      operationId: editSubtopic
+      parameters:
+        - name: topicId
+          in: query
+          description: Id of topic
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: subtopicId
+          in: query
+          description: Id of subtopic
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditSubtopicRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Course Unit
+      summary: Delete subtopic
+      operationId: deleteSubtopic
+      parameters:
+        - name: topicId
+          in: query
+          description: Id of topic
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: subtopicId
+          in: query
+          description: Id of subtopic
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /course-units/{courseUnitId}/pages:
+    post:
+      tags:
+        - Page
+      summary: Create page
+      operationId: createPage
+      parameters:
+        - name: courseUnitId
+          in: query
+          description: Id of course unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPageRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /pages/{pageId}:
+    patch:
+      tags:
+        - Page
+      summary: Edit page
+      operationId: editPage
+      parameters:
+        - name: pageId
+          in: query
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditPageRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Page
+      summary: Delete page
+      operationId: deletePage
+      parameters:
+        - name: pageId
+          in: query
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /pages/{pageId}/page-building-blocks:
+    post:
+      tags:
+        - Page
+      summary: Add building block to page
+      operationId: addBuildingBlockToPage
+      parameters:
+        - name: pageId
+          in: query
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddBuildingBlockToPageRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /page-building-blocks/{pageBuildingBlockId}:
+    delete:
+      tags:
+        - Page
+      summary: Remove building block from page
+      operationId: removeBuildingBlockFromPage
+      parameters:
+        - name: pageBuildingBlockId
+          in: query
+          description: Id of page building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+components:
+  schemas:
+    Course:
+      type: object
+      allOf:
+        - properties:
+            id:
+              $ref: "#/components/schemas/EntityId"
+            version:
+              $ref: "#/components/schemas/VersionNumber"
+            schedule:
+              type: string
+              example: Wöchentlich
+            description:
+              type: string
+              example: Eine Komponente zum Darstellen eines Textes.
+        - $ref: "#/components/schemas/CourseInformation"
+        - $ref: "#/components/schemas/Prerequisite"
+    Prerequisite:
+      type: object
+      properties:
+        gradRequired:
+          type: boolean
+        knowledge:
+          type: string
+          example: None
+        skills:
+          type: string
+          example: Lesen
+    CourseInformation:
+      type: object
+      required:
+        - name
+        - code
+      properties:
+        code:
+          type: string
+          example: FHRT
+        name:
+          type: string
+          example: Bee Kings
+        creditPoints:
+          type: string
+          example: 8
+        degree:
+          type: string
+          example: Bachelor
+        semester:
+          type: string
+          example: WS23/24
+    CreateCourseRequest:
+      type: object
+      required:
+        - name
+        - code
+      allOf:
+        - $ref: "#/components/schemas/CourseInformation"
+    EditCourseRequest:
+      type: object
+      properties:
+        schedule:
+          type: string
+          example: Wöchentlich
+        description:
+          type: string
+          example: Eine Komponente zum Darstellen eines Textes.
+        information:
+          $ref: "#/components/schemas/CourseInformation"
+        prerequisite:
+          $ref: "#/components/schemas/Prerequisite"
+    EditCourseUnitRequest:
+      type: object
+      properties:
+        description:
+          type: number
+        learningGoals:
+          type: array
+          items:
+            type: string
+        studyMaterials:
+          $ref: "#/components/schemas/StudyMaterials"
+    StudyMaterials:
+      type: object
+      properties:
+        eReading:
+          type: string
+        eBook:
+          type: string
+        bibliography:
+          type: string
+        relatedLinks:
+          type: string
+    AddTopicRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+    EditTopicRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        content:
+          type: string
+    AddSubtopicRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+    EditSubtopicRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        content:
+          type: string
+    AddPageRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+    EditPageRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+    AddBuildingBlockToPageRequest:
+      type: object
+      required:
+        - title
+      properties:
+        buildingBlockId:
+          $ref: "#/components/schemas/EntityId"
+        version:
+          $ref: "#/components/schemas/VersionNumber"
+    VersionNumber:
+      type: number
+      example: 1
+    EntityId:
+      type: string
+      format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

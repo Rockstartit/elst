@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Building Block Repository
+  description: E-Learning Specification Tool Building Blocks
+  version: 1.0.0
+servers:
+  - url: http://localhost:8500
+security:
+  - bearerAuth: []
+paths:
+  /building-blocks:
+    get:
+      tags:
+        - Building Block
+      summary: Get all released building blocks
+      operationId: getReleasedBuildingBlocks
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReleasedBuildingBlock"
+        401:
+          description: Not Authenticated
+components:
+  schemas:
+    ReleasedBuildingBlock:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        version:
+          $ref: "#/components/schemas/VersionNumber"
+        name:
+          type: string
+          example: Text
+        description:
+          type: string
+          example: Eine Komponente zum Darstellen eines Textes.
+    VersionNumber:
+      type: number
+      example: 1
+    EntityId:
+      type: string
+      format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
