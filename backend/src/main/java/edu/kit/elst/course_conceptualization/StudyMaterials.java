@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class StudyMaterial {
+public class StudyMaterials {
     private final String eReading;
     private final String eBook;
     private final String bibliography;
     private final String relatedLinks;
 
-    public StudyMaterial(String eReading, String eBook, String bibliography, String relatedLinks) {
+    public StudyMaterials(String eReading, String eBook, String bibliography, String relatedLinks) {
         this.eReading = eReading;
         this.eBook = eBook;
         this.bibliography = bibliography;

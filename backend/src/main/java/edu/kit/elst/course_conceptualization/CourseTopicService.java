@@ -45,10 +45,11 @@ public class CourseTopicService {
         return subtopic.subtopicId();
     }
 
-    public void editSubtopic(TopicId subtopicId, LocalDate date, String description, String content) {
+    public void editSubtopic(TopicId subtopicId, String title, LocalDate date, String description, String content) {
         Subtopic subtopic = courseTopics.findSubtopicById(subtopicId)
                 .orElseThrow(() -> new CourseTopicNotFoundException(subtopicId));
 
+        subtopic.title(title);
         subtopic.date(date);
         subtopic.description(description);
         subtopic.content(content);

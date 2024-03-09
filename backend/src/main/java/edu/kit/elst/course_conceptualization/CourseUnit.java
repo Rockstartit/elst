@@ -32,21 +32,15 @@ public class CourseUnit {
             })
     private Collection<LearningGoal> learningGoals;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "course_unit_study_materials",
-            joinColumns = {
-                    @JoinColumn(name = "course_id", referencedColumnName = "course_id"),
-                    @JoinColumn(name = "course_version_number", referencedColumnName = "course_version_number")
-            })
-    private Collection<StudyMaterial> studyMaterials;
+    @Embedded
+    private StudyMaterials studyMaterials;
 
     CourseUnit(Course course) {
         this.id = CourseUnits.nextIdentity();
         this.course = course;
         this.description = null;
+        this.studyMaterials = null;
         this.learningGoals = new ArrayList<>();
-        this.studyMaterials = new ArrayList<>();
     }
 
     public void setDescription(String description) {
@@ -61,16 +55,8 @@ public class CourseUnit {
         }
     }
 
-    public void setStudyMaterials(Collection<StudyMaterial> studyMaterials) {
-        this.studyMaterials.clear();
-
-        if (studyMaterials != null) {
-            this.studyMaterials.addAll(studyMaterials);
-        }
-    }
-
-    public Collection<StudyMaterial> studyMaterials() {
-        return Collections.unmodifiableCollection(studyMaterials);
+    public void setStudyMaterials(StudyMaterials studyMaterials) {
+        this.studyMaterials = studyMaterials;
     }
 
     public Collection<LearningGoal> learningGoals() {

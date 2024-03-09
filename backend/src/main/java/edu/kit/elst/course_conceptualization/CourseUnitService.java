@@ -33,7 +33,7 @@ public class CourseUnitService {
     public void editCourseUnit(CourseUnitId courseUnitId,
                                String description,
                                Collection<LearningGoal> learningGoals,
-                               Collection<StudyMaterial> studyMaterials) {
+                               StudyMaterials studyMaterials) {
         CourseUnit courseUnit = courseUnits.findById(courseUnitId)
                 .orElseThrow(() -> new CourseUnitNotFoundException(courseUnitId));
 
