@@ -34,19 +34,19 @@ export interface ReleasedBuildingBlock {
      * @type {string}
      * @memberof ReleasedBuildingBlock
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {number}
      * @memberof ReleasedBuildingBlock
      */
-    'version'?: number;
+    'version': number;
     /**
      * 
      * @type {string}
      * @memberof ReleasedBuildingBlock
      */
-    'name'?: string;
+    'name': string;
     /**
      * 
      * @type {string}

@@ -29,6 +29,10 @@ components:
   schemas:
     ReleasedBuildingBlock:
       type: object
+      required:
+        - id
+        - version
+        - name
       properties:
         id:
           $ref: "#/components/schemas/EntityId"
