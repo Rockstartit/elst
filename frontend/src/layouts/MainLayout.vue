@@ -1,43 +1,68 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
+  <q-layout class="bg-grey-1">
+    <q-header
+      elevated
+      class="text-white"
+      style="background: #24292e"
+      height-hint="61.59">
+      <q-toolbar class="q-py-sm q-px-md">
         <q-btn
-          flat
-          dense
           round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+          dense
+          flat
+          :ripple="false"
+          icon="mdi-school-outline"
+          size="19px"
+          color="white"
+          class="q-mr-sm"
+          no-caps
+          :to="{ name: availableRoutes.browse_courses }" />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <div
+          v-if="$q.screen.gt.sm"
+          class="elst__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
+          <router-link :to="{ name: availableRoutes.browse_courses }">
+            <a class="text-white"> Kurse </a>
+          </router-link>
 
-        <div>Quasar v{{ $q.version }}</div>
+          <router-link :to="{ name: availableRoutes.browse_building_blocks }">
+            <a class="text-white"> Bausteine </a>
+          </router-link>
+        </div>
+
+        <q-space />
+
+        <div class="q-pl-sm q-gutter-md row items-center no-wrap">
+          <q-btn dense flat round size="sm" icon="notifications" />
+
+          <q-btn dense flat no-wrap>
+            <q-avatar rounded size="20px" class="q-mr-xs">
+              <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
+            </q-avatar>
+            <q-icon name="arrow_drop_down" size="16px" />
+
+            <q-menu auto-close>
+              <q-list dense>
+                <q-item>
+                  <q-item-section>
+                    <div>Angemeldet als <strong>Daniel</strong></div>
+                  </q-item-section>
+                </q-item>
+
+                <q-separator />
+
+                <q-item clickable>
+                  <q-item-section>Einstellungen</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section>Abmelden</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -45,58 +70,16 @@
   </q-layout>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
-
-const essentialLinks: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+<script lang="ts" setup>
+import { availableRoutes } from 'src/router/routes';
 </script>
+
+<style lang="sass">
+.elst
+  &__toolbar-link
+    a
+      color: white
+      text-decoration: none
+      &:hover
+        opacity: 0.7
+</style>

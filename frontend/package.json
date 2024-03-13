@@ -10,7 +10,9 @@
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m pwa",
-    "build": "quasar build -m pwa"
+    "build": "quasar build -m pwa",
+    "generate-building-blocks-api": "openapi-generator-cli generate -i ../backend/src/main/resources/api/openapi-building-blocks.yaml -o src/services/generated/openapi/building_blocks -g typescript-axios --additional-properties=supportsES6=true,npmVersion=6.9.0,typescriptThreePlus=true",
+    "generate-courses-api": "openapi-generator-cli generate -i ../backend/src/main/resources/api/openapi-courses.yaml -o src/services/generated/openapi/courses -g typescript-axios --additional-properties=supportsES6=true,npmVersion=6.9.0,typescriptThreePlus=true"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.9",
@@ -30,6 +32,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.20.1",
+    "autoprefixer": "^10.4.17",
     "prettier": "^3.2.4",
     "typescript": "^5.3.3",
     "workbox-build": "^7.0.0",
