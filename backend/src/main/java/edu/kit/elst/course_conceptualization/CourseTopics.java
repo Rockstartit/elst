@@ -3,7 +3,7 @@ package edu.kit.elst.course_conceptualization;
 import java.util.Optional;
 import java.util.UUID;
 
-interface CourseTopics {
+public interface CourseTopics {
     static TopicId nextTopicId() {
         return new TopicId(UUID.randomUUID());
     }
@@ -18,7 +18,7 @@ interface CourseTopics {
 
     void deleteTopicById(TopicId topicId);
 
-    void deleteSubtopicById(TopicId topicId);
+    void deleteSubtopicById(TopicId subtopicId);
 
     Optional<Topic> findTopicById(TopicId topicId);
 
