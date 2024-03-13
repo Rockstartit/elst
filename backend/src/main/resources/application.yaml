@@ -10,7 +10,7 @@ spring:
     generate-ddl: true
     open-in-view: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
   datasource:
     url: jdbc:mysql://${DATABASE_URL:localhost:3306}/${SCHEMA:elst}?rewriteBatchedStatements=true
     username: ${DB_USERNAME:elst}
@@ -27,3 +27,6 @@ spring:
       date: iso
       date-time: iso
       time: iso
+logging:
+  level:
+    root: INFO
