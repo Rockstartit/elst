@@ -17,6 +17,7 @@ import java.util.Collection;
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class Subtopic {
     @EmbeddedId
+    @AttributeOverride(name = "value", column = @Column(name = "subtopic_id"))
     private final TopicId subtopicId;
 
     @JoinColumn(name = "topic_id")

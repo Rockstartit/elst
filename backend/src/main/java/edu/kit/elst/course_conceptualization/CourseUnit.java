@@ -17,8 +17,9 @@ public class CourseUnit {
     @EmbeddedId
     private final CourseUnitId id;
 
-    @JoinColumn(name = "course_id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", referencedColumnName = "course_id")
+    @JoinColumn(name = "course_version_number", referencedColumnName = "course_version_number")
     private final Course course;
 
     private String description;

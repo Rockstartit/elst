@@ -15,7 +15,7 @@ public class CourseUnitService {
     private final Pages pages;
     private final CourseTopics courseTopics;
 
-    public CourseUnitId addCourseUnit(CourseVersion version) {
+    public CourseUnitId createCourseUnit(CourseVersion version) {
         Course course = courses.getReferenceById(version);
 
         CourseUnit courseUnit = new CourseUnit(course);
@@ -24,7 +24,7 @@ public class CourseUnitService {
         return courseUnit.id();
     }
 
-    public void removeCourseUnit(CourseUnitId courseUnitId) {
+    public void deleteCourseUnit(CourseUnitId courseUnitId) {
         courseTopics.deleteAllByCourseUnitId(courseUnitId);
         pages.deleteAllByCourseUnitId(courseUnitId);
         courseUnits.deleteById(courseUnitId);
@@ -40,5 +40,11 @@ public class CourseUnitService {
         courseUnit.setDescription(description);
         courseUnit.setLearningGoals(learningGoals);
         courseUnit.setStudyMaterials(studyMaterials);
+    }
+
+    public void deleteAll(CourseVersion version) {
+        for (CourseUnit courseUnit : courseUnits.findAllByCourseVersion(version)) {
+            deleteCourseUnit(courseUnit.id());
+        }
     }
 }

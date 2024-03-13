@@ -26,8 +26,4 @@ public class CourseInformation {
         this.degree = degree;
         this.semester = semester;
     }
-
-    public CourseInformation(String code, String name) {
-        this(code, name, null, null, null);
-    }
 }

@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 @Service
 @Transactional
 @AllArgsConstructor
 public class CourseService {
     private final Courses courses;
+    private final CourseUnitService courseUnitService;
 
     public CourseVersion createEmptyCourse(CourseInformation courseInformation) {
         CourseVersion courseVersion = courses.newCourseVersion();
@@ -50,5 +53,14 @@ public class CourseService {
                 .orElseThrow(() -> new CourseNotFoundException(version));
 
         course.prerequisite(prerequisite);
+    }
+
+    public void deleteCourse(CourseVersion version) {
+        courseUnitService.deleteAll(version);
+        courses.deleteById(version);
+    }
+
+    public Collection<Course> courses() {
+        return courses.findAll();
     }
 }

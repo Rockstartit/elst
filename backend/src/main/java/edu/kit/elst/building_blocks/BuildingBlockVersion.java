@@ -21,7 +21,7 @@ public class BuildingBlockVersion implements Serializable {
     @Column(name = "building_block_version_number", nullable = false)
     private final long versionNumber;
 
-    BuildingBlockVersion(UUID buildingBlockId, long versionNumber) {
+    public BuildingBlockVersion(UUID buildingBlockId, long versionNumber) {
         Guards.notNull(buildingBlockId, "buildingBlockId");
 
         if (versionNumber <= 0) {

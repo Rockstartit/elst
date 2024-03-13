@@ -13,7 +13,7 @@ public class CourseTopicService {
     private final CourseUnits courseUnits;
     private final CourseTopics courseTopics;
 
-    public TopicId addTopic(CourseUnitId courseUnitId, String title) {
+    public TopicId createTopic(CourseUnitId courseUnitId, String title) {
         CourseUnit courseUnit = courseUnits.getReferenceById(courseUnitId);
 
         Topic topic = new Topic(courseUnit, title);
@@ -31,11 +31,11 @@ public class CourseTopicService {
         topic.content(content);
     }
 
-    public void removeTopic(TopicId topicId) {
+    public void deleteTopic(TopicId topicId) {
         courseTopics.deleteTopicById(topicId);
     }
 
-    public TopicId addSubtopic(TopicId topicId, String title) {
+    public TopicId createSubtopic(TopicId topicId, String title) {
         Topic topic = courseTopics.findTopicById(topicId)
                 .orElseThrow(() -> new CourseTopicNotFoundException(topicId));
 
@@ -55,7 +55,7 @@ public class CourseTopicService {
         subtopic.content(content);
     }
 
-    public void removeSubtopic(TopicId topicId) {
-        courseTopics.deleteSubtopicById(topicId);
+    public void deleteSubtopic(TopicId subtopicId) {
+        courseTopics.deleteSubtopicById(subtopicId);
     }
 }

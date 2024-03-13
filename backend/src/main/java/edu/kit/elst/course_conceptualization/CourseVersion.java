@@ -21,7 +21,7 @@ public class CourseVersion implements Serializable {
     @Column(name = "course_version_number", nullable = false)
     private final long versionNumber;
 
-    CourseVersion(UUID courseId, long versionNumber) {
+    public CourseVersion(UUID courseId, long versionNumber) {
         Guards.notNull(courseId, "courseId");
 
         if (versionNumber <= 0) {

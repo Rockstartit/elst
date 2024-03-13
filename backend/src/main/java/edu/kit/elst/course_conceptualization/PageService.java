@@ -13,7 +13,7 @@ public class PageService {
     private final CourseUnits courseUnits;
     private final PageBuildingBlocks pageBuildingBlocks;
 
-    public PageId addPage(CourseUnitId courseUnitId, String title) {
+    public PageId createPage(CourseUnitId courseUnitId, String title) {
         CourseUnit courseUnit = courseUnits.getReferenceById(courseUnitId);
 
         Page page = new Page(courseUnit, title);
@@ -29,7 +29,7 @@ public class PageService {
         page.title(title);
     }
 
-    public void removePage(PageId pageId) {
+    public void deletePage(PageId pageId) {
         pages.deleteById(pageId);
     }
 
