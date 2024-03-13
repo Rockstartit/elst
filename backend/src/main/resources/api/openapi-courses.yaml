@@ -55,13 +55,13 @@ paths:
       operationId: editCourse
       parameters:
         - name: courseId
-          in: query
+          in: path
           description: Id of course
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
         - name: version
-          in: query
+          in: path
           description: Version of course
           required: true
           schema:
@@ -86,13 +86,13 @@ paths:
       operationId: deleteCourse
       parameters:
         - name: courseId
-          in: query
+          in: path
           description: Id of course
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
         - name: version
-          in: query
+          in: path
           description: Version of course
           required: true
           schema:
@@ -112,13 +112,13 @@ paths:
       operationId: evolveCourse
       parameters:
         - name: courseId
-          in: query
+          in: path
           description: Id of course
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
         - name: version
-          in: query
+          in: path
           description: Version of course
           required: true
           schema:
@@ -142,13 +142,13 @@ paths:
       operationId: createCourseUnit
       parameters:
         - name: courseId
-          in: query
+          in: path
           description: Id of course
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
         - name: version
-          in: query
+          in: path
           description: Version of course
           required: true
           schema:
@@ -172,7 +172,7 @@ paths:
       operationId: editCourseUnit
       parameters:
         - name: courseUnitId
-          in: query
+          in: path
           description: Id of course unit
           required: true
           schema:
@@ -197,7 +197,7 @@ paths:
       operationId: deleteCourseUnit
       parameters:
         - name: courseUnitId
-          in: query
+          in: path
           description: Id of course unit
           required: true
           schema:
@@ -217,7 +217,7 @@ paths:
       operationId: createTopic
       parameters:
         - name: courseUnitId
-          in: query
+          in: path
           description: Id of course unit
           required: true
           schema:
@@ -247,7 +247,7 @@ paths:
       operationId: editTopic
       parameters:
         - name: topicId
-          in: query
+          in: path
           description: Id of topic
           required: true
           schema:
@@ -272,7 +272,7 @@ paths:
       operationId: deleteTopic
       parameters:
         - name: topicId
-          in: query
+          in: path
           description: Id of topic
           required: true
           schema:
@@ -292,7 +292,7 @@ paths:
       operationId: createSubtopic
       parameters:
         - name: topicId
-          in: query
+          in: path
           description: Id of topic
           required: true
           schema:
@@ -322,7 +322,7 @@ paths:
       operationId: editSubtopic
       parameters:
         - name: subtopicId
-          in: query
+          in: path
           description: Id of subtopic
           required: true
           schema:
@@ -347,7 +347,7 @@ paths:
       operationId: deleteSubtopic
       parameters:
         - name: subtopicId
-          in: query
+          in: path
           description: Id of subtopic
           required: true
           schema:
@@ -367,7 +367,7 @@ paths:
       operationId: createPage
       parameters:
         - name: courseUnitId
-          in: query
+          in: path
           description: Id of course unit
           required: true
           schema:
@@ -397,7 +397,7 @@ paths:
       operationId: editPage
       parameters:
         - name: pageId
-          in: query
+          in: path
           description: Id of page
           required: true
           schema:
@@ -422,7 +422,7 @@ paths:
       operationId: deletePage
       parameters:
         - name: pageId
-          in: query
+          in: path
           description: Id of page
           required: true
           schema:
@@ -442,7 +442,7 @@ paths:
       operationId: addBuildingBlockToPage
       parameters:
         - name: pageId
-          in: query
+          in: path
           description: Id of page
           required: true
           schema:
@@ -472,7 +472,7 @@ paths:
       operationId: removeBuildingBlockFromPage
       parameters:
         - name: pageBuildingBlockId
-          in: query
+          in: path
           description: Id of page building block
           required: true
           schema:
