@@ -140,13 +140,13 @@ export interface Course {
      * @type {string}
      * @memberof Course
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {number}
      * @memberof Course
      */
-    'version'?: number;
+    'version': number;
     /**
      * 
      * @type {string}

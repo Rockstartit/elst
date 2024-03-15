@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 export const availableRoutes = {
   browse_courses: 'browse_courses',
-  view_courses: 'view_courses',
+  view_course: 'view_course',
   browse_building_blocks: 'browse_building_blocks',
 };
 
@@ -18,8 +18,9 @@ const routes: RouteRecordRaw[] = [
         component: () => import('src/courses/browse/PBrowseCourses.vue'),
       },
       {
-        name: availableRoutes.view_courses,
-        path: 'courses/{courseId}/{version}',
+        name: availableRoutes.view_course,
+        path: 'courses/:courseId/:version',
+        props: true,
         component: () => import('src/courses/view/PViewCourse.vue'),
       },
       {

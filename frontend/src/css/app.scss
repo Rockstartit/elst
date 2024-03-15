@@ -1,1 +1,11 @@
 // app global css in SCSS form
+
+.elst {
+  &__rounded {
+    border-radius: 12px;
+  }
+
+  &__bordered {
+    border: $grey-4 solid 1px
+  }
+}

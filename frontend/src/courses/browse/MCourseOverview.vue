@@ -7,25 +7,22 @@
     </q-item-section>
     <q-item-section>
       <q-item-label>
-        {{ buildingBlock.name }}
-      </q-item-label>
-      <q-item-label v-if="buildingBlock.description" caption>
-        {{ buildingBlock.description }}
+        {{ course.name }}
       </q-item-label>
     </q-item-section>
     <q-item-section side>
-      <q-badge>{{ 'Version ' + buildingBlock.version }}</q-badge>
+      <q-badge>{{ 'Code ' + course.code }}</q-badge>
     </q-item-section>
   </q-item>
 </template>
 
 <script lang="ts" setup>
-import { ReleasedBuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { QItemProps } from 'quasar';
+import { Course } from 'src/services/generated/openapi/courses';
 
 defineProps<
   {
-    buildingBlock: ReleasedBuildingBlock;
+    course: Course;
   } & QItemProps
 >();
 </script>

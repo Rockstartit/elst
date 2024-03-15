@@ -1,25 +1,21 @@
 <template>
-  <transition enter-active-class="animated fadeIn">
-    <div v-if="initialized && fetching" class="row justify-center q-py-md">
-      <q-spinner />
-    </div>
-
-    <q-list v-else-if="initialized && buildingBlocks.length > 0">
-      <MBuildingBlockOverview
-        v-for="buildingBlock in buildingBlocks"
-        :key="buildingBlock.id + buildingBlock.version"
-        :building-block="buildingBlock"
-        clickable />
-    </q-list>
-
-    <div v-else-if="initialized"> Keine Bausteine verfügbar </div>
-  </transition>
+  <OBaseAnimatedList
+    :key-fn="keyFn"
+    :items="buildingBlocks"
+    :initialized="initialized"
+    :fetching="fetching"
+    empty-message="Keine Bausteine verfügbar">
+    <template #item="{ item }">
+      <slot name="item" :buildingBlock="item" />
+    </template>
+  </OBaseAnimatedList>
 </template>
 
 <script lang="ts" setup>
-import MBuildingBlockOverview from 'src/building_blocks/browse/MBuildingBlockOverview.vue';
 import { useBrowseBuildingBlocks } from 'src/building_blocks/browse/useBrowseBuildingBlocks';
 import { onMounted, ref } from 'vue';
+import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
+import { ReleasedBuildingBlock } from 'src/services/generated/openapi/building_blocks';
 
 const { fetching, buildingBlocks, fetchBuildingBlocks } =
   useBrowseBuildingBlocks();
@@ -31,4 +27,8 @@ onMounted(() => {
     initialized.value = true;
   });
 });
+
+function keyFn(buildingBlock: ReleasedBuildingBlock) {
+  return buildingBlock.id + buildingBlock.version;
+}
 </script>

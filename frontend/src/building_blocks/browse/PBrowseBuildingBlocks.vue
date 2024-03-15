@@ -1,10 +1,15 @@
 <template>
   <PBase content-width="600px">
-    <OBuildingBlockList class="full-width" />
+    <OBuildingBlockList>
+      <template #item="{ buildingBlock }">
+        <MBuildingBlockOverview :building-block="buildingBlock" clickable />
+      </template>
+    </OBuildingBlockList>
   </PBase>
 </template>
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
 import OBuildingBlockList from 'src/building_blocks/browse/OBuildingBlockList.vue';
+import MBuildingBlockOverview from 'src/building_blocks/browse/MBuildingBlockOverview.vue';
 </script>
