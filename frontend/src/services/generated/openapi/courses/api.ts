@@ -531,7 +531,7 @@ export interface PageBuildingBlock {
      * @type {string}
      * @memberof PageBuildingBlock
      */
-    'pageBuildingBlockId'?: string;
+    'pageBuildingBlockId': string;
     /**
      * 
      * @type {string}
@@ -544,6 +544,18 @@ export interface PageBuildingBlock {
      * @memberof PageBuildingBlock
      */
     'version': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PageBuildingBlock
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PageBuildingBlock
+     */
+    'description'?: string;
 }
 /**
  * 

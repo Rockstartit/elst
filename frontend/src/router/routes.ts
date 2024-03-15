@@ -4,7 +4,9 @@ export const availableRoutes = {
   browse_courses: 'browse_courses',
   view_course: 'view_course',
   view_course_unit: 'view_course_unit',
+  view_page: 'view_page',
   browse_building_blocks: 'browse_building_blocks',
+  select_building_block: 'select_building_block',
 };
 
 const routes: RouteRecordRaw[] = [
@@ -30,6 +32,19 @@ const routes: RouteRecordRaw[] = [
         props: true,
         component: () =>
           import('src/courses/view-course-unit/PViewCourseUnit.vue'),
+      },
+      {
+        name: availableRoutes.view_page,
+        path: 'courses/:courseId/:version/units/:courseUnitId/pages/:pageId',
+        props: true,
+        component: () => import('src/courses/view-page/PViewPage.vue'),
+      },
+      {
+        name: availableRoutes.select_building_block,
+        path: 'courses/:courseId/:version/units/:courseUnitId/pages/:pageId/select',
+        props: true,
+        component: () =>
+          import('src/courses/select-building-block/PSelectBuildingBlock.vue'),
       },
       {
         name: availableRoutes.browse_building_blocks,

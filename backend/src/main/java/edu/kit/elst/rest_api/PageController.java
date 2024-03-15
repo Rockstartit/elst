@@ -1,5 +1,7 @@
 package edu.kit.elst.rest_api;
 
+import edu.kit.elst.building_blocks.BuildingBlock;
+import edu.kit.elst.building_blocks.BuildingBlockService;
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
 import edu.kit.elst.course_conceptualization.*;
@@ -10,14 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
 public class PageController implements PageApi {
     private final PageService pageService;
+    private final BuildingBlockService buildingBlockService;
 
     @Override
     public ResponseEntity<UUID> createPage(UUID courseUnitId, AddPageRequest body) {
@@ -73,9 +76,17 @@ public class PageController implements PageApi {
         edu.kit.elst.course_conceptualization.Page page
                 = pageService.page(aPageId)
                 .orElseThrow(() -> new PageNotFoundException(aPageId));
-        Collection<PageBuildingBlock> buildingBlocks = pageService.pageBuildingBlocks(aPageId);
+        Collection<PageBuildingBlock> pageBuildingBlocks = pageService.pageBuildingBlocks(aPageId);
 
-        return ResponseEntity.ok(mapToPage(page, buildingBlocks));
+        Set<BuildingBlockVersion> buildingBlockVersions = pageBuildingBlocks.stream()
+                .map(PageBuildingBlock::version)
+                .collect(Collectors.toSet());
+
+        Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap
+                = buildingBlockService.buildingBlocks(buildingBlockVersions).stream()
+                .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
+
+        return ResponseEntity.ok(mapToPage(page, pageBuildingBlocks, buildingBlockMap));
     }
 
     @Override
@@ -99,24 +110,31 @@ public class PageController implements PageApi {
         return dto;
     }
 
-    private Page mapToPage(edu.kit.elst.course_conceptualization.Page page, Collection<PageBuildingBlock> buildingBlocks) {
+    private Page mapToPage(edu.kit.elst.course_conceptualization.Page page,
+                           Collection<PageBuildingBlock> pageBuildingBlocks,
+                           Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap) {
         Page dto = new Page();
 
         dto.setId(page.id().value());
         dto.setTitle(page.title());
-        dto.setBuildingBlocks(buildingBlocks.stream()
-                .map(this::mapToPageBuildingBlock)
+        dto.setBuildingBlocks(pageBuildingBlocks.stream()
+                .map(buildingBlock -> mapToPageBuildingBlock(buildingBlock, buildingBlockMap.get(buildingBlock.version())))
                 .toList());
 
         return dto;
     }
 
-    private edut.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(PageBuildingBlock buildingBlock) {
+    private edut.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(PageBuildingBlock pageBuildingBlock, BuildingBlock buildingBlock) {
         edut.kit.elst.rest_api.PageBuildingBlock dto = new edut.kit.elst.rest_api.PageBuildingBlock();
 
-        dto.setPageBuildingBlockId(buildingBlock.id().value());
-        dto.setBuildingBlockId(buildingBlock.version().buildingBlockId());
-        dto.setVersion(BigDecimal.valueOf(buildingBlock.version().versionNumber()));
+        dto.setPageBuildingBlockId(pageBuildingBlock.id().value());
+        dto.setBuildingBlockId(pageBuildingBlock.version().buildingBlockId());
+        dto.setVersion(BigDecimal.valueOf(pageBuildingBlock.version().versionNumber()));
+
+        if (buildingBlock != null) {
+            dto.setName(buildingBlock.details().name());
+            dto.setDescription(buildingBlock.details().description());
+        }
 
         return dto;
     }

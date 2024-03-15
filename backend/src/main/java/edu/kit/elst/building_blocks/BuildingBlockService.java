@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -45,5 +46,9 @@ public class BuildingBlockService {
 
     public Collection<BuildingBlock> allReleasedBuildingBlocks() {
         return buildingBlocks.findAllReleased();
+    }
+
+    public Collection<BuildingBlock> buildingBlocks(Set<BuildingBlockVersion> buildingBlockVersions) {
+        return buildingBlocks.findAllById(buildingBlockVersions);
     }
 }

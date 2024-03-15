@@ -1,13 +1,13 @@
 package edu.kit.elst.building_blocks;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-interface BuildingBlocks extends CrudRepository<BuildingBlock, BuildingBlockVersion> {
+interface BuildingBlocks extends JpaRepository<BuildingBlock, BuildingBlockVersion> {
     default BuildingBlockVersion newBuildingBlockVersion() {
         return new BuildingBlockVersion(UUID.randomUUID(), 1);
     }

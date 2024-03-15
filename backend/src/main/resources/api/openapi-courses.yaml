@@ -875,8 +875,10 @@ components:
     PageBuildingBlock:
       type: object
       required:
+        - pageBuildingBlockId
         - buildingBlockId
         - version
+        - name
       properties:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
@@ -884,6 +886,10 @@ components:
           $ref: "#/components/schemas/EntityId"
         version:
           $ref: "#/components/schemas/VersionNumber"
+        name:
+          type: string
+        description:
+          type: string
     AddBuildingBlockToPageRequest:
       type: object
       required:

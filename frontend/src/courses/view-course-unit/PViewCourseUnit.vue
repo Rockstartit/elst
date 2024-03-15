@@ -5,12 +5,20 @@
 
       <div class="row q-mt-lg">
         <div class="col">
-          <OPageList :course-unit-id="courseUnitId" />
+          <OPageList :course-unit-id="courseUnitId">
+            <template #item="{ page }">
+              <MPageOverview
+                :page="page"
+                clickable
+                @click="viewPage(courseVersion, courseUnitId, page.id)" />
+            </template>
+          </OPageList>
 
           <div class="row justify-center q-mt-md">
             <PrimaryButton
               label="Seite hinzufügen"
-              :loading="performingAddPage" />
+              :loading="performingAddPage"
+              @click="createPage" />
           </div>
         </div>
 
@@ -32,19 +40,24 @@
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import {
   CourseTopic,
   CourseUnit,
+  CourseVersion,
 } from 'src/services/generated/openapi/courses';
 import { withLoading } from 'src/core/useWithLoading';
-import { courseUnitApi } from 'src/services';
+import { courseUnitApi, pageApi } from 'src/services';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import OCourseUnitHeader from 'src/courses/view-course-unit/OCourseUnitHeader.vue';
 import OPageList from 'src/courses/view-course-unit/OPageList.vue';
 import OTopics from 'src/courses/view-course-unit/OTopics.vue';
 import OLearningGoals from 'src/courses/view-course-unit/OLearningGoals.vue';
 import OStudyMaterials from 'src/courses/view-course-unit/OStudyMaterials.vue';
+import MPageOverview from 'src/courses/view-course-unit/MPageOverview.vue';
+import { useAppRouter } from 'src/router/useAppRouter';
+
+const { viewPage } = useAppRouter();
 
 const props = defineProps<{
   courseId: string;
@@ -58,6 +71,13 @@ const courseUnit = ref<CourseUnit>();
 const topics = ref<CourseTopic[]>([]);
 
 const performingAddPage = ref(false);
+
+const courseVersion = computed<CourseVersion>(() => {
+  return {
+    courseId: props.courseId,
+    version: props.version,
+  };
+});
 
 onMounted(() => {
   const fetchCourseUnitPromise = courseUnitApi
@@ -81,4 +101,17 @@ onMounted(() => {
     loading
   );
 });
+
+function createPage() {
+  return withLoading(
+    pageApi
+      .createPage(props.courseUnitId, {
+        title: 'Neue Seite',
+      })
+      .then((response) => {
+        viewPage(courseVersion.value, props.courseUnitId, response.data);
+      }),
+    performingAddPage
+  );
+}
 </script>
