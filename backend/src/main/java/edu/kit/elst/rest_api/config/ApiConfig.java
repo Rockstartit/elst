@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,12 +21,15 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class ApiConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(configurer -> configurer.anyRequest().permitAll())
                 .cors(configurer -> configurer.configurationSource(corsConfigurationSource()))
+                // since we use stateless authentication, we disable csrf protection (https://www.baeldung.com/spring-security-csrf#stateless-spring-api)
+                .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
 
