@@ -3,35 +3,37 @@
     <div v-if="initialized && courseUnit">
       <OCourseUnitHeader :name="courseUnit.description" />
 
-      <div class="row q-mt-lg">
-        <div class="col">
-          <OPageList :course-unit-id="courseUnitId">
-            <template #item="{ page }">
-              <MPageOverview
-                :page="page"
-                clickable
-                @click="viewPage(courseVersion, courseUnitId, page.id)" />
-            </template>
-          </OPageList>
+      <div class="overflow-hidden q-mt-lg">
+        <div class="row q-col-gutter-lg">
+          <div class="col">
+            <OPageList :course-unit-id="courseUnitId">
+              <template #item="{ page }">
+                <MPageOverview
+                  :page="page"
+                  clickable
+                  @click="viewPage(courseVersion, courseUnitId, page.id)" />
+              </template>
+            </OPageList>
 
-          <div class="row justify-center q-mt-md">
-            <PrimaryButton
-              label="Seite hinzufügen"
-              :loading="performingAddPage"
-              @click="createPage" />
+            <div class="row justify-center q-mt-md">
+              <PrimaryButton
+                label="Seite hinzufügen"
+                :loading="performingAddPage"
+                @click="createPage" />
+            </div>
           </div>
-        </div>
 
-        <div class="column col-auto" style="gap: 1rem">
-          <OTopics :topics="topics" />
+          <div class="column col-auto" style="gap: 1rem">
+            <OTopics :topics="topics" />
 
-          <q-separator />
+            <q-separator />
 
-          <OLearningGoals :learning-goals="courseUnit.learningGoals" />
+            <OLearningGoals :learning-goals="courseUnit.learningGoals" />
 
-          <q-separator />
+            <q-separator />
 
-          <OStudyMaterials :study-materials="courseUnit.studyMaterials" />
+            <OStudyMaterials :study-materials="courseUnit.studyMaterials" />
+          </div>
         </div>
       </div>
     </div>

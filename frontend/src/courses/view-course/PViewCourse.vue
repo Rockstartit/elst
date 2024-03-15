@@ -3,27 +3,29 @@
     <div v-if="initialized && course">
       <OCourseHeader :name="course.name" />
 
-      <div class="row q-mt-lg">
-        <div class="col">
-          <OCourseUnitList :course-version="courseVersion">
-            <template #item="{ courseUnit }">
-              <MCourseUnitOverview
-                :course-unit="courseUnit"
-                clickable
-                @click="viewCourseUnit(courseVersion, courseUnit.id)" />
-            </template>
-          </OCourseUnitList>
+      <div class="overflow-hidden q-mt-lg">
+        <div class="row q-col-gutter-lg">
+          <div class="col">
+            <OCourseUnitList :course-version="courseVersion">
+              <template #item="{ courseUnit }">
+                <MCourseUnitOverview
+                  :course-unit="courseUnit"
+                  clickable
+                  @click="viewCourseUnit(courseVersion, courseUnit.id)" />
+              </template>
+            </OCourseUnitList>
 
-          <div class="row justify-center q-mt-md">
-            <PrimaryButton
-              label="Neue Kurseinheit"
-              :loading="performingCreateCourseUnit"
-              @click="createCourseUnit" />
+            <div class="row justify-center q-mt-md">
+              <PrimaryButton
+                label="Neue Kurseinheit"
+                :loading="performingCreateCourseUnit"
+                @click="createCourseUnit" />
+            </div>
           </div>
-        </div>
 
-        <div class="col-auto">
-          <OCourseDetails :course="course" />
+          <div class="col-auto">
+            <OCourseDetails :course="course" />
+          </div>
         </div>
       </div>
     </div>
