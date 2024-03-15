@@ -15,7 +15,19 @@ export function useAppRouter() {
     });
   }
 
+  function viewCourseUnit(courseVersion: CourseVersion, courseUnitId: string) {
+    return router.push({
+      name: availableRoutes.view_course_unit,
+      params: {
+        courseId: courseVersion.courseId,
+        version: courseVersion.version,
+        courseUnitId,
+      },
+    });
+  }
+
   return {
     viewCourse,
+    viewCourseUnit,
   };
 }

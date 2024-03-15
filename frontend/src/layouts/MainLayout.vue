@@ -37,7 +37,8 @@
 
           <q-btn dense flat no-wrap>
             <q-avatar rounded size="20px" class="q-mr-xs">
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
+              <img
+                src="https://api.dicebear.com/7.x/initials/svg?seed=Daniel&radius=20&backgroundColor=d1d4f9&textColor=000000" />
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
 

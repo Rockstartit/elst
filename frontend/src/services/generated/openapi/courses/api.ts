@@ -34,13 +34,13 @@ export interface AddBuildingBlockToPageRequest {
      * @type {string}
      * @memberof AddBuildingBlockToPageRequest
      */
-    'buildingBlockId'?: string;
+    'buildingBlockId': string;
     /**
      * 
      * @type {number}
      * @memberof AddBuildingBlockToPageRequest
      */
-    'version'?: number;
+    'version': number;
 }
 /**
  * 
@@ -196,6 +196,117 @@ export interface CourseInformation {
      * @memberof CourseInformation
      */
     'semester'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CourseSubtopic
+ */
+export interface CourseSubtopic {
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseSubtopic
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseSubtopic
+     */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseSubtopic
+     */
+    'date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseSubtopic
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseSubtopic
+     */
+    'content'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CourseTopic
+ */
+export interface CourseTopic {
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseTopic
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseTopic
+     */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseTopic
+     */
+    'date'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseTopic
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseTopic
+     */
+    'content'?: string;
+    /**
+     * 
+     * @type {Array<CourseSubtopic>}
+     * @memberof CourseTopic
+     */
+    'subtopics': Array<CourseSubtopic>;
+}
+/**
+ * 
+ * @export
+ * @interface CourseUnit
+ */
+export interface CourseUnit {
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseUnit
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CourseUnit
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CourseUnit
+     */
+    'learningGoals': Array<string>;
+    /**
+     * 
+     * @type {StudyMaterials}
+     * @memberof CourseUnit
+     */
+    'studyMaterials'?: StudyMaterials;
 }
 /**
  * 
@@ -383,6 +494,75 @@ export interface EditTopicRequest {
      * @memberof EditTopicRequest
      */
     'content'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface Page
+ */
+export interface Page {
+    /**
+     * 
+     * @type {string}
+     * @memberof Page
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Page
+     */
+    'title': string;
+    /**
+     * 
+     * @type {Array<PageBuildingBlock>}
+     * @memberof Page
+     */
+    'buildingBlocks': Array<PageBuildingBlock>;
+}
+/**
+ * 
+ * @export
+ * @interface PageBuildingBlock
+ */
+export interface PageBuildingBlock {
+    /**
+     * 
+     * @type {string}
+     * @memberof PageBuildingBlock
+     */
+    'pageBuildingBlockId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PageBuildingBlock
+     */
+    'buildingBlockId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageBuildingBlock
+     */
+    'version': number;
+}
+/**
+ * 
+ * @export
+ * @interface PageOverview
+ */
+export interface PageOverview {
+    /**
+     * 
+     * @type {string}
+     * @memberof PageOverview
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PageOverview
+     */
+    'title': string;
 }
 /**
  * 
@@ -653,6 +833,48 @@ export const CourseApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Get course
+         * @param {string} courseId Id of course
+         * @param {number} version Version of course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourse: async (courseId: string, version: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'courseId' is not null or undefined
+            assertParamExists('getCourse', 'courseId', courseId)
+            // verify required parameter 'version' is not null or undefined
+            assertParamExists('getCourse', 'version', version)
+            const localVarPath = `/courses/{courseId}/{version}`
+                .replace(`{${"courseId"}}`, encodeURIComponent(String(courseId)))
+                .replace(`{${"version"}}`, encodeURIComponent(String(version)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -731,6 +953,20 @@ export const CourseApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['CourseApi.getAllCourses']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Get course
+         * @param {string} courseId Id of course
+         * @param {number} version Version of course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCourse(courseId: string, version: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Course>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCourse(courseId, version, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseApi.getCourse']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -793,6 +1029,17 @@ export const CourseApiFactory = function (configuration?: Configuration, basePat
          */
         getAllCourses(options?: any): AxiosPromise<Array<Course>> {
             return localVarFp.getAllCourses(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get course
+         * @param {string} courseId Id of course
+         * @param {number} version Version of course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourse(courseId: string, version: number, options?: any): AxiosPromise<Course> {
+            return localVarFp.getCourse(courseId, version, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -865,6 +1112,19 @@ export class CourseApi extends BaseAPI {
      */
     public getAllCourses(options?: RawAxiosRequestConfig) {
         return CourseApiFp(this.configuration).getAllCourses(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get course
+     * @param {string} courseId Id of course
+     * @param {number} version Version of course
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseApi
+     */
+    public getCourse(courseId: string, version: number, options?: RawAxiosRequestConfig) {
+        return CourseApiFp(this.configuration).getCourse(courseId, version, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1252,6 +1512,124 @@ export const CourseUnitApiAxiosParamCreator = function (configuration?: Configur
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Get course units of course
+         * @param {string} courseId Id of course
+         * @param {number} version Version of course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllCourseUnits: async (courseId: string, version: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'courseId' is not null or undefined
+            assertParamExists('getAllCourseUnits', 'courseId', courseId)
+            // verify required parameter 'version' is not null or undefined
+            assertParamExists('getAllCourseUnits', 'version', version)
+            const localVarPath = `/courses/{courseId}/{version}/course-units`
+                .replace(`{${"courseId"}}`, encodeURIComponent(String(courseId)))
+                .replace(`{${"version"}}`, encodeURIComponent(String(version)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get course unit
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseUnit: async (courseUnitId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'courseUnitId' is not null or undefined
+            assertParamExists('getCourseUnit', 'courseUnitId', courseUnitId)
+            const localVarPath = `/course-units/{courseUnitId}`
+                .replace(`{${"courseUnitId"}}`, encodeURIComponent(String(courseUnitId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Topics
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTopics: async (courseUnitId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'courseUnitId' is not null or undefined
+            assertParamExists('getTopics', 'courseUnitId', courseUnitId)
+            const localVarPath = `/course-units/{courseUnitId}/topics`
+                .replace(`{${"courseUnitId"}}`, encodeURIComponent(String(courseUnitId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -1385,6 +1763,46 @@ export const CourseUnitApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['CourseUnitApi.editTopic']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Get course units of course
+         * @param {string} courseId Id of course
+         * @param {number} version Version of course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllCourseUnits(courseId: string, version: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CourseUnit>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllCourseUnits(courseId, version, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseUnitApi.getAllCourseUnits']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get course unit
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCourseUnit(courseUnitId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CourseUnit>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseUnit(courseUnitId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseUnitApi.getCourseUnit']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Topics
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTopics(courseUnitId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CourseTopic>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTopics(courseUnitId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CourseUnitApi.getTopics']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -1490,6 +1908,37 @@ export const CourseUnitApiFactory = function (configuration?: Configuration, bas
          */
         editTopic(topicId: string, editTopicRequest: EditTopicRequest, options?: any): AxiosPromise<void> {
             return localVarFp.editTopic(topicId, editTopicRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get course units of course
+         * @param {string} courseId Id of course
+         * @param {number} version Version of course
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllCourseUnits(courseId: string, version: number, options?: any): AxiosPromise<Array<CourseUnit>> {
+            return localVarFp.getAllCourseUnits(courseId, version, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get course unit
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCourseUnit(courseUnitId: string, options?: any): AxiosPromise<CourseUnit> {
+            return localVarFp.getCourseUnit(courseUnitId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Topics
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTopics(courseUnitId: string, options?: any): AxiosPromise<Array<CourseTopic>> {
+            return localVarFp.getTopics(courseUnitId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1613,6 +2062,43 @@ export class CourseUnitApi extends BaseAPI {
      */
     public editTopic(topicId: string, editTopicRequest: EditTopicRequest, options?: RawAxiosRequestConfig) {
         return CourseUnitApiFp(this.configuration).editTopic(topicId, editTopicRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get course units of course
+     * @param {string} courseId Id of course
+     * @param {number} version Version of course
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseUnitApi
+     */
+    public getAllCourseUnits(courseId: string, version: number, options?: RawAxiosRequestConfig) {
+        return CourseUnitApiFp(this.configuration).getAllCourseUnits(courseId, version, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get course unit
+     * @param {string} courseUnitId Id of course unit
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseUnitApi
+     */
+    public getCourseUnit(courseUnitId: string, options?: RawAxiosRequestConfig) {
+        return CourseUnitApiFp(this.configuration).getCourseUnit(courseUnitId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Topics
+     * @param {string} courseUnitId Id of course unit
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CourseUnitApi
+     */
+    public getTopics(courseUnitId: string, options?: RawAxiosRequestConfig) {
+        return CourseUnitApiFp(this.configuration).getTopics(courseUnitId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1796,6 +2282,82 @@ export const PageApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary Get page
+         * @param {string} pageId Id of page
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPage: async (pageId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'pageId' is not null or undefined
+            assertParamExists('getPage', 'pageId', pageId)
+            const localVarPath = `/pages/{pageId}`
+                .replace(`{${"pageId"}}`, encodeURIComponent(String(pageId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get pages
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPages: async (courseUnitId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'courseUnitId' is not null or undefined
+            assertParamExists('getPages', 'courseUnitId', courseUnitId)
+            const localVarPath = `/course-units/{courseUnitId}/pages`
+                .replace(`{${"courseUnitId"}}`, encodeURIComponent(String(courseUnitId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Remove building block from page
          * @param {string} pageBuildingBlockId Id of page building block
          * @param {*} [options] Override http request option.
@@ -1899,6 +2461,32 @@ export const PageApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get page
+         * @param {string} pageId Id of page
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPage(pageId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Page>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPage(pageId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PageApi.getPage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get pages
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPages(courseUnitId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PageOverview>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPages(courseUnitId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PageApi.getPages']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Remove building block from page
          * @param {string} pageBuildingBlockId Id of page building block
          * @param {*} [options] Override http request option.
@@ -1962,6 +2550,26 @@ export const PageApiFactory = function (configuration?: Configuration, basePath?
          */
         editPage(pageId: string, editPageRequest: EditPageRequest, options?: any): AxiosPromise<void> {
             return localVarFp.editPage(pageId, editPageRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get page
+         * @param {string} pageId Id of page
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPage(pageId: string, options?: any): AxiosPromise<Page> {
+            return localVarFp.getPage(pageId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get pages
+         * @param {string} courseUnitId Id of course unit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPages(courseUnitId: string, options?: any): AxiosPromise<Array<PageOverview>> {
+            return localVarFp.getPages(courseUnitId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2032,6 +2640,30 @@ export class PageApi extends BaseAPI {
      */
     public editPage(pageId: string, editPageRequest: EditPageRequest, options?: RawAxiosRequestConfig) {
         return PageApiFp(this.configuration).editPage(pageId, editPageRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get page
+     * @param {string} pageId Id of page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PageApi
+     */
+    public getPage(pageId: string, options?: RawAxiosRequestConfig) {
+        return PageApiFp(this.configuration).getPage(pageId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get pages
+     * @param {string} courseUnitId Id of course unit
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PageApi
+     */
+    public getPages(courseUnitId: string, options?: RawAxiosRequestConfig) {
+        return PageApiFp(this.configuration).getPages(courseUnitId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -54,6 +54,6 @@ public class CourseUnitService {
     }
 
     public Optional<CourseUnit> courseUnit(CourseUnitId courseUnitId) {
-        return courseUnits.findById(courseUnitId);
+        return courseUnits.findWithLearningGoalsById(courseUnitId);
     }
 }

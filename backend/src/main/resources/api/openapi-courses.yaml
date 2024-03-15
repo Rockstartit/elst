@@ -768,6 +768,7 @@ components:
       required:
         - id
         - title
+        - subtopics
       properties:
         id:
           $ref: "#/components/schemas/EntityId"

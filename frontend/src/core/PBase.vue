@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row justify-center">
+  <q-page class="row justify-center text-grey-10">
     <div class="q-py-md" :style="{ width: contentWidth }">
       <slot />
     </div>
