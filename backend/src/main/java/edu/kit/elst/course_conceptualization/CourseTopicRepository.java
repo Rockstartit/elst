@@ -3,6 +3,7 @@ package edu.kit.elst.course_conceptualization;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -30,6 +31,20 @@ class CourseTopicRepository implements CourseTopics {
     @Override
     public Optional<Subtopic> findSubtopicById(TopicId subtopicId) {
         return subtopicRepository.findById(subtopicId);
+    }
+
+    @Override
+    public Collection<Topic> findAllTopicsByCourseUnitId(CourseUnitId courseUnitId) {
+        CourseUnit courseUnit = courseUnits.getReferenceById(courseUnitId);
+
+        return topicRepository.findAllByCourseUnit(courseUnit);
+    }
+
+    @Override
+    public Collection<Subtopic> findAllSubtopicsByCourseUnitId(CourseUnitId courseUnitId) {
+        CourseUnit courseUnit = courseUnits.getReferenceById(courseUnitId);
+
+        return subtopicRepository.findAllByCourseUnit(courseUnit);
     }
 
     @Override

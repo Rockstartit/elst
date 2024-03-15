@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -44,5 +48,21 @@ public class PageService {
 
     public void removeBuildingBlockFromPage(PageBuildingBlockId buildingBlockId) {
         pageBuildingBlocks.deleteById(buildingBlockId);
+    }
+
+    public Collection<Page> pages(CourseUnitId courseUnitId) {
+        CourseUnit courseUnit = courseUnits.getReferenceById(courseUnitId);
+
+        return pages.findAllByCourseUnit(courseUnit);
+    }
+
+    public Optional<Page> page(PageId pageId) {
+        return pages.findById(pageId);
+    }
+
+    public Collection<PageBuildingBlock> pageBuildingBlocks(PageId pageId) {
+        Page page = pages.getReferenceById(pageId);
+
+        return pageBuildingBlocks.findAllByPage(page);
     }
 }

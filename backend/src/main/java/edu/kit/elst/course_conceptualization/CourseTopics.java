@@ -1,5 +1,6 @@
 package edu.kit.elst.course_conceptualization;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,4 +26,8 @@ public interface CourseTopics {
     void save(Subtopic subtopic);
 
     Optional<Subtopic> findSubtopicById(TopicId subtopicId);
+
+    Collection<Topic> findAllTopicsByCourseUnitId(CourseUnitId courseUnitId);
+
+    Collection<Subtopic> findAllSubtopicsByCourseUnitId(CourseUnitId courseUnitId);
 }

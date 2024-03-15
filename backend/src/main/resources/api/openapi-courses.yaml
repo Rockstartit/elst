@@ -48,6 +48,35 @@ paths:
         401:
           description: Not Authenticated
   /courses/{courseId}/{version}:
+    get:
+      tags:
+        - Course
+      summary: Get course
+      operationId: getCourse
+      parameters:
+        - name: courseId
+          in: path
+          description: Id of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: version
+          in: path
+          description: Version of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/VersionNumber'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
     patch:
       tags:
         - Course
@@ -135,6 +164,36 @@ paths:
         401:
           description: Not Authenticated
   /courses/{courseId}/{version}/course-units:
+    get:
+      tags:
+        - Course Unit
+      summary: Get course units of course
+      operationId: getAllCourseUnits
+      parameters:
+        - name: courseId
+          in: path
+          description: Id of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: version
+          in: path
+          description: Version of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/VersionNumber'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CourseUnit"
+
+        401:
+          description: Not Authenticated
     post:
       tags:
         - Course Unit
@@ -165,6 +224,29 @@ paths:
         401:
           description: Not Authenticated
   /course-units/{courseUnitId}:
+    get:
+      tags:
+        - Course Unit
+      summary: Get course unit
+      operationId: getCourseUnit
+      parameters:
+        - name: courseUnitId
+          in: path
+          description: Id of course unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseUnit'
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
     patch:
       tags:
         - Course Unit
@@ -210,6 +292,31 @@ paths:
         401:
           description: Not Authenticated
   /course-units/{courseUnitId}/topics:
+    get:
+      tags:
+        - Course Unit
+      summary: Get Topics
+      operationId: getTopics
+      parameters:
+        - name: courseUnitId
+          in: path
+          description: Id of course unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CourseTopic"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
     post:
       tags:
         - Course Unit
@@ -360,6 +467,31 @@ paths:
         401:
           description: Not Authenticated
   /course-units/{courseUnitId}/pages:
+    get:
+      tags:
+        - Page
+      summary: Get pages
+      operationId: getPages
+      parameters:
+        - name: courseUnitId
+          in: path
+          description: Id of course unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PageOverview"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
     post:
       tags:
         - Page
@@ -390,6 +522,29 @@ paths:
         401:
           description: Not Authenticated
   /pages/{pageId}:
+    get:
+      tags:
+        - Page
+      summary: Get page
+      operationId: getPage
+      parameters:
+        - name: pageId
+          in: path
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
     patch:
       tags:
         - Page
@@ -492,7 +647,14 @@ components:
   schemas:
     Course:
       type: object
+      required:
+        - id
+        - version
+        - name
+        - code
       allOf:
+        - $ref: "#/components/schemas/CourseInformation"
+        - $ref: "#/components/schemas/Prerequisite"
         - properties:
             id:
               $ref: "#/components/schemas/EntityId"
@@ -504,8 +666,6 @@ components:
             description:
               type: string
               example: Eine Komponente zum Darstellen eines Textes.
-        - $ref: "#/components/schemas/CourseInformation"
-        - $ref: "#/components/schemas/Prerequisite"
     Prerequisite:
       type: object
       properties:
@@ -580,12 +740,66 @@ components:
           type: string
         relatedLinks:
           type: string
+    CourseUnit:
+      type: object
+      required:
+        - id
+        - learningGoals
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        description:
+          type: string
+        learningGoals:
+          type: array
+          items:
+            type: string
+        studyMaterials:
+          $ref: "#/components/schemas/StudyMaterials"
     AddTopicRequest:
       type: object
       required:
         - title
       properties:
         title:
+          type: string
+    CourseTopic:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        content:
+          type: string
+        subtopics:
+          type: array
+          items:
+            $ref: "#/components/schemas/CourseSubtopic"
+    CourseSubtopic:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        title:
+          type: string
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        content:
           type: string
     EditTopicRequest:
       type: object
@@ -632,10 +846,48 @@ components:
       properties:
         title:
           type: string
+    PageOverview:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        title:
+          type: string
+    Page:
+      type: object
+      required:
+        - id
+        - title
+        - buildingBlocks
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        title:
+          type: string
+        buildingBlocks:
+          type: array
+          items:
+            $ref: "#/components/schemas/PageBuildingBlock"
+    PageBuildingBlock:
+      type: object
+      required:
+        - buildingBlockId
+        - version
+      properties:
+        pageBuildingBlockId:
+          $ref: "#/components/schemas/EntityId"
+        buildingBlockId:
+          $ref: "#/components/schemas/EntityId"
+        version:
+          $ref: "#/components/schemas/VersionNumber"
     AddBuildingBlockToPageRequest:
       type: object
       required:
-        - title
+        - buildingBlockId
+        - version
       properties:
         buildingBlockId:
           $ref: "#/components/schemas/EntityId"

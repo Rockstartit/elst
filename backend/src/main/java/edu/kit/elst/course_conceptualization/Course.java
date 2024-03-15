@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Entity
 @Setter
 @Getter
@@ -32,5 +34,13 @@ public class Course {
         this.courseInformation = courseInformation;
 
         this.prerequisite = null;
+    }
+
+    public Optional<CourseSchedule> courseSchedule() {
+        return Optional.ofNullable(courseSchedule);
+    }
+
+    public Optional<Prerequisite> prerequisite() {
+        return Optional.ofNullable(prerequisite);
     }
 }

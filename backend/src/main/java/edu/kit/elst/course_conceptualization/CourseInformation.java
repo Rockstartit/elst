@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
@@ -25,5 +27,17 @@ public class CourseInformation {
         this.creditPoints = creditPoints;
         this.degree = degree;
         this.semester = semester;
+    }
+
+    public Optional<String> creditPoints() {
+        return Optional.ofNullable(creditPoints);
+    }
+
+    public Optional<String> degree() {
+        return Optional.ofNullable(degree);
+    }
+
+    public Optional<String> semester() {
+        return Optional.ofNullable(semester);
     }
 }

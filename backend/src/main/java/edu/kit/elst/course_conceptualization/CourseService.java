@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -62,5 +63,9 @@ public class CourseService {
 
     public Collection<Course> courses() {
         return courses.findAll();
+    }
+
+    public Optional<Course> course(CourseVersion version) {
+        return courses.findById(version);
     }
 }

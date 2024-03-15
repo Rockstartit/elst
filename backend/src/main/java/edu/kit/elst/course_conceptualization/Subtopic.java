@@ -20,6 +20,7 @@ public class Subtopic {
     @AttributeOverride(name = "value", column = @Column(name = "subtopic_id"))
     private final TopicId subtopicId;
 
+    @Getter(AccessLevel.NONE)
     @JoinColumn(name = "topic_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Topic topic;
@@ -39,5 +40,9 @@ public class Subtopic {
         this.date = null;
         this.content = null;
         this.description = null;
+    }
+
+    public TopicId topicId() {
+        return topic.topicId();
     }
 }

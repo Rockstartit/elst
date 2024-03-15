@@ -1,5 +1,6 @@
 package edu.kit.elst.rest_api;
 
+import edu.kit.elst.course_conceptualization.CourseNotFoundException;
 import edu.kit.elst.course_conceptualization.CourseService;
 import edut.kit.elst.rest_api.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -92,6 +94,16 @@ public class CourseController implements CourseApi {
                 .toList());
     }
 
+    @Override
+    public ResponseEntity<Course> getCourse(UUID courseId, BigDecimal versionNumber) {
+        edu.kit.elst.course_conceptualization.CourseVersion version = mapToCourseVersion(courseId, versionNumber);
+
+        edu.kit.elst.course_conceptualization.Course course = courseService.course(version)
+                .orElseThrow(() -> new CourseNotFoundException(version));
+
+        return ResponseEntity.ok(mapToCourse(course));
+    }
+
     private CourseVersion mapToCourseVersion(edu.kit.elst.course_conceptualization.CourseVersion version) {
         CourseVersion dto = new CourseVersion();
 
@@ -104,14 +116,24 @@ public class CourseController implements CourseApi {
     private Course mapToCourse(edu.kit.elst.course_conceptualization.Course course) {
         Course dto = new Course();
 
+        dto.setId(course.version().courseId());
+        dto.setVersion(BigDecimal.valueOf(course.version().versionNumber()));
+
         dto.setCode(course.courseInformation().code());
-        dto.setDegree(course.courseInformation().degree());
         dto.setName(course.courseInformation().name());
-        dto.setCreditPoints(course.courseInformation().creditPoints());
-        dto.setSemester(course.courseInformation().semester());
-        dto.setSkills(course.prerequisite().skills());
-        dto.setGradRequired(course.prerequisite().gradRequired());
-        dto.setKnowledge(course.prerequisite().knowledge());
+        dto.setDegree(course.courseInformation().degree().orElse(null));
+        dto.setCreditPoints(course.courseInformation().creditPoints().orElse(null));
+        dto.setSemester(course.courseInformation().semester().orElse(null));
+
+        course.courseSchedule().ifPresent(courseSchedule -> {
+            dto.setSchedule(courseSchedule.value());
+        });
+
+        course.prerequisite().ifPresent(prerequisite -> {
+            dto.setSkills(prerequisite.skills());
+            dto.setGradRequired(prerequisite.gradRequired());
+            dto.setKnowledge(prerequisite.knowledge());
+        });
 
         return dto;
     }

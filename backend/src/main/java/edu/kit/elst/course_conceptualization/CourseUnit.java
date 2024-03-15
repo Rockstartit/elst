@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 @Getter
 @Entity
@@ -62,5 +63,9 @@ public class CourseUnit {
 
     public Collection<LearningGoal> learningGoals() {
         return Collections.unmodifiableCollection(learningGoals);
+    }
+
+    public Optional<StudyMaterials> studyMaterials() {
+        return Optional.ofNullable(studyMaterials);
     }
 }
