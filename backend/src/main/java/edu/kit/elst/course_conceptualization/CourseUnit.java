@@ -28,10 +28,7 @@ public class CourseUnit {
     @ElementCollection
     @CollectionTable(
             name = "course_unit_learning_goals",
-            joinColumns = {
-                    @JoinColumn(name = "course_id", referencedColumnName = "course_id"),
-                    @JoinColumn(name = "course_version_number", referencedColumnName = "course_version_number")
-            })
+            joinColumns = @JoinColumn(name = "course_unit_id"))
     private Collection<LearningGoal> learningGoals;
 
     @Embedded
