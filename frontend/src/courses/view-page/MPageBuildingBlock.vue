@@ -16,6 +16,7 @@
     <q-item-section side>
       <q-badge>{{ 'Version ' + buildingBlock.version }}</q-badge>
     </q-item-section>
+    <slot name="after" />
   </q-item>
 </template>
 
