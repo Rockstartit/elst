@@ -38,9 +38,17 @@ public class CourseUnitService {
         CourseUnit courseUnit = courseUnits.findById(courseUnitId)
                 .orElseThrow(() -> new CourseUnitNotFoundException(courseUnitId));
 
-        courseUnit.setDescription(description);
-        courseUnit.setLearningGoals(learningGoals);
-        courseUnit.setStudyMaterials(studyMaterials);
+        if (description != null) {
+            courseUnit.setDescription(description);
+        }
+
+        if (learningGoals != null) {
+            courseUnit.setLearningGoals(learningGoals);
+        }
+
+        if (studyMaterials != null) {
+            courseUnit.setStudyMaterials(studyMaterials);
+        }
     }
 
     public void deleteAll(CourseVersion version) {

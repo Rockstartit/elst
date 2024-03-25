@@ -31,10 +31,14 @@ public class CourseUnitController implements CourseUnitApi {
     @Override
     public ResponseEntity<Void> editCourseUnit(UUID courseUnitId, EditCourseUnitRequest body) {
         CourseUnitId aCourseUnitId = new CourseUnitId(courseUnitId);
-        Collection<LearningGoal> learningGoals = body.getLearningGoals().stream()
-                .map(LearningGoal::new)
-                .toList();
+        Collection<LearningGoal> learningGoals = null;
         StudyMaterials studyMaterials = mapToStudyMaterials(body.getStudyMaterials());
+
+        if (body.getLearningGoals() != null) {
+            learningGoals = body.getLearningGoals().stream()
+                    .map(LearningGoal::new)
+                    .toList();
+        }
 
         courseUnitService.editCourseUnit(aCourseUnitId, body.getDescription(), learningGoals, studyMaterials);
 
@@ -196,6 +200,10 @@ public class CourseUnitController implements CourseUnitApi {
     }
 
     private StudyMaterials mapToStudyMaterials(edut.kit.elst.rest_api.StudyMaterials studyMaterials) {
+        if (studyMaterials == null) {
+            return null;
+        }
+
         return new StudyMaterials(
                 studyMaterials.getEReading(),
                 studyMaterials.getEBook(),
