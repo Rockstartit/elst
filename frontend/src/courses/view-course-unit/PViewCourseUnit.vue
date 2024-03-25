@@ -1,7 +1,9 @@
 <template>
   <PBase content-width="1200px">
     <div v-if="initialized && courseUnit">
-      <OCourseUnitHeader :name="courseUnit.description" />
+      <OCourseUnitHeader
+        :name="courseUnit.description"
+        @edit-name="openEditDescriptionDialog" />
 
       <div class="overflow-hidden q-mt-lg">
         <div class="row q-col-gutter-lg">
@@ -58,7 +60,9 @@ import OLearningGoals from 'src/courses/view-course-unit/OLearningGoals.vue';
 import OStudyMaterials from 'src/courses/view-course-unit/OStudyMaterials.vue';
 import MPageOverview from 'src/courses/view-course-unit/MPageOverview.vue';
 import { useAppRouter } from 'src/router/useAppRouter';
+import { useQuasar } from 'quasar';
 
+const quasar = useQuasar();
 const { viewPage } = useAppRouter();
 
 const props = defineProps<{
@@ -115,5 +119,27 @@ function createPage() {
       }),
     performingAddPage
   );
+}
+
+function openEditDescriptionDialog() {
+  quasar
+    .dialog({
+      title: 'Titel bearbeiten',
+      prompt: {
+        model: courseUnit.value?.description ?? '',
+      },
+      cancel: true,
+    })
+    .onOk((payload) => {
+      courseUnitApi
+        .editCourseUnit(props.courseUnitId, {
+          description: payload,
+        })
+        .then(() => {
+          if (courseUnit.value) {
+            courseUnit.value.description = payload;
+          }
+        });
+    });
 }
 </script>
