@@ -8,12 +8,30 @@
       <div class="overflow-hidden q-mt-lg">
         <div class="row q-col-gutter-lg">
           <div class="col">
-            <OPageList :course-unit-id="courseUnitId">
+            <OPageList
+              :pages="pages"
+              :initialized="pagesInitialized"
+              :fetching="fetching">
               <template #item="{ page }">
                 <MPageOverview
                   :page="page"
                   clickable
-                  @click="viewPage(courseVersion, courseUnitId, page.id)" />
+                  @click="viewPage(courseVersion, courseUnitId, page.id)">
+                  <template #after="{ hover }">
+                    <q-item-section side>
+                      <PrimaryButton
+                        :style="hover ? undefined : 'visibility: hidden'"
+                        icon="mdi-delete"
+                        dense
+                        flat
+                        text-color="grey-6"
+                        hover-text-color="red-10"
+                        hover-color="red-1"
+                        :loading="performingDeletePage.includes(courseUnit.id)"
+                        @click.stop="deletePage(page)" />
+                    </q-item-section>
+                  </template>
+                </MPageOverview>
               </template>
             </OPageList>
 
@@ -55,8 +73,9 @@ import {
   CourseTopic,
   CourseUnit,
   CourseVersion,
+  PageOverview,
 } from 'src/services/generated/openapi/courses';
-import { withLoading } from 'src/core/useWithLoading';
+import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
 import { courseUnitApi, pageApi } from 'src/services';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import OCourseUnitHeader from 'src/courses/view-course-unit/OCourseUnitHeader.vue';
@@ -73,9 +92,11 @@ import EditStudyMaterialsDialog, {
 import EditLearningGoalsDialog, {
   EditLearningGoalsDialogProps,
 } from 'src/courses/view-course-unit/EditLearningGoalsDialog.vue';
+import { useViewCourseUnit } from 'src/courses/view-course-unit/useViewCourseUnit';
 
 const quasar = useQuasar();
 const { viewPage } = useAppRouter();
+const { fetching, fetchPages, pages } = useViewCourseUnit();
 
 const props = defineProps<{
   courseId: string;
@@ -97,6 +118,9 @@ const courseVersion = computed<CourseVersion>(() => {
   };
 });
 
+const pagesInitialized = ref(false);
+const performingDeletePage = ref<string[]>([]);
+
 onMounted(() => {
   const fetchCourseUnitPromise = courseUnitApi
     .getCourseUnit(props.courseUnitId)
@@ -110,12 +134,18 @@ onMounted(() => {
       topics.value = response.data;
     });
 
+  const fetchPagesPromise = fetchPages(props.courseUnitId).finally(() => {
+    pagesInitialized.value = true;
+  });
+
   withLoading(
-    Promise.allSettled([fetchTopicsPromise, fetchCourseUnitPromise]).finally(
-      () => {
-        initialized.value = true;
-      }
-    ),
+    Promise.allSettled([
+      fetchTopicsPromise,
+      fetchCourseUnitPromise,
+      fetchPagesPromise,
+    ]).finally(() => {
+      initialized.value = true;
+    }),
     loading
   );
 });
@@ -214,5 +244,19 @@ function openEditStudyMaterialsDialog() {
           }
         });
     });
+}
+
+function deletePage(page: PageOverview) {
+  return withLoadingArray(
+    pageApi.deletePage(page.id).then(() => {
+      const index = pages.value.indexOf(page);
+
+      if (index >= 0) {
+        pages.value.splice(index, 1);
+      }
+    }),
+    performingDeletePage,
+    page.id
+  );
 }
 </script>
