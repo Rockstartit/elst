@@ -1,7 +1,10 @@
 <template>
   <div class="col">
     <div class="row">
-      <MHoverable @click="$emit('edit-name')">
+      <MHoverable
+        v-ripple
+        class="relative-position"
+        @click="$emit('edit-name')">
         <div class="row text-h6 items-center" style="gap: 0.5rem">
           <span>
             {{ name ?? 'Neue Kurseinheit' }}

@@ -153,12 +153,6 @@ export interface Course {
      * @memberof Course
      */
     'schedule'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Course
-     */
-    'description'?: string;
 }
 /**
  * 
@@ -376,12 +370,6 @@ export interface EditCourseRequest {
      * @memberof EditCourseRequest
      */
     'schedule'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditCourseRequest
-     */
-    'description'?: string;
     /**
      * 
      * @type {CourseInformation}

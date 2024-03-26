@@ -1,7 +1,7 @@
 <template>
   <PBase content-width="1200px">
     <div v-if="initialized && course">
-      <OCourseHeader :name="course.name" />
+      <OCourseHeader :name="course.name" @edit-name="openEditNameDialog" />
 
       <div class="overflow-hidden q-mt-lg">
         <div class="row q-col-gutter-lg">
@@ -69,7 +69,9 @@ import PrimaryButton from 'src/core/PrimaryButton.vue';
 import { useAppRouter } from 'src/router/useAppRouter';
 import MCourseUnitOverview from 'src/courses/view-course/MCourseUnitOverview.vue';
 import { useCourseUnits } from 'src/courses/view-course/useCourseUnits';
+import { useQuasar } from 'quasar';
 
+const quasar = useQuasar();
 const { viewCourseUnit } = useAppRouter();
 const { fetching, courseUnits, fetchCourseUnits } = useCourseUnits();
 
@@ -142,5 +144,35 @@ function deleteCourseUnit(courseUnit: CourseUnit) {
     performingDeleteCourseUnit,
     courseUnit.id
   );
+}
+
+function openEditNameDialog() {
+  quasar
+    .dialog({
+      title: 'Titel bearbeiten',
+      prompt: {
+        model: course.value?.name ?? '',
+      },
+      cancel: true,
+    })
+    .onOk((payload) => {
+      if (course.value) {
+        courseApi
+          .editCourse(props.courseId, props.version, {
+            information: {
+              name: payload,
+              code: course.value?.code,
+              degree: course.value?.degree,
+              creditPoints: course.value?.creditPoints,
+              semester: course.value?.semester,
+            },
+          })
+          .then(() => {
+            if (course.value) {
+              course.value.name = payload;
+            }
+          });
+      }
+    });
 }
 </script>
