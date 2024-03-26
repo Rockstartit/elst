@@ -663,9 +663,6 @@ components:
             schedule:
               type: string
               example: Wöchentlich
-            description:
-              type: string
-              example: Eine Komponente zum Darstellen eines Textes.
     Prerequisite:
       type: object
       properties:
@@ -711,9 +708,6 @@ components:
         schedule:
           type: string
           example: Wöchentlich
-        description:
-          type: string
-          example: Eine Komponente zum Darstellen eines Textes.
         information:
           $ref: "#/components/schemas/CourseInformation"
         prerequisite:

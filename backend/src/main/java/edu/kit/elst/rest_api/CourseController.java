@@ -1,6 +1,7 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.course_conceptualization.CourseNotFoundException;
+import edu.kit.elst.course_conceptualization.CourseSchedule;
 import edu.kit.elst.course_conceptualization.CourseService;
 import edut.kit.elst.rest_api.*;
 import lombok.AllArgsConstructor;
@@ -71,6 +72,12 @@ public class CourseController implements CourseApi {
             );
 
             courseService.editCoursePrerequisite(version, prerequisite);
+        }
+
+        if (body.getSchedule() != null) {
+            CourseSchedule courseSchedule = new CourseSchedule(body.getSchedule());
+
+            courseService.editCourseSchedule(version, courseSchedule);
         }
 
         return ResponseEntity.ok().build();
