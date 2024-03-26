@@ -12,27 +12,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
 import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
-import {
-  CourseUnit,
-  CourseVersion,
-} from 'src/services/generated/openapi/courses';
-import { useCourseUnits } from 'src/courses/view-course/useCourseUnits';
+import { CourseUnit } from 'src/services/generated/openapi/courses';
 
-const { fetching, courseUnits, fetchCourseUnits } = useCourseUnits();
-
-const props = defineProps<{
-  courseVersion: CourseVersion;
+defineProps<{
+  courseUnits: CourseUnit[];
+  initialized?: boolean;
+  fetching?: boolean;
 }>();
-
-const initialized = ref(false);
-
-onMounted(() => {
-  fetchCourseUnits(props.courseVersion).finally(() => {
-    initialized.value = true;
-  });
-});
 
 function keyFn(courseUnit: CourseUnit) {
   return courseUnit.id;
