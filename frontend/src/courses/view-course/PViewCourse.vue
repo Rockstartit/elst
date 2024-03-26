@@ -44,7 +44,10 @@
           </div>
 
           <div class="col-auto">
-            <OCourseDetails :course="course" class="elst__detail-sidebar" />
+            <OCourseDetails
+              :course="course"
+              class="elst__detail-sidebar"
+              @edit="openEditCourseDetailsDialog" />
           </div>
         </div>
       </div>
@@ -70,6 +73,9 @@ import { useAppRouter } from 'src/router/useAppRouter';
 import MCourseUnitOverview from 'src/courses/view-course/MCourseUnitOverview.vue';
 import { useCourseUnits } from 'src/courses/view-course/useCourseUnits';
 import { useQuasar } from 'quasar';
+import EditCourseDetailsDialog, {
+  EditCourseDetailDialogProps,
+} from 'src/courses/view-course/EditCourseDetailsDialog.vue';
 
 const quasar = useQuasar();
 const { viewCourseUnit } = useAppRouter();
@@ -77,7 +83,7 @@ const { fetching, courseUnits, fetchCourseUnits } = useCourseUnits();
 
 const props = defineProps<{
   courseId: string;
-  version: number;
+  version: string;
 }>();
 
 const initialized = ref(false);
@@ -90,7 +96,7 @@ const performingDeleteCourseUnit = ref<string[]>([]);
 const courseVersion = computed<CourseVersion>(() => {
   return {
     courseId: props.courseId,
-    version: props.version,
+    version: Number.parseInt(props.version),
   };
 });
 
@@ -170,6 +176,56 @@ function openEditNameDialog() {
           .then(() => {
             if (course.value) {
               course.value.name = payload;
+            }
+          });
+      }
+    });
+}
+
+function openEditCourseDetailsDialog() {
+  const dialogProps: EditCourseDetailDialogProps = {
+    gradRequired: course.value?.gradRequired,
+    degree: course.value?.degree,
+    creditPoints: course.value?.creditPoints,
+    schedule: course.value?.schedule,
+    semester: course.value?.semester,
+    knowledge: course.value?.knowledge,
+    skills: course.value?.skills,
+  };
+
+  quasar
+    .dialog({
+      component: EditCourseDetailsDialog,
+      componentProps: dialogProps,
+    })
+    .onOk((payload: EditCourseDetailDialogProps) => {
+      if (course.value) {
+        courseApi
+          .editCourse(props.courseId, props.version, {
+            information: {
+              name: course.value?.name,
+              code: course.value?.code,
+              degree: payload.degree,
+              creditPoints: payload.creditPoints,
+              semester: payload.semester,
+            },
+            schedule: payload.schedule,
+            prerequisite: {
+              gradRequired: payload.gradRequired,
+              skills: payload.skills,
+              knowledge: payload.knowledge,
+            },
+          })
+          .then(() => {
+            if (course.value) {
+              course.value.gradRequired = payload.gradRequired;
+              course.value.degree = payload.degree;
+              course.value.semester = payload.semester;
+              course.value.creditPoints = payload.creditPoints;
+              course.value.schedule = payload.schedule;
+              course.value.gradRequired = payload.gradRequired;
+              course.value.skills = payload.skills;
+              course.value.knowledge = payload.knowledge;
             }
           });
       }

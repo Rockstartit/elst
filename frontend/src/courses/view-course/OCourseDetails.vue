@@ -4,34 +4,33 @@
       <q-item-section>
         <q-item-label class="text-weight-medium"> Allgemein </q-item-label>
       </q-item-section>
-    </q-item>
-
-    <q-item v-if="course.description">
-      <q-item-section>
-        {{ course.description }}
+      <q-item-section side>
+        <SecondaryButton
+          icon="mdi-cog-outline"
+          dense
+          flat
+          size="sm"
+          @click="$emit('edit')" />
       </q-item-section>
     </q-item>
 
     <MCourseDetail
       icon="mdi-school-outline"
       label="Abschluss"
-      :value="
-        course.gradRequired ? 'Abschluss benötigt' : 'Ohne Abschluss möglich'
-      " />
-    <MCourseDetail
-      v-if="course.degree"
-      icon="mdi-school-outline"
-      label="Abschluss"
-      :value="course.degree" />
-    <MCourseDetail
-      v-if="course.semester"
-      icon="mdi-school-outline"
-      label="Semester"
-      :value="course.semester" />
+      :value="degreeLabel" />
     <MCourseDetail
       icon="mdi-star-outline"
       label="Leistungspunkte"
       :value="course.creditPoints" />
+    <MCourseDetail
+      v-if="course.semester"
+      icon="mdi-calendar-refresh-outline"
+      label="Semester"
+      :value="course.semester" />
+    <MCourseDetail
+      icon="mdi-calendar-outline"
+      label="Zeitplan"
+      :value="course.schedule" />
     <MCourseDetail
       icon="mdi-lightbulb-on-outline"
       label="Vorwissen"
@@ -40,18 +39,32 @@
       icon="mdi-head-cog-outline"
       label="Skills"
       :value="course.skills" />
-    <MCourseDetail
-      icon="mdi-calendar-outline"
-      label="Zeitplan"
-      :value="course.schedule" />
   </q-list>
 </template>
 
 <script lang="ts" setup>
 import { Course } from 'src/services/generated/openapi/courses';
 import MCourseDetail from 'src/courses/view-course/MCourseDetail.vue';
+import SecondaryButton from 'src/core/SecondaryButton.vue';
+import { computed } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   course: Course;
 }>();
+
+defineEmits(['edit']);
+
+const degreeLabel = computed(() => {
+  if (!props.course?.degree) {
+    return props.course.gradRequired
+      ? 'Abschluss benötigt'
+      : 'Kein Abschluss benötigt';
+  }
+
+  return (
+    props.course.degree +
+    ' ' +
+    (props.course.gradRequired ? 'benötigt' : 'empfohlen')
+  );
+});
 </script>
