@@ -27,15 +27,19 @@
 
           <div class="column col-auto">
             <div class="column elst__detail-sidebar" style="gap: 1rem">
-              <OTopics :topics="topics" />
+              <OTopics :topics="topics" @edit="openEditTopicsDialog" />
 
               <q-separator />
 
-              <OLearningGoals :learning-goals="courseUnit.learningGoals" />
+              <OLearningGoals
+                :learning-goals="courseUnit.learningGoals"
+                @edit="openEditLearningGoalsDialog" />
 
               <q-separator />
 
-              <OStudyMaterials :study-materials="courseUnit.studyMaterials" />
+              <OStudyMaterials
+                :study-materials="courseUnit.studyMaterials"
+                @edit="openEditStudyMaterialsDialog" />
             </div>
           </div>
         </div>
@@ -63,6 +67,9 @@ import OStudyMaterials from 'src/courses/view-course-unit/OStudyMaterials.vue';
 import MPageOverview from 'src/courses/view-course-unit/MPageOverview.vue';
 import { useAppRouter } from 'src/router/useAppRouter';
 import { useQuasar } from 'quasar';
+import EditStudyMaterialsDialog, {
+  EditStudyMaterialsDialogProps,
+} from 'src/courses/view-course-unit/EditStudyMaterialsDialog.vue';
 
 const quasar = useQuasar();
 const { viewPage } = useAppRouter();
@@ -140,6 +147,48 @@ function openEditDescriptionDialog() {
         .then(() => {
           if (courseUnit.value) {
             courseUnit.value.description = payload;
+          }
+        });
+    });
+}
+
+function openEditTopicsDialog() {
+  //
+}
+
+function openEditLearningGoalsDialog() {
+  //
+}
+
+function openEditStudyMaterialsDialog() {
+  const dialogProps: EditStudyMaterialsDialogProps = {
+    eReading: courseUnit.value?.studyMaterials?.eReading,
+    eBook: courseUnit.value?.studyMaterials?.eBook,
+    bibliography: courseUnit.value?.studyMaterials?.bibliography,
+    relatedLinks: courseUnit.value?.studyMaterials?.relatedLinks,
+  };
+
+  quasar
+    .dialog({
+      component: EditStudyMaterialsDialog,
+      componentProps: dialogProps,
+    })
+    .onOk((payload: EditStudyMaterialsDialogProps) => {
+      courseUnitApi
+        .editCourseUnit(props.courseUnitId, {
+          studyMaterials: {
+            eReading: payload.eReading,
+            eBook: payload.eBook,
+            bibliography: payload.bibliography,
+            relatedLinks: payload.relatedLinks,
+          },
+        })
+        .then(() => {
+          if (courseUnit.value?.studyMaterials) {
+            courseUnit.value.studyMaterials.eReading = payload.eReading;
+            courseUnit.value.studyMaterials.eBook = payload.eBook;
+            courseUnit.value.studyMaterials.bibliography = payload.bibliography;
+            courseUnit.value.studyMaterials.relatedLinks = payload.relatedLinks;
           }
         });
     });

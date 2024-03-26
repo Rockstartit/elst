@@ -4,6 +4,14 @@
       <q-item-section>
         <q-item-label class="text-weight-medium"> Materialien </q-item-label>
       </q-item-section>
+      <q-item-section side>
+        <SecondaryButton
+          icon="mdi-cog-outline"
+          dense
+          flat
+          size="sm"
+          @click="$emit('edit')" />
+      </q-item-section>
     </q-item>
 
     <q-item-label v-if="!studyMaterials" header class="text-grey-7">
@@ -60,8 +68,11 @@
 
 <script lang="ts" setup>
 import { StudyMaterials } from 'src/services/generated/openapi/courses';
+import SecondaryButton from 'src/core/SecondaryButton.vue';
 
 defineProps<{
   studyMaterials: StudyMaterials | undefined;
 }>();
+
+defineEmits(['edit']);
 </script>

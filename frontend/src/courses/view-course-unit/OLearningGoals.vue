@@ -4,6 +4,14 @@
       <q-item-section>
         <q-item-label class="text-weight-medium"> Lernziele </q-item-label>
       </q-item-section>
+      <q-item-section side>
+        <SecondaryButton
+          icon="mdi-cog-outline"
+          dense
+          flat
+          size="sm"
+          @click="$emit('edit')" />
+      </q-item-section>
     </q-item>
 
     <q-list dense>
@@ -26,7 +34,11 @@
 </template>
 
 <script lang="ts" setup>
+import SecondaryButton from 'src/core/SecondaryButton.vue';
+
 defineProps<{
   learningGoals: string[];
 }>();
+
+defineEmits(['edit']);
 </script>
