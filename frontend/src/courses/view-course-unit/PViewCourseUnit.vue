@@ -70,6 +70,9 @@ import { useQuasar } from 'quasar';
 import EditStudyMaterialsDialog, {
   EditStudyMaterialsDialogProps,
 } from 'src/courses/view-course-unit/EditStudyMaterialsDialog.vue';
+import EditLearningGoalsDialog, {
+  EditLearningGoalsDialogProps,
+} from 'src/courses/view-course-unit/EditLearningGoalsDialog.vue';
 
 const quasar = useQuasar();
 const { viewPage } = useAppRouter();
@@ -157,7 +160,26 @@ function openEditTopicsDialog() {
 }
 
 function openEditLearningGoalsDialog() {
-  //
+  const dialogProps: EditLearningGoalsDialogProps = {
+    learningGoals: courseUnit.value?.learningGoals ?? [],
+  };
+
+  quasar
+    .dialog({
+      component: EditLearningGoalsDialog,
+      componentProps: dialogProps,
+    })
+    .onOk((payload: EditLearningGoalsDialogProps) => {
+      courseUnitApi
+        .editCourseUnit(props.courseUnitId, {
+          learningGoals: payload.learningGoals,
+        })
+        .then(() => {
+          if (courseUnit.value) {
+            courseUnit.value.learningGoals = payload.learningGoals;
+          }
+        });
+    });
 }
 
 function openEditStudyMaterialsDialog() {
