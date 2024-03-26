@@ -44,7 +44,7 @@
           </div>
 
           <div class="col-auto">
-            <OCourseDetails :course="course" />
+            <OCourseDetails :course="course" class="elst__detail-sidebar" />
           </div>
         </div>
       </div>

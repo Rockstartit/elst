@@ -25,16 +25,18 @@
             </div>
           </div>
 
-          <div class="column col-auto" style="gap: 1rem">
-            <OTopics :topics="topics" />
+          <div class="column col-auto">
+            <div class="column elst__detail-sidebar" style="gap: 1rem">
+              <OTopics :topics="topics" />
 
-            <q-separator />
+              <q-separator />
 
-            <OLearningGoals :learning-goals="courseUnit.learningGoals" />
+              <OLearningGoals :learning-goals="courseUnit.learningGoals" />
 
-            <q-separator />
+              <q-separator />
 
-            <OStudyMaterials :study-materials="courseUnit.studyMaterials" />
+              <OStudyMaterials :study-materials="courseUnit.studyMaterials" />
+            </div>
           </div>
         </div>
       </div>
