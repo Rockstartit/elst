@@ -4,6 +4,25 @@
       <OCourseHeader
         :name="buildingBlock.name"
         @edit-name="openEditNameDialog" />
+
+      <div class="overflow-hidden q-mt-lg">
+        <div class="row q-col-gutter-lg">
+          <div class="col">
+            Anforderungen
+
+            <div class="row justify-center q-mt-md">
+              <PrimaryButton label="Neue Anforderung" />
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <OBuildingBlockDetails
+              :building-block="buildingBlock"
+              class="elst__detail-sidebar"
+              @edit="openEditNameDialog" />
+          </div>
+        </div>
+      </div>
     </div>
   </PBase>
 </template>
@@ -19,6 +38,8 @@ import { withLoading } from 'src/core/useWithLoading';
 import { buildingBlockApi } from 'src/services';
 import OCourseHeader from 'src/courses/view-course/OCourseHeader.vue';
 import { useQuasar } from 'quasar';
+import PrimaryButton from 'src/core/PrimaryButton.vue';
+import OBuildingBlockDetails from 'src/building-blocks/view-building-block/OBuildingBlockDetails.vue';
 
 const quasar = useQuasar();
 
