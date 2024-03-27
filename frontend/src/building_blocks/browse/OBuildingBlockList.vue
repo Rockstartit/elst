@@ -5,8 +5,14 @@
     :initialized="initialized"
     :fetching="fetching"
     empty-message="Keine Bausteine verfügbar">
+    <template #before>
+      <slot name="before" />
+    </template>
     <template #item="{ item }">
       <slot name="item" :buildingBlock="item" />
+    </template>
+    <template #after>
+      <slot name="after" />
     </template>
   </OBaseAnimatedList>
 </template>

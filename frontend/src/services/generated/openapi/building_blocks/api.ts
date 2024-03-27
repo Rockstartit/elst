@@ -26,6 +26,25 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface BuildingBlockVersion
+ */
+export interface BuildingBlockVersion {
+    /**
+     * 
+     * @type {string}
+     * @memberof BuildingBlockVersion
+     */
+    'buildingBlockId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BuildingBlockVersion
+     */
+    'version': number;
+}
+/**
+ * 
+ * @export
  * @interface ReleasedBuildingBlock
  */
 export interface ReleasedBuildingBlock {
@@ -51,6 +70,31 @@ export interface ReleasedBuildingBlock {
      * 
      * @type {string}
      * @memberof ReleasedBuildingBlock
+     */
+    'description'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface RequestBuildingBlockRequest
+ */
+export interface RequestBuildingBlockRequest {
+    /**
+     * 
+     * @type {BuildingBlockVersion}
+     * @memberof RequestBuildingBlockRequest
+     */
+    'previousVersion'?: BuildingBlockVersion;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestBuildingBlockRequest
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RequestBuildingBlockRequest
      */
     'description'?: string;
 }
@@ -95,6 +139,46 @@ export const BuildingBlockApiAxiosParamCreator = function (configuration?: Confi
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Request new building block
+         * @param {RequestBuildingBlockRequest} requestBuildingBlockRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        requestBuildingBlock: async (requestBuildingBlockRequest: RequestBuildingBlockRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestBuildingBlockRequest' is not null or undefined
+            assertParamExists('requestBuildingBlock', 'requestBuildingBlockRequest', requestBuildingBlockRequest)
+            const localVarPath = `/building-blocks`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBuildingBlockRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -117,6 +201,19 @@ export const BuildingBlockApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['BuildingBlockApi.getReleasedBuildingBlocks']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Request new building block
+         * @param {RequestBuildingBlockRequest} requestBuildingBlockRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async requestBuildingBlock(requestBuildingBlockRequest: RequestBuildingBlockRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BuildingBlockVersion>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.requestBuildingBlock(requestBuildingBlockRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BuildingBlockApi.requestBuildingBlock']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -135,6 +232,16 @@ export const BuildingBlockApiFactory = function (configuration?: Configuration, 
          */
         getReleasedBuildingBlocks(options?: any): AxiosPromise<Array<ReleasedBuildingBlock>> {
             return localVarFp.getReleasedBuildingBlocks(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Request new building block
+         * @param {RequestBuildingBlockRequest} requestBuildingBlockRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        requestBuildingBlock(requestBuildingBlockRequest: RequestBuildingBlockRequest, options?: any): AxiosPromise<BuildingBlockVersion> {
+            return localVarFp.requestBuildingBlock(requestBuildingBlockRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -155,6 +262,18 @@ export class BuildingBlockApi extends BaseAPI {
      */
     public getReleasedBuildingBlocks(options?: RawAxiosRequestConfig) {
         return BuildingBlockApiFp(this.configuration).getReleasedBuildingBlocks(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Request new building block
+     * @param {RequestBuildingBlockRequest} requestBuildingBlockRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BuildingBlockApi
+     */
+    public requestBuildingBlock(requestBuildingBlockRequest: RequestBuildingBlockRequest, options?: RawAxiosRequestConfig) {
+        return BuildingBlockApiFp(this.configuration).requestBuildingBlock(requestBuildingBlockRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

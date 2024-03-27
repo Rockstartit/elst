@@ -23,12 +23,8 @@ public class BuildingBlockService {
         return version;
     }
 
-    public BuildingBlockVersion registerBuildingBlock(BuildingBlockVersion previousVersion) {
-        BuildingBlock previousBuildingBlock = buildingBlocks.findById(previousVersion)
-                .orElseThrow(() -> new BuildingBlockNotFoundException(previousVersion));
-
+    public BuildingBlockVersion registerBuildingBlock(BuildingBlockVersion previousVersion, BuildingBlockDetails details) {
         BuildingBlockVersion version = buildingBlocks.incrementVersion(previousVersion);
-        BuildingBlockDetails details = previousBuildingBlock.details();
 
         BuildingBlock buildingBlock = new BuildingBlock(version, details);
         buildingBlocks.save(buildingBlock);

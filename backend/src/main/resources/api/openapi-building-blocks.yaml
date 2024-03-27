@@ -25,6 +25,28 @@ paths:
                   $ref: "#/components/schemas/ReleasedBuildingBlock"
         401:
           description: Not Authenticated
+    post:
+      tags:
+        - Building Block
+      summary: Request new building block
+      operationId: requestBuildingBlock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBuildingBlockRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BuildingBlockVersion"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
 components:
   schemas:
     ReleasedBuildingBlock:
@@ -44,6 +66,29 @@ components:
         description:
           type: string
           example: Eine Komponente zum Darstellen eines Textes.
+    RequestBuildingBlockRequest:
+      type: object
+      required:
+        - name
+      properties:
+        previousVersion:
+          $ref: "#/components/schemas/BuildingBlockVersion"
+        name:
+          type: string
+          example: Text
+        description:
+          type: string
+          example: Eine Komponente zum Darstellen eines Textes.
+    BuildingBlockVersion:
+      type: object
+      required:
+        - buildingBlockId
+        - version
+      properties:
+        buildingBlockId:
+          $ref: "#/components/schemas/EntityId"
+        version:
+          $ref: "#/components/schemas/VersionNumber"
     VersionNumber:
       type: number
       example: 1
