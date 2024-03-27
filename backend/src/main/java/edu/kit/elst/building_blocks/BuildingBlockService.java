@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -46,5 +47,16 @@ public class BuildingBlockService {
 
     public Collection<BuildingBlock> buildingBlocks(Set<BuildingBlockVersion> buildingBlockVersions) {
         return buildingBlocks.findAllById(buildingBlockVersions);
+    }
+
+    public Optional<BuildingBlock> buildingBlock(BuildingBlockVersion version) {
+        return buildingBlocks.findById(version);
+    }
+
+    public void editBuildingBlock(BuildingBlockVersion version, BuildingBlockDetails details) {
+        BuildingBlock buildingBlock = buildingBlock(version)
+                .orElseThrow(() -> new BuildingBlockNotFoundException(version));
+
+        buildingBlock.setDetails(details);
     }
 }

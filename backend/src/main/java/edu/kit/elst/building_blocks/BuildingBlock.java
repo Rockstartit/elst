@@ -57,4 +57,10 @@ public class BuildingBlock {
     public Collection<Property> properties() {
         return Collections.unmodifiableCollection(properties);
     }
+
+    public void setDetails(BuildingBlockDetails details) {
+        Guards.notNull(details, "details");
+
+        this.details = details;
+    }
 }
