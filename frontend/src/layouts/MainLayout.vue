@@ -1,10 +1,6 @@
 <template>
   <q-layout class="bg-grey-1">
-    <q-header
-      elevated
-      class="text-white"
-      style="background: #24292e"
-      height-hint="61.59">
+    <q-header elevated class="text-white bg-header" height-hint="61.59">
       <q-toolbar class="q-py-sm q-px-md">
         <q-btn
           round

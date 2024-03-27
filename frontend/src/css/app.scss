@@ -1,5 +1,13 @@
 // app global css in SCSS form
 
+html {
+  background-color: $header;
+}
+
+.bg-header {
+  background-color: $header;
+}
+
 .elst {
   &__rounded {
     border-radius: 12px;
