@@ -19,7 +19,7 @@
         {{ buildingBlock.description }}
       </p>
 
-      <p class="text-grey-7 q-mb-none"> Keine Beschreibung </p>
+      <p v-else class="text-grey-7 q-mb-none"> Keine Beschreibung </p>
     </div>
 
     <q-separator class="q-my-md" />
@@ -32,6 +32,12 @@
       icon="mdi-rocket-launch-outline"
       label="Veröffentlichung"
       :value="inDevelopment ? 'Konzeption' : 'Veröffentlicht'" />
+
+    <q-separator class="q-my-md" />
+
+    <MContributors label="Lehrer" />
+
+    <MContributors label="Entwickler" />
   </q-list>
 </template>
 
@@ -40,6 +46,7 @@ import MCourseDetail from 'src/courses/view-course/MCourseDetail.vue';
 import SecondaryButton from 'src/core/SecondaryButton.vue';
 import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { computed } from 'vue';
+import MContributors from 'src/building-blocks/view-building-block/MContributors.vue';
 
 const props = defineProps<{
   buildingBlock: BuildingBlock;

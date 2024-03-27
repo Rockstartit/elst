@@ -8,18 +8,16 @@
       <div class="overflow-hidden q-mt-lg">
         <div class="row q-col-gutter-lg">
           <div class="col">
-            Anforderungen
+            <OMockups height="300px" />
 
-            <div class="row justify-center q-mt-md">
-              <PrimaryButton label="Neue Anforderung" />
-            </div>
+            <OMarkdownRenderer :content="exampleMarkdown" />
           </div>
 
           <div class="col-auto">
             <OBuildingBlockDetails
               :building-block="buildingBlock"
               class="elst__detail-sidebar"
-              @edit="openEditNameDialog" />
+              @edit="openEditDescriptionDialog" />
           </div>
         </div>
       </div>
@@ -38,8 +36,9 @@ import { withLoading } from 'src/core/useWithLoading';
 import { buildingBlockApi } from 'src/services';
 import OCourseHeader from 'src/courses/view-course/OCourseHeader.vue';
 import { useQuasar } from 'quasar';
-import PrimaryButton from 'src/core/PrimaryButton.vue';
 import OBuildingBlockDetails from 'src/building-blocks/view-building-block/OBuildingBlockDetails.vue';
+import OMockups from 'src/building-blocks/view-building-block/OMockups.vue';
+import OMarkdownRenderer from 'src/core/OMarkdownRenderer.vue';
 
 const quasar = useQuasar();
 
@@ -59,6 +58,9 @@ const buildingBlockVersion = computed<BuildingBlockVersion>(() => {
 });
 
 const buildingBlock = ref<BuildingBlock>();
+
+const exampleMarkdown =
+  '# ReadMe \nEine einfache Textkomponente, die das Anzeigen von nicht formatierten Texten ermöglicht.';
 
 onMounted(() => {
   withLoading(
@@ -100,6 +102,35 @@ function openEditNameDialog() {
           .then(() => {
             if (buildingBlock.value) {
               buildingBlock.value.name = payload;
+            }
+          });
+      }
+    });
+}
+
+function openEditDescriptionDialog() {
+  quasar
+    .dialog({
+      title: 'Beschreibung bearbeiten',
+      prompt: {
+        model: buildingBlock.value?.description ?? '',
+      },
+      cancel: true,
+    })
+    .onOk((payload) => {
+      if (buildingBlock.value) {
+        buildingBlockApi
+          .editBuildingBlock(
+            buildingBlockVersion.value.buildingBlockId,
+            buildingBlockVersion.value.version,
+            {
+              name: buildingBlock.value?.name,
+              description: payload,
+            }
+          )
+          .then(() => {
+            if (buildingBlock.value) {
+              buildingBlock.value.description = payload;
             }
           });
       }
