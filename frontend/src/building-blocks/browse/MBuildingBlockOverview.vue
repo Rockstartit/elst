@@ -14,7 +14,7 @@
       </q-item-label>
     </q-item-section>
     <q-item-section side>
-      <q-badge>{{ 'Version ' + buildingBlock.version }}</q-badge>
+      <q-badge>{{ 'Version ' + buildingBlock.version.version }}</q-badge>
     </q-item-section>
   </q-item>
 </template>

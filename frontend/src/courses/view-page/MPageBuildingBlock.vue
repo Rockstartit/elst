@@ -2,7 +2,7 @@
   <div class="bg-grey-1 elst__rounded elst__bordered q-pa-md">
     <q-item v-bind="$props" class="q-pa-none">
       <q-item-section avatar>
-        <q-icon :name="icon" size="1.5rem" />
+        <q-icon name="mdi-wrench-outline" size="1.5rem" />
       </q-item-section>
       <q-item-section>
         <q-item-label>
@@ -13,7 +13,7 @@
         </q-item-label>
       </q-item-section>
       <q-item-section side>
-        <q-badge>{{ 'Version ' + buildingBlock.version }}</q-badge>
+        <q-badge>{{ 'Version ' + buildingBlock.version.version }}</q-badge>
       </q-item-section>
       <slot name="after" />
     </q-item>
@@ -22,12 +22,11 @@
         Der Baustein befindet sich aktuell in der Entwicklung. Bevor der
         Baustein konfiguriert werden kann, muss er veröffentlicht werden.
       </p>
-      <div
-        class="row items-center text-body2 text-primary text-weight-medium cursor-pointer elst__link"
-        @click="viewBuildingBlock(buildingBlockVersion)">
-        <q-icon name="mdi-open-in-new" size="1rem" class="q-mr-sm" />
-        Zur Entwicklung beitragen
-      </div>
+
+      <ALink
+        label="Zur Entwicklung beitragen"
+        :to="viewBuildingBlockRoute(buildingBlock.version)"
+        class="text-body2 text-primary text-weight-medium" />
     </div>
   </div>
 </template>
@@ -37,9 +36,9 @@ import { QItemProps } from 'quasar';
 import { PageBuildingBlock } from 'src/services/generated/openapi/courses';
 import { computed } from 'vue';
 import { useAppRouter } from 'src/router/useAppRouter';
-import { BuildingBlockVersion } from 'src/services/generated/openapi/building_blocks';
+import ALink from 'src/core/ALink.vue';
 
-const { viewBuildingBlock } = useAppRouter();
+const { viewBuildingBlockRoute } = useAppRouter();
 
 const props = defineProps<
   {
@@ -47,17 +46,7 @@ const props = defineProps<
   } & QItemProps
 >();
 
-const buildingBlockVersion = computed<BuildingBlockVersion>(() => {
-  return {
-    buildingBlockId: props.buildingBlock.buildingBlockId,
-    version: props.buildingBlock.version,
-  };
-});
-
 const inDevelopment = computed(
   () => props.buildingBlock.releaseStatus === 'IN_DEVELOPMENT'
-);
-const icon = computed(() =>
-  inDevelopment.value ? 'mdi-wrench-outline' : 'mdi-open-in-new'
 );
 </script>

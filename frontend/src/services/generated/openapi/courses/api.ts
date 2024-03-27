@@ -84,6 +84,25 @@ export interface AddTopicRequest {
 /**
  * 
  * @export
+ * @interface BuildingBlockVersion
+ */
+export interface BuildingBlockVersion {
+    /**
+     * 
+     * @type {string}
+     * @memberof BuildingBlockVersion
+     */
+    'buildingBlockId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BuildingBlockVersion
+     */
+    'version': number;
+}
+/**
+ * 
+ * @export
  * @interface Course
  */
 export interface Course {
@@ -522,16 +541,10 @@ export interface PageBuildingBlock {
     'pageBuildingBlockId': string;
     /**
      * 
-     * @type {string}
+     * @type {BuildingBlockVersion}
      * @memberof PageBuildingBlock
      */
-    'buildingBlockId': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageBuildingBlock
-     */
-    'version': number;
+    'version': BuildingBlockVersion;
     /**
      * 
      * @type {string}

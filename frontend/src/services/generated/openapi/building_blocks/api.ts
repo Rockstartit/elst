@@ -31,16 +31,10 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 export interface BuildingBlock {
     /**
      * 
-     * @type {string}
+     * @type {BuildingBlockVersion}
      * @memberof BuildingBlock
      */
-    'id': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof BuildingBlock
-     */
-    'version': number;
+    'version': BuildingBlockVersion;
     /**
      * 
      * @type {string}

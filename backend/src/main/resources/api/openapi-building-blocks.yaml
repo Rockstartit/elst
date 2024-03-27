@@ -52,15 +52,12 @@ components:
     BuildingBlock:
       type: object
       required:
-        - id
         - version
         - name
         - releaseStatus
       properties:
-        id:
-          $ref: "#/components/schemas/EntityId"
         version:
-          $ref: "#/components/schemas/VersionNumber"
+          $ref: "#/components/schemas/BuildingBlockVersion"
         name:
           type: string
           example: Text

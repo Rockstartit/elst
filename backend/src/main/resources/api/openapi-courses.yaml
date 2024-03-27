@@ -870,17 +870,14 @@ components:
       type: object
       required:
         - pageBuildingBlockId
-        - buildingBlockId
         - version
         - name
         - releaseStatus
       properties:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
-        buildingBlockId:
-          $ref: "#/components/schemas/EntityId"
         version:
-          $ref: "#/components/schemas/VersionNumber"
+          $ref: "#/components/schemas/BuildingBlockVersion"
         name:
           type: string
         description:
@@ -902,6 +899,16 @@ components:
       enum:
         - IN_DEVELOPMENT
         - RELEASED
+    BuildingBlockVersion:
+      type: object
+      required:
+        - buildingBlockId
+        - version
+      properties:
+        buildingBlockId:
+          $ref: "#/components/schemas/EntityId"
+        version:
+          $ref: "#/components/schemas/VersionNumber"
     VersionNumber:
       type: number
       example: 1

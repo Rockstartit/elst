@@ -70,14 +70,18 @@ export function useAppRouter() {
     };
   }
 
-  function viewBuildingBlock(buildingBlockVersion: BuildingBlockVersion) {
-    return goToRoute({
+  function viewBuildingBlockRoute(buildingBlockVersion: BuildingBlockVersion) {
+    return {
       name: availableRoutes.view_building_block,
       params: {
         buildingBlockId: buildingBlockVersion.buildingBlockId,
         version: buildingBlockVersion.version,
       },
-    });
+    };
+  }
+
+  function viewBuildingBlock(buildingBlockVersion: BuildingBlockVersion) {
+    return goToRoute(viewBuildingBlockRoute(buildingBlockVersion));
   }
 
   return {
@@ -85,6 +89,7 @@ export function useAppRouter() {
     viewCourse,
     viewCourseUnit,
     viewBuildingBlock,
+    viewBuildingBlockRoute,
     selectBuildingBlockRoute,
   };
 }

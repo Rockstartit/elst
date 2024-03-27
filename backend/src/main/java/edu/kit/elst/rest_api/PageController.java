@@ -128,8 +128,7 @@ public class PageController implements PageApi {
         edut.kit.elst.rest_api.PageBuildingBlock dto = new edut.kit.elst.rest_api.PageBuildingBlock();
 
         dto.setPageBuildingBlockId(pageBuildingBlock.id().value());
-        dto.setBuildingBlockId(pageBuildingBlock.version().buildingBlockId());
-        dto.setVersion(BigDecimal.valueOf(pageBuildingBlock.version().versionNumber()));
+        dto.setVersion(BuildingBlockMapper.mapToBuildingBlockVersion(pageBuildingBlock.version()));
 
         if (buildingBlock != null) {
             dto.setName(buildingBlock.details().name());
