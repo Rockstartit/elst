@@ -1,26 +1,16 @@
 <template>
   <PBase content-width="1200px">
     <div v-if="initialized && buildingBlock">
-      <OCourseHeader
+      <OBuildingBlockHeader
+        v-model="tab"
         :name="buildingBlock.name"
         @edit-name="openEditNameDialog" />
 
-      <div class="overflow-hidden q-mt-lg">
-        <div class="row q-col-gutter-lg">
-          <div class="col">
-            <OMockups height="300px" />
-
-            <OMarkdownRenderer :content="exampleMarkdown" />
-          </div>
-
-          <div class="col-auto">
-            <OBuildingBlockDetails
-              :building-block="buildingBlock"
-              class="elst__detail-sidebar"
-              @edit="openEditDescriptionDialog" />
-          </div>
-        </div>
-      </div>
+      <q-tab-panels v-model="tab">
+        <q-tab-panel name="overview" class="bg-grey-1">
+          <TBuildingBlockOverview v-model="buildingBlock" />
+        </q-tab-panel>
+      </q-tab-panels>
     </div>
   </PBase>
 </template>
@@ -34,11 +24,11 @@ import {
 } from 'src/services/generated/openapi/building_blocks';
 import { withLoading } from 'src/core/useWithLoading';
 import { buildingBlockApi } from 'src/services';
-import OCourseHeader from 'src/courses/view-course/OCourseHeader.vue';
 import { useQuasar } from 'quasar';
-import OBuildingBlockDetails from 'src/building-blocks/view-building-block/OBuildingBlockDetails.vue';
-import OMockups from 'src/building-blocks/view-building-block/OMockups.vue';
-import OMarkdownRenderer from 'src/core/OMarkdownRenderer.vue';
+import OBuildingBlockHeader, {
+  BuildingBlockHeaderTab,
+} from 'src/building-blocks/view-building-block/OBuildingBlockHeader.vue';
+import TBuildingBlockOverview from 'src/building-blocks/view-building-block/TBuildingBlockOverview.vue';
 
 const quasar = useQuasar();
 
@@ -57,10 +47,8 @@ const buildingBlockVersion = computed<BuildingBlockVersion>(() => {
   };
 });
 
+const tab = ref<BuildingBlockHeaderTab>('overview');
 const buildingBlock = ref<BuildingBlock>();
-
-const exampleMarkdown =
-  '# ReadMe \nEine einfache Textkomponente, die das Anzeigen von nicht formatierten Texten ermöglicht.';
 
 onMounted(() => {
   withLoading(
@@ -102,35 +90,6 @@ function openEditNameDialog() {
           .then(() => {
             if (buildingBlock.value) {
               buildingBlock.value.name = payload;
-            }
-          });
-      }
-    });
-}
-
-function openEditDescriptionDialog() {
-  quasar
-    .dialog({
-      title: 'Beschreibung bearbeiten',
-      prompt: {
-        model: buildingBlock.value?.description ?? '',
-      },
-      cancel: true,
-    })
-    .onOk((payload) => {
-      if (buildingBlock.value) {
-        buildingBlockApi
-          .editBuildingBlock(
-            buildingBlockVersion.value.buildingBlockId,
-            buildingBlockVersion.value.version,
-            {
-              name: buildingBlock.value?.name,
-              description: payload,
-            }
-          )
-          .then(() => {
-            if (buildingBlock.value) {
-              buildingBlock.value.description = payload;
             }
           });
       }
