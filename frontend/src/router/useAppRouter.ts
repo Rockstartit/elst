@@ -1,6 +1,7 @@
 import { RouteLocationRaw, useRouter } from 'vue-router';
 import { availableRoutes } from 'src/router/routes';
 import { CourseVersion } from 'src/services/generated/openapi/courses';
+import { BuildingBlockVersion } from 'src/services/generated/openapi/building_blocks';
 
 export function useAppRouter() {
   const router = useRouter();
@@ -69,10 +70,21 @@ export function useAppRouter() {
     };
   }
 
+  function viewBuildingBlock(buildingBlockVersion: BuildingBlockVersion) {
+    return goToRoute({
+      name: availableRoutes.view_building_block,
+      params: {
+        buildingBlockId: buildingBlockVersion.buildingBlockId,
+        version: buildingBlockVersion.version,
+      },
+    });
+  }
+
   return {
     viewPage,
     viewCourse,
     viewCourseUnit,
+    viewBuildingBlock,
     selectBuildingBlockRoute,
   };
 }

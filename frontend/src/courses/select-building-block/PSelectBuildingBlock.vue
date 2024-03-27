@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
-import OBuildingBlockList from 'src/building_blocks/browse/OBuildingBlockList.vue';
-import MBuildingBlockOverview from 'src/building_blocks/browse/MBuildingBlockOverview.vue';
+import OBuildingBlockList from 'src/building-blocks/browse/OBuildingBlockList.vue';
+import MBuildingBlockOverview from 'src/building-blocks/browse/MBuildingBlockOverview.vue';
 import { computed, ref } from 'vue';
 import { CourseVersion } from 'src/services/generated/openapi/courses';
 import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';

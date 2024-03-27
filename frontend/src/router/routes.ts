@@ -7,6 +7,7 @@ export const availableRoutes = {
   view_page: 'view_page',
   browse_building_blocks: 'browse_building_blocks',
   select_building_block: 'select_building_block',
+  view_building_block: 'view_building_block',
 };
 
 const routes: RouteRecordRaw[] = [
@@ -18,6 +19,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: availableRoutes.browse_courses,
         path: 'courses/browse',
+        props: true,
         component: () => import('src/courses/browse/PBrowseCourses.vue'),
       },
       {
@@ -49,8 +51,18 @@ const routes: RouteRecordRaw[] = [
       {
         name: availableRoutes.browse_building_blocks,
         path: 'building-blocks/browse',
+        props: true,
         component: () =>
-          import('src/building_blocks/browse/PBrowseBuildingBlocks.vue'),
+          import('src/building-blocks/browse/PBrowseBuildingBlocks.vue'),
+      },
+      {
+        name: availableRoutes.view_building_block,
+        path: 'building-blocks/:buildingBlockId/:version',
+        props: true,
+        component: () =>
+          import(
+            'src/building-blocks/view-building-block/PViewBuildingBlock.vue'
+          ),
       },
     ],
   },

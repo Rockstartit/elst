@@ -23,7 +23,8 @@
         Baustein konfiguriert werden kann, muss er veröffentlicht werden.
       </p>
       <div
-        class="row items-center text-body2 text-primary text-weight-medium cursor-pointer elst__link">
+        class="row items-center text-body2 text-primary text-weight-medium cursor-pointer elst__link"
+        @click="viewBuildingBlock(buildingBlockVersion)">
         <q-icon name="mdi-open-in-new" size="1rem" class="q-mr-sm" />
         Zur Entwicklung beitragen
       </div>
@@ -35,12 +36,23 @@
 import { QItemProps } from 'quasar';
 import { PageBuildingBlock } from 'src/services/generated/openapi/courses';
 import { computed } from 'vue';
+import { useAppRouter } from 'src/router/useAppRouter';
+import { BuildingBlockVersion } from 'src/services/generated/openapi/building_blocks';
+
+const { viewBuildingBlock } = useAppRouter();
 
 const props = defineProps<
   {
     buildingBlock: PageBuildingBlock;
   } & QItemProps
 >();
+
+const buildingBlockVersion = computed<BuildingBlockVersion>(() => {
+  return {
+    buildingBlockId: props.buildingBlock.buildingBlockId,
+    version: props.buildingBlock.version,
+  };
+});
 
 const inDevelopment = computed(
   () => props.buildingBlock.releaseStatus === 'IN_DEVELOPMENT'

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useBrowseBuildingBlocks } from 'src/building_blocks/browse/useBrowseBuildingBlocks';
+import { useBrowseBuildingBlocks } from 'src/building-blocks/browse/useBrowseBuildingBlocks';
 import { onMounted, ref } from 'vue';
 import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
 import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
