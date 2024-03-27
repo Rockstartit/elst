@@ -1,12 +1,8 @@
 package edu.kit.elst.rest_api;
 
-import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockDetails;
 import edu.kit.elst.building_blocks.BuildingBlockService;
-import edut.kit.elst.rest_api.BuildingBlockApi;
-import edut.kit.elst.rest_api.BuildingBlockVersion;
-import edut.kit.elst.rest_api.ReleasedBuildingBlock;
-import edut.kit.elst.rest_api.RequestBuildingBlockRequest;
+import edut.kit.elst.rest_api.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,11 +17,12 @@ public class BuildingBlockController implements BuildingBlockApi {
     private final BuildingBlockService buildingBlockService;
 
     @Override
-    public ResponseEntity<List<ReleasedBuildingBlock>> getReleasedBuildingBlocks() {
-        Collection<BuildingBlock> buildingBlocks = buildingBlockService.allReleasedBuildingBlocks();
+    public ResponseEntity<List<BuildingBlock>> getBuildingBlocks() {
+        Collection<edu.kit.elst.building_blocks.BuildingBlock> buildingBlocks
+                = buildingBlockService.allBuildingBlocks();
 
         return ResponseEntity.ok(buildingBlocks.stream()
-                .map(this::mapToReleasedBuildingBlock)
+                .map(this::mapToBuildingBlock)
                 .toList());
     }
 
@@ -64,13 +61,14 @@ public class BuildingBlockController implements BuildingBlockApi {
                 version.getBuildingBlockId(), version.getVersion().longValue());
     }
 
-    private ReleasedBuildingBlock mapToReleasedBuildingBlock(BuildingBlock buildingBlock) {
-        ReleasedBuildingBlock dto = new ReleasedBuildingBlock();
+    private BuildingBlock mapToBuildingBlock(edu.kit.elst.building_blocks.BuildingBlock buildingBlock) {
+        BuildingBlock dto = new BuildingBlock();
 
         dto.setId(buildingBlock.version().buildingBlockId());
         dto.setVersion(BigDecimal.valueOf(buildingBlock.version().versionNumber()));
         dto.setName(buildingBlock.details().name());
         dto.setDescription(buildingBlock.details().description());
+        dto.setReleaseStatus(buildingBlock.releaseStatus());
 
         return dto;
     }

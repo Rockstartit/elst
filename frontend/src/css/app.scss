@@ -12,4 +12,8 @@
   &__detail-sidebar {
     width: 370px;
   }
+
+  &__link:hover {
+    filter:  brightness(70%);
+  }
 }

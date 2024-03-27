@@ -24,7 +24,7 @@ import OBuildingBlockList from 'src/building_blocks/browse/OBuildingBlockList.vu
 import MBuildingBlockOverview from 'src/building_blocks/browse/MBuildingBlockOverview.vue';
 import { computed, ref } from 'vue';
 import { CourseVersion } from 'src/services/generated/openapi/courses';
-import { ReleasedBuildingBlock } from 'src/services/generated/openapi/building_blocks';
+import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { withLoading } from 'src/core/useWithLoading';
 import { buildingBlockApi, pageApi } from 'src/services';
 import { useAppRouter } from 'src/router/useAppRouter';
@@ -50,7 +50,7 @@ const courseVersion = computed<CourseVersion>(() => {
   };
 });
 
-function selectBuildingBlock(buildingBlock: ReleasedBuildingBlock) {
+function selectBuildingBlock(buildingBlock: BuildingBlock) {
   return withLoading(
     pageApi
       .addBuildingBlockToPage(props.pageId, {

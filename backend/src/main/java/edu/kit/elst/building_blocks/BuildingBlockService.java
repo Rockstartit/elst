@@ -40,8 +40,8 @@ public class BuildingBlockService {
         buildingBlock.release();
     }
 
-    public Collection<BuildingBlock> allReleasedBuildingBlocks() {
-        return buildingBlocks.findAllReleased();
+    public Collection<BuildingBlock> allBuildingBlocks() {
+        return buildingBlocks.findAll();
     }
 
     public Collection<BuildingBlock> buildingBlocks(Set<BuildingBlockVersion> buildingBlockVersions) {

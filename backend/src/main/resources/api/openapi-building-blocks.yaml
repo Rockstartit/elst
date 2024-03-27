@@ -12,8 +12,8 @@ paths:
     get:
       tags:
         - Building Block
-      summary: Get all released building blocks
-      operationId: getReleasedBuildingBlocks
+      summary: Get all building blocks
+      operationId: getBuildingBlocks
       responses:
         200:
           description: ok
@@ -22,7 +22,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ReleasedBuildingBlock"
+                  $ref: "#/components/schemas/BuildingBlock"
         401:
           description: Not Authenticated
     post:
@@ -49,12 +49,13 @@ paths:
           description: Not Authenticated
 components:
   schemas:
-    ReleasedBuildingBlock:
+    BuildingBlock:
       type: object
       required:
         - id
         - version
         - name
+        - releaseStatus
       properties:
         id:
           $ref: "#/components/schemas/EntityId"
@@ -66,6 +67,8 @@ components:
         description:
           type: string
           example: Eine Komponente zum Darstellen eines Textes.
+        releaseStatus:
+          $ref: "#/components/schemas/ReleaseStatus"
     RequestBuildingBlockRequest:
       type: object
       required:
@@ -89,6 +92,11 @@ components:
           $ref: "#/components/schemas/EntityId"
         version:
           $ref: "#/components/schemas/VersionNumber"
+    ReleaseStatus:
+      type: string
+      enum:
+        - IN_DEVELOPMENT
+        - RELEASED
     VersionNumber:
       type: number
       example: 1

@@ -544,7 +544,15 @@ export interface PageBuildingBlock {
      * @memberof PageBuildingBlock
      */
     'description'?: string;
+    /**
+     * 
+     * @type {ReleaseStatus}
+     * @memberof PageBuildingBlock
+     */
+    'releaseStatus': ReleaseStatus;
 }
+
+
 /**
  * 
  * @export
@@ -589,6 +597,20 @@ export interface Prerequisite {
      */
     'skills'?: string;
 }
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ReleaseStatus = {
+    InDevelopment: 'IN_DEVELOPMENT',
+    Released: 'RELEASED'
+} as const;
+
+export type ReleaseStatus = typeof ReleaseStatus[keyof typeof ReleaseStatus];
+
+
 /**
  * 
  * @export

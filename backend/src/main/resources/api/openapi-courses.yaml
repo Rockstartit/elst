@@ -873,6 +873,7 @@ components:
         - buildingBlockId
         - version
         - name
+        - releaseStatus
       properties:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
@@ -884,6 +885,8 @@ components:
           type: string
         description:
           type: string
+        releaseStatus:
+          $ref: "#/components/schemas/ReleaseStatus"
     AddBuildingBlockToPageRequest:
       type: object
       required:
@@ -894,6 +897,11 @@ components:
           $ref: "#/components/schemas/EntityId"
         version:
           $ref: "#/components/schemas/VersionNumber"
+    ReleaseStatus:
+      type: string
+      enum:
+        - IN_DEVELOPMENT
+        - RELEASED
     VersionNumber:
       type: number
       example: 1

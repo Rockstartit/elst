@@ -26,6 +26,45 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface BuildingBlock
+ */
+export interface BuildingBlock {
+    /**
+     * 
+     * @type {string}
+     * @memberof BuildingBlock
+     */
+    'id': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BuildingBlock
+     */
+    'version': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BuildingBlock
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BuildingBlock
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {ReleaseStatus}
+     * @memberof BuildingBlock
+     */
+    'releaseStatus': ReleaseStatus;
+}
+
+
+/**
+ * 
+ * @export
  * @interface BuildingBlockVersion
  */
 export interface BuildingBlockVersion {
@@ -45,34 +84,17 @@ export interface BuildingBlockVersion {
 /**
  * 
  * @export
- * @interface ReleasedBuildingBlock
+ * @enum {string}
  */
-export interface ReleasedBuildingBlock {
-    /**
-     * 
-     * @type {string}
-     * @memberof ReleasedBuildingBlock
-     */
-    'id': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ReleasedBuildingBlock
-     */
-    'version': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReleasedBuildingBlock
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReleasedBuildingBlock
-     */
-    'description'?: string;
-}
+
+export const ReleaseStatus = {
+    InDevelopment: 'IN_DEVELOPMENT',
+    Released: 'RELEASED'
+} as const;
+
+export type ReleaseStatus = typeof ReleaseStatus[keyof typeof ReleaseStatus];
+
+
 /**
  * 
  * @export
@@ -107,11 +129,11 @@ export const BuildingBlockApiAxiosParamCreator = function (configuration?: Confi
     return {
         /**
          * 
-         * @summary Get all released building blocks
+         * @summary Get all building blocks
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReleasedBuildingBlocks: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getBuildingBlocks: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/building-blocks`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -191,14 +213,14 @@ export const BuildingBlockApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get all released building blocks
+         * @summary Get all building blocks
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getReleasedBuildingBlocks(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ReleasedBuildingBlock>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getReleasedBuildingBlocks(options);
+        async getBuildingBlocks(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BuildingBlock>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBuildingBlocks(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['BuildingBlockApi.getReleasedBuildingBlocks']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['BuildingBlockApi.getBuildingBlocks']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -226,12 +248,12 @@ export const BuildingBlockApiFactory = function (configuration?: Configuration, 
     return {
         /**
          * 
-         * @summary Get all released building blocks
+         * @summary Get all building blocks
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getReleasedBuildingBlocks(options?: any): AxiosPromise<Array<ReleasedBuildingBlock>> {
-            return localVarFp.getReleasedBuildingBlocks(options).then((request) => request(axios, basePath));
+        getBuildingBlocks(options?: any): AxiosPromise<Array<BuildingBlock>> {
+            return localVarFp.getBuildingBlocks(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -255,13 +277,13 @@ export const BuildingBlockApiFactory = function (configuration?: Configuration, 
 export class BuildingBlockApi extends BaseAPI {
     /**
      * 
-     * @summary Get all released building blocks
+     * @summary Get all building blocks
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BuildingBlockApi
      */
-    public getReleasedBuildingBlocks(options?: RawAxiosRequestConfig) {
-        return BuildingBlockApiFp(this.configuration).getReleasedBuildingBlocks(options).then((request) => request(this.axios, this.basePath));
+    public getBuildingBlocks(options?: RawAxiosRequestConfig) {
+        return BuildingBlockApiFp(this.configuration).getBuildingBlocks(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

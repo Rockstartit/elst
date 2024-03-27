@@ -20,12 +20,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ReleasedBuildingBlock } from 'src/services/generated/openapi/building_blocks';
+import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { QItemProps } from 'quasar';
 
 defineProps<
   {
-    buildingBlock: ReleasedBuildingBlock;
+    buildingBlock: BuildingBlock;
   } & QItemProps
 >();
 </script>

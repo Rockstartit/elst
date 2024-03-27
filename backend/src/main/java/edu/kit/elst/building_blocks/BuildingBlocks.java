@@ -25,8 +25,4 @@ interface BuildingBlocks extends JpaRepository<BuildingBlock, BuildingBlockVersi
     @Query("select buildingBlock.version.versionNumber from BuildingBlock buildingBlock " +
             "where buildingBlock.version.buildingBlockId = :buildingBlockId")
     Optional<Long> highestVersion(UUID buildingBlockId);
-
-    @Query("select buildingBlock from BuildingBlock buildingBlock " +
-            "where buildingBlock.releaseStatus = edu.kit.elst.building_blocks.ReleaseStatus.RELEASED")
-    Collection<BuildingBlock> findAllReleased();
 }

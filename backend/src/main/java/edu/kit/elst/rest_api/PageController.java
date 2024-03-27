@@ -134,6 +134,7 @@ public class PageController implements PageApi {
         if (buildingBlock != null) {
             dto.setName(buildingBlock.details().name());
             dto.setDescription(buildingBlock.details().description());
+            dto.setReleaseStatus(buildingBlock.releaseStatus());
         }
 
         return dto;
