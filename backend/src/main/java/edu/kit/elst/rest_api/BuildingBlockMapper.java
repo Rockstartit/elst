@@ -4,6 +4,7 @@ import edut.kit.elst.rest_api.BuildingBlock;
 import edut.kit.elst.rest_api.BuildingBlockVersion;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class BuildingBlockMapper {
     public static BuildingBlockVersion mapToBuildingBlockVersion(edu.kit.elst.building_blocks.BuildingBlockVersion version) {
@@ -29,5 +30,9 @@ public class BuildingBlockMapper {
         dto.setReleaseStatus(buildingBlock.releaseStatus());
 
         return dto;
+    }
+
+    public static edu.kit.elst.building_blocks.BuildingBlockVersion mapToBuildingBlockVersion(UUID buildingBlockId, BigDecimal versionNumber) {
+        return new edu.kit.elst.building_blocks.BuildingBlockVersion(buildingBlockId, versionNumber.longValue());
     }
 }

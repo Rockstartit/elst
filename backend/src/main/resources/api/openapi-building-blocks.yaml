@@ -106,8 +106,156 @@ paths:
           description: Invalid Request
         401:
           description: Not Authenticated
+  /building-blocks/{buildingBlockId}/{version}/requirements:
+    get:
+      tags:
+        - Requirement
+      summary: Get building block requirements
+      operationId: getAllRequirements
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: version
+          in: path
+          description: Version of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/VersionNumber'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BuildingBlockRequirement"
+        401:
+          description: Not Authenticated
+    post:
+      tags:
+        - Requirement
+      summary: Document requirement
+      operationId: documentRequirement
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: version
+          in: path
+          description: Version of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/VersionNumber'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentRequirementRequest"
+        required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        401:
+          description: Not Authenticated
+  /requirements/{requirementId}:
+    patch:
+      tags:
+        - Requirement
+      summary: Edit requirement
+      operationId: editRequirement
+      parameters:
+        - name: requirementId
+          in: path
+          description: Id of requirement
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditRequirementRequest"
+        required: true
+      responses:
+        200:
+          description: ok
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Requirement
+      summary: Delete requirement
+      operationId: deleteRequirement
+      parameters:
+        - name: requirementId
+          in: path
+          description: Id of requirement
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+        401:
+          description: Not Authenticated
 components:
   schemas:
+    BuildingBlockRequirement:
+      type: object
+      required:
+        - id
+        - type
+        - content
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        type:
+          $ref: '#/components/schemas/RequirementType'
+        content:
+          type: string
+          example: Baustein soll xyz können
+    DocumentRequirementRequest:
+      type: object
+      required:
+        - type
+        - content
+      properties:
+        type:
+          $ref: '#/components/schemas/RequirementType'
+        content:
+          type: string
+          example: Baustein soll xyz können
+    EditRequirementRequest:
+      type: object
+      required:
+        - type
+        - content
+      properties:
+        type:
+          $ref: '#/components/schemas/RequirementType'
+        content:
+          type: string
+          example: Baustein soll xyz können
+    RequirementType:
+      type: string
+      enum:
+        - LEARNER,
+        - TEACHER,
+        - PEDAGOGICAL,
+        - TECHNOLOGICAL,
+        - INSTITUTIONAL
     BuildingBlock:
       type: object
       required:

@@ -2,9 +2,7 @@ package edu.kit.elst.course_implementation;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
 import edu.kit.elst.core.Guards;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +17,18 @@ public class BuildingBlockRequirement {
 
     private BuildingBlockVersion buildingBlockVersion;
 
+    @Enumerated(EnumType.ORDINAL)
+    private RequirementType type;
+
     private String content;
 
-    public BuildingBlockRequirement(BuildingBlockVersion buildingBlockVersion, String content) {
+    public BuildingBlockRequirement(BuildingBlockVersion buildingBlockVersion, RequirementType type, String content) {
         Guards.notNull(buildingBlockVersion, "buildingBlockVersion");
 
         this.id = Requirements.nextIdentity();
         this.buildingBlockVersion = buildingBlockVersion;
 
+        setType(type);
         setContent(content);
     }
 
@@ -34,5 +36,11 @@ public class BuildingBlockRequirement {
         Guards.notEmptyBlankOrNull(content, "content");
 
         this.content = content;
+    }
+
+    public void setType(RequirementType type) {
+        Guards.notNull(type, "type");
+
+        this.type = type;
     }
 }

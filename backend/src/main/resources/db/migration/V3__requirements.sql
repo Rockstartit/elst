@@ -1,0 +1,1 @@
+create table requirements (requirement_id binary(16) not null, building_block_id binary(16) not null, building_block_version_number bigint not null, content varchar(255), type tinyint check (type between 0 and 4), primary key (requirement_id)) engine=InnoDB;

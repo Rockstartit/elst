@@ -52,7 +52,7 @@ public class BuildingBlockController implements BuildingBlockApi {
     @Override
     public ResponseEntity<BuildingBlock> getBuildingBlock(UUID buildingBlockId, BigDecimal versionNumber) {
         edu.kit.elst.building_blocks.BuildingBlockVersion version
-                = new edu.kit.elst.building_blocks.BuildingBlockVersion(buildingBlockId, versionNumber.longValue());
+                = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
 
         edu.kit.elst.building_blocks.BuildingBlock buildingBlock = buildingBlockService.buildingBlock(version)
                 .orElseThrow(() -> new BuildingBlockNotFoundException(version));
@@ -63,7 +63,7 @@ public class BuildingBlockController implements BuildingBlockApi {
     @Override
     public ResponseEntity<Void> editBuildingBlock(UUID buildingBlockId, BigDecimal versionNumber, EditBuildingBlockRequest body) {
         edu.kit.elst.building_blocks.BuildingBlockVersion version
-                = new edu.kit.elst.building_blocks.BuildingBlockVersion(buildingBlockId, versionNumber.longValue());
+                = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
 
         BuildingBlockDetails details = new BuildingBlockDetails(body.getName(), body.getDescription());
         buildingBlockService.editBuildingBlock(version, details);
