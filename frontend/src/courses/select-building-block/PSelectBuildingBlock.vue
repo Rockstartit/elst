@@ -54,8 +54,8 @@ function selectBuildingBlock(buildingBlock: BuildingBlock) {
   return withLoading(
     pageApi
       .addBuildingBlockToPage(props.pageId, {
-        buildingBlockId: buildingBlock.id,
-        version: buildingBlock.version,
+        buildingBlockId: buildingBlock.version.buildingBlockId,
+        version: buildingBlock.version.version,
       })
       .then(() => {
         viewPage(courseVersion.value, props.courseUnitId, props.pageId, true);
