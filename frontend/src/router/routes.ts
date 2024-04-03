@@ -1,6 +1,10 @@
 import { RouteRecordRaw } from 'vue-router';
 
 export const availableRoutes = {
+  app_base: 'app_base',
+  login: 'login',
+  login_error: 'login_error',
+  login_callback: 'login_callback',
   browse_courses: 'browse_courses',
   view_course: 'view_course',
   view_course_unit: 'view_course_unit',
@@ -13,6 +17,7 @@ export const availableRoutes = {
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    name: availableRoutes.app_base,
     component: () => import('layouts/MainLayout.vue'),
     redirect: { name: availableRoutes.browse_courses },
     children: [
@@ -66,12 +71,41 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
-
+  {
+    path: '/pub/',
+    component: () => import('layouts/PublicLayout.vue'),
+    children: [
+      {
+        path: 'login',
+        name: availableRoutes.login,
+        props: true,
+        component: () => import('src/public/PLogin.vue'),
+      },
+      {
+        path: 'login-error',
+        name: availableRoutes.login_error,
+        props: true,
+        component: () => import('src/public/PLoginError.vue'),
+      },
+    ],
+  },
+  {
+    path: '/pub/',
+    component: () => import('layouts/FakeMainLayout.vue'),
+    children: [
+      {
+        path: 'callback',
+        name: availableRoutes.login_callback,
+        props: true,
+        component: () => import('src/public/PLoginCallback.vue'),
+      },
+    ],
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: '/:catchAll(.*)*',
-    redirect: { name: availableRoutes.browse_courses },
+    path: '/:pathMatch(.*)*',
+    redirect: { name: availableRoutes.browse_courses, params: {} },
   },
 ];
 

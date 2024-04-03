@@ -1,8 +1,15 @@
 server:
   port: ${PORT:8500}
+auth0:
+  audience: ${AUTH0_AUDIENCE:https://elst.de/api/}
 spring:
   application:
     name: elst
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH0_ISSUER_URL:https://elst.eu.auth0.com/}
   flyway:
     enabled: true
     default-schema: elst

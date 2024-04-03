@@ -51,7 +51,7 @@
                 <q-item clickable>
                   <q-item-section>Einstellungen</q-item-section>
                 </q-item>
-                <q-item clickable>
+                <q-item clickable @click="logout()">
                   <q-item-section>Abmelden</q-item-section>
                 </q-item>
               </q-list>
@@ -69,6 +69,9 @@
 
 <script lang="ts" setup>
 import { availableRoutes } from 'src/router/routes';
+import { useAuth0 } from '@auth0/auth0-vue';
+
+const { logout } = useAuth0();
 </script>
 
 <style lang="sass">

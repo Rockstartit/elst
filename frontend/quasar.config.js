@@ -34,7 +34,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios'],
+    boot: ['i18n', 'axios', 'router', 'auth0'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -71,6 +71,9 @@ module.exports = configure(function (ctx) {
       // analyze: true,
       env: {
         version,
+        AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+        AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+        AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
         BASE_PATH: process.env.BASE_PATH,
       },
       // rawDefine: {}

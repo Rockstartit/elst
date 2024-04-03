@@ -15,6 +15,7 @@
     "generate-courses-api": "openapi-generator-cli generate -i ../backend/src/main/resources/api/openapi-courses.yaml -o src/services/generated/openapi/courses -g typescript-axios --additional-properties=supportsES6=true,npmVersion=6.9.0,typescriptThreePlus=true"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^2.3.3",
     "@quasar/extras": "^1.16.9",
     "axios": "^1.6.5",
     "dompurify": "^3.0.11",
