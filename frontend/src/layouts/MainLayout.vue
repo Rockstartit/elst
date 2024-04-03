@@ -33,8 +33,7 @@
 
           <q-btn dense flat no-wrap>
             <q-avatar rounded size="20px" class="q-mr-xs">
-              <img
-                src="https://api.dicebear.com/7.x/initials/svg?seed=Daniel&radius=20&backgroundColor=d1d4f9&textColor=000000" />
+              <img :src="profilePicture" />
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
 
@@ -70,8 +69,13 @@
 <script lang="ts" setup>
 import { availableRoutes } from 'src/router/routes';
 import { useAuth0 } from '@auth0/auth0-vue';
+import { useAuthenticationStore } from 'stores/authentication/store';
+import { computed } from 'vue';
 
 const { logout } = useAuth0();
+const authStore = useAuthenticationStore();
+
+const profilePicture = computed(() => authStore.profilePicture);
 </script>
 
 <style lang="sass">
