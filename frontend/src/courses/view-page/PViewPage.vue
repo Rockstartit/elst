@@ -1,7 +1,7 @@
 <template>
   <PBase content-width="1200px">
     <div v-if="initialized && page">
-      <OPageHeader :title="page.title" />
+      <OPageHeader :title="page.title" @edit-name="openEditTitleDialog" />
 
       <div class="row q-mt-lg">
         <div class="col">
@@ -47,20 +47,18 @@
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
-import { computed, onMounted, ref } from 'vue';
-import {
-  CourseVersion,
-  Page,
-  PageBuildingBlock,
-} from 'src/services/generated/openapi/courses';
-import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
-import { pageApi } from 'src/services';
+import {computed, onMounted, ref} from 'vue';
+import {CourseVersion, Page, PageBuildingBlock,} from 'src/services/generated/openapi/courses';
+import {withLoading, withLoadingArray} from 'src/core/useWithLoading';
+import {pageApi} from 'src/services';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import OPageHeader from 'src/courses/view-page/OPageHeader.vue';
-import { useAppRouter } from 'src/router/useAppRouter';
+import {useAppRouter} from 'src/router/useAppRouter';
 import OPageBuildingBlockList from 'src/courses/view-page/OPageBuildingBlockList.vue';
 import MPageBuildingBlock from 'src/courses/view-page/MPageBuildingBlock.vue';
+import {useQuasar} from "quasar";
 
+const quasar = useQuasar();
 const { selectBuildingBlockRoute } = useAppRouter();
 
 const props = defineProps<{
@@ -111,5 +109,29 @@ function removeBuildingBlock(buildingBlock: PageBuildingBlock) {
     perfornimgRemoveBuildingBlock,
     buildingBlock.pageBuildingBlockId
   );
+}
+
+function openEditTitleDialog() {
+  quasar
+    .dialog({
+      title: 'Titel bearbeiten',
+      prompt: {
+        model: page.value?.title ?? '',
+      },
+      cancel: true,
+    })
+    .onOk((payload) => {
+      if (page.value) {
+        pageApi
+          .editPage(props.pageId, {
+            title: payload
+          })
+          .then(() => {
+            if (page.value) {
+              page.value.title = payload;
+            }
+          });
+      }
+    });
 }
 </script>
