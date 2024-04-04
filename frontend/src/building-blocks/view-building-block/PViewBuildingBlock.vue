@@ -31,7 +31,7 @@ import { useQuasar } from 'quasar';
 import OBuildingBlockHeader, {
   BuildingBlockHeaderTab,
 } from 'src/building-blocks/view-building-block/OBuildingBlockHeader.vue';
-import TBuildingBlockOverview from 'src/building-blocks/view-building-block/TBuildingBlockOverview.vue';
+import TBuildingBlockOverview from 'src/building-blocks/view-building-block/overview/TBuildingBlockOverview.vue';
 import TRequirements from 'src/building-blocks/view-building-block/requirements/TRequirements.vue';
 
 const quasar = useQuasar();

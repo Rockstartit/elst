@@ -29,9 +29,9 @@
 </template>
 
 <script lang="ts" setup>
-import OMockups from 'src/building-blocks/view-building-block/OMockups.vue';
+import OMockups from 'src/building-blocks/view-building-block/overview/OMockups.vue';
 import OMarkdownRenderer from 'src/core/OMarkdownRenderer.vue';
-import OBuildingBlockDetails from 'src/building-blocks/view-building-block/OBuildingBlockDetails.vue';
+import OBuildingBlockDetails from 'src/building-blocks/view-building-block/overview/OBuildingBlockDetails.vue';
 import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { buildingBlockApi, fileApi } from 'src/services';
 import { useQuasar } from 'quasar';

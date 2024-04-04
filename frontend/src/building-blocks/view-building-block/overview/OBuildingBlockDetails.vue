@@ -46,7 +46,7 @@ import MCourseDetail from 'src/courses/view-course/MCourseDetail.vue';
 import SecondaryButton from 'src/core/SecondaryButton.vue';
 import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { computed } from 'vue';
-import MContributors from 'src/building-blocks/view-building-block/MContributors.vue';
+import MContributors from 'src/building-blocks/view-building-block/overview/MContributors.vue';
 
 const props = defineProps<{
   buildingBlock: BuildingBlock;
