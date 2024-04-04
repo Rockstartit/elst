@@ -5,6 +5,10 @@ auth0:
 spring:
   application:
     name: elst
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 215MB
   security:
     oauth2:
       resourceserver:

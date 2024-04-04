@@ -251,10 +251,10 @@ components:
     RequirementType:
       type: string
       enum:
-        - LEARNER,
-        - TEACHER,
-        - PEDAGOGICAL,
-        - TECHNOLOGICAL,
+        - LEARNER
+        - TEACHER
+        - PEDAGOGICAL
+        - TECHNOLOGICAL
         - INSTITUTIONAL
     BuildingBlock:
       type: object

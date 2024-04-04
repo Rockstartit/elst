@@ -209,10 +209,10 @@ export interface RequestBuildingBlockRequest {
  */
 
 export const RequirementType = {
-    Learner: 'LEARNER,',
-    Teacher: 'TEACHER,',
-    Pedagogical: 'PEDAGOGICAL,',
-    Technological: 'TECHNOLOGICAL,',
+    Learner: 'LEARNER',
+    Teacher: 'TEACHER',
+    Pedagogical: 'PEDAGOGICAL',
+    Technological: 'TECHNOLOGICAL',
     Institutional: 'INSTITUTIONAL'
 } as const;
 

@@ -29,8 +29,8 @@ const props = withDefaults(
     } & QBtnProps
   >(),
   {
-    color: 'primary',
-    textColor: 'indigo-1',
+    color: 'grey-3',
+    textColor: 'text-10',
     noCaps: true,
   }
 );
