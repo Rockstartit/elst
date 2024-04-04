@@ -5,8 +5,12 @@ import {
   CourseUnitApi,
   PageApi,
 } from 'src/services/generated/openapi/courses';
-import { BuildingBlockApi } from 'src/services/generated/openapi/building_blocks';
+import {
+  BuildingBlockApi,
+  RequirementApi,
+} from 'src/services/generated/openapi/building_blocks';
 import { useAuthenticationStore } from 'src/stores/authentication/store';
+import { FileApi } from 'src/services/generated/openapi/files';
 
 export const apiConfiguration = new Configuration({
   basePath,
@@ -21,3 +25,11 @@ export const buildingBlockApi = new BuildingBlockApi(
   basePath,
   api
 );
+
+export const requirementApi = new RequirementApi(
+  apiConfiguration,
+  basePath,
+  api
+);
+
+export const fileApi = new FileApi(apiConfiguration, basePath, api);

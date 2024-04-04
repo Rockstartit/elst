@@ -4,7 +4,18 @@
       <div class="col">
         <OMockups height="300px" />
 
-        <OMarkdownRenderer :content="exampleMarkdown" />
+        <OMarkdownRenderer :content="readme" class="q-mt-lg relative-position">
+          <template #before>
+            <SecondaryButton
+              label="Bearbeiten"
+              icon="mdi-pencil-outline"
+              dense
+              flat
+              class="absolute text-caption"
+              style="right: 12px; top: 12px"
+              @click="openReadMeEditor" />
+          </template>
+        </OMarkdownRenderer>
       </div>
 
       <div class="col-auto">
@@ -22,15 +33,30 @@ import OMockups from 'src/building-blocks/view-building-block/OMockups.vue';
 import OMarkdownRenderer from 'src/core/OMarkdownRenderer.vue';
 import OBuildingBlockDetails from 'src/building-blocks/view-building-block/OBuildingBlockDetails.vue';
 import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
-import { buildingBlockApi } from 'src/services';
+import { buildingBlockApi, fileApi } from 'src/services';
 import { useQuasar } from 'quasar';
+import { onMounted, ref } from 'vue';
+import SecondaryButton from 'src/core/SecondaryButton.vue';
+import MarkdownEditorDialog, {
+  MarkdownEditorDialogProps,
+} from 'src/core/MarkdownEditorDialog.vue';
 
 const quasar = useQuasar();
 
 const buildingBlock = defineModel<BuildingBlock>({ required: true });
 
-const exampleMarkdown =
-  '# ReadMe \nEine einfache Textkomponente, die das Anzeigen von nicht formatierten Texten ermöglicht.';
+const readme = ref('');
+
+onMounted(() => {
+  fileApi
+    .getBuildingBlockReadMe(
+      buildingBlock.value.version.buildingBlockId,
+      buildingBlock.value.version.version
+    )
+    .then((response) => {
+      readme.value = response.data;
+    });
+});
 
 function openEditDescriptionDialog() {
   quasar
@@ -53,6 +79,31 @@ function openEditDescriptionDialog() {
         )
         .then(() => {
           buildingBlock.value.description = payload;
+        });
+    });
+}
+
+function openReadMeEditor() {
+  const dialogProps: MarkdownEditorDialogProps = {
+    initialContent: readme.value,
+  };
+
+  quasar
+    .dialog({
+      component: MarkdownEditorDialog,
+      componentProps: dialogProps,
+    })
+    .onOk((content) => {
+      fileApi
+        .editBuildingBlockReadMe(
+          buildingBlock.value.version.buildingBlockId,
+          buildingBlock.value.version.version,
+          {
+            content,
+          }
+        )
+        .then(() => {
+          readme.value = content;
         });
     });
 }

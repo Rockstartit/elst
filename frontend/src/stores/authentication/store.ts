@@ -10,7 +10,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
       return auth0.user.value?.picture as string;
     }
 
-    return `https://api.dicebear.com/7.x/initials/svg?seed=${auth0.user.value.given_name ?? auth0.user.value.email}&radius=20&backgroundColor=d1d4f9&textColor=000000`;
+    return `https://api.dicebear.com/7.x/initials/svg?seed=${auth0.user.value?.given_name ?? auth0.user.value?.email}&radius=20&backgroundColor=d1d4f9&textColor=000000`;
   });
 
   function getAccessToken(): Promise<string> {

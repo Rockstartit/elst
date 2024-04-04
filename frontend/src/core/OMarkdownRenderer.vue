@@ -1,5 +1,12 @@
 <template>
-  <p v-html="sanitizedContent" class="markdown-renderer"> </p>
+  <div class="q-pa-md bg-grey-2 elst__bordered elst__rounded">
+    <slot name="before" />
+    <p
+      v-html="sanitizedContent"
+      class="markdown-renderer"
+      style="word-break: break-word">
+    </p>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -11,7 +18,9 @@ const props = defineProps<{
   content: string;
 }>();
 
-const renderedContent = computed(() => marked(props.content));
+const renderedContent = computed(() => {
+  return marked(props.content);
+});
 
 const sanitizedContent = computed(() =>
   DOMPurify.sanitize(renderedContent.value)
