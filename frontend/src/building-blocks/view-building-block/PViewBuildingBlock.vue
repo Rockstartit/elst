@@ -10,6 +10,9 @@
         <q-tab-panel name="overview" class="bg-grey-1">
           <TBuildingBlockOverview v-model="buildingBlock" />
         </q-tab-panel>
+        <q-tab-panel name="requirements" class="bg-grey-1">
+          <TRequirements :building-block-version="buildingBlock.version" />
+        </q-tab-panel>
       </q-tab-panels>
     </div>
   </PBase>
@@ -29,6 +32,7 @@ import OBuildingBlockHeader, {
   BuildingBlockHeaderTab,
 } from 'src/building-blocks/view-building-block/OBuildingBlockHeader.vue';
 import TBuildingBlockOverview from 'src/building-blocks/view-building-block/TBuildingBlockOverview.vue';
+import TRequirements from 'src/building-blocks/view-building-block/requirements/TRequirements.vue';
 
 const quasar = useQuasar();
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden q-mt-lg">
+  <div class="overflow-hidden">
     <div class="row q-col-gutter-lg">
       <div class="col">
         <OMockups height="300px" />
