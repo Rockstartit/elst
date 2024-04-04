@@ -47,6 +47,7 @@ import { requirementApi } from 'src/services';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import { useQuasar } from 'quasar';
 import CreateOrEditRequirementDialog, {
+  CreateOrEditRequirementDialogProps,
   CreateOrEditRequirementDialogRequest,
 } from 'src/building-blocks/view-building-block/requirements/CreateOrEditRequirementDialog.vue';
 import MRequirement from 'src/building-blocks/view-building-block/requirements/MRequirement.vue';
@@ -109,7 +110,30 @@ function openDocumentRequirementDialog() {
 }
 
 function openEditRequirementDialog(requirement: BuildingBlockRequirement) {
-  console.log(requirement);
+  const dialogProps: CreateOrEditRequirementDialogProps = {
+    initialContent: requirement.content,
+    initialType: requirement.type
+  }
+
+  quasar
+    .dialog({
+      component: CreateOrEditRequirementDialog,
+      componentProps: dialogProps
+    })
+    .onOk((request: CreateOrEditRequirementDialogRequest) => {
+      requirementApi
+        .editRequirement(
+          requirement.id,
+          {
+            type: request.type,
+            content: request.content,
+          }
+        )
+        .then(() => {
+          requirement.type = request.type;
+          requirement.content = request.content;
+        });
+    });
 }
 
 function deleteRequirement(requirement: BuildingBlockRequirement) {
