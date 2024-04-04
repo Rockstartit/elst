@@ -3,8 +3,6 @@ package edu.kit.elst.rest_api;
 import edu.kit.elst.course_conceptualization.*;
 import edu.kit.elst.course_conceptualization.CourseVersion;
 import edu.kit.elst.course_conceptualization.StudyMaterials;
-import edut.kit.elst.rest_api.*;
-import edut.kit.elst.rest_api.CourseUnit;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -188,8 +186,8 @@ public class CourseUnitController implements CourseUnitApi {
         return dto;
     }
 
-    private edut.kit.elst.rest_api.StudyMaterials mapToStudyMaterials(StudyMaterials studyMaterials) {
-        edut.kit.elst.rest_api.StudyMaterials dto = new edut.kit.elst.rest_api.StudyMaterials();
+    private edu.kit.elst.rest_api.StudyMaterials mapToStudyMaterials(StudyMaterials studyMaterials) {
+        edu.kit.elst.rest_api.StudyMaterials dto = new edu.kit.elst.rest_api.StudyMaterials();
 
         dto.setBibliography(studyMaterials.bibliography());
         dto.setEBook(studyMaterials.eBook());
@@ -199,7 +197,7 @@ public class CourseUnitController implements CourseUnitApi {
         return dto;
     }
 
-    private StudyMaterials mapToStudyMaterials(edut.kit.elst.rest_api.StudyMaterials studyMaterials) {
+    private StudyMaterials mapToStudyMaterials(edu.kit.elst.rest_api.StudyMaterials studyMaterials) {
         if (studyMaterials == null) {
             return null;
         }

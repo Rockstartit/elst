@@ -3,7 +3,6 @@ package edu.kit.elst.rest_api;
 import edu.kit.elst.building_blocks.BuildingBlockDetails;
 import edu.kit.elst.building_blocks.BuildingBlockNotFoundException;
 import edu.kit.elst.building_blocks.BuildingBlockService;
-import edut.kit.elst.rest_api.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

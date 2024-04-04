@@ -3,7 +3,6 @@ package edu.kit.elst.rest_api;
 import edu.kit.elst.course_conceptualization.CourseNotFoundException;
 import edu.kit.elst.course_conceptualization.CourseSchedule;
 import edu.kit.elst.course_conceptualization.CourseService;
-import edut.kit.elst.rest_api.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

@@ -5,8 +5,6 @@ import edu.kit.elst.building_blocks.BuildingBlockService;
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
 import edu.kit.elst.course_conceptualization.*;
-import edut.kit.elst.rest_api.Page;
-import edut.kit.elst.rest_api.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -124,8 +122,8 @@ public class PageController implements PageApi {
         return dto;
     }
 
-    private edut.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(PageBuildingBlock pageBuildingBlock, BuildingBlock buildingBlock) {
-        edut.kit.elst.rest_api.PageBuildingBlock dto = new edut.kit.elst.rest_api.PageBuildingBlock();
+    private edu.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(PageBuildingBlock pageBuildingBlock, BuildingBlock buildingBlock) {
+        edu.kit.elst.rest_api.PageBuildingBlock dto = new edu.kit.elst.rest_api.PageBuildingBlock();
 
         dto.setPageBuildingBlockId(pageBuildingBlock.id().value());
         dto.setVersion(BuildingBlockMapper.mapToBuildingBlockVersion(pageBuildingBlock.version()));

@@ -2,8 +2,6 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
 import edu.kit.elst.course_implementation.ReadMeAppService;
-import edut.kit.elst.rest_api.EditFileContentRequest;
-import edut.kit.elst.rest_api.FileApi;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

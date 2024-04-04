@@ -1,8 +1,5 @@
 package edu.kit.elst.rest_api;
 
-import edut.kit.elst.rest_api.BuildingBlock;
-import edut.kit.elst.rest_api.BuildingBlockVersion;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
