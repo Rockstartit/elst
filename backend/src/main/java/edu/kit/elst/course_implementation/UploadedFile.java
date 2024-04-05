@@ -23,6 +23,7 @@ public class UploadedFile {
     private byte[] data;
 
     public UploadedFile(String name, String type, byte[] data) {
+        this.id = UploadedFiles.nextIdentity();
         this.name = name;
         this.type = type;
         this.data = data;
