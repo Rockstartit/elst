@@ -64,6 +64,44 @@ export const FileApiAxiosParamCreator = function (configuration?: Configuration)
     return {
         /**
          * 
+         * @summary Download building block mockup
+         * @param {string} mockupId Id of mockup
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadMockup: async (mockupId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'mockupId' is not null or undefined
+            assertParamExists('downloadMockup', 'mockupId', mockupId)
+            const localVarPath = `/mockups/{mockupId}`
+                .replace(`{${"mockupId"}}`, encodeURIComponent(String(mockupId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Edit building block readme
          * @param {string} buildingBlockId Id of building block
          * @param {number} version Version of building block
@@ -112,6 +150,48 @@ export const FileApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary Get building block mockups
+         * @param {string} buildingBlockId Id of building block
+         * @param {number} version Version of building block
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBuildingBlockMockups: async (buildingBlockId: string, version: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'buildingBlockId' is not null or undefined
+            assertParamExists('getBuildingBlockMockups', 'buildingBlockId', buildingBlockId)
+            // verify required parameter 'version' is not null or undefined
+            assertParamExists('getBuildingBlockMockups', 'version', version)
+            const localVarPath = `/building-blocks/{buildingBlockId}/{version}/mockups`
+                .replace(`{${"buildingBlockId"}}`, encodeURIComponent(String(buildingBlockId)))
+                .replace(`{${"version"}}`, encodeURIComponent(String(version)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get building block readme
          * @param {string} buildingBlockId Id of building block
          * @param {number} version Version of building block
@@ -152,6 +232,59 @@ export const FileApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Upload mockups for a building block
+         * @param {string} buildingBlockId ID of building block
+         * @param {number} version Version of building block
+         * @param {Array<File>} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadMockup: async (buildingBlockId: string, version: number, file?: Array<File>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'buildingBlockId' is not null or undefined
+            assertParamExists('uploadMockup', 'buildingBlockId', buildingBlockId)
+            // verify required parameter 'version' is not null or undefined
+            assertParamExists('uploadMockup', 'version', version)
+            const localVarPath = `/building-blocks/{buildingBlockId}/{version}/mockups`
+                .replace(`{${"buildingBlockId"}}`, encodeURIComponent(String(buildingBlockId)))
+                .replace(`{${"version"}}`, encodeURIComponent(String(version)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (file) {
+                file.forEach((element) => {
+                    localVarFormParams.append('file', element as any);
+                })
+            }
+
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -162,6 +295,19 @@ export const FileApiAxiosParamCreator = function (configuration?: Configuration)
 export const FileApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FileApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @summary Download building block mockup
+         * @param {string} mockupId Id of mockup
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async downloadMockup(mockupId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.downloadMockup(mockupId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FileApi.downloadMockup']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
         /**
          * 
          * @summary Edit building block readme
@@ -179,6 +325,20 @@ export const FileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get building block mockups
+         * @param {string} buildingBlockId Id of building block
+         * @param {number} version Version of building block
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBuildingBlockMockups(buildingBlockId: string, version: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBuildingBlockMockups(buildingBlockId, version, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FileApi.getBuildingBlockMockups']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Get building block readme
          * @param {string} buildingBlockId Id of building block
          * @param {number} version Version of building block
@@ -189,6 +349,21 @@ export const FileApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getBuildingBlockReadMe(buildingBlockId, version, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FileApi.getBuildingBlockReadMe']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Upload mockups for a building block
+         * @param {string} buildingBlockId ID of building block
+         * @param {number} version Version of building block
+         * @param {Array<File>} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async uploadMockup(buildingBlockId: string, version: number, file?: Array<File>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadMockup(buildingBlockId, version, file, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FileApi.uploadMockup']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -203,6 +378,16 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
     return {
         /**
          * 
+         * @summary Download building block mockup
+         * @param {string} mockupId Id of mockup
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        downloadMockup(mockupId: string, options?: any): AxiosPromise<object> {
+            return localVarFp.downloadMockup(mockupId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Edit building block readme
          * @param {string} buildingBlockId Id of building block
          * @param {number} version Version of building block
@@ -215,6 +400,17 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @summary Get building block mockups
+         * @param {string} buildingBlockId Id of building block
+         * @param {number} version Version of building block
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBuildingBlockMockups(buildingBlockId: string, version: number, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.getBuildingBlockMockups(buildingBlockId, version, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get building block readme
          * @param {string} buildingBlockId Id of building block
          * @param {number} version Version of building block
@@ -223,6 +419,18 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
          */
         getBuildingBlockReadMe(buildingBlockId: string, version: number, options?: any): AxiosPromise<string> {
             return localVarFp.getBuildingBlockReadMe(buildingBlockId, version, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Upload mockups for a building block
+         * @param {string} buildingBlockId ID of building block
+         * @param {number} version Version of building block
+         * @param {Array<File>} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadMockup(buildingBlockId: string, version: number, file?: Array<File>, options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.uploadMockup(buildingBlockId, version, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -234,6 +442,18 @@ export const FileApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class FileApi extends BaseAPI {
+    /**
+     * 
+     * @summary Download building block mockup
+     * @param {string} mockupId Id of mockup
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileApi
+     */
+    public downloadMockup(mockupId: string, options?: RawAxiosRequestConfig) {
+        return FileApiFp(this.configuration).downloadMockup(mockupId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Edit building block readme
@@ -250,6 +470,19 @@ export class FileApi extends BaseAPI {
 
     /**
      * 
+     * @summary Get building block mockups
+     * @param {string} buildingBlockId Id of building block
+     * @param {number} version Version of building block
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileApi
+     */
+    public getBuildingBlockMockups(buildingBlockId: string, version: number, options?: RawAxiosRequestConfig) {
+        return FileApiFp(this.configuration).getBuildingBlockMockups(buildingBlockId, version, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Get building block readme
      * @param {string} buildingBlockId Id of building block
      * @param {number} version Version of building block
@@ -259,6 +492,20 @@ export class FileApi extends BaseAPI {
      */
     public getBuildingBlockReadMe(buildingBlockId: string, version: number, options?: RawAxiosRequestConfig) {
         return FileApiFp(this.configuration).getBuildingBlockReadMe(buildingBlockId, version, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Upload mockups for a building block
+     * @param {string} buildingBlockId ID of building block
+     * @param {number} version Version of building block
+     * @param {Array<File>} [file] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FileApi
+     */
+    public uploadMockup(buildingBlockId: string, version: number, file?: Array<File>, options?: RawAxiosRequestConfig) {
+        return FileApiFp(this.configuration).uploadMockup(buildingBlockId, version, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

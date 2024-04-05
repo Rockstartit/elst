@@ -164,12 +164,20 @@
                         <java8>true</java8>
                         <useTags>true</useTags>
                     </configOptions>
+                    <typeMappings>
+                        <typeMapping>
+                            Resource=org.springframework.web.multipart.MultipartFile
+                        </typeMapping>
+                    </typeMappings>
                     <importMappings>
                         <importMapping>
                             ReleaseStatus=edu.kit.elst.building_blocks.ReleaseStatus
                         </importMapping>
                         <importMapping>
                             RequirementType=edu.kit.elst.course_implementation.RequirementType
+                        </importMapping>
+                        <importMapping>
+                            ByteArray=byte[]
                         </importMapping>
                     </importMappings>
                 </configuration>

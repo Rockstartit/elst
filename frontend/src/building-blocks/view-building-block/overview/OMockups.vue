@@ -1,17 +1,10 @@
 <template>
   <q-carousel v-bind="$props" v-model="slide" v-model:fullscreen="fullscreen">
     <q-carousel-slide
-      :name="1"
-      img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-    <q-carousel-slide
-      :name="2"
-      img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-    <q-carousel-slide
-      :name="3"
-      img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-    <q-carousel-slide
-      :name="4"
-      img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+      v-for="(imgSrc, index) in imgSources"
+      :key="'mockup-img-' + index"
+      :name="index + 1"
+      :img-src="imgSrc" />
 
     <template v-slot:control>
       <q-carousel-control position="bottom-right" :offset="[18, 18]">
@@ -29,10 +22,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { QCarouselProps } from 'quasar';
+import {onMounted, ref} from 'vue';
+import {QCarouselProps} from 'quasar';
+import {BuildingBlockVersion} from "src/services/generated/openapi/building_blocks";
+import {useStorage} from "src/building-blocks/view-building-block/mockups/useStorage";
+import {fileApi} from "src/services";
 
-withDefaults(defineProps<Omit<QCarouselProps, 'fullscreen'>>(), {
+const { downloadMockupImage } = useStorage();
+
+const props = withDefaults(defineProps<{
+  buildingBlockVersion: BuildingBlockVersion
+} & Omit<QCarouselProps, 'fullscreen'>>(), {
   swipeable: true,
   animated: true,
   thumbnails: true,
@@ -41,4 +41,20 @@ withDefaults(defineProps<Omit<QCarouselProps, 'fullscreen'>>(), {
 
 const slide = ref(1);
 const fullscreen = ref(false);
+
+const imgSources = ref<string[]>([])
+
+onMounted(() => {
+  fileApi.getBuildingBlockMockups(props.buildingBlockVersion.buildingBlockId, props.buildingBlockVersion.version).then(response => {
+    return Promise.allSettled(response.data.map((mockupId) => downloadMockupImage(mockupId))).then(response => {
+      imgSources.value = response.filter(result => result.status === 'fulfilled').map(result => {
+        if (result.status === 'fulfilled') {
+          return result.value;
+        }
+
+        return ''
+      });
+    })
+  })
+})
 </script>

@@ -1,6 +1,7 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.core.Guards;
 import edu.kit.elst.course_implementation.MockupId;
 import edu.kit.elst.course_implementation.ReadMeAppService;
 import edu.kit.elst.course_implementation.StorageService;
@@ -10,7 +11,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -46,11 +47,8 @@ public class FileController implements FileApi {
         return ResponseEntity.ok(content);
     }
 
-    @PostMapping("/building-blocks/{buildingBlockId}/{version}/mockups")
-    public ResponseEntity<List<UUID>> uploadMockup(
-            @Parameter(in = ParameterIn.PATH, description = "Id of building block", required=true, schema=@Schema()) @PathVariable("buildingBlockId") UUID buildingBlockId,
-            @Parameter(in = ParameterIn.PATH, description = "Version of building block", required=true, schema=@Schema()) @PathVariable("version") BigDecimal versionNumber,
-            @RequestParam("file") MultipartFile[] files) {
+    @Override
+    public ResponseEntity<List<UUID>> uploadMockup(UUID buildingBlockId, BigDecimal versionNumber, List<MultipartFile> files) {
         BuildingBlockVersion buildingBlockVersion = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
 
         Collection<MockupId> mockupIds = new ArrayList<>();
@@ -65,22 +63,8 @@ public class FileController implements FileApi {
                 .toList());
     }
 
-    @GetMapping("/building-blocks/{buildingBlockId}/{version}/mockups")
-    public ResponseEntity<List<UUID>> getAllMockups(
-            @Parameter(in = ParameterIn.PATH, description = "Id of building block", required=true, schema=@Schema()) @PathVariable("buildingBlockId") UUID buildingBlockId,
-            @Parameter(in = ParameterIn.PATH, description = "Version of building block", required=true, schema=@Schema()) @PathVariable("version") BigDecimal versionNumber) {
-        BuildingBlockVersion buildingBlockVersion = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
-
-        Collection<MockupId> mockupIds = storageService.getMockups(buildingBlockVersion);
-
-        return ResponseEntity.ok(mockupIds.stream()
-                .map(MockupId::value)
-                .toList());
-    }
-
-    @GetMapping("/mockups/{mockupId}")
-    public ResponseEntity<byte[]> downloadMockup(
-            @Parameter(in = ParameterIn.PATH, description = "Id of mockup", required=true, schema=@Schema()) @PathVariable("mockupId") UUID mockupId) {
+    @Override
+    public ResponseEntity<byte[]> downloadMockup(UUID mockupId) {
         MockupId aMockupId = new MockupId(mockupId);
 
         UploadedFile uploadedFile = storageService.getMockupFile(aMockupId)
@@ -89,5 +73,16 @@ public class FileController implements FileApi {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + uploadedFile.name() + "\"")
                 .body(uploadedFile.data());
+    }
+
+    @Override
+    public ResponseEntity<List<UUID>> getBuildingBlockMockups(UUID buildingBlockId, BigDecimal versionNumber) {
+        BuildingBlockVersion buildingBlockVersion = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
+
+        Collection<MockupId> mockupIds = storageService.getMockups(buildingBlockVersion);
+
+        return ResponseEntity.ok(mockupIds.stream()
+                .map(MockupId::value)
+                .toList());
     }
 }

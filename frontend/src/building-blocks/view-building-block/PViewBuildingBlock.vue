@@ -13,6 +13,9 @@
         <q-tab-panel name="requirements" class="bg-grey-1">
           <TRequirements :building-block-version="buildingBlock.version" />
         </q-tab-panel>
+        <q-tab-panel name="mockups" class="bg-grey-1">
+          <TMockups :building-block-version="buildingBlock.version" />
+        </q-tab-panel>
       </q-tab-panels>
     </div>
   </PBase>
@@ -33,6 +36,7 @@ import OBuildingBlockHeader, {
 } from 'src/building-blocks/view-building-block/OBuildingBlockHeader.vue';
 import TBuildingBlockOverview from 'src/building-blocks/view-building-block/overview/TBuildingBlockOverview.vue';
 import TRequirements from 'src/building-blocks/view-building-block/requirements/TRequirements.vue';
+import TMockups from "src/building-blocks/view-building-block/mockups/TMockups.vue";
 
 const quasar = useQuasar();
 
