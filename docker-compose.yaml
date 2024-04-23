@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+  elst:
+    build: .
+    environment:
+      DB_USERNAME: 'root'
+      DATABASE_URL: db:3306
+    ports:
+      - '8500:8500'
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'elst'
+      MYSQL_USER: 'elst'
+      MYSQL_PASSWORD: 'elst-pw'
+      MYSQL_ROOT_PASSWORD: 'elst-pw'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+volumes:
+  my-db:
