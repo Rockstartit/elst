@@ -1,14 +1,10 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
-import edu.kit.elst.core.Guards;
 import edu.kit.elst.course_implementation.MockupId;
 import edu.kit.elst.course_implementation.ReadMeAppService;
-import edu.kit.elst.course_implementation.StorageService;
-import edu.kit.elst.course_implementation.UploadedFile;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Schema;
+import edu.kit.elst.content_upload.StorageService;
+import edu.kit.elst.content_upload.UploadedFile;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package edu.kit.elst.course_implementation;
+package edu.kit.elst.content_upload;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

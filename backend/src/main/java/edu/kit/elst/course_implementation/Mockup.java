@@ -1,6 +1,7 @@
 package edu.kit.elst.course_implementation;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.content_upload.UploadedFile;
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.users.UserId;
 import jakarta.persistence.*;

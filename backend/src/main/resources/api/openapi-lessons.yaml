@@ -1,0 +1,638 @@
+openapi: 3.0.3
+info:
+  title: Lessons
+  description: E-Learning Specification Tool Courses
+  version: 1.0.0
+servers:
+  - url: http://localhost:8500
+security:
+  - bearerAuth: []
+paths:
+  /lessons:
+    get:
+      tags:
+        - Lesson
+      summary: Get all lessons
+      operationId: getAllLessons
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LessonOverview"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    post:
+      tags:
+        - Lesson
+      summary: Create new lesson
+      operationId: createLesson
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLessonRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /lessons/{lessonId}:
+    get:
+      tags:
+        - Lesson
+      summary: Get lessons
+      operationId: getLesson
+      parameters:
+        - name: lessonId
+          in: path
+          description: Id of lesson
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lesson"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    patch:
+      tags:
+        - Lesson
+      summary: Edit lesson
+      operationId: editLesson
+      parameters:
+        - name: lessonId
+          in: path
+          description: Id of lesson
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditLessonRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Lesson
+      summary: Delete lesson
+      operationId: deleteLesson
+      parameters:
+        - name: lessonId
+          in: path
+          description: Id of lesson
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /lessons/{lessonId}/teaching-units:
+    post:
+      tags:
+        - Teaching Unit
+      summary: Create teaching unit
+      operationId: createTeachingUnit
+      parameters:
+        - name: lessonId
+          in: path
+          description: Id of lesson
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTeachingUnitRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /teaching-units/{teachingUnitId}:
+    get:
+      tags:
+        - Teaching Unit
+      summary: Get teaching unit
+      operationId: getTeachingUnit
+      parameters:
+        - name: teachingUnitId
+          in: path
+          description: Id of teaching unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeachingUnit"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    patch:
+      tags:
+        - Teaching Unit
+      summary: Edit teaching unit
+      operationId: editTeachingUnit
+      parameters:
+        - name: teachingUnitId
+          in: path
+          description: Id of teaching unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditTeachingUnitRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Teaching Unit
+      summary: Delete teaching unit
+      operationId: deleteTeachingUnit
+      parameters:
+        - name: teachingUnitId
+          in: path
+          description: Id of teaching unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /teaching-units/{teachingUnitId}/teaching-phases:
+    post:
+      tags:
+        - Teaching Phase
+      summary: Create teaching phase
+      operationId: createTeachingPhase
+      parameters:
+        - name: teachingUnitId
+          in: path
+          description: Id of teaching unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTeachingPhaseRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityId'
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /teaching-phases/{teachingPhaseId}:
+    patch:
+      tags:
+        - Teaching Phase
+      summary: Edit teaching phase
+      operationId: editTeachingPhase
+      parameters:
+        - name: teachingPhaseId
+          in: path
+          description: Id of teaching phase
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditTeachingPhaseRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Teaching Phase
+      summary: Delete teaching phase
+      operationId: deleteTeachingPhase
+      parameters:
+        - name: teachingPhaseId
+          in: path
+          description: Id of teaching phase
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /teaching-phases/{teachingPhaseId}/learning-materials:
+    post:
+      tags:
+        - Learning Material
+      summary: Upload learning material
+      operationId: uploadLearningMaterial
+      parameters:
+        - in: path
+          name: teachingPhaseId
+          description: ID of teaching phase
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                fileName:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityId'
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
+  /learning-materials/{learningMaterialId}:
+    patch:
+      tags:
+        - Learning Material
+      summary: Edit learning material
+      operationId: editLearningMaterial
+      parameters:
+        - in: path
+          name: learningMaterialId
+          description: ID of learning material
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditLearningMaterialRequest'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
+    delete:
+      tags:
+        - Learning Material
+      summary: Delete learning material
+      operationId: deleteLearningMaterial
+      parameters:
+        - in: path
+          name: learningMaterialId
+          description: ID of learning material
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    ByteArray:
+      type: object
+    FileContent:
+      type: string
+      example: Inhalt einer Datei
+    CreateLessonRequest:
+      type: object
+      required:
+        - topic
+      properties:
+        topic:
+          type: string
+          example: Bienen
+    EditLessonRequest:
+      type: object
+      properties:
+        topic:
+          type: string
+          example: Bienen
+        instructionalParameters:
+          $ref: "#/components/schemas/InstructionalParameters"
+        educationalComponents:
+          $ref: "#/components/schemas/EducationalComponents"
+        preparationFactors:
+          $ref: "#/components/schemas/PreparationFactors"
+        license:
+          type: string
+          example: Frei zugänglich
+    InstructionalParameters:
+      type: object
+      required:
+        - subject
+        - targetAudience
+        - schedule
+      properties:
+        subject:
+          type: string
+          example: Biologie
+        targetAudience:
+          type: string
+          example: 8. Klasse
+        schedule:
+          type: string
+          example: jedes Jahr
+    EducationalComponents:
+      type: object
+      required:
+        - acquiredCompetences
+        - instructionMethods
+        - thematicAreas
+      properties:
+        acquiredCompetences:
+          type: string
+          example: Umgang mit Bienen
+        instructionMethods:
+          type: string
+          example: Praxis und Videos
+        thematicAreas:
+          type: string
+          example: Natur
+    PreparationFactors:
+      type: object
+      properties:
+        learningPrerequisites:
+          type: string
+          example: Keine Bienenallergie
+        priorKnowledge:
+          type: string
+          example: Imkerkurs
+        curriculumAlignment:
+          type: string
+          example: Bildungsplan BW
+        frameworkConditions:
+          type: string
+          example: Keine
+    LessonOverview:
+      type: object
+      required:
+        - id
+        - topic
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+    Lesson:
+      type: object
+      required:
+        - id
+        - topic
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+        subject:
+          type: string
+          example: Biologie
+        targetAudience:
+          type: string
+          example: 8. Klasse
+        schedule:
+          type: string
+          example: jedes Jahr
+        priorKnowledge:
+          type: string
+          example: Imkerkurs
+        curriculumAlignment:
+          type: string
+          example: Bildungsplan BW
+        frameworkConditions:
+          type: string
+          example: Keine
+        learningPrerequisites:
+          type: string
+          example: Keine Bienenallergie
+        acquiredCompetences:
+          type: string
+          example: Umgang mit Bienen
+        instructionMethods:
+          type: string
+          example: Praxis und Videos
+        thematicAreas:
+          type: string
+          example: Natur
+        license:
+          type: string
+          example: Frei zugänglich
+        teachingUnits:
+          type: array
+          items:
+            $ref: "#/components/schemas/TeachingUnitOverview"
+    CreateTeachingUnitRequest:
+      type: object
+      required:
+        - topic
+      properties:
+        topic:
+          type: string
+          example: Bienen
+    EditTeachingUnitRequest:
+      type: object
+      properties:
+        topic:
+          type: string
+          example: Bienen
+        acquiredCompetences:
+          type: string
+          example: Umgang mit Bienen
+        roughContentAnalysis:
+          type: string
+          example: Analyse
+        didacticConsiderations:
+          type: string
+          example: Didaktische Überlegungen
+    TeachingUnitOverview:
+      type: object
+      required:
+        - id
+        - topic
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+    TeachingUnit:
+      type: object
+      required:
+        - id
+        - topic
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+        acquiredCompetences:
+          type: string
+          example: Umgang mit Bienen
+        roughContentAnalysis:
+          type: string
+          example: Analyse
+        didacticConsiderations:
+          type: string
+          example: Didaktische Überlegungen
+        teachingPhases:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeachingPhase'
+    CreateTeachingPhaseRequest:
+      type: object
+      required:
+        - topic
+      properties:
+        topic:
+          type: string
+          example: Bienen
+    EditTeachingPhaseRequest:
+      type: object
+      properties:
+        topic:
+          type: string
+          example: Bienen
+        timeFrame:
+          type: number
+          example: 240
+        phase:
+          $ref: '#/components/schemas/LearningCyclePhase'
+    TeachingPhase:
+      type: object
+      required:
+        - id
+        - topic
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+        timeFrame:
+          type: number
+          example: 240
+        phase:
+          $ref: '#/components/schemas/LearningCyclePhase'
+        learningMaterials:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningMaterial'
+    EditLearningMaterialRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Lernplan
+    LearningMaterial:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        fileId:
+          $ref: '#/components/schemas/EntityId'
+        name:
+          type: string
+          example: Lernplan
+    LearningCyclePhase:
+      type: string
+      enum:
+        - CONCEPTUALIZATION
+        - CONSTRUCTION
+        - DIALOG
+    EntityId:
+      type: string
+      format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
