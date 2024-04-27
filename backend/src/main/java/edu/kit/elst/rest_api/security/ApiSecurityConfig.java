@@ -20,6 +20,9 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -42,12 +45,27 @@ public class ApiSecurityConfig implements WebMvcConfigurer {
 
     @Bean
     @Order(1)
+    public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
+        RequestMatcher publicEndpoints = new OrRequestMatcher(
+                new AntPathRequestMatcher("/public/**")
+        );
+
+        return http
+                .securityMatcher(publicEndpoints)
+                .authorizeHttpRequests(configurer -> configurer.anyRequest().permitAll())
+                .cors(configurer -> configurer.configurationSource(corsConfigurationSource()))
+                // since we use stateless authentication, we disable csrf protection (https://www.baeldung.com/spring-security-csrf#stateless-spring-api)
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            @Qualifier("handlerExceptionResolver") HandlerExceptionResolver handlerExceptionResolver) throws Exception {
         return http
                 .addFilterAfter(userExtractorFilter(), BearerTokenAuthenticationFilter.class)
                 .addFilterBefore(new FilterChainExceptionHandler(handlerExceptionResolver), JwtUserExtractorFilter.class)
-                .authorizeHttpRequests(configurer -> configurer.anyRequest().authenticated())
                 .oauth2ResourceServer(configurer -> configurer
                         .jwt(jwtConfigurer -> jwtConfigurer
                                 .decoder(jwtDecoder())

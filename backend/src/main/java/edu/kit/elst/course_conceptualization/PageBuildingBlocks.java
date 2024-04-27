@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 @Repository
-public interface PageBuildingBlocks extends CrudRepository<PageBuildingBlock, PageBuildingBlockId> {
+interface PageBuildingBlocks extends CrudRepository<PageBuildingBlock, PageBuildingBlockId> {
     static PageBuildingBlockId nextIdentity() {
         return new PageBuildingBlockId(UUID.randomUUID());
     }

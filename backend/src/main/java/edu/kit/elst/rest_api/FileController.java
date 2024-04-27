@@ -1,7 +1,7 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
-import edu.kit.elst.course_implementation.MockupId;
+import edu.kit.elst.course_conceptualization.MockupId;
 import edu.kit.elst.course_implementation.ReadMeAppService;
 import edu.kit.elst.content_upload.StorageService;
 import edu.kit.elst.content_upload.UploadedFile;
@@ -40,44 +40,5 @@ public class FileController implements FileApi {
         String content = readMeAppService.getReadMe(buildingBlockVersion);
 
         return ResponseEntity.ok(content);
-    }
-
-    @Override
-    public ResponseEntity<List<UUID>> uploadMockup(UUID buildingBlockId, BigDecimal versionNumber, List<MultipartFile> files) {
-        BuildingBlockVersion buildingBlockVersion = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
-
-        Collection<MockupId> mockupIds = new ArrayList<>();
-
-        for (MultipartFile file : files) {
-            MockupId mockupId = storageService.uploadMockup(buildingBlockVersion, file, "UI Mockup");
-            mockupIds.add(mockupId);
-        }
-
-        return ResponseEntity.ok(mockupIds.stream()
-                .map(MockupId::value)
-                .toList());
-    }
-
-    @Override
-    public ResponseEntity<byte[]> downloadMockup(UUID mockupId) {
-        MockupId aMockupId = new MockupId(mockupId);
-
-        UploadedFile uploadedFile = storageService.getMockupFile(aMockupId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + uploadedFile.name() + "\"")
-                .body(uploadedFile.data());
-    }
-
-    @Override
-    public ResponseEntity<List<UUID>> getBuildingBlockMockups(UUID buildingBlockId, BigDecimal versionNumber) {
-        BuildingBlockVersion buildingBlockVersion = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
-
-        Collection<MockupId> mockupIds = storageService.getMockups(buildingBlockVersion);
-
-        return ResponseEntity.ok(mockupIds.stream()
-                .map(MockupId::value)
-                .toList());
     }
 }

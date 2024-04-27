@@ -14,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class CourseUnitId implements Serializable {
-    @Column(name = "course_unit_id")
+public class CourseId implements Serializable {
+    @Column(name = "course_id")
     private final UUID value;
 
-    public CourseUnitId(UUID value) {
+    public CourseId(UUID value) {
         Guards.notNull(value, "value");
 
         this.value = value;
@@ -28,7 +28,7 @@ public class CourseUnitId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CourseUnitId that = (CourseUnitId) o;
+        CourseId that = (CourseId) o;
         return Objects.equals(value, that.value);
     }
 

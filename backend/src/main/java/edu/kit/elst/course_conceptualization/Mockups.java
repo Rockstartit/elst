@@ -1,6 +1,5 @@
-package edu.kit.elst.course_implementation;
+package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.building_blocks.BuildingBlockVersion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,6 +14,6 @@ public interface Mockups extends JpaRepository<Mockup, MockupId> {
     }
 
     @Query("select mockup.id from Mockup mockup " +
-            "where mockup.buildingBlockVersion = :buildingBlockVersion")
-    Collection<MockupId> findAllMockupsByBuildingBlockVersion(BuildingBlockVersion buildingBlockVersion);
+            "where mockup.pageId = :pageId")
+    Collection<MockupId> findAllMockupsByBuildingBlockVersion(PageId pageId);
 }

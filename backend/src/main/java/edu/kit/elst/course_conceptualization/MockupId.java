@@ -14,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class TopicId implements Serializable {
-    @Column(name = "topic_id")
+public class MockupId implements Serializable {
+    @Column(name = "mockup_id")
     private final UUID value;
 
-    public TopicId(UUID value) {
+    public MockupId(UUID value) {
         Guards.notNull(value, "value");
 
         this.value = value;
@@ -28,7 +28,7 @@ public class TopicId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TopicId that = (TopicId) o;
+        MockupId that = (MockupId) o;
         return Objects.equals(value, that.value);
     }
 

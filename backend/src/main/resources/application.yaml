@@ -34,6 +34,7 @@ spring:
     enabled: false
     check-template-location: false
   mvc:
+    static-path-pattern: /public/**
     format:
       date: iso
       date-time: iso

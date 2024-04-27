@@ -1,11 +1,14 @@
 package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.lesson_planning.TeachingPhaseId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -19,16 +22,20 @@ public class Page {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private CourseUnit courseUnit;
+    private Course course;
+
+    private TeachingPhaseId teachingPhaseId;
 
     private String title;
 
-    public Page(CourseUnit courseUnit, String title) {
-        Guards.notNull(courseUnit, "courseUnit");
+    public Page(Course course, TeachingPhaseId teachingPhaseId, String title) {
+        Guards.notNull(course, "course");
+        Guards.notNull(teachingPhaseId, "teachingPhaseId");
         Guards.notEmptyBlankOrNull(title, "title");
 
         this.id = Pages.nextIdentity();
-        this.courseUnit = courseUnit;
+        this.course = course;
+        this.teachingPhaseId = teachingPhaseId;
         this.title = title;
     }
 }

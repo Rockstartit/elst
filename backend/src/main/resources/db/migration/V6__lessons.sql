@@ -1,0 +1,9 @@
+create table learning_materials (material_id binary(16) not null, description varchar(255), file_id binary(16), name varchar(255), teaching_phase_teaching_phase_id binary(16) not null, primary key (material_id)) engine=InnoDB;
+create table lessons (lesson_id binary(16) not null, acquired_competences varchar(1024), curriculum_alignment varchar(4048), framework_conditions varchar(512), instruction_methods varchar(255), learning_prerequisites varchar(1024), license varchar(255), prior_knowledge varchar(512), schedule varchar(255), subject varchar(255), target_audience varchar(255), thematic_areas varchar(512), topic varchar(255), primary key (lesson_id)) engine=InnoDB;
+
+create table teaching_units (teaching_unit_id binary(16) not null, acquired_competences varchar(1024), didactic_considerations varchar(4048), rough_content_analysis varchar(4048), topic varchar(255), lesson_lesson_id binary(16) not null, primary key (teaching_unit_id)) engine=InnoDB;
+create table teaching_phase (teaching_phase_id binary(16) not null, phase tinyint, time_frame decimal(21,0), topic varchar(255), teaching_unit_teaching_unit_id binary(16) not null, primary key (teaching_phase_id)) engine=InnoDB;
+
+alter table learning_materials add constraint FKlfnptvdqtmtjdkynpcywmm2oc foreign key (teaching_phase_teaching_phase_id) references teaching_phase (teaching_phase_id);
+alter table teaching_units add constraint FKr99iraf7u7g25ve2n7lxluxft foreign key (lesson_lesson_id) references lessons (lesson_id);
+alter table teaching_phase add constraint FKbst13auefhu6ias79t614fvd1 foreign key (teaching_unit_teaching_unit_id) references teaching_units (teaching_unit_id);

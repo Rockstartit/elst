@@ -1,10 +1,11 @@
-package edu.kit.elst.course_implementation;
+package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.building_blocks.BuildingBlockVersion;
-import edu.kit.elst.content_upload.UploadedFile;
+import edu.kit.elst.content_upload.FileId;
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.users.UserId;
-import jakarta.persistence.*;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,24 +20,20 @@ public class Mockup {
     @EmbeddedId
     private final MockupId id;
 
-    @JoinColumn(name = "file_id")
-    @OneToOne(optional = false, orphanRemoval = true, fetch = FetchType.LAZY)
-    private UploadedFile file;
-
-    private BuildingBlockVersion buildingBlockVersion;
-
+    private final PageId pageId;
+    private final FileId fileId;
     private UserId createdBy;
     private String description;
 
-    public Mockup(BuildingBlockVersion buildingBlockVersion, UploadedFile file, UserId createdBy) {
-        Guards.notNull(file, "file");
+    public Mockup(PageId pageId, FileId fileId, UserId createdBy) {
+        Guards.notNull(fileId, "fileId");
+        Guards.notNull(pageId, "pageId");
         Guards.notNull(createdBy, "createdBy");
-        Guards.notNull(buildingBlockVersion, "buildingBlockVersion");
 
         this.id = Mockups.nextIdentity();
-        this.file = file;
+        this.pageId = pageId;
+        this.fileId = fileId;
         this.createdBy = createdBy;
-        this.buildingBlockVersion = buildingBlockVersion;
     }
 
     public void setDescription(String description) {
