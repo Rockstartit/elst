@@ -8,6 +8,36 @@ servers:
 security:
   - bearerAuth: []
 paths:
+  /lessons/{lessonId}/courses:
+    post:
+      tags:
+        - Course
+      summary: Create new course
+      operationId: createCourse
+      parameters:
+        - name: lessonId
+          in: path
+          description: Id of lesson
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourseRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
   /courses:
     get:
       tags:
@@ -25,29 +55,7 @@ paths:
                   $ref: "#/components/schemas/Course"
         401:
           description: Not Authenticated
-    post:
-      tags:
-        - Course
-      summary: Create new course
-      operationId: createCourse
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCourseRequest'
-        required: true
-      responses:
-        200:
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CourseVersion"
-        400:
-          description: Invalid Request
-        401:
-          description: Not Authenticated
-  /courses/{courseId}/{version}:
+  /courses/{courseId}:
     get:
       tags:
         - Course
@@ -60,12 +68,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
-        - name: version
-          in: path
-          description: Version of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/VersionNumber'
       responses:
         200:
           description: Ok
@@ -89,12 +91,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
-        - name: version
-          in: path
-          description: Version of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/VersionNumber'
       requestBody:
         content:
           application/json:
@@ -120,12 +116,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
-        - name: version
-          in: path
-          description: Version of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/VersionNumber'
       responses:
         200:
           description: ok
@@ -133,349 +123,16 @@ paths:
           description: Not Found
         401:
           description: Not Authenticated
-  /courses/{courseId}/{version}/evolve:
-    post:
-      tags:
-        - Course
-      summary: Evolve course
-      operationId: evolveCourse
-      parameters:
-        - name: courseId
-          in: path
-          description: Id of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-        - name: version
-          in: path
-          description: Version of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/VersionNumber'
-      responses:
-        200:
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CourseVersion"
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-  /courses/{courseId}/{version}/course-units:
-    get:
-      tags:
-        - Course Unit
-      summary: Get course units of course
-      operationId: getAllCourseUnits
-      parameters:
-        - name: courseId
-          in: path
-          description: Id of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-        - name: version
-          in: path
-          description: Version of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/VersionNumber'
-      responses:
-        200:
-          description: ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/CourseUnit"
-
-        401:
-          description: Not Authenticated
-    post:
-      tags:
-        - Course Unit
-      summary: Create course unit
-      operationId: createCourseUnit
-      parameters:
-        - name: courseId
-          in: path
-          description: Id of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-        - name: version
-          in: path
-          description: Version of course
-          required: true
-          schema:
-            $ref: '#/components/schemas/VersionNumber'
-      responses:
-        200:
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EntityId"
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-  /course-units/{courseUnitId}:
-    get:
-      tags:
-        - Course Unit
-      summary: Get course unit
-      operationId: getCourseUnit
-      parameters:
-        - name: courseUnitId
-          in: path
-          description: Id of course unit
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      responses:
-        200:
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CourseUnit'
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-    patch:
-      tags:
-        - Course Unit
-      summary: Edit course unit
-      operationId: editCourseUnit
-      parameters:
-        - name: courseUnitId
-          in: path
-          description: Id of course unit
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EditCourseUnitRequest'
-        required: true
-      responses:
-        200:
-          description: ok
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-    delete:
-      tags:
-        - Course Unit
-      summary: Delete course unit
-      operationId: deleteCourseUnit
-      parameters:
-        - name: courseUnitId
-          in: path
-          description: Id of course unit
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      responses:
-        200:
-          description: ok
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-  /course-units/{courseUnitId}/topics:
-    get:
-      tags:
-        - Course Unit
-      summary: Get Topics
-      operationId: getTopics
-      parameters:
-        - name: courseUnitId
-          in: path
-          description: Id of course unit
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      responses:
-        200:
-          description: ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/CourseTopic"
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-    post:
-      tags:
-        - Course Unit
-      summary: Create Topic
-      operationId: createTopic
-      parameters:
-        - name: courseUnitId
-          in: path
-          description: Id of course unit
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddTopicRequest'
-        required: true
-      responses:
-        200:
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EntityId"
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-  /topics/{topicId}:
-    patch:
-      tags:
-        - Course Unit
-      summary: Edit topic
-      operationId: editTopic
-      parameters:
-        - name: topicId
-          in: path
-          description: Id of topic
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EditTopicRequest'
-        required: true
-      responses:
-        200:
-          description: ok
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-    delete:
-      tags:
-        - Course Unit
-      summary: Delete topic
-      operationId: deleteTopic
-      parameters:
-        - name: topicId
-          in: path
-          description: Id of topic
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      responses:
-        200:
-          description: ok
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-  /topics/{topicId}/subtopics:
-    post:
-      tags:
-        - Course Unit
-      summary: Create Subtopic
-      operationId: createSubtopic
-      parameters:
-        - name: topicId
-          in: path
-          description: Id of topic
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddSubtopicRequest'
-        required: true
-      responses:
-        200:
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EntityId"
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-  /subtopics/{subtopicId}:
-    patch:
-      tags:
-        - Course Unit
-      summary: Edit subtopic
-      operationId: editSubtopic
-      parameters:
-        - name: subtopicId
-          in: path
-          description: Id of subtopic
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EditSubtopicRequest'
-        required: true
-      responses:
-        200:
-          description: ok
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-    delete:
-      tags:
-        - Course Unit
-      summary: Delete subtopic
-      operationId: deleteSubtopic
-      parameters:
-        - name: subtopicId
-          in: path
-          description: Id of subtopic
-          required: true
-          schema:
-            $ref: '#/components/schemas/EntityId'
-      responses:
-        200:
-          description: ok
-        404:
-          description: Not Found
-        401:
-          description: Not Authenticated
-  /course-units/{courseUnitId}/pages:
+  /courses/{courseId}/pages:
     get:
       tags:
         - Page
       summary: Get pages
       operationId: getPages
       parameters:
-        - name: courseUnitId
+        - name: courseId
           in: path
-          description: Id of course unit
+          description: Id of course
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
@@ -498,9 +155,9 @@ paths:
       summary: Create page
       operationId: createPage
       parameters:
-        - name: courseUnitId
+        - name: courseId
           in: path
-          description: Id of course unit
+          description: Id of course
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
@@ -508,7 +165,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddPageRequest'
+              $ref: '#/components/schemas/CreatePageRequest'
         required: true
       responses:
         200:
@@ -589,6 +246,51 @@ paths:
           description: Not Found
         401:
           description: Not Authenticated
+  /page-links:
+    post:
+      tags:
+        - Page
+      summary: Link pages
+      operationId: linkPages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkPagesRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+  /page-links/{pageId}/to/{targetPageId}:
+    post:
+      tags:
+        - Page
+      summary: Link pages
+      operationId: linkPages
+      parameters:
+        - name: pageId
+          in: path
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: targetPageId
+          in: path
+          description: Id of target page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
   /pages/{pageId}/page-building-blocks:
     post:
       tags:
@@ -643,197 +345,143 @@ paths:
           description: Not Found
         401:
           description: Not Authenticated
+  /pages/{pageId}/mockups:
+    post:
+      tags:
+        - Mockup
+      summary: Upload mockup
+      operationId: uploadMockup
+      parameters:
+        - in: path
+          name: pageId
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                fileName:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityId'
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
+  /mockups/{mockupId}:
+    patch:
+      tags:
+        - Mockup
+      summary: Edit mockup
+      operationId: editMockup
+      parameters:
+        - in: path
+          name: mockupId
+          description: ID of mockup
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditMockupRequest'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
+    delete:
+      tags:
+        - Mockup
+      summary: Delete mockup
+      operationId: deleteMockup
+      parameters:
+        - in: path
+          name: learningMaterialId
+          description: Id of mockup
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
 components:
   schemas:
+    CourseOverview:
+      type: object
+      required:
+        - id
+        - technologyWish
+      properties:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        lessonId:
+          $ref: "#/components/schemas/EntityId"
+        technologyWish:
+          type: string
+          example: Wordpress
     Course:
       type: object
       required:
         - id
-        - version
-        - name
-        - code
-      allOf:
-        - $ref: "#/components/schemas/CourseInformation"
-        - $ref: "#/components/schemas/Prerequisite"
-        - properties:
-            id:
-              $ref: "#/components/schemas/EntityId"
-            version:
-              $ref: "#/components/schemas/VersionNumber"
-            schedule:
-              type: string
-              example: Wöchentlich
-    Prerequisite:
-      type: object
+        - technologyWish
       properties:
-        gradRequired:
-          type: boolean
-        knowledge:
+        id:
+          $ref: "#/components/schemas/EntityId"
+        lessonId:
+          $ref: "#/components/schemas/EntityId"
+        technologyWish:
           type: string
-          example: None
-        skills:
+          example: Wordpress
+        notes:
           type: string
-          example: Lesen
-    CourseInformation:
-      type: object
-      required:
-        - name
-        - code
-      properties:
-        code:
-          type: string
-          example: FHRT
-        name:
-          type: string
-          example: Bee Kings
-        creditPoints:
-          type: string
-          example: 8
-        degree:
-          type: string
-          example: Bachelor
-        semester:
-          type: string
-          example: WS23/24
     CreateCourseRequest:
       type: object
       required:
-        - name
-        - code
-      allOf:
-        - $ref: "#/components/schemas/CourseInformation"
+        - technologyWish
+      properties:
+        technologyWish:
+          type: string
+          example: Wordpress
     EditCourseRequest:
       type: object
       properties:
-        schedule:
+        technologyWish:
           type: string
-          example: Wöchentlich
-        information:
-          $ref: "#/components/schemas/CourseInformation"
-        prerequisite:
-          $ref: "#/components/schemas/Prerequisite"
-    EditCourseUnitRequest:
-      type: object
-      properties:
-        description:
+          example: Wordpress
+        notes:
           type: string
-        learningGoals:
-          type: array
-          items:
-            type: string
-        studyMaterials:
-          $ref: "#/components/schemas/StudyMaterials"
-    StudyMaterials:
-      type: object
-      properties:
-        eReading:
-          type: string
-        eBook:
-          type: string
-        bibliography:
-          type: string
-        relatedLinks:
-          type: string
-    CourseUnit:
+    CreatePageRequest:
       type: object
       required:
-        - id
-        - learningGoals
+        - title
+        - teachingPhaseId
       properties:
-        id:
+        title:
+          type: string
+        teachingPhaseId:
           $ref: "#/components/schemas/EntityId"
-        description:
-          type: string
-        learningGoals:
-          type: array
-          items:
-            type: string
-        studyMaterials:
-          $ref: "#/components/schemas/StudyMaterials"
-    AddTopicRequest:
-      type: object
-      required:
-        - title
-      properties:
-        title:
-          type: string
-    CourseTopic:
-      type: object
-      required:
-        - id
-        - title
-        - subtopics
-      properties:
-        id:
-          $ref: "#/components/schemas/EntityId"
-        title:
-          type: string
-        date:
-          type: string
-          format: date
-        description:
-          type: string
-        content:
-          type: string
-        subtopics:
-          type: array
-          items:
-            $ref: "#/components/schemas/CourseSubtopic"
-    CourseSubtopic:
-      type: object
-      required:
-        - id
-        - title
-      properties:
-        id:
-          $ref: "#/components/schemas/EntityId"
-        title:
-          type: string
-        date:
-          type: string
-          format: date
-        description:
-          type: string
-        content:
-          type: string
-    EditTopicRequest:
-      type: object
-      properties:
-        title:
-          type: string
-        date:
-          type: string
-          format: date
-        description:
-          type: string
-        content:
-          type: string
-    AddSubtopicRequest:
-      type: object
-      required:
-        - title
-      properties:
-        title:
-          type: string
-    EditSubtopicRequest:
-      type: object
-      properties:
-        title:
-          type: string
-        date:
-          type: string
-          format: date
-        description:
-          type: string
-        content:
-          type: string
-    AddPageRequest:
-      type: object
-      required:
-        - title
-      properties:
-        title:
-          type: string
     EditPageRequest:
       type: object
       required:
@@ -841,13 +489,26 @@ components:
       properties:
         title:
           type: string
+    LinkPagesRequest:
+      type: object
+      required:
+        - pageId
+        - targetPageId
+      properties:
+        pageId:
+          $ref: "#/components/schemas/EntityId"
+        targetPageId:
+          $ref: "#/components/schemas/EntityId"
     PageOverview:
       type: object
       required:
         - id
+        - teachingPhaseId
         - title
       properties:
         id:
+          $ref: "#/components/schemas/EntityId"
+        teachingPhaseId:
           $ref: "#/components/schemas/EntityId"
         title:
           type: string
@@ -855,10 +516,13 @@ components:
       type: object
       required:
         - id
+        - teachingPhaseId
         - title
         - buildingBlocks
       properties:
         id:
+          $ref: "#/components/schemas/EntityId"
+        teachingPhaseId:
           $ref: "#/components/schemas/EntityId"
         title:
           type: string
@@ -866,6 +530,31 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PageBuildingBlock"
+        linkedPages:
+          type: array
+          items:
+            $ref: "#/components/schemas/PageOverview"
+    Mockup:
+      type: object
+      required:
+        - id
+        - fileId
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        fileId:
+          $ref: '#/components/schemas/EntityId'
+        description:
+          type: string
+          example: Lernplan
+    EditMockupRequest:
+      type: object
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          example: Lernplan
     PageBuildingBlock:
       type: object
       required:
@@ -912,16 +601,6 @@ components:
     VersionNumber:
       type: number
       example: 1
-    CourseVersion:
-      type: object
-      required:
-        - courseId
-        - version
-      properties:
-        courseId:
-          $ref: "#/components/schemas/EntityId"
-        version:
-          $ref: "#/components/schemas/VersionNumber"
     EntityId:
       type: string
       format: uuid

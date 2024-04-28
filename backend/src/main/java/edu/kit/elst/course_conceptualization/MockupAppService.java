@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -39,6 +40,10 @@ public class MockupAppService {
 
     public void deleteMockup(MockupId mockupId) {
         mockups.deleteById(mockupId);
+    }
+
+    public Collection<Mockup> mockups(PageId pageId) {
+        return mockups.findAllByPageId(pageId);
     }
 
     private Optional<Mockup> mockup(MockupId mockupId) {

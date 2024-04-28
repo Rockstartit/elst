@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @AllArgsConstructor
-public class PageService {
+public class PageAppService {
     private final Pages pages;
     private final Courses courses;
     private final PageLinks pageLinks;

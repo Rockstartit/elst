@@ -614,6 +614,9 @@ components:
           example: Lernplan
     LearningMaterial:
       type: object
+      required:
+        - id
+        - fileId
       properties:
         id:
           $ref: '#/components/schemas/EntityId'

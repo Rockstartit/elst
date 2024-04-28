@@ -3,7 +3,6 @@ package edu.kit.elst.course_conceptualization;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -15,7 +14,5 @@ public interface Mockups extends JpaRepository<Mockup, MockupId> {
         return new MockupId(UUID.randomUUID());
     }
 
-    @Query("select mockup.id from Mockup mockup " +
-            "where mockup.pageId = :pageId")
-    Collection<MockupId> findAllMockupsByBuildingBlockVersion(PageId pageId);
+    Collection<Mockup> findAllByPageId(PageId pageId);
 }
