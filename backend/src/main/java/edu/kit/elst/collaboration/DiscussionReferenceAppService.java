@@ -1,8 +1,6 @@
 package edu.kit.elst.collaboration;
 
-import edu.kit.elst.course_conceptualization.CourseId;
-import edu.kit.elst.course_conceptualization.MockupId;
-import edu.kit.elst.course_conceptualization.PageId;
+import edu.kit.elst.core.shared.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

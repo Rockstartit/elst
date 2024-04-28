@@ -1,4 +1,4 @@
-package edu.kit.elst.lesson_planning;
+package edu.kit.elst.core.shared;
 
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
@@ -14,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class TeachingPhaseId implements Serializable {
-    @Column(name = "teaching_phase_id")
+public class FileId implements Serializable {
+    @Column(name = "file_id")
     private final UUID value;
 
-    public TeachingPhaseId(UUID value) {
+    public FileId(UUID value) {
         Guards.notNull(value, "value");
 
         this.value = value;
@@ -28,7 +28,7 @@ public class TeachingPhaseId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TeachingPhaseId that = (TeachingPhaseId) o;
+        FileId that = (FileId) o;
         return Objects.equals(value, that.value);
     }
 

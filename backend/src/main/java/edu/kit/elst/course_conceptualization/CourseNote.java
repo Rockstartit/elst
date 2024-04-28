@@ -1,6 +1,7 @@
 package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.CourseId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
@@ -8,7 +9,6 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.nio.charset.StandardCharsets;
 

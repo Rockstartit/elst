@@ -1,4 +1,4 @@
-package edu.kit.elst.collaboration;
+package edu.kit.elst.core.shared;
 
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
@@ -14,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class DiscussionId implements Serializable {
-    @Column(name = "discussion_id")
+public class TeachingPhaseId implements Serializable {
+    @Column(name = "teaching_phase_id")
     private final UUID value;
 
-    public DiscussionId(UUID value) {
+    public TeachingPhaseId(UUID value) {
         Guards.notNull(value, "value");
 
         this.value = value;
@@ -28,7 +28,7 @@ public class DiscussionId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DiscussionId that = (DiscussionId) o;
+        TeachingPhaseId that = (TeachingPhaseId) o;
         return Objects.equals(value, that.value);
     }
 

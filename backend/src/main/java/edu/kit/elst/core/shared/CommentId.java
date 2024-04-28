@@ -1,4 +1,4 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.core.shared;
 
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
@@ -14,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class PageId implements Serializable {
-    @Column(name = "page_id")
+public class CommentId implements Serializable {
+    @Column(name = "comment_id")
     private final UUID value;
 
-    public PageId(UUID value) {
+    public CommentId(UUID value) {
         Guards.notNull(value, "value");
 
         this.value = value;
@@ -28,7 +28,7 @@ public class PageId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PageId that = (PageId) o;
+        CommentId that = (CommentId) o;
         return Objects.equals(value, that.value);
     }
 

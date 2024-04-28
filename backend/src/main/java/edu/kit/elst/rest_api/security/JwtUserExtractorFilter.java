@@ -1,7 +1,7 @@
 package edu.kit.elst.rest_api.security;
 
 import edu.kit.elst.core.UserContext;
-import edu.kit.elst.users.UserId;
+import edu.kit.elst.core.shared.UserId;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

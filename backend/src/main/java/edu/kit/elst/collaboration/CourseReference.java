@@ -1,7 +1,7 @@
 package edu.kit.elst.collaboration;
 
 import edu.kit.elst.core.Guards;
-import edu.kit.elst.course_conceptualization.CourseId;
+import edu.kit.elst.core.shared.CourseId;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.Getter;

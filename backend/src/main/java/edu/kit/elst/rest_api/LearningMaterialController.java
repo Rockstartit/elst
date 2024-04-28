@@ -1,8 +1,8 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.lesson_planning.LearningMaterialAppService;
-import edu.kit.elst.lesson_planning.LearningMaterialId;
-import edu.kit.elst.lesson_planning.TeachingPhaseId;
+import edu.kit.elst.core.shared.LearningMaterialId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

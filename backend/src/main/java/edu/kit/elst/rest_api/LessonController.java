@@ -1,5 +1,6 @@
 package edu.kit.elst.rest_api;
 
+import edu.kit.elst.core.shared.LessonId;
 import edu.kit.elst.lesson_planning.*;
 import edu.kit.elst.lesson_planning.TeachingUnit;
 import lombok.AllArgsConstructor;

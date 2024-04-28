@@ -2,6 +2,7 @@ package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.PageBuildingBlockId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

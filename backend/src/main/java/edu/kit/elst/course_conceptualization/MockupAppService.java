@@ -1,8 +1,10 @@
 package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.content_upload.FileId;
+import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.content_upload.StorageService;
 import edu.kit.elst.core.UserContext;
+import edu.kit.elst.core.shared.MockupId;
+import edu.kit.elst.core.shared.PageId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

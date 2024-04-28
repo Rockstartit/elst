@@ -1,6 +1,7 @@
 package edu.kit.elst.lesson_planning;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.LessonId;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

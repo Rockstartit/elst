@@ -1,4 +1,4 @@
-package edu.kit.elst.users;
+package edu.kit.elst.core.shared;
 
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
@@ -14,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class UserId implements Serializable {
-    @Column(name = "user_id")
-    private final String value;
+public class LearningMaterialId implements Serializable {
+    @Column(name = "material_id")
+    private final UUID value;
 
-    public UserId(String value) {
+    public LearningMaterialId(UUID value) {
         Guards.notNull(value, "value");
 
         this.value = value;
@@ -28,7 +28,7 @@ public class UserId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserId that = (UserId) o;
+        LearningMaterialId that = (LearningMaterialId) o;
         return Objects.equals(value, that.value);
     }
 
@@ -39,6 +39,6 @@ public class UserId implements Serializable {
 
     @Override
     public String toString() {
-        return value;
+        return value.toString();
     }
 }

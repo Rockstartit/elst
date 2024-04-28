@@ -1,6 +1,7 @@
 package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.PageId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

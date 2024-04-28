@@ -1,7 +1,8 @@
 package edu.kit.elst.collaboration;
 
 import edu.kit.elst.core.Guards;
-import edu.kit.elst.users.UserId;
+import edu.kit.elst.core.shared.CommentId;
+import edu.kit.elst.core.shared.UserId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package edu.kit.elst.core;
 
-import edu.kit.elst.users.UserId;
+import edu.kit.elst.core.shared.UserId;
 
 public class UserContext {
     private static final ThreadLocal<UserId> userId = new ThreadLocal<>();

@@ -1,6 +1,7 @@
 package edu.kit.elst.lesson_planning;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.TeachingPhaseId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

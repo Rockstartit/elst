@@ -1,15 +1,14 @@
 package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.Guards;
-import edu.kit.elst.lesson_planning.LessonId;
-import edu.kit.elst.users.UserId;
+import edu.kit.elst.core.shared.CourseId;
+import edu.kit.elst.core.shared.LessonId;
+import edu.kit.elst.core.shared.UserId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Optional;
 
 @Entity
 @Setter

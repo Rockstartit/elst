@@ -1,5 +1,6 @@
 package edu.kit.elst.content_upload;
 
+import edu.kit.elst.core.shared.FileId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

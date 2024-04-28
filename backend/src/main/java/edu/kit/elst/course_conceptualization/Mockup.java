@@ -1,8 +1,10 @@
 package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.content_upload.FileId;
+import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.core.Guards;
-import edu.kit.elst.users.UserId;
+import edu.kit.elst.core.shared.MockupId;
+import edu.kit.elst.core.shared.PageId;
+import edu.kit.elst.core.shared.UserId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

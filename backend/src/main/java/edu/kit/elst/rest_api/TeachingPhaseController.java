@@ -1,8 +1,8 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.lesson_planning.TeachingPhaseAppService;
-import edu.kit.elst.lesson_planning.TeachingPhaseId;
-import edu.kit.elst.lesson_planning.TeachingUnitId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.core.shared.TeachingUnitId;
 import edu.kit.elst.lesson_planning.Topic;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

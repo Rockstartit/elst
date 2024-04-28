@@ -1,7 +1,9 @@
 package edu.kit.elst.collaboration;
 
 import edu.kit.elst.core.UserContext;
-import edu.kit.elst.users.UserId;
+import edu.kit.elst.core.shared.CommentId;
+import edu.kit.elst.core.shared.DiscussionId;
+import edu.kit.elst.core.shared.UserId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

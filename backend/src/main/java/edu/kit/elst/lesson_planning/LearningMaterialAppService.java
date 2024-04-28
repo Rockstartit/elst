@@ -1,7 +1,9 @@
 package edu.kit.elst.lesson_planning;
 
-import edu.kit.elst.content_upload.FileId;
+import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.content_upload.StorageService;
+import edu.kit.elst.core.shared.LearningMaterialId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

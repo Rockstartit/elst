@@ -1,7 +1,9 @@
 package edu.kit.elst.lesson_planning;
 
-import edu.kit.elst.content_upload.FileId;
+import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.LearningMaterialId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

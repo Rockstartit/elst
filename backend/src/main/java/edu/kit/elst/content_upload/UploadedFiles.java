@@ -1,5 +1,6 @@
 package edu.kit.elst.content_upload;
 
+import edu.kit.elst.core.shared.FileId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

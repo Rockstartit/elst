@@ -1,5 +1,8 @@
 package edu.kit.elst.rest_api;
 
+import edu.kit.elst.core.shared.LessonId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.core.shared.TeachingUnitId;
 import edu.kit.elst.lesson_planning.*;
 import edu.kit.elst.lesson_planning.LearningMaterial;
 import edu.kit.elst.lesson_planning.TeachingPhase;

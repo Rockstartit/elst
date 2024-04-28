@@ -1,4 +1,4 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.core.shared;
 
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
@@ -14,11 +14,11 @@ import java.util.UUID;
 @Getter
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class MockupId implements Serializable {
-    @Column(name = "mockup_id")
+public class LessonId implements Serializable {
+    @Column(name = "lesson_id")
     private final UUID value;
 
-    public MockupId(UUID value) {
+    public LessonId(UUID value) {
         Guards.notNull(value, "value");
 
         this.value = value;
@@ -28,7 +28,7 @@ public class MockupId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MockupId that = (MockupId) o;
+        LessonId that = (LessonId) o;
         return Objects.equals(value, that.value);
     }
 

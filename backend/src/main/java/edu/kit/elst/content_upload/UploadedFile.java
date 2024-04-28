@@ -1,5 +1,6 @@
 package edu.kit.elst.content_upload;
 
+import edu.kit.elst.core.shared.FileId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;

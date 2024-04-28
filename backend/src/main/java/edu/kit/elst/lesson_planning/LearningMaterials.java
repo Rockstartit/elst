@@ -1,5 +1,7 @@
 package edu.kit.elst.lesson_planning;
 
+import edu.kit.elst.core.shared.LearningMaterialId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

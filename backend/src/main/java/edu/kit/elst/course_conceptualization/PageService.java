@@ -1,7 +1,10 @@
 package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
-import edu.kit.elst.lesson_planning.TeachingPhaseId;
+import edu.kit.elst.core.shared.CourseId;
+import edu.kit.elst.core.shared.PageBuildingBlockId;
+import edu.kit.elst.core.shared.PageId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

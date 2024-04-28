@@ -1,7 +1,8 @@
 package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.UserContext;
-import edu.kit.elst.lesson_planning.LessonId;
+import edu.kit.elst.core.shared.CourseId;
+import edu.kit.elst.core.shared.LessonId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

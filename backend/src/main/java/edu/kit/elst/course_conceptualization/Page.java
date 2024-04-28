@@ -1,14 +1,13 @@
 package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.Guards;
-import edu.kit.elst.lesson_planning.TeachingPhaseId;
+import edu.kit.elst.core.shared.PageId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Collection;
 
 @Entity
 @Getter

@@ -1,7 +1,8 @@
 package edu.kit.elst.collaboration;
 
 import edu.kit.elst.core.Guards;
-import edu.kit.elst.users.UserId;
+import edu.kit.elst.core.shared.DiscussionId;
+import edu.kit.elst.core.shared.UserId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

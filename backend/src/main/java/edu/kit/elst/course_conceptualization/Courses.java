@@ -1,12 +1,11 @@
 package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.lesson_planning.LessonId;
+import edu.kit.elst.core.shared.CourseId;
+import edu.kit.elst.core.shared.LessonId;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository

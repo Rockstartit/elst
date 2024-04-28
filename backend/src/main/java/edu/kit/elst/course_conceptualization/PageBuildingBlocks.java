@@ -1,5 +1,6 @@
 package edu.kit.elst.course_conceptualization;
 
+import edu.kit.elst.core.shared.PageBuildingBlockId;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
