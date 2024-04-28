@@ -1,0 +1,73 @@
+---
+servers:
+- url: "http://localhost:8080"
+openapi: "3.0.3"
+security:
+    - bearerAuth: []
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+paths:
+  /teaching-phases/{teachingPhaseId}:
+    $ref: "./openapi-lessons.yaml#/paths/~1teaching-phases~1{teachingPhaseId}"
+  /topics/{topicId}/subtopics:
+    $ref: "./openapi-courses.yaml#/paths/~1topics~1{topicId}~1subtopics"
+  /lessons/{lessonId}/teaching-units:
+    $ref: "./openapi-lessons.yaml#/paths/~1lessons~1{lessonId}~1teaching-units"
+  /mockups/{mockupId}:
+    $ref: "./openapi-files.yaml#/paths/~1mockups~1{mockupId}"
+  /subtopics/{subtopicId}:
+    $ref: "./openapi-courses.yaml#/paths/~1subtopics~1{subtopicId}"
+  /course-units/{courseUnitId}:
+    $ref: "./openapi-courses.yaml#/paths/~1course-units~1{courseUnitId}"
+  /building-blocks/{buildingBlockId}/{version}/mockups:
+    $ref: "./openapi-files.yaml#/paths/~1building-blocks~1{buildingBlockId}~1{version}~1mockups"
+  /teaching-phases/{teachingPhaseId}/learning-materials:
+    $ref: "./openapi-lessons.yaml#/paths/~1teaching-phases~1{teachingPhaseId}~1learning-materials"
+  /building-blocks:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks"
+  /teaching-units/{teachingUnitId}/teaching-phases:
+    $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}~1teaching-phases"
+  /building-blocks/{buildingBlockId}/{version}:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1{version}"
+  /requirements/{requirementId}:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1requirements~1{requirementId}"
+  /courses:
+    $ref: "./openapi-courses.yaml#/paths/~1courses"
+  /pages/{pageId}/page-building-blocks:
+    $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}~1page-building-blocks"
+  /page-building-blocks/{pageBuildingBlockId}:
+    $ref: "./openapi-courses.yaml#/paths/~1page-building-blocks~1{pageBuildingBlockId}"
+  /building-blocks/{buildingBlockId}/{version}/readme:
+    $ref: "./openapi-files.yaml#/paths/~1building-blocks~1{buildingBlockId}~1{version}~1readme"
+  /building-blocks/{buildingBlockId}/{version}/requirements:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1{version}~1requirements"
+  /course-units/{courseUnitId}/topics:
+    $ref: "./openapi-courses.yaml#/paths/~1course-units~1{courseUnitId}~1topics"
+  /teaching-units/{teachingUnitId}:
+    $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}"
+  /learning-materials/{learningMaterialId}:
+    $ref: "./openapi-lessons.yaml#/paths/~1learning-materials~1{learningMaterialId}"
+  /courses/{courseId}/{version}/course-units:
+    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1{version}~1course-units"
+  /lessons:
+    $ref: "./openapi-lessons.yaml#/paths/~1lessons"
+  /pages/{pageId}:
+    $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}"
+  /courses/{courseId}/{version}:
+    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1{version}"
+  /course-units/{courseUnitId}/pages:
+    $ref: "./openapi-courses.yaml#/paths/~1course-units~1{courseUnitId}~1pages"
+  /lessons/{lessonId}:
+    $ref: "./openapi-lessons.yaml#/paths/~1lessons~1{lessonId}"
+  /topics/{topicId}:
+    $ref: "./openapi-courses.yaml#/paths/~1topics~1{topicId}"
+  /courses/{courseId}/{version}/evolve:
+    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1{version}~1evolve"
+info:
+  title: "merged spec"
+  description: "merged spec"
+  version: "1.0.0"

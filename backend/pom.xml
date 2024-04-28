@@ -108,12 +108,6 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>io.swagger.codegen.v3</groupId>
-            <artifactId>swagger-codegen-maven-plugin</artifactId>
-            <version>3.0.51</version>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -144,85 +138,55 @@
             </plugin>
 
             <plugin>
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>3.0.51</version>
-                <configuration>
-                    <inputSpec>${project.basedir}/src/main/resources/api/openapi-building-blocks.yaml</inputSpec>
-                    <modelPackage>edu.kit.elst.rest_api</modelPackage>
-                    <apiPackage>edu.kit.elst.rest_api</apiPackage>
-                    <generateApiTests>false</generateApiTests>
-                    <generateModelTests>false</generateModelTests>
-                    <language>spring</language>
-                    <additionalProperties>
-                        <additionalProperty>ignoreImportMappings=false</additionalProperty>
-                    </additionalProperties>
-                    <generateSupportingFiles>false</generateSupportingFiles>
-                    <configOptions>
-                        <sourceFolder>src/gen/java/main</sourceFolder>
-                        <interfaceOnly>true</interfaceOnly>
-                        <java8>true</java8>
-                        <useTags>true</useTags>
-                    </configOptions>
-                    <typeMappings>
-                        <typeMapping>
-                            Resource=org.springframework.web.multipart.MultipartFile
-                        </typeMapping>
-                    </typeMappings>
-                    <importMappings>
-                        <importMapping>
-                            ReleaseStatus=edu.kit.elst.building_blocks.ReleaseStatus
-                        </importMapping>
-                        <importMapping>
-                            RequirementType=edu.kit.elst.course_implementation.RequirementType
-                        </importMapping>
-                        <importMapping>
-                            LearningCyclePhase=edu.kit.elst.lesson_planning.LearningCyclePhase
-                        </importMapping>
-                        <importMapping>
-                            ByteArray=byte[]
-                        </importMapping>
-                    </importMappings>
-                </configuration>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.4.0</version>
                 <executions>
                     <execution>
-                        <id>building-block-openapi</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api/openapi-building-blocks.yaml</inputSpec>
-                            <language>spring</language>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>courses-openapi</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api/openapi-courses.yaml</inputSpec>
-                            <language>spring</language>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>files-openapi</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api/openapi-files.yaml</inputSpec>
-                            <language>spring</language>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>lessons-openapi</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api/openapi-lessons.yaml</inputSpec>
-                            <language>spring</language>
+                            <inputSpecRootDirectory>${project.basedir}/src/main/resources/api</inputSpecRootDirectory>
+                            <generatorName>spring</generatorName>
+                            <modelPackage>edu.kit.elst.rest_api</modelPackage>
+                            <apiPackage>edu.kit.elst.rest_api</apiPackage>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <additionalProperties>
+                                <additionalProperty>ignoreImportMappings=false</additionalProperty>
+                            </additionalProperties>
+                            <globalProperties>
+                                <!--
+                                    Don't skip form model (multipart/form-data) generation as this has a bug as described in:
+                                    https://github.com/OpenAPITools/openapi-generator/issues/12036
+                                -->
+                                <skipFormModel>false</skipFormModel><!-- default: true -->
+                            </globalProperties>
+                            <configOptions>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <interfaceOnly>true</interfaceOnly>
+                                <java8>true</java8>
+                                <dateLibrary>java8</dateLibrary>
+                                <!-- <useOptional>true</useOptional> -->
+                                <useTags>true</useTags>
+                                <openApiNullable>false</openApiNullable>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useOneOfInterfaces>true</useOneOfInterfaces>
+                                <legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                            </configOptions>
+                            <typeMappings>
+                                <typeMapping>Resource=org.springframework.web.multipart.MultipartFile</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>ReleaseStatus=edu.kit.elst.building_blocks.ReleaseStatus</importMapping>
+                                <importMapping>RequirementType=edu.kit.elst.course_implementation.RequirementType</importMapping>
+                                <importMapping>LearningCyclePhase=edu.kit.elst.lesson_planning.LearningCyclePhase</importMapping>
+                                <importMapping>ByteArray=byte[]</importMapping>
+                            </importMappings>
+                            <skipValidateSpec>false</skipValidateSpec>
+                            <mergedFileName>openapi-merged</mergedFileName>
                         </configuration>
                     </execution>
                 </executions>
@@ -240,13 +204,25 @@
                         </goals>
                     </execution>
                 </executions>
+                <!-- Required since the merged file does not contain security specification but frontend requires it to use access token. -->
                 <configuration>
                     <includes>
-                        <include>${project.basedir}/target/generated-sources/swagger/src/gen/java/**/*.java</include>
+                        <include>${project.basedir}/src/main/resources/api/openapi-merged.yaml</include>
                     </includes>
                     <regex>false</regex>
-                    <token>javax.servlet</token>
-                    <value>jakarta.servlet</value>
+                    <token>paths:</token>
+                    <!-- Formatting is important to preserve correctness of yaml format -->
+                    <value>
+security:
+    - bearerAuth: []
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+paths:
+                    </value>
                 </configuration>
             </plugin>
         </plugins>
