@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.nio.charset.StandardCharsets;
 
@@ -31,6 +32,10 @@ public class CourseNote {
         Guards.notNull(content, "content");
 
         this.content = content.getBytes(StandardCharsets.UTF_8);
+    }
+
+    public void content(String content) {
+        this.content = content.getBytes();
     }
 
     public String content() {

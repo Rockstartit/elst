@@ -36,7 +36,7 @@ public class Mockup {
         this.createdBy = createdBy;
     }
 
-    public void setDescription(String description) {
+    public void description(String description) {
         this.description = Objects.requireNonNullElse(description, "");
     }
 }

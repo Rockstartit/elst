@@ -14,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CourseAppService {
     private final Courses courses;
+    private final CourseNotes courseNotes;
 
     public CourseId createCourse(LessonId lessonId, TechnologyWish technologyWish) {
         Course course = new Course(lessonId, technologyWish, UserContext.getUserId());
@@ -23,11 +24,20 @@ public class CourseAppService {
         return course.id();
     }
 
-    public void editCourse(CourseId courseId, TechnologyWish technologyWish) {
+    public void editTechnologyWish(CourseId courseId, TechnologyWish technologyWish) {
         Course course = course(courseId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
 
         course.technologyWish(technologyWish);
+    }
+
+    public void editCourseNotes(CourseId courseId, String content) {
+        CourseNote courseNote = courseNotes.findById(courseId)
+                .orElse(new CourseNote(courseId));
+
+        courseNote.content(content);
+
+        courseNotes.save(courseNote);
     }
 
     public void deleteCourse(CourseId courseId) {
