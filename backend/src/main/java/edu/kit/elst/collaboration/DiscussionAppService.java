@@ -31,6 +31,13 @@ public class DiscussionAppService {
         return discussion.id();
     }
 
+    public void editDiscussionTitle(DiscussionId discussionId, String title) {
+        Discussion discussion = discussion(discussionId)
+                .orElseThrow(() -> new DiscussionNotFoundException(discussionId));
+
+        discussion.title(title);
+    }
+
     public void resolveDiscussion(DiscussionId discussionId) {
         Discussion discussion = discussion(discussionId)
                 .orElseThrow(() -> new DiscussionNotFoundException(discussionId));
@@ -65,7 +72,7 @@ public class DiscussionAppService {
         comments.deleteById(commentId);
     }
 
-    public List<Comment> comments(DiscussionId discussionId) {
+    public List<Comment> orderedComments(DiscussionId discussionId) {
         Discussion discussion = discussions.getReferenceById(discussionId);
 
         return comments.findAllByDiscussion(discussion);

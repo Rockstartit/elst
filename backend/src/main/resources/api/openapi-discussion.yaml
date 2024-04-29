@@ -1,0 +1,300 @@
+openapi: 3.0.3
+info:
+  title: Discussions
+  description: E-Learning Specification Tool Courses
+  version: 1.0.0
+servers:
+  - url: http://localhost:8500
+security:
+  - bearerAuth: []
+paths:
+  /discussions:
+    get:
+      tags:
+        - Discussion
+      summary: Get all discussions
+      operationId: getAllDiscussions
+      parameters:
+        - name: courseId
+          in: query
+          description: Id of course
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: pageId
+          in: query
+          description: Id of page
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: mockupId
+          in: query
+          description: Id of mockup
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Discussion"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    post:
+      tags:
+        - Discussion
+      summary: Start new discussion
+      operationId: startDiscussion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartDiscussionRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /discussions/{discussionId}:
+    post:
+      tags:
+        - Discussion
+      summary: Resolve discussion
+      operationId: resolveDiscussion
+      parameters:
+        - name: discussionId
+          in: path
+          description: Id of discussion
+          schema:
+            $ref: '#/components/schemas/EntityId'
+          required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    patch:
+      tags:
+        - Discussion
+      summary: Edit discussion
+      operationId: editDiscussion
+      parameters:
+        - name: discussionId
+          in: path
+          description: Id of discussion
+          schema:
+            $ref: '#/components/schemas/EntityId'
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditDiscussionRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    get:
+      tags:
+        - Discussion
+      summary: Get all discussions
+      operationId: getDiscussion
+      parameters:
+        - name: discussionId
+          in: path
+          description: Id of discussion
+          schema:
+            $ref: '#/components/schemas/EntityId'
+          required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Discussion"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /discussions/{discussionId}/comments:
+    post:
+      tags:
+        - Discussion
+      summary: Add comment to discussion
+      operationId: addComment
+      parameters:
+        - name: discussionId
+          in: path
+          description: Id of discussion
+          schema:
+            $ref: '#/components/schemas/EntityId'
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCommentRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityId"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /comments/{commentId}:
+    patch:
+      tags:
+        - Discussion
+      summary: Edit comment
+      operationId: editComment
+      parameters:
+        - name: commentId
+          in: path
+          description: Id of comment
+          schema:
+            $ref: '#/components/schemas/EntityId'
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditCommentRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Discussion
+      summary: Delete comment
+      operationId: deleteComment
+      parameters:
+        - name: commentId
+          in: path
+          description: Id of comment
+          schema:
+            $ref: '#/components/schemas/EntityId'
+          required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+components:
+  schemas:
+    Discussion:
+      type: object
+      required:
+        - id
+        - title
+        - createdBy
+        - state
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        title:
+          type: string
+          example: Feedback
+        createdBy:
+          $ref: '#/components/schemas/User'
+        state:
+          $ref: '#/components/schemas/DiscussionState'
+        resolvedAt:
+          type: string
+          format: date-time
+    DiscussionState:
+      type: string
+      enum:
+        - OPEN
+        - RESOLVED
+    User:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        firstName:
+          type: string
+          example: Sofia
+        lastName:
+          type: string
+          example: Mustermann
+    StartDiscussionRequest:
+      type: object
+      required:
+        - title
+        - comment
+      properties:
+        title:
+          type: string
+          example: Feedback
+        comment:
+          type: string
+          example: Sieht gut aus.
+        courseId:
+          $ref: '#/components/schemas/EntityId'
+        pageId:
+          $ref: '#/components/schemas/EntityId'
+        mockupId:
+          $ref: '#/components/schemas/EntityId'
+    EditDiscussionRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          example: Feedback
+    AddCommentRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          example: Danke
+    EditCommentRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          example: Danke
+    EntityId:
+      type: string
+      format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
