@@ -44,6 +44,13 @@ paths:
         - Course
       summary: Get all courses
       operationId: getAllCourses
+      parameters:
+        - name: lessonId
+          in: query
+          description: Id of lesson
+          required: false
+          schema:
+            $ref: '#/components/schemas/EntityId'
       responses:
         200:
           description: ok
@@ -52,7 +59,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Course"
+                  $ref: "#/components/schemas/CourseOverview"
         401:
           description: Not Authenticated
   /courses/{courseId}:

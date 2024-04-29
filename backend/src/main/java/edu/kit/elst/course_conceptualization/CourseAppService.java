@@ -52,4 +52,13 @@ public class CourseAppService {
     public Optional<Course> course(CourseId courseId) {
         return courses.findById(courseId);
     }
+
+    public Collection<Course> courses() {
+        return courses.findAll();
+    }
+
+    public CourseNote courseNote(CourseId courseId) {
+        return courseNotes.findById(courseId)
+                .orElse(new CourseNote(courseId));
+    }
 }
