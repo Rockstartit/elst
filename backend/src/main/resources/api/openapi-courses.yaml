@@ -266,11 +266,11 @@ paths:
         401:
           description: Not Authenticated
   /page-links/{pageId}/to/{targetPageId}:
-    post:
+    delete:
       tags:
         - Page
-      summary: Link pages
-      operationId: linkPages
+      summary: Remove link between pages
+      operationId: removePageLink
       parameters:
         - name: pageId
           in: path
@@ -566,7 +566,7 @@ components:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
         version:
-          $ref: "#/components/schemas/BuildingBlockVersion"
+          $ref: "./openapi-building-blocks.yaml#/components/schemas/BuildingBlockVersion"
         name:
           type: string
         description:
@@ -588,16 +588,6 @@ components:
       enum:
         - IN_DEVELOPMENT
         - RELEASED
-    BuildingBlockVersion:
-      type: object
-      required:
-        - buildingBlockId
-        - version
-      properties:
-        buildingBlockId:
-          $ref: "#/components/schemas/EntityId"
-        version:
-          $ref: "#/components/schemas/VersionNumber"
     VersionNumber:
       type: number
       example: 1

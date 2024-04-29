@@ -80,4 +80,8 @@ public class PageAppService {
 
         return pageBuildingBlocks.findAllByPage(page);
     }
+
+    public Collection<Page> linkedPages(PageId pageId) {
+        return pages.findAllLinkedTo(pageId);
+    }
 }
