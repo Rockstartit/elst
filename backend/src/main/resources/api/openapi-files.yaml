@@ -33,7 +33,8 @@ paths:
 components:
   schemas:
     ByteArray:
-      type: object
+      type: string
+      format: byte
     EntityId:
       type: string
       format: uuid
