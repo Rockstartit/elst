@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -49,5 +50,9 @@ public class Discussion {
 
         this.resolvedAt = resolvedAt;
         this.state = DiscussionState.RESOLVED;
+    }
+
+    public Optional<Instant> resolvedAt() {
+        return Optional.ofNullable(resolvedAt);
     }
 }

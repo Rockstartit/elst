@@ -9,6 +9,7 @@ import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
 import edu.kit.elst.course_conceptualization.PageAppService;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
+import edu.kit.elst.course_conceptualization.PageNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,7 @@ public class PageController implements PageApi {
         PageId aPageId = new PageId(pageId);
 
         edu.kit.elst.course_conceptualization.Page page = pageAppService.page(aPageId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new PageNotFoundException(aPageId));
 
         Collection<PageBuildingBlock> pageBuildingBlocks = pageAppService.pageBuildingBlocks(aPageId);
         Set<BuildingBlockVersion> buildingBlockVersions = pageBuildingBlocks.stream()

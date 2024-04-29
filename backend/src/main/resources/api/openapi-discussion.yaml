@@ -241,7 +241,8 @@ components:
         - id
       properties:
         id:
-          $ref: '#/components/schemas/EntityId'
+          type: string
+          example: auth0|123sdafasd21123dsf
         firstName:
           type: string
           example: Sofia
