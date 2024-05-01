@@ -1,7 +1,6 @@
 import { RouteLocationRaw, useRouter } from 'vue-router';
 import { availableRoutes } from 'src/router/routes';
-import { CourseVersion } from 'src/services/generated/openapi/courses';
-import { BuildingBlockVersion } from 'src/services/generated/openapi/building_blocks';
+import { BuildingBlockVersion } from 'src/services/generated/openapi';
 
 export function useAppRouter() {
   const router = useRouter();
@@ -14,58 +13,27 @@ export function useAppRouter() {
     return router.push(route);
   }
 
-  function viewCourse(courseVersion: CourseVersion) {
+  function browseLessons() {
     return goToRoute({
-      name: availableRoutes.view_course,
+      name: availableRoutes.browse_lessons,
+    });
+  }
+
+  function viewLesson(lessonId: string) {
+    return goToRoute({
+      name: availableRoutes.view_lesson,
       params: {
-        courseId: courseVersion.courseId,
-        version: courseVersion.version,
+        lessonId,
       },
     });
   }
 
-  function viewCourseUnit(courseVersion: CourseVersion, courseUnitId: string) {
-    return goToRoute({
-      name: availableRoutes.view_course_unit,
-      params: {
-        courseId: courseVersion.courseId,
-        version: courseVersion.version,
-        courseUnitId,
-      },
-    });
-  }
-
-  function viewPage(
-    courseVersion: CourseVersion,
-    courseUnitId: string,
-    pageId: string,
-    replace = false
-  ) {
-    const route = {
-      name: availableRoutes.view_page,
-      params: {
-        courseId: courseVersion.courseId,
-        version: courseVersion.version,
-        courseUnitId,
-        pageId,
-      },
-    };
-
-    return goToRoute(route, replace);
-  }
-
-  function selectBuildingBlockRoute(
-    courseVersion: CourseVersion,
-    courseUnitId: string,
-    pageId: string
-  ) {
+  function viewTeachingUnitRoute(lessonId: string, teachingUnitId: string) {
     return {
-      name: availableRoutes.select_building_block,
+      name: availableRoutes.view_teaching_unit,
       params: {
-        courseId: courseVersion.courseId,
-        version: courseVersion.version,
-        courseUnitId,
-        pageId,
+        lessonId,
+        teachingUnitId,
       },
     };
   }
@@ -85,11 +53,10 @@ export function useAppRouter() {
   }
 
   return {
-    viewPage,
-    viewCourse,
-    viewCourseUnit,
+    viewLesson,
+    browseLessons,
     viewBuildingBlock,
+    viewTeachingUnitRoute,
     viewBuildingBlockRoute,
-    selectBuildingBlockRoute,
   };
 }

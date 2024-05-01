@@ -5,6 +5,9 @@ export const availableRoutes = {
   login: 'login',
   login_error: 'login_error',
   login_callback: 'login_callback',
+  browse_lessons: 'browse_lessons',
+  view_lesson: 'view_lesson',
+  view_teaching_unit: 'view_teaching_unit',
   browse_courses: 'browse_courses',
   view_course: 'view_course',
   view_course_unit: 'view_course_unit',
@@ -21,6 +24,25 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     redirect: { name: availableRoutes.browse_courses },
     children: [
+      {
+        name: availableRoutes.browse_lessons,
+        path: 'lessons/browse',
+        props: true,
+        component: () => import('src/lessons/browse/PBrowseLessons.vue'),
+      },
+      {
+        name: availableRoutes.view_lesson,
+        path: 'lessons/:lessonId',
+        props: true,
+        component: () => import('src/lessons/view-lesson/PViewLesson.vue'),
+      },
+      {
+        name: availableRoutes.view_teaching_unit,
+        path: 'lessons/:lessonId/teaching-units/:teachingUnitId',
+        props: true,
+        component: () =>
+          import('src/lessons/view-teaching-unit/PViewTeachingUnit.vue'),
+      },
       {
         name: availableRoutes.browse_courses,
         path: 'courses/browse',

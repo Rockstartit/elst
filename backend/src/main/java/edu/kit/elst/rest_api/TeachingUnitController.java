@@ -67,6 +67,24 @@ public class TeachingUnitController implements TeachingUnitApi {
             teachingUnitAppService.editRoughContentAnalysis(aTeachingUnitId, roughContentAnalysis);
         }
 
+        if (body.getCurriculumAlignment() != null) {
+            CurriculumAlignment curriculumAlignment = new CurriculumAlignment(body.getCurriculumAlignment());
+
+            teachingUnitAppService.editCurriculumAlignment(aTeachingUnitId, curriculumAlignment);
+        }
+
+        if (body.getFrameworkConditions() != null) {
+            FrameworkConditions frameworkConditions = new FrameworkConditions(body.getFrameworkConditions());
+
+            teachingUnitAppService.editFrameworkConditions(aTeachingUnitId, frameworkConditions);
+        }
+
+        if (body.getInstructionMethods() != null) {
+            InstructionMethods instructionMethods = new InstructionMethods(body.getInstructionMethods());
+
+            teachingUnitAppService.editInstructionMethods(aTeachingUnitId, instructionMethods);
+        }
+
         return ResponseEntity.ok().build();
     }
 
@@ -95,8 +113,11 @@ public class TeachingUnitController implements TeachingUnitApi {
         dto.setTopic(teachingUnit.topic().value());
 
         teachingUnit.didacticConsideration().map(DidacticConsideration::value).ifPresent(dto::setDidacticConsiderations);
+        teachingUnit.curriculumAlignment().map(CurriculumAlignment::value).ifPresent(dto::setCurriculumAlignment);
         teachingUnit.roughContentAnalysis().map(RoughContentAnalysis::value).ifPresent(dto::setRoughContentAnalysis);
         teachingUnit.acquiredCompetences().map(AcquiredCompetences::value).ifPresent(dto::setAcquiredCompetences);
+        teachingUnit.instructionMethods().map(InstructionMethods::value).ifPresent(dto::setInstructionMethods);
+        teachingUnit.frameworkConditions().map(FrameworkConditions::value).ifPresent(dto::setFrameworkConditions);
 
         dto.setTeachingPhases(teachingPhases.stream()
                 .map(teachingPhase -> mapToTeachingPhase(teachingPhase, learningMaterials.getOrDefault(teachingPhase.id(), Collections.emptyList())))

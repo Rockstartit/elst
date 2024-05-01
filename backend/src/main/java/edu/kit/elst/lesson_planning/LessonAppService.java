@@ -40,24 +40,13 @@ public class LessonAppService {
         lesson.schedule(schedule);
     }
 
-    public void editPreparationFactors(LessonId lessonId, PriorKnowledge priorKnowledge, CurriculumAlignment curriculumAlignment,
-                                       LearningPrerequisites learningPrerequisites, FrameworkConditions frameworkConditions) {
+    public void editPreparationFactors(LessonId lessonId, PriorKnowledge priorKnowledge,
+                                       LearningPrerequisites learningPrerequisites, ThematicAreas thematicAreas) {
         Lesson lesson = lesson(lessonId)
                 .orElseThrow(() -> new LessonNotFoundException(lessonId));
 
         lesson.priorKnowledge(priorKnowledge);
-        lesson.curriculumAlignment(curriculumAlignment);
         lesson.learningPrerequisites(learningPrerequisites);
-        lesson.frameworkConditions(frameworkConditions);
-    }
-
-    public void editEducationalComponents(LessonId lessonId, AcquiredCompetences acquiredCompetences,
-                                          InstructionMethods instructionMethods, ThematicAreas thematicAreas) {
-        Lesson lesson = lesson(lessonId)
-                .orElseThrow(() -> new LessonNotFoundException(lessonId));
-
-        lesson.acquiredCompetences(acquiredCompetences);
-        lesson.instructionMethods(instructionMethods);
         lesson.thematicAreas(thematicAreas);
     }
 

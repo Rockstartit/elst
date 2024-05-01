@@ -1,6 +1,5 @@
 package edu.kit.elst.lesson_planning;
 
-import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -15,8 +14,6 @@ public class Subject {
     private final String value;
 
     public Subject(String value) {
-        Guards.notEmptyBlankOrNull(value, "value");
-
         this.value = value;
     }
 }

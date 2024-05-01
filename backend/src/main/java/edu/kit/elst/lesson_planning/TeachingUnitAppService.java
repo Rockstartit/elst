@@ -55,6 +55,27 @@ public class TeachingUnitAppService {
         teachingUnit.didacticConsideration(didacticConsideration);
     }
 
+    public void editCurriculumAlignment(TeachingUnitId teachingUnitId, CurriculumAlignment curriculumAlignment) {
+        TeachingUnit teachingUnit = teachingUnit(teachingUnitId)
+                .orElseThrow(() -> new TeachingUnitNotFoundException(teachingUnitId));
+
+        teachingUnit.curriculumAlignment(curriculumAlignment);
+    }
+
+    public void editFrameworkConditions(TeachingUnitId teachingUnitId, FrameworkConditions frameworkConditions) {
+        TeachingUnit teachingUnit = teachingUnit(teachingUnitId)
+                .orElseThrow(() -> new TeachingUnitNotFoundException(teachingUnitId));
+
+        teachingUnit.frameworkConditions(frameworkConditions);
+    }
+
+    public void editInstructionMethods(TeachingUnitId teachingUnitId, InstructionMethods instructionMethods) {
+        TeachingUnit teachingUnit = teachingUnit(teachingUnitId)
+                .orElseThrow(() -> new TeachingUnitNotFoundException(teachingUnitId));
+
+        teachingUnit.instructionMethods(instructionMethods);
+    }
+
     public void deleteTeachingUnit(TeachingUnitId teachingUnitId) {
         teachingPhaseAppService.deleteTeachingPhases(teachingUnitId);
         teachingUnits.deleteById(teachingUnitId);

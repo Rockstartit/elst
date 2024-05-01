@@ -20,6 +20,7 @@ public class TeachingUnit {
     private final TeachingUnitId id;
 
     @Getter(AccessLevel.NONE)
+    @JoinColumn(name = "lesson_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private final Lesson lesson;
 
@@ -33,6 +34,15 @@ public class TeachingUnit {
 
     @Embedded
     private AcquiredCompetences acquiredCompetences;
+
+    @Embedded
+    private CurriculumAlignment curriculumAlignment;
+
+    @Embedded
+    private FrameworkConditions frameworkConditions;
+
+    @Embedded
+    private InstructionMethods instructionMethods;
 
     public TeachingUnit(Lesson lesson, Topic topic) {
         Guards.notNull(lesson, "lesson");
@@ -59,5 +69,17 @@ public class TeachingUnit {
 
     public Optional<AcquiredCompetences> acquiredCompetences() {
         return Optional.ofNullable(acquiredCompetences);
+    }
+
+    public Optional<CurriculumAlignment> curriculumAlignment() {
+        return Optional.ofNullable(curriculumAlignment);
+    }
+
+    public Optional<FrameworkConditions> frameworkConditions() {
+        return Optional.ofNullable(frameworkConditions);
+    }
+
+    public Optional<InstructionMethods> instructionMethods() {
+        return Optional.ofNullable(instructionMethods);
     }
 }

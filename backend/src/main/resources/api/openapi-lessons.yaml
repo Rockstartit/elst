@@ -394,8 +394,6 @@ components:
           example: Bienen
         instructionalParameters:
           $ref: "#/components/schemas/InstructionalParameters"
-        educationalComponents:
-          $ref: "#/components/schemas/EducationalComponents"
         preparationFactors:
           $ref: "#/components/schemas/PreparationFactors"
         license:
@@ -417,24 +415,12 @@ components:
         schedule:
           type: string
           example: jedes Jahr
-    EducationalComponents:
-      type: object
-      required:
-        - acquiredCompetences
-        - instructionMethods
-        - thematicAreas
-      properties:
-        acquiredCompetences:
-          type: string
-          example: Umgang mit Bienen
-        instructionMethods:
-          type: string
-          example: Praxis und Videos
-        thematicAreas:
-          type: string
-          example: Natur
     PreparationFactors:
       type: object
+      required:
+        - learningPrerequisites
+        - priorKnowledge
+        - thematicAreas
       properties:
         learningPrerequisites:
           type: string
@@ -442,12 +428,9 @@ components:
         priorKnowledge:
           type: string
           example: Imkerkurs
-        curriculumAlignment:
+        thematicAreas:
           type: string
-          example: Bildungsplan BW
-        frameworkConditions:
-          type: string
-          example: Keine
+          example: Natur
     LessonOverview:
       type: object
       required:
@@ -464,6 +447,7 @@ components:
       required:
         - id
         - topic
+        - teachingUnits
       properties:
         id:
           $ref: '#/components/schemas/EntityId'
@@ -482,21 +466,9 @@ components:
         priorKnowledge:
           type: string
           example: Imkerkurs
-        curriculumAlignment:
-          type: string
-          example: Bildungsplan BW
-        frameworkConditions:
-          type: string
-          example: Keine
         learningPrerequisites:
           type: string
           example: Keine Bienenallergie
-        acquiredCompetences:
-          type: string
-          example: Umgang mit Bienen
-        instructionMethods:
-          type: string
-          example: Praxis und Videos
         thematicAreas:
           type: string
           example: Natur
@@ -521,6 +493,15 @@ components:
         topic:
           type: string
           example: Bienen
+        curriculumAlignment:
+          type: string
+          example: Bildungsplan BW
+        frameworkConditions:
+          type: string
+          example: Keine
+        instructionMethods:
+          type: string
+          example: Praxis und Videos
         acquiredCompetences:
           type: string
           example: Umgang mit Bienen
@@ -546,12 +527,22 @@ components:
       required:
         - id
         - topic
+        - teachingPhases
       properties:
         id:
           $ref: '#/components/schemas/EntityId'
         topic:
           type: string
           example: Bienen
+        curriculumAlignment:
+          type: string
+          example: Bildungsplan BW
+        frameworkConditions:
+          type: string
+          example: Keine
+        instructionMethods:
+          type: string
+          example: Praxis und Videos
         acquiredCompetences:
           type: string
           example: Umgang mit Bienen
@@ -589,6 +580,7 @@ components:
       required:
         - id
         - topic
+        - learningMaterials
       properties:
         id:
           $ref: '#/components/schemas/EntityId'

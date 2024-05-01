@@ -45,16 +45,6 @@ public class LessonController implements LessonApi {
             lessonAppService.editTopic(aLessonId, topic);
         }
 
-        if (body.getEducationalComponents() != null) {
-            EducationalComponents educationalComponents = body.getEducationalComponents();
-
-            AcquiredCompetences acquiredCompetences = new AcquiredCompetences(educationalComponents.getAcquiredCompetences());
-            InstructionMethods instructionMethods = new InstructionMethods(educationalComponents.getInstructionMethods());
-            ThematicAreas thematicAreas = new ThematicAreas(educationalComponents.getThematicAreas());
-
-            lessonAppService.editEducationalComponents(aLessonId, acquiredCompetences, instructionMethods, thematicAreas);
-        }
-
         if (body.getInstructionalParameters() != null) {
             InstructionalParameters instructionalParameters = body.getInstructionalParameters();
 
@@ -69,11 +59,10 @@ public class LessonController implements LessonApi {
             PreparationFactors preparationFactors = body.getPreparationFactors();
 
             PriorKnowledge priorKnowledge = new PriorKnowledge(preparationFactors.getPriorKnowledge());
-            CurriculumAlignment curriculumAlignment = new CurriculumAlignment(preparationFactors.getCurriculumAlignment());
             LearningPrerequisites learningPrerequisites = new LearningPrerequisites(preparationFactors.getLearningPrerequisites());
-            FrameworkConditions frameworkConditions = new FrameworkConditions(preparationFactors.getFrameworkConditions());
+            ThematicAreas thematicAreas = new ThematicAreas(preparationFactors.getThematicAreas());
 
-            lessonAppService.editPreparationFactors(aLessonId, priorKnowledge, curriculumAlignment, learningPrerequisites, frameworkConditions);
+            lessonAppService.editPreparationFactors(aLessonId, priorKnowledge, learningPrerequisites, thematicAreas);
         }
 
         if (body.getLicense() != null) {
@@ -124,11 +113,7 @@ public class LessonController implements LessonApi {
         lesson.subject().map(Subject::value).ifPresent(dto::setSubject);
         lesson.targetAudience().map(TargetAudience::value).ifPresent(dto::setTargetAudience);
         lesson.priorKnowledge().map(PriorKnowledge::value).ifPresent(dto::setPriorKnowledge);
-        lesson.curriculumAlignment().map(CurriculumAlignment::value).ifPresent(dto::setCurriculumAlignment);
-        lesson.frameworkConditions().map(FrameworkConditions::value).ifPresent(dto::setFrameworkConditions);
         lesson.learningPrerequisites().map(LearningPrerequisites::value).ifPresent(dto::setLearningPrerequisites);
-        lesson.acquiredCompetences().map(AcquiredCompetences::value).ifPresent(dto::setAcquiredCompetences);
-        lesson.instructionMethods().map(InstructionMethods::value).ifPresent(dto::setInstructionMethods);
         lesson.thematicAreas().map(ThematicAreas::value).ifPresent(dto::setThematicAreas);
         lesson.license().map(License::value).ifPresent(dto::setLicense);
 

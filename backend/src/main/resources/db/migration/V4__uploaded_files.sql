@@ -1,0 +1,5 @@
+create table uploaded_files (file_id binary(16) not null, data longblob, name varchar(255), type varchar(255), primary key (file_id)) engine=InnoDB;
+
+create table mockups (mockup_id binary(16) not null, building_block_id binary(16) not null, building_block_version_number bigint not null, user_id varchar(255), description varchar(255), file_id binary(16) not null, primary key (mockup_id)) engine=InnoDB;
+alter table mockups add constraint UK_7xfahx7h8c752nmke5lxbk44o unique (file_id);
+alter table mockups add constraint FK21ombn8gmxdu00gfdbkuljjvd foreign key (file_id) references uploaded_files (file_id);

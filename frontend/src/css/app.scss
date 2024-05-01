@@ -24,4 +24,8 @@ html {
   &__link:hover {
     filter:  brightness(70%);
   }
+
+  &__base-button-width {
+    width: 200px
+  }
 }

@@ -15,8 +15,6 @@ public class AcquiredCompetences {
     private final String value;
 
     public AcquiredCompetences(String value) {
-        Guards.notEmptyBlankOrNull(value, "value");
-
         this.value = value;
     }
 }

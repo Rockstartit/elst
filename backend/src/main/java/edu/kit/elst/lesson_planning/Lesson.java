@@ -41,18 +41,6 @@ public class Lesson {
     private LearningPrerequisites learningPrerequisites;
 
     @Embedded
-    private CurriculumAlignment curriculumAlignment;
-
-    @Embedded
-    private FrameworkConditions frameworkConditions;
-
-    @Embedded
-    private AcquiredCompetences acquiredCompetences;
-
-    @Embedded
-    private InstructionMethods instructionMethods;
-
-    @Embedded
     private ThematicAreas thematicAreas;
 
     @Embedded
@@ -88,22 +76,6 @@ public class Lesson {
 
     public Optional<LearningPrerequisites> learningPrerequisites() {
         return Optional.ofNullable(learningPrerequisites);
-    }
-
-    public Optional<CurriculumAlignment> curriculumAlignment() {
-        return Optional.ofNullable(curriculumAlignment);
-    }
-
-    public Optional<FrameworkConditions> frameworkConditions() {
-        return Optional.ofNullable(frameworkConditions);
-    }
-
-    public Optional<AcquiredCompetences> acquiredCompetences() {
-        return Optional.ofNullable(acquiredCompetences);
-    }
-
-    public Optional<InstructionMethods> instructionMethods() {
-        return Optional.ofNullable(instructionMethods);
     }
 
     public Optional<ThematicAreas> thematicAreas() {
