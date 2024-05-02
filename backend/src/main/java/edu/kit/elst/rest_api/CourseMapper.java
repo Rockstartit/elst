@@ -1,0 +1,162 @@
+package edu.kit.elst.rest_api;
+
+import edu.kit.elst.building_blocks.BuildingBlock;
+import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.core.shared.PageId;
+import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.course_conceptualization.CourseNote;
+import edu.kit.elst.lesson_planning.TeachingPhase;
+import edu.kit.elst.lesson_planning.TeachingUnit;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+public class CourseMapper {
+    public static Course mapToCourse(edu.kit.elst.course_conceptualization.Course course, CourseNote notes) {
+        Course dto = new Course();
+
+        dto.setId(course.id().value());
+        dto.setLessonId(course.lessonId().value());
+        dto.setTechnologyWish(course.technologyWish().value());
+        dto.setNotes(notes.content());
+
+        return dto;
+    }
+
+    public static CourseOverview mapToCourseOverview(edu.kit.elst.course_conceptualization.Course course) {
+        CourseOverview dto = new CourseOverview();
+
+        dto.setId(course.id().value());
+        dto.setLessonId(course.lessonId().value());
+        dto.setTechnologyWish(course.technologyWish().value());
+
+        return dto;
+    }
+
+    public static Mockup mapToMockup(edu.kit.elst.course_conceptualization.Mockup mockup) {
+        Mockup dto = new Mockup();
+
+        dto.setId(mockup.id().value());
+        dto.setFileId(mockup.fileId().value());
+        dto.setDescription(mockup.description());
+
+        return dto;
+    }
+
+    public static LearningMaterial mapToLearningMaterial(edu.kit.elst.lesson_planning.LearningMaterial learningMaterial) {
+        LearningMaterial dto = new LearningMaterial();
+
+        dto.setId(learningMaterial.id().value());
+        dto.setName(learningMaterial.name());
+        dto.setFileId(learningMaterial.fileId().value());
+
+        return dto;
+    }
+
+    public static Page mapToPage(edu.kit.elst.course_conceptualization.Page page,
+                           Collection<edu.kit.elst.course_conceptualization.Page> linkedPages,
+                           Collection<edu.kit.elst.course_conceptualization.Mockup> mockups,
+                           Collection<edu.kit.elst.course_conceptualization.PageBuildingBlock> pageBuildingBlocks,
+                           Map<BuildingBlockVersion, edu.kit.elst.building_blocks.BuildingBlock> buildingBlockMap) {
+        Page dto = new Page();
+
+        dto.setId(page.id().value());
+        dto.setTitle(page.title());
+        dto.setTeachingPhaseId(page.teachingPhaseId().value());
+        dto.setMockups(mockups.stream()
+                .map(CourseMapper::mapToMockup)
+                .toList());
+        dto.setLinkedPages(linkedPages.stream()
+                .map(CourseMapper::mapToPageOverview)
+                .toList());
+        dto.setBuildingBlocks(pageBuildingBlocks.stream()
+                .map(pageBuildingBlock -> mapToPageBuildingBlock(
+                        pageBuildingBlock, buildingBlockMap.get(pageBuildingBlock.version())))
+                .toList());
+
+        return dto;
+    }
+
+    public static edu.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(edu.kit.elst.course_conceptualization.PageBuildingBlock pageBuildingBlock, BuildingBlock buildingBlock) {
+        edu.kit.elst.rest_api.PageBuildingBlock dto = new edu.kit.elst.rest_api.PageBuildingBlock();
+
+        dto.setPageBuildingBlockId(pageBuildingBlock.id().value());
+        dto.setVersion(BuildingBlockMapper.mapToBuildingBlockVersion(pageBuildingBlock.version()));
+        dto.setName(buildingBlock.details().name());
+        dto.setDescription(buildingBlock.details().description());
+        dto.setReleaseStatus(buildingBlock.releaseStatus());
+
+        return dto;
+    }
+
+    public static PageOverview mapToPageOverview(edu.kit.elst.course_conceptualization.Page page) {
+        PageOverview dto = new PageOverview();
+
+        dto.setId(page.id().value());
+        dto.setTitle(page.title());
+        dto.setTeachingPhaseId(page.teachingPhaseId().value());
+
+        return dto;
+    }
+
+    public static CourseTeachingUnit mapToCourseTeachingUnit(TeachingUnit teachingUnit,
+                                                       List<edu.kit.elst.lesson_planning.TeachingPhase> teachingPhases,
+                                                       Map<TeachingPhaseId, List<edu.kit.elst.lesson_planning.LearningMaterial>> learningMaterialsMap,
+                                                       Map<TeachingPhaseId, List<edu.kit.elst.course_conceptualization.Page>> pagesMap,
+                                                       Map<PageId, List<edu.kit.elst.course_conceptualization.Mockup>> mockupsMap,
+                                                       Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
+                                                       Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
+                                                       Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap) {
+        CourseTeachingUnit dto = new CourseTeachingUnit();
+
+        dto.setId(teachingUnit.id().value());
+        dto.setTopic(teachingUnit.topic().value());
+        dto.setTeachingPhases(teachingPhases.stream()
+                .map(teachingPhase -> mapToCourseTeachingPhase(
+                        teachingPhase,
+                        learningMaterialsMap.getOrDefault(teachingPhase.id(), Collections.emptyList()),
+                        pagesMap.getOrDefault(teachingPhase.id(), Collections.emptyList()),
+                        mockupsMap,
+                        pageBuildingBlocksMap,
+                        linkedPagesMap,
+                        buildingBlockMap
+                ))
+                .toList());
+
+        return dto;
+    }
+
+    public static CourseTeachingPhase mapToCourseTeachingPhase(TeachingPhase teachingPhase,
+                                                         List<edu.kit.elst.lesson_planning.LearningMaterial> learningMaterials,
+                                                         List<edu.kit.elst.course_conceptualization.Page> pages,
+                                                         Map<PageId, List<edu.kit.elst.course_conceptualization.Mockup>> mockupsMap,
+                                                         Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
+                                                         Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
+                                                         Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap) {
+        CourseTeachingPhase dto = new CourseTeachingPhase();
+
+        dto.setId(teachingPhase.id().value());
+        dto.setTopic(teachingPhase.topic().value());
+
+        teachingPhase.phase().ifPresent(dto::setPhase);
+        teachingPhase.timeFrame().map(UtilMapper::mapToBigDecimal).ifPresent(dto::setTimeFrame);
+
+        dto.setLearningMaterials(learningMaterials.stream()
+                .map(CourseMapper::mapToLearningMaterial)
+                .toList());
+
+        dto.setPages(pages.stream()
+                .map(page -> CourseMapper.mapToPage(
+                        page,
+                        linkedPagesMap.getOrDefault(page.id(), Collections.emptyList()),
+                        mockupsMap.getOrDefault(page.id(), Collections.emptyList()),
+                        pageBuildingBlocksMap.getOrDefault(page.id(), Collections.emptyList()),
+                        buildingBlockMap
+                ))
+                .toList());
+
+        return dto;
+    }
+}

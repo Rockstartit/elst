@@ -2,6 +2,7 @@ package edu.kit.elst.lesson_planning;
 
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.core.shared.TeachingUnitId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -51,5 +52,9 @@ public class TeachingPhase {
 
     public Optional<LearningCyclePhase> phase() {
         return Optional.ofNullable(phase);
+    }
+
+    public TeachingUnitId teachingUnitId() {
+        return teachingUnit.id();
     }
 }

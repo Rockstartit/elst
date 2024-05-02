@@ -17,32 +17,26 @@
 /**
  * 
  * @export
- * @interface Course
+ * @interface Mockup
  */
-export interface Course {
+export interface Mockup {
     /**
      * 
      * @type {string}
-     * @memberof Course
+     * @memberof Mockup
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof Course
+     * @memberof Mockup
      */
-    'lessonId': string;
+    'fileId': string;
     /**
      * 
      * @type {string}
-     * @memberof Course
+     * @memberof Mockup
      */
-    'technologyWish': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Course
-     */
-    'notes'?: string;
+    'description'?: string;
 }
 

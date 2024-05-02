@@ -51,6 +51,8 @@ paths:
     $ref: "./openapi-discussion.yaml#/paths/~1discussions"
   /building-blocks/{buildingBlockId}/{version}/requirements:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1{version}~1requirements"
+  /courses/{courseId}/structure:
+    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1structure"
   /teaching-units/{teachingUnitId}:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}"
   /learning-materials/{learningMaterialId}:

@@ -7,14 +7,14 @@ import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.course_conceptualization.Mockup;
+import edu.kit.elst.course_conceptualization.MockupAppService;
 import edu.kit.elst.course_conceptualization.PageAppService;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
 import edu.kit.elst.course_conceptualization.PageNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PageController implements PageApi {
     private final PageAppService pageAppService;
+    private final MockupAppService mockupAppService;
     private final BuildingBlockService buildingBlockService;
 
     @Override
@@ -68,10 +69,11 @@ public class PageController implements PageApi {
         Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap
                 = buildingBlockService.buildingBlocks(buildingBlockVersions).stream()
                 .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
+        Collection<Mockup> mockups = mockupAppService.mockups(aPageId);
 
         Collection<edu.kit.elst.course_conceptualization.Page> linkedPages = pageAppService.linkedPages(aPageId);
 
-        return ResponseEntity.ok(mapToPage(page, linkedPages, pageBuildingBlocks, buildingBlockMap));
+        return ResponseEntity.ok(CourseMapper.mapToPage(page, linkedPages, mockups, pageBuildingBlocks, buildingBlockMap));
     }
 
     @Override
@@ -82,7 +84,7 @@ public class PageController implements PageApi {
                 = pageAppService.pages(aCourseId);
 
         return ResponseEntity.ok(pages.stream()
-                .map(this::mapToPageOverview)
+                .map(CourseMapper::mapToPageOverview)
                 .toList());
     }
 
@@ -124,47 +126,5 @@ public class PageController implements PageApi {
         pageAppService.removeBuildingBlockFromPage(aPageBuildingBlockId);
 
         return ResponseEntity.ok().build();
-    }
-
-    private Page mapToPage(edu.kit.elst.course_conceptualization.Page page,
-                           Collection<edu.kit.elst.course_conceptualization.Page> linkedPages,
-                           Collection<PageBuildingBlock> pageBuildingBlocks,
-                           Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap) {
-        Page dto = new Page();
-
-        dto.setId(page.id().value());
-        dto.setTitle(page.title());
-        dto.setTeachingPhaseId(page.teachingPhaseId().value());
-        dto.setLinkedPages(linkedPages.stream()
-                .map(this::mapToPageOverview)
-                .toList());
-        dto.setBuildingBlocks(pageBuildingBlocks.stream()
-                .map(pageBuildingBlock -> mapToPageBuildingBlock(
-                        pageBuildingBlock, buildingBlockMap.get(pageBuildingBlock.version())))
-                .toList());
-
-        return dto;
-    }
-
-    private edu.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(PageBuildingBlock pageBuildingBlock, BuildingBlock buildingBlock) {
-        edu.kit.elst.rest_api.PageBuildingBlock dto = new edu.kit.elst.rest_api.PageBuildingBlock();
-
-        dto.setPageBuildingBlockId(pageBuildingBlock.id().value());
-        dto.setVersion(BuildingBlockMapper.mapToBuildingBlockVersion(pageBuildingBlock.version()));
-        dto.setName(buildingBlock.details().name());
-        dto.setDescription(buildingBlock.details().description());
-        dto.setReleaseStatus(buildingBlock.releaseStatus());
-
-        return dto;
-    }
-
-    private PageOverview mapToPageOverview(edu.kit.elst.course_conceptualization.Page page) {
-        PageOverview dto = new PageOverview();
-
-        dto.setId(page.id().value());
-        dto.setTitle(page.title());
-        dto.setTeachingPhaseId(page.teachingPhaseId().value());
-
-        return dto;
     }
 }

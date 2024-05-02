@@ -19,13 +19,17 @@ export function useAppRouter() {
     });
   }
 
-  function viewLesson(lessonId: string) {
-    return goToRoute({
+  function viewLessonRoute(lessonId: string) {
+    return {
       name: availableRoutes.view_lesson,
       params: {
         lessonId,
       },
-    });
+    };
+  }
+
+  function viewLesson(lessonId: string) {
+    return goToRoute(viewLessonRoute(lessonId));
   }
 
   function viewTeachingUnitRoute(lessonId: string, teachingUnitId: string) {
@@ -36,6 +40,16 @@ export function useAppRouter() {
         teachingUnitId,
       },
     };
+  }
+
+  function viewCourse(lessonId: string, courseId: string) {
+    return goToRoute({
+      name: availableRoutes.view_course,
+      params: {
+        lessonId,
+        courseId,
+      },
+    });
   }
 
   function viewBuildingBlockRoute(buildingBlockVersion: BuildingBlockVersion) {
@@ -53,8 +67,10 @@ export function useAppRouter() {
   }
 
   return {
+    viewCourse,
     viewLesson,
     browseLessons,
+    viewLessonRoute,
     viewBuildingBlock,
     viewTeachingUnitRoute,
     viewBuildingBlockRoute,

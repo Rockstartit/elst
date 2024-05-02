@@ -13,36 +13,33 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { CourseTeachingPhase } from './course-teaching-phase';
 
 /**
  * 
  * @export
- * @interface Course
+ * @interface CourseTeachingUnit
  */
-export interface Course {
+export interface CourseTeachingUnit {
     /**
      * 
      * @type {string}
-     * @memberof Course
+     * @memberof CourseTeachingUnit
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof Course
+     * @memberof CourseTeachingUnit
      */
-    'lessonId': string;
+    'topic': string;
     /**
      * 
-     * @type {string}
-     * @memberof Course
+     * @type {Array<CourseTeachingPhase>}
+     * @memberof CourseTeachingUnit
      */
-    'technologyWish': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Course
-     */
-    'notes'?: string;
+    'teachingPhases': Array<CourseTeachingPhase>;
 }
 

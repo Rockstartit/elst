@@ -1,17 +1,36 @@
 <template>
   <div class="col">
     <div class="row">
-      <MHoverable
-        v-ripple
-        class="relative-position"
-        @click="$emit('edit-name')">
+      <div class="col">
         <div class="row text-h6 items-center" style="gap: 0.5rem">
-          <span>
-            {{ name ?? 'Neuer Kurs' }}
-          </span>
-          <q-icon name="mdi-pencil-outline" />
+          <span class="text-weight-regular">E-Learning Kurs für </span>
+          <span> {{ topic }} </span>
+
+          <TertiaryButton
+            icon="mdi-open-in-new"
+            dense
+            flat
+            :to="viewLessonRoute(lessonId)" />
         </div>
-      </MHoverable>
+      </div>
+
+      <div class="col-auto">
+        <q-chip
+          color="primary"
+          text-color="white"
+          rounded
+          clickable
+          class="shadow-0"
+          @click="$emit('edit-technology-wish')">
+          <div class="row text-body1 items-center q-px-lg" style="gap: 0.5rem">
+            <q-icon name="mdi-code-tags" size="20px" />
+
+            <span>
+              {{ technologyWish }}
+            </span>
+          </div>
+        </q-chip>
+      </div>
     </div>
 
     <q-separator class="q-mt-sm" />
@@ -19,11 +38,16 @@
 </template>
 
 <script lang="ts" setup>
-import MHoverable from 'src/core/MHoverable.vue';
+import TertiaryButton from 'src/core/TertiaryButton.vue';
+import { useAppRouter } from 'src/router/useAppRouter';
+
+const { viewLessonRoute } = useAppRouter();
 
 defineProps<{
-  name: string;
+  lessonId: string;
+  topic: string;
+  technologyWish: string;
 }>();
 
-defineEmits(['edit-name']);
+defineEmits(['edit-technology-wish']);
 </script>

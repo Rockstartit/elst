@@ -51,7 +51,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: availableRoutes.view_course,
-        path: 'courses/:courseId/:version',
+        path: 'lessons/:lessonId/courses/:courseId',
         props: true,
         component: () => import('src/courses/view-course/PViewCourse.vue'),
       },

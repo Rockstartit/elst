@@ -31,7 +31,7 @@ export interface CourseOverview {
      * @type {string}
      * @memberof CourseOverview
      */
-    'lessonId'?: string;
+    'lessonId': string;
     /**
      * 
      * @type {string}

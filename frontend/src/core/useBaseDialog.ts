@@ -7,12 +7,14 @@ export function stringPromptDialog(
     ok?: QBtnProps;
     isValid?: (value: string) => boolean;
     model?: string;
+    message?: string;
   }
 ): QDialogOptions {
   const okProps = options?.ok ? options.ok : {};
 
   return {
     title: title,
+    message: options?.message,
     ok: {
       noCaps: true,
       unelevated: true,

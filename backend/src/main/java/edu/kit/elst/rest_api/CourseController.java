@@ -1,23 +1,35 @@
 package edu.kit.elst.rest_api;
 
-import edu.kit.elst.core.shared.CourseId;
-import edu.kit.elst.core.shared.LessonId;
-import edu.kit.elst.course_conceptualization.CourseAppService;
-import edu.kit.elst.course_conceptualization.CourseNotFoundException;
-import edu.kit.elst.course_conceptualization.CourseNote;
-import edu.kit.elst.course_conceptualization.TechnologyWish;
+import edu.kit.elst.building_blocks.BuildingBlock;
+import edu.kit.elst.building_blocks.BuildingBlockService;
+import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.core.shared.*;
+import edu.kit.elst.course_conceptualization.*;
+import edu.kit.elst.course_conceptualization.Mockup;
+import edu.kit.elst.course_conceptualization.Page;
+import edu.kit.elst.course_conceptualization.PageBuildingBlock;
+import edu.kit.elst.lesson_planning.*;
+import edu.kit.elst.lesson_planning.LearningMaterial;
+import edu.kit.elst.lesson_planning.TeachingPhase;
+import edu.kit.elst.lesson_planning.TeachingUnit;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
 public class CourseController implements CourseApi {
+    private final PageAppService pageAppService;
     private final CourseAppService courseAppService;
+    private final MockupAppService mockupAppService;
+    private final BuildingBlockService buildingBlockService;
+    private final TeachingUnitAppService teachingUnitAppService;
+    private final TeachingPhaseAppService teachingPhaseAppService;
+    private final LearningMaterialAppService learningMaterialAppService;
 
     @Override
     public ResponseEntity<UUID> createCourse(UUID lessonId, CreateCourseRequest body) {
@@ -68,7 +80,7 @@ public class CourseController implements CourseApi {
         }
 
         return ResponseEntity.ok(courses.stream()
-                .map(this::mapToCourseOverview)
+                .map(CourseMapper::mapToCourseOverview)
                 .toList());
     }
 
@@ -81,27 +93,67 @@ public class CourseController implements CourseApi {
 
         CourseNote notes = courseAppService.courseNote(aCourseId);
 
-        return ResponseEntity.ok(mapToCourse(course, notes));
+        return ResponseEntity.ok(CourseMapper.mapToCourse(course, notes));
     }
 
-    private Course mapToCourse(edu.kit.elst.course_conceptualization.Course course, CourseNote notes) {
-        Course dto = new Course();
+    @Override
+    public ResponseEntity<List<CourseTeachingUnit>> getCourseStructure(UUID courseId) {
+        CourseId aCourseId = new CourseId(courseId);
 
-        dto.setId(course.id().value());
-        dto.setLessonId(course.lessonId().value());
-        dto.setTechnologyWish(course.technologyWish().value());
-        dto.setNotes(notes.content());
+        edu.kit.elst.course_conceptualization.Course course = courseAppService.course(aCourseId)
+                .orElseThrow(() -> new CourseNotFoundException(aCourseId));
 
-        return dto;
-    }
+        Collection<TeachingUnit> teachingUnits = teachingUnitAppService.teachingUnits(course.lessonId());
+        Set<TeachingUnitId> teachingUnitIds = teachingUnits.stream().map(TeachingUnit::id).collect(Collectors.toSet());
 
-    private CourseOverview mapToCourseOverview(edu.kit.elst.course_conceptualization.Course course) {
-        CourseOverview dto = new CourseOverview();
+        Map<TeachingUnitId, List<TeachingPhase>> teachingPhases
+                = teachingPhaseAppService.teachingPhases(teachingUnitIds).stream()
+                .collect(Collectors.groupingBy(TeachingPhase::teachingUnitId));
+        Set<TeachingPhaseId> teachingPhaseIds = teachingPhases.values().stream()
+                .flatMap(Collection::stream)
+                .map(TeachingPhase::id)
+                .collect(Collectors.toSet());
 
-        dto.setId(course.id().value());
-        dto.setLessonId(course.lessonId().value());
-        dto.setTechnologyWish(course.technologyWish().value());
+        Map<TeachingPhaseId, List<LearningMaterial>> learningMaterialsMap
+                = learningMaterialAppService.learningMaterials(teachingPhaseIds).stream()
+                .collect(Collectors.groupingBy(LearningMaterial::teachingPhaseId));
 
-        return dto;
+        Map<TeachingPhaseId, List<Page>> pagesMap = pageAppService.pages(aCourseId, teachingPhaseIds).stream()
+                .collect(Collectors.groupingBy(Page::teachingPhaseId));
+        Set<PageId> pageIds = pagesMap.values().stream()
+                .flatMap(Collection::stream)
+                .map(Page::id)
+                .collect(Collectors.toSet());
+
+        Map<PageId, List<Mockup>> mockupsMap = mockupAppService.mockups(pageIds).stream()
+                .collect(Collectors.groupingBy(Mockup::pageId));
+
+        Map<PageId, List<PageBuildingBlock>> pageBuildingBlocksMap = pageAppService.pageBuildingBlocks(pageIds).stream()
+                .collect(Collectors.groupingBy(PageBuildingBlock::pageId));
+        Set<BuildingBlockVersion> buildingBlockVersions = pageBuildingBlocksMap.values().stream()
+                .flatMap(Collection::stream)
+                .map(PageBuildingBlock::version)
+                .collect(Collectors.toSet());
+
+        Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap = buildingBlockService.buildingBlocks(buildingBlockVersions).stream()
+                .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
+
+        Map<PageId, Collection<Page>> linkedPagesMap = new HashMap<>();
+        for (PageId pageId : pageIds) {
+            linkedPagesMap.put(pageId, pageAppService.linkedPages(pageId));
+        }
+
+        return ResponseEntity.ok(teachingUnits.stream()
+                .map(teachingUnit -> CourseMapper.mapToCourseTeachingUnit(
+                        teachingUnit,
+                        teachingPhases.getOrDefault(teachingUnit.id(), Collections.emptyList()),
+                        learningMaterialsMap,
+                        pagesMap,
+                        mockupsMap,
+                        pageBuildingBlocksMap,
+                        linkedPagesMap,
+                        buildingBlockMap
+                ))
+                .toList());
     }
 }

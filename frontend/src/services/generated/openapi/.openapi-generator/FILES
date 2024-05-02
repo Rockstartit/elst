@@ -23,6 +23,8 @@ model/building-block-requirement.ts
 model/building-block-version.ts
 model/building-block.ts
 model/course-overview.ts
+model/course-teaching-phase.ts
+model/course-teaching-unit.ts
 model/course.ts
 model/create-course-request.ts
 model/create-lesson-request.ts
@@ -50,6 +52,7 @@ model/learning-material.ts
 model/lesson-overview.ts
 model/lesson.ts
 model/link-pages-request.ts
+model/mockup.ts
 model/page-building-block.ts
 model/page-overview.ts
 model/page.ts

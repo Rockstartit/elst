@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -65,5 +67,9 @@ public class TeachingPhaseAppService {
         TeachingUnit teachingUnit = teachingUnits.getReferenceById(teachingUnitId);
 
         return teachingPhases.findAllByTeachingUnit(teachingUnit);
+    }
+
+    public Collection<TeachingPhase> teachingPhases(Set<TeachingUnitId> teachingUnitIds) {
+        return teachingPhases.findAllByTeachingUnitIdIn(teachingUnitIds);
     }
 }

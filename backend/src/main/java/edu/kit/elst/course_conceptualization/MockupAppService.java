@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -48,5 +50,9 @@ public class MockupAppService {
 
     private Optional<Mockup> mockup(MockupId mockupId) {
         return mockups.findById(mockupId);
+    }
+
+    public Collection<Mockup> mockups(Set<PageId> pageIds) {
+        return mockups.findAllByPageIdIn(pageIds);
     }
 }

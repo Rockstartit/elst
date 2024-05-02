@@ -62,6 +62,32 @@ paths:
                   $ref: "#/components/schemas/CourseOverview"
         401:
           description: Not Authenticated
+  /courses/{courseId}/structure:
+    get:
+      tags:
+        - Course
+      summary: Get course structure
+      operationId: getCourseStructure
+      parameters:
+        - name: courseId
+          in: path
+          description: Id of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseTeachingUnit'
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
   /courses/{courseId}:
     get:
       tags:
@@ -435,10 +461,53 @@ paths:
           description: Internal server error
 components:
   schemas:
+    CourseTeachingUnit:
+      type: object
+      required:
+        - id
+        - topic
+        - teachingPhases
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+        teachingPhases:
+          type: array
+          items:
+            $ref: '#/components/schemas/CourseTeachingPhase'
+    CourseTeachingPhase:
+      type: object
+      required:
+        - id
+        - topic
+        - learningMaterials
+        - pages
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+        timeFrame:
+          type: number
+          example: 240
+        phase:
+          $ref: './openapi-lessons.yaml#/components/schemas/LearningCyclePhase'
+        learningMaterials:
+          type: array
+          items:
+            $ref: './openapi-lessons.yaml#/components/schemas/LearningMaterial'
+        pages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Page'
     CourseOverview:
       type: object
       required:
         - id
+        - lessonId
         - technologyWish
       properties:
         id:
@@ -452,6 +521,7 @@ components:
       type: object
       required:
         - id
+        - lessonId
         - technologyWish
       properties:
         id:
@@ -523,9 +593,11 @@ components:
       type: object
       required:
         - id
-        - teachingPhaseId
         - title
+        - teachingPhaseId
         - buildingBlocks
+        - linkedPages
+        - mockups
       properties:
         id:
           $ref: "#/components/schemas/EntityId"
@@ -541,6 +613,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PageOverview"
+        mockups:
+          type: array
+          items:
+            $ref: "#/components/schemas/Mockup"
     Mockup:
       type: object
       required:

@@ -136,18 +136,8 @@ public class TeachingUnitController implements TeachingUnitApi {
         teachingPhase.phase().ifPresent(dto::setPhase);
 
         dto.setLearningMaterials(learningMaterials.stream()
-                .map(this::mapToLearningMaterial)
+                .map(CourseMapper::mapToLearningMaterial)
                 .toList());
-
-        return dto;
-    }
-
-    private edu.kit.elst.rest_api.LearningMaterial mapToLearningMaterial(LearningMaterial learningMaterial) {
-        edu.kit.elst.rest_api.LearningMaterial dto = new edu.kit.elst.rest_api.LearningMaterial();
-
-        dto.setId(learningMaterial.id().value());
-        dto.setName(learningMaterial.name());
-        dto.setFileId(learningMaterial.fileId().value());
 
         return dto;
     }

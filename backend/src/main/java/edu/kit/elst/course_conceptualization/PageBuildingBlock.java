@@ -3,6 +3,7 @@ package edu.kit.elst.course_conceptualization;
 import edu.kit.elst.building_blocks.BuildingBlockVersion;
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
+import edu.kit.elst.core.shared.PageId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,5 +31,9 @@ public class PageBuildingBlock {
         this.id = PageBuildingBlocks.nextIdentity();
         this.version = version;
         this.page = page;
+    }
+
+    public PageId pageId() {
+        return page.id();
     }
 }

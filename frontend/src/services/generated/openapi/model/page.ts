@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { Mockup } from './mockup';
+// May contain unused imports in some cases
+// @ts-ignore
 import { PageBuildingBlock } from './page-building-block';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -55,6 +58,12 @@ export interface Page {
      * @type {Array<PageOverview>}
      * @memberof Page
      */
-    'linkedPages'?: Array<PageOverview>;
+    'linkedPages': Array<PageOverview>;
+    /**
+     * 
+     * @type {Array<Mockup>}
+     * @memberof Page
+     */
+    'mockups': Array<Mockup>;
 }
 
