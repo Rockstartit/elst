@@ -52,22 +52,43 @@
 
         <BaseCard title="Unterrichtsverlaufsplan">
           <q-card-section>
-            <OBaseAnimatedList :items="teachingUnit.teachingPhases">
-              <template #item="{ item }">
-                <q-item clickable class="bg-grey-2 elst__rounded">
-                  <q-item-section side>
-                    <q-icon
-                      name="mdi-drag"
-                      class="drag-handle"
-                      draggable="true"
-                      style="cursor: grab" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>
-                      {{ item.topic }}
-                    </q-item-label>
-                  </q-item-section>
-                </q-item>
+            <OBaseAnimatedList
+              :items="teachingUnit.teachingPhases"
+              gap="1.5rem">
+              <template #item="{ item, index }">
+                <OTeachingPhase v-model="teachingUnit.teachingPhases[index]">
+                  <template #before>
+                    <q-item-section side>
+                      <q-icon
+                        name="mdi-drag"
+                        class="drag-handle"
+                        draggable="true"
+                        style="cursor: grab" />
+                    </q-item-section>
+                  </template>
+
+                  <template #after>
+                    <q-item-section side>
+                      <div class="row" style="gap: 0.75rem">
+                        <TertiaryButton
+                          icon="mdi-pencil-outline"
+                          dense
+                          flat
+                          text-color="grey-10"
+                          @click="openEditTeachingPhaseDialog(item)" />
+
+                        <TertiaryButton
+                          icon="mdi-delete-outline"
+                          dense
+                          flat
+                          text-color="grey-10"
+                          hover-color="red-1"
+                          hover-text-color="red-10"
+                          @click="openDeleteTeachingPhaseDialog(item)" />
+                      </div>
+                    </q-item-section>
+                  </template>
+                </OTeachingPhase>
               </template>
             </OBaseAnimatedList>
 
@@ -109,7 +130,7 @@
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
 import { onMounted, ref } from 'vue';
-import { TeachingUnit } from 'src/services/generated/openapi';
+import { TeachingPhase, TeachingUnit } from 'src/services/generated/openapi';
 import { withLoading } from 'src/core/useWithLoading';
 import {
   teachingPhaseApi,
@@ -129,6 +150,12 @@ import TertiaryButton from 'src/core/TertiaryButton.vue';
 import { useAppRouter } from 'src/router/useAppRouter';
 import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
 import OTeachingUnitHeader from 'src/lessons/view-teaching-unit/OTeachingUnitHeader.vue';
+import {
+  CreateOrEditTeachingPhaseDialogResult,
+  createTeachingPhaseDialog,
+  editTeachingPhaseDialog,
+} from 'src/lessons/view-teaching-unit/useTeachingPhaseDialog';
+import OTeachingPhase from 'src/lessons/view-teaching-unit/OTeachingPhase.vue';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -231,25 +258,22 @@ function openDeleteLessonDialog() {
 
 function openCreateTeachingPhaseDialog() {
   quasar
-    .dialog(
-      stringPromptDialog('Neue Unterrichtsphase', 'Thema', {
-        ok: {
-          label: 'Erstellen',
-        },
-        isValid: isRequired,
-      })
-    )
-    .onOk((topic) => {
+    .dialog(createTeachingPhaseDialog())
+    .onOk((result: CreateOrEditTeachingPhaseDialogResult) => {
       withLoading(
         teachingPhaseApi
           .createTeachingPhase(props.teachingUnitId, {
-            topic,
+            topic: result.topic,
+            phase: result.phase,
+            timeFrame: result.timeFrame,
           })
           .then((response) => {
             if (teachingUnit.value) {
               teachingUnit.value.teachingPhases.push({
                 id: response.data,
-                topic,
+                topic: result.topic,
+                phase: result.phase,
+                timeFrame: result.timeFrame,
                 learningMaterials: [],
               });
             }
@@ -262,5 +286,60 @@ function openCreateTeachingPhaseDialog() {
         performingCreateTeachingPhase
       );
     });
+}
+
+function openEditTeachingPhaseDialog(teachingPhase: TeachingPhase) {
+  quasar
+    .dialog(
+      editTeachingPhaseDialog({
+        teachingPhase,
+      })
+    )
+    .onOk((result: CreateOrEditTeachingPhaseDialogResult) => {
+      withLoading(
+        teachingPhaseApi
+          .editTeachingPhase(teachingPhase.id, {
+            topic: result.topic,
+            phase: result.phase,
+            timeFrame: result.timeFrame,
+          })
+          .then(() => {
+            teachingPhase.topic = result.topic;
+            teachingPhase.timeFrame = result.timeFrame;
+            teachingPhase.phase = result.phase;
+
+            notifications.saved();
+          })
+          .catch((err) => {
+            notifications.apiError(err);
+          }),
+        performingCreateTeachingPhase
+      );
+    });
+}
+
+function openDeleteTeachingPhaseDialog(teachingPhase: TeachingPhase) {
+  quasar.dialog(confirmDialog()).onOk(() => {
+    withLoading(
+      teachingPhaseApi
+        .deleteTeachingPhase(teachingPhase.id)
+        .then(() => {
+          notifications.deleted();
+
+          if (teachingUnit.value) {
+            const index =
+              teachingUnit.value.teachingPhases.indexOf(teachingPhase);
+
+            if (index >= 0) {
+              teachingUnit.value.teachingPhases.splice(index, 1);
+            }
+          }
+        })
+        .catch((err) => {
+          notifications.apiError(err);
+        }),
+      performingDelete
+    );
+  });
 }
 </script>

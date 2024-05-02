@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { LearningCyclePhase } from './learning-cycle-phase';
 
 /**
  * 
@@ -26,5 +29,19 @@ export interface CreateTeachingPhaseRequest {
      * @memberof CreateTeachingPhaseRequest
      */
     'topic': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateTeachingPhaseRequest
+     */
+    'timeFrame'?: number;
+    /**
+     * 
+     * @type {LearningCyclePhase}
+     * @memberof CreateTeachingPhaseRequest
+     */
+    'phase'?: LearningCyclePhase;
 }
+
+
 

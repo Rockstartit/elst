@@ -37,6 +37,6 @@ export interface LearningMaterial {
      * @type {string}
      * @memberof LearningMaterial
      */
-    'name'?: string;
+    'name': string;
 }
 

@@ -21,8 +21,31 @@ export function useRules() {
     return true;
   }
 
+  function isGreaterThanOrEqual(threshold: number) {
+    return (value: string) => {
+      if (value.length === 0) {
+        return true;
+      }
+
+      const isNumberResult = isNumber(value);
+
+      if (isNumberResult !== true) {
+        return isNumberResult;
+      }
+
+      const number = Number.parseInt(value);
+
+      if (number < threshold) {
+        return t('validation.threshold_not_reached', { threshold });
+      }
+
+      return true;
+    };
+  }
+
   return {
     isNumber,
     isRequired,
+    isGreaterThanOrEqual,
   };
 }

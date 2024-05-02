@@ -564,6 +564,11 @@ components:
         topic:
           type: string
           example: Bienen
+        timeFrame:
+          type: number
+          example: 240
+        phase:
+          $ref: '#/components/schemas/LearningCyclePhase'
     EditTeachingPhaseRequest:
       type: object
       properties:
@@ -609,6 +614,7 @@ components:
       required:
         - id
         - fileId
+        - name
       properties:
         id:
           $ref: '#/components/schemas/EntityId'

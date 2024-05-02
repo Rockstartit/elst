@@ -24,6 +24,12 @@ public class TeachingPhaseController implements TeachingPhaseApi {
 
         TeachingPhaseId teachingPhaseId = teachingPhaseAppService.createTeachingPhase(aTeachingUnitId, topic);
 
+        if (body.getPhase() != null || body.getTimeFrame() != null) {
+            Duration timeFrame = Optional.ofNullable(body.getTimeFrame()).map(UtilMapper::mapToDuration).orElse(null);
+
+            teachingPhaseAppService.editTeachingPhase(teachingPhaseId, timeFrame, body.getPhase());
+        }
+
         return ResponseEntity.ok(teachingPhaseId.value());
     }
 

@@ -20,7 +20,7 @@ public class StorageService {
         UploadedFile uploadedFile;
 
         try {
-            uploadedFile = new UploadedFile(file.getName(), file.getContentType(), file.getBytes());
+            uploadedFile = new UploadedFile(file.getOriginalFilename(), file.getContentType(), file.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
