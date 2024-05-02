@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts" setup>
-import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { QItemProps } from 'quasar';
+import { BuildingBlock } from 'src/services/generated/openapi';
 
 defineProps<
   {

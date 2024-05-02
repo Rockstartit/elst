@@ -24,19 +24,19 @@
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
 import { computed, onMounted, ref } from 'vue';
-import {
-  BuildingBlock,
-  BuildingBlockVersion,
-} from 'src/services/generated/openapi/building_blocks';
 import { withLoading } from 'src/core/useWithLoading';
-import { buildingBlockApi } from 'src/services';
 import { useQuasar } from 'quasar';
 import OBuildingBlockHeader, {
   BuildingBlockHeaderTab,
 } from 'src/building-blocks/view-building-block/OBuildingBlockHeader.vue';
 import TBuildingBlockOverview from 'src/building-blocks/view-building-block/overview/TBuildingBlockOverview.vue';
 import TRequirements from 'src/building-blocks/view-building-block/requirements/TRequirements.vue';
-import TMockups from "src/building-blocks/view-building-block/mockups/TMockups.vue";
+import TMockups from 'src/building-blocks/view-building-block/mockups/TMockups.vue';
+import {
+  BuildingBlock,
+  BuildingBlockVersion,
+} from 'src/services/generated/openapi';
+import { buildingBlockApi } from 'src/services/building_blocks';
 
 const quasar = useQuasar();
 

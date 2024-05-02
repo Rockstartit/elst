@@ -21,7 +21,7 @@
                       hover-text-color="red-10"
                       hover-color="red-1"
                       :loading="
-                        perfornimgRemoveBuildingBlock.includes(
+                        performingRemoveBuildingBlock.includes(
                           pageBuildingBlock.pageBuildingBlockId
                         )
                       "
@@ -35,9 +35,7 @@
           <div class="row justify-center q-mt-md">
             <PrimaryButton
               label="Baustein hinzufügen"
-              :to="
-                selectBuildingBlockRoute(courseVersion, courseUnitId, pageId)
-              " />
+              :to="selectBuildingBlockRoute(courseId, pageId)" />
           </div>
         </div>
       </div>
@@ -47,39 +45,33 @@
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
-import {computed, onMounted, ref} from 'vue';
-import {CourseVersion, Page, PageBuildingBlock,} from 'src/services/generated/openapi/courses';
-import {withLoading, withLoadingArray} from 'src/core/useWithLoading';
-import {pageApi} from 'src/services';
+import { onMounted, ref } from 'vue';
+import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import OPageHeader from 'src/courses/view-page/OPageHeader.vue';
-import {useAppRouter} from 'src/router/useAppRouter';
 import OPageBuildingBlockList from 'src/courses/view-page/OPageBuildingBlockList.vue';
 import MPageBuildingBlock from 'src/courses/view-page/MPageBuildingBlock.vue';
-import {useQuasar} from "quasar";
+import { useQuasar } from 'quasar';
+import { Page, PageBuildingBlock } from 'src/services/generated/openapi';
+import { pageApi } from 'src/services/course_conceptualization';
+import { isRequired, stringPromptDialog } from 'src/core/useBaseDialog';
+import { useNotifications } from 'src/core/useNotifications';
+import { useAppRouter } from 'src/router/useAppRouter';
 
 const quasar = useQuasar();
+const notifications = useNotifications();
 const { selectBuildingBlockRoute } = useAppRouter();
 
 const props = defineProps<{
   courseId: string;
-  version: number;
-  courseUnitId: string;
   pageId: string;
 }>();
-
-const courseVersion = computed<CourseVersion>(() => {
-  return {
-    courseId: props.courseId,
-    version: props.version,
-  };
-});
 
 const initialized = ref(false);
 const loading = ref(false);
 const page = ref<Page>();
 
-const perfornimgRemoveBuildingBlock = ref<string[]>([]);
+const performingRemoveBuildingBlock = ref<string[]>([]);
 
 onMounted(() => {
   withLoading(
@@ -100,36 +92,48 @@ function removeBuildingBlock(buildingBlock: PageBuildingBlock) {
     pageApi
       .removeBuildingBlockFromPage(buildingBlock.pageBuildingBlockId)
       .then(() => {
+        notifications.success();
+
         if (page.value) {
           const index = page.value.buildingBlocks.indexOf(buildingBlock);
 
           page.value.buildingBlocks.splice(index, 1);
         }
+      })
+      .catch((err) => {
+        notifications.apiError(err);
       }),
-    perfornimgRemoveBuildingBlock,
+    performingRemoveBuildingBlock,
     buildingBlock.pageBuildingBlockId
   );
 }
 
 function openEditTitleDialog() {
   quasar
-    .dialog({
-      title: 'Titel bearbeiten',
-      prompt: {
-        model: page.value?.title ?? '',
-      },
-      cancel: true,
-    })
+    .dialog(
+      stringPromptDialog('Titel bearbeiten', 'Titel', {
+        ok: {
+          label: 'Speichern',
+        },
+        isValid: isRequired,
+        model: page.value?.title,
+      })
+    )
     .onOk((payload) => {
       if (page.value) {
         pageApi
           .editPage(props.pageId, {
-            title: payload
+            title: payload,
           })
           .then(() => {
+            notifications.saved();
+
             if (page.value) {
               page.value.title = payload;
             }
+          })
+          .catch((err) => {
+            notifications.apiError(err);
           });
       }
     });

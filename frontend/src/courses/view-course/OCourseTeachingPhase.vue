@@ -72,6 +72,7 @@
             v-for="(page, index) in teachingPhase.pages"
             :key="page.id"
             v-model="teachingPhase.pages[index]"
+            :course-id="courseId"
             :loading-delete="performingDeletePage.includes(page.id)"
             @delete="openDeletePageDialog(page)" />
 

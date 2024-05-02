@@ -24,17 +24,6 @@
 
     <q-separator class="q-my-md" />
 
-    <MCourseDetail
-      icon="mdi-source-branch"
-      label="Version"
-      :value="'Version ' + buildingBlock.version.version" />
-    <MCourseDetail
-      icon="mdi-rocket-launch-outline"
-      label="Veröffentlichung"
-      :value="inDevelopment ? 'Konzeption' : 'Veröffentlicht'" />
-
-    <q-separator class="q-my-md" />
-
     <MContributors label="Lehrer" />
 
     <MContributors label="Entwickler" />
@@ -42,19 +31,13 @@
 </template>
 
 <script lang="ts" setup>
-import MCourseDetail from 'src/courses/view-course/MCourseDetail.vue';
 import SecondaryButton from 'src/core/SecondaryButton.vue';
-import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
-import { computed } from 'vue';
 import MContributors from 'src/building-blocks/view-building-block/overview/MContributors.vue';
+import { BuildingBlock } from 'src/services/generated/openapi';
 
-const props = defineProps<{
+defineProps<{
   buildingBlock: BuildingBlock;
 }>();
 
 defineEmits(['edit']);
-
-const inDevelopment = computed(
-  () => props.buildingBlock.releaseStatus === 'IN_DEVELOPMENT'
-);
 </script>

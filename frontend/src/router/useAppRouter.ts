@@ -66,13 +66,40 @@ export function useAppRouter() {
     return goToRoute(viewBuildingBlockRoute(buildingBlockVersion));
   }
 
+  function viewPageRoute(courseId: string, pageId: string) {
+    return {
+      name: availableRoutes.view_page,
+      params: {
+        courseId,
+        pageId,
+      },
+    };
+  }
+
+  function viewPage(courseId: string, pageId: string) {
+    return goToRoute(viewPageRoute(courseId, pageId));
+  }
+
+  function selectBuildingBlockRoute(courseId: string, pageId: string) {
+    return {
+      name: availableRoutes.select_building_block,
+      params: {
+        courseId,
+        pageId,
+      },
+    };
+  }
+
   return {
+    viewPage,
     viewCourse,
     viewLesson,
+    viewPageRoute,
     browseLessons,
     viewLessonRoute,
     viewBuildingBlock,
     viewTeachingUnitRoute,
     viewBuildingBlockRoute,
+    selectBuildingBlockRoute,
   };
 }

@@ -21,7 +21,7 @@
 import { useBrowseBuildingBlocks } from 'src/building-blocks/browse/useBrowseBuildingBlocks';
 import { onMounted, ref } from 'vue';
 import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
-import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
+import { BuildingBlock } from 'src/services/generated/openapi';
 
 const { fetching, buildingBlocks, fetchBuildingBlocks } =
   useBrowseBuildingBlocks();
@@ -35,6 +35,6 @@ onMounted(() => {
 });
 
 function keyFn(buildingBlock: BuildingBlock) {
-  return buildingBlock.id + buildingBlock.version;
+  return buildingBlock.version.buildingBlockId + buildingBlock.version.version;
 }
 </script>

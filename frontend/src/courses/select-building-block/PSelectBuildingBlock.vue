@@ -22,33 +22,24 @@
 import PBase from 'src/core/PBase.vue';
 import OBuildingBlockList from 'src/building-blocks/browse/OBuildingBlockList.vue';
 import MBuildingBlockOverview from 'src/building-blocks/browse/MBuildingBlockOverview.vue';
-import { computed, ref } from 'vue';
-import { CourseVersion } from 'src/services/generated/openapi/courses';
-import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
+import { ref } from 'vue';
 import { withLoading } from 'src/core/useWithLoading';
-import { buildingBlockApi, pageApi } from 'src/services';
 import { useAppRouter } from 'src/router/useAppRouter';
 import MRequestNewBuildingBlock from 'src/courses/select-building-block/MRequestNewBuildingBlock.vue';
 import { useQuasar } from 'quasar';
+import { BuildingBlock } from 'src/services/generated/openapi';
+import { pageApi } from 'src/services/course_conceptualization';
+import { buildingBlockApi } from 'src/services/building_blocks';
 
 const quasar = useQuasar();
 const { viewPage } = useAppRouter();
 
 const props = defineProps<{
   courseId: string;
-  version: number;
-  courseUnitId: string;
   pageId: string;
 }>();
 
 const performingSelect = ref(false);
-
-const courseVersion = computed<CourseVersion>(() => {
-  return {
-    courseId: props.courseId,
-    version: props.version,
-  };
-});
 
 function selectBuildingBlock(buildingBlock: BuildingBlock) {
   return withLoading(
@@ -58,7 +49,7 @@ function selectBuildingBlock(buildingBlock: BuildingBlock) {
         version: buildingBlock.version.version,
       })
       .then(() => {
-        viewPage(courseVersion.value, props.courseUnitId, props.pageId, true);
+        viewPage(props.courseId, props.pageId);
       }),
     performingSelect
   );
@@ -87,12 +78,7 @@ function openRequestBuildingBlockDialog() {
                 version: response.data.version,
               })
               .then(() => {
-                viewPage(
-                  courseVersion.value,
-                  props.courseUnitId,
-                  props.pageId,
-                  true
-                );
+                viewPage(props.courseId, props.pageId);
               }),
             performingSelect
           );

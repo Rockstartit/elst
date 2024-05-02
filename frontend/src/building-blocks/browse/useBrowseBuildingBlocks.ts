@@ -1,7 +1,7 @@
 import { ref } from 'vue';
-import { BuildingBlock } from 'src/services/generated/openapi/building_blocks';
 import { withLoading } from 'src/core/useWithLoading';
-import { buildingBlockApi } from 'src/services';
+import { BuildingBlock } from 'src/services/generated/openapi';
+import { buildingBlockApi } from 'src/services/building_blocks';
 
 export function useBrowseBuildingBlocks() {
   const buildingBlocks = ref<BuildingBlock[]>([]);

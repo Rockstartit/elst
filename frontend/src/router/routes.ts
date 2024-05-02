@@ -8,9 +8,7 @@ export const availableRoutes = {
   browse_lessons: 'browse_lessons',
   view_lesson: 'view_lesson',
   view_teaching_unit: 'view_teaching_unit',
-  browse_courses: 'browse_courses',
   view_course: 'view_course',
-  view_course_unit: 'view_course_unit',
   view_page: 'view_page',
   browse_building_blocks: 'browse_building_blocks',
   select_building_block: 'select_building_block',
@@ -22,7 +20,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: availableRoutes.app_base,
     component: () => import('layouts/MainLayout.vue'),
-    redirect: { name: availableRoutes.browse_courses },
+    redirect: { name: availableRoutes.browse_lessons },
     children: [
       {
         name: availableRoutes.browse_lessons,
@@ -44,33 +42,20 @@ const routes: RouteRecordRaw[] = [
           import('src/lessons/view-teaching-unit/PViewTeachingUnit.vue'),
       },
       {
-        name: availableRoutes.browse_courses,
-        path: 'courses/browse',
-        props: true,
-        component: () => import('src/courses/browse/PBrowseCourses.vue'),
-      },
-      {
         name: availableRoutes.view_course,
         path: 'lessons/:lessonId/courses/:courseId',
         props: true,
         component: () => import('src/courses/view-course/PViewCourse.vue'),
       },
       {
-        name: availableRoutes.view_course_unit,
-        path: 'courses/:courseId/:version/units/:courseUnitId',
-        props: true,
-        component: () =>
-          import('src/courses/view-course-unit/PViewCourseUnit.vue'),
-      },
-      {
         name: availableRoutes.view_page,
-        path: 'courses/:courseId/:version/units/:courseUnitId/pages/:pageId',
+        path: 'courses/:courseId/pages/:pageId',
         props: true,
         component: () => import('src/courses/view-page/PViewPage.vue'),
       },
       {
         name: availableRoutes.select_building_block,
-        path: 'courses/:courseId/:version/units/:courseUnitId/pages/:pageId/select',
+        path: 'courses/:courseId/pages/:pageId/select',
         props: true,
         component: () =>
           import('src/courses/select-building-block/PSelectBuildingBlock.vue'),
@@ -127,7 +112,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:pathMatch(.*)*',
-    redirect: { name: availableRoutes.browse_courses, params: {} },
+    redirect: { name: availableRoutes.browse_lessons, params: {} },
   },
 ];
 

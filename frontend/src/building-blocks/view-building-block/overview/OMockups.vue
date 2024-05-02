@@ -22,39 +22,26 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, ref} from 'vue';
-import {QCarouselProps} from 'quasar';
-import {BuildingBlockVersion} from "src/services/generated/openapi/building_blocks";
-import {useStorage} from "src/building-blocks/view-building-block/mockups/useStorage";
-import {fileApi} from "src/services";
+import { ref } from 'vue';
+import { QCarouselProps } from 'quasar';
+import { BuildingBlockVersion } from 'src/services/generated/openapi';
 
-const { downloadMockupImage } = useStorage();
-
-const props = withDefaults(defineProps<{
-  buildingBlockVersion: BuildingBlockVersion
-} & Omit<QCarouselProps, 'fullscreen'>>(), {
-  swipeable: true,
-  animated: true,
-  thumbnails: true,
-  infinite: true,
-});
+withDefaults(
+  defineProps<
+    {
+      buildingBlockVersion: BuildingBlockVersion;
+    } & Omit<QCarouselProps, 'fullscreen'>
+  >(),
+  {
+    swipeable: true,
+    animated: true,
+    thumbnails: true,
+    infinite: true,
+  }
+);
 
 const slide = ref(1);
 const fullscreen = ref(false);
 
-const imgSources = ref<string[]>([])
-
-onMounted(() => {
-  fileApi.getBuildingBlockMockups(props.buildingBlockVersion.buildingBlockId, props.buildingBlockVersion.version).then(response => {
-    return Promise.allSettled(response.data.map((mockupId) => downloadMockupImage(mockupId))).then(response => {
-      imgSources.value = response.filter(result => result.status === 'fulfilled').map(result => {
-        if (result.status === 'fulfilled') {
-          return result.value;
-        }
-
-        return ''
-      });
-    })
-  })
-})
+const imgSources = ref<string[]>([]);
 </script>

@@ -38,12 +38,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
-import {
-  BuildingBlockRequirement,
-  BuildingBlockVersion,
-} from 'src/services/generated/openapi/building_blocks';
 import { withLoading } from 'src/core/useWithLoading';
-import { requirementApi } from 'src/services';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import { useQuasar } from 'quasar';
 import CreateOrEditRequirementDialog, {
@@ -52,6 +47,11 @@ import CreateOrEditRequirementDialog, {
 } from 'src/building-blocks/view-building-block/requirements/CreateOrEditRequirementDialog.vue';
 import MRequirement from 'src/building-blocks/view-building-block/requirements/MRequirement.vue';
 import TertiaryButton from 'src/core/TertiaryButton.vue';
+import {
+  BuildingBlockRequirement,
+  BuildingBlockVersion,
+} from 'src/services/generated/openapi';
+import { requirementApi } from 'src/services/building_blocks';
 
 const quasar = useQuasar();
 
@@ -112,23 +112,20 @@ function openDocumentRequirementDialog() {
 function openEditRequirementDialog(requirement: BuildingBlockRequirement) {
   const dialogProps: CreateOrEditRequirementDialogProps = {
     initialContent: requirement.content,
-    initialType: requirement.type
-  }
+    initialType: requirement.type,
+  };
 
   quasar
     .dialog({
       component: CreateOrEditRequirementDialog,
-      componentProps: dialogProps
+      componentProps: dialogProps,
     })
     .onOk((request: CreateOrEditRequirementDialogRequest) => {
       requirementApi
-        .editRequirement(
-          requirement.id,
-          {
-            type: request.type,
-            content: request.content,
-          }
-        )
+        .editRequirement(requirement.id, {
+          type: request.type,
+          content: request.content,
+        })
         .then(() => {
           requirement.type = request.type;
           requirement.content = request.content;
