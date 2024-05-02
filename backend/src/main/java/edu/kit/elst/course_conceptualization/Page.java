@@ -20,6 +20,7 @@ public class Page {
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
+    @JoinColumn(name = "course_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Course course;
 

@@ -16,6 +16,8 @@ public abstract class DiscussionReference {
     @EmbeddedId
     private final DiscussionReferenceId id;
 
+    @Getter(AccessLevel.NONE)
+    @JoinColumn(name = "discussion_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private final Discussion discussion;
 

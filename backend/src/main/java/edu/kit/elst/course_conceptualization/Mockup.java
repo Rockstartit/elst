@@ -5,9 +5,7 @@ import edu.kit.elst.core.Guards;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.UserId;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,10 @@ public class Mockup {
 
     private final PageId pageId;
     private final FileId fileId;
+
+    @AttributeOverride(name = "value", column = @Column(name = "created_by"))
     private UserId createdBy;
+
     private String description;
 
     public Mockup(PageId pageId, FileId fileId, UserId createdBy) {

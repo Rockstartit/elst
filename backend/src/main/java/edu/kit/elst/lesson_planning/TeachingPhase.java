@@ -19,8 +19,8 @@ public class TeachingPhase {
     @EmbeddedId
     private final TeachingPhaseId id;
 
-    @JoinColumn
     @Getter(AccessLevel.NONE)
+    @JoinColumn(name = "teaching_unit_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private final TeachingUnit teachingUnit;
 

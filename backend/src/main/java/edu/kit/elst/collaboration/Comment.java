@@ -18,6 +18,8 @@ public class Comment {
     @EmbeddedId
     private final CommentId id;
 
+    @Getter(AccessLevel.NONE)
+    @JoinColumn(name = "discussion_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private final Discussion discussion;
 

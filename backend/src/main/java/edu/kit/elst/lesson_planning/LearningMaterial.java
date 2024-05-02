@@ -20,6 +20,7 @@ public class LearningMaterial {
     private final LearningMaterialId id;
 
     @Getter(AccessLevel.NONE)
+    @JoinColumn(name = "teaching_phase_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private final TeachingPhase teachingPhase;
 

@@ -19,6 +19,7 @@ public class PageBuildingBlock {
     private BuildingBlockVersion version;
 
     @Getter(AccessLevel.NONE)
+    @JoinColumn(name = "page_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Page page;
 
