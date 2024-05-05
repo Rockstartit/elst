@@ -14,7 +14,7 @@ export function authenticationRouteGuard(app: App) {
       app,
       redirectLoginOptions: {
         authorizationParams: {
-          redirect_uri: window.location.origin + '/pub/callback',
+          redirect_uri: window.location.origin + '/public/pub/callback',
         },
       },
     })(to);
