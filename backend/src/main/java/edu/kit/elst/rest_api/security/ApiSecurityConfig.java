@@ -92,7 +92,11 @@ public class ApiSecurityConfig implements WebMvcConfigurer {
                 HttpMethod.OPTIONS.name(),
                 HttpMethod.PATCH.name()
         ));
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:8085", "http://localhost:8086"));
+        configuration.setAllowedOriginPatterns(List.of(
+                "http://localhost:8085",
+                "http://localhost:8086",
+                "https://330ce66f-b890-4be8-a01c-ed122261bf8c.ka.bw-cloud-instance.org/"
+        ));
         configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
 

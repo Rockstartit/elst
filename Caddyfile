@@ -1,7 +1,5 @@
 330ce66f-b890-4be8-a01c-ed122261bf8c.ka.bw-cloud-instance.org {
-  reverse_proxy elst:8500
-}
+  redir / /public/index.html 308
 
-elst.localhost {
   reverse_proxy elst:8500
 }
