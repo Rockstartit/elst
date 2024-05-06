@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
-import { PageBuildingBlock } from 'src/services/generated/openapi/courses';
+import { PageBuildingBlock } from 'src/services/generated/openapi';
 
 defineProps<{
   buildingBlocks: PageBuildingBlock[];

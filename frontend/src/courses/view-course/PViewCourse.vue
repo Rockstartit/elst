@@ -1,5 +1,5 @@
 <template>
-  <PBase content-width="1200px">
+  <PBase content-width="1600px">
     <div
       v-if="initialized && lesson && course"
       class="column"
@@ -33,12 +33,175 @@
           Die Kursstruktur orientiert sich an den Unterrichtseinheiten aus der
           Unterrichtsplanung.
         </p>
-        <div class="column" style="gap: 1.5rem">
-          <OCourseTeachingUnit
-            v-for="(teachingUnit, index) in courseTeachingUnits"
-            :key="teachingUnit.id"
-            v-model="courseTeachingUnits[index]"
-            :course-id="courseId" />
+
+        <div>
+          <q-splitter v-model="splitterModel">
+            <template v-slot:before>
+              <div class="q-pa-md">
+                <q-tree
+                  :selected="selectedPageId"
+                  :nodes="teachingUnitTree"
+                  node-key="value"
+                  selected-color="primary"
+                  default-expand-all
+                  no-selection-unset
+                  @update:selected="selectTeachingPhase">
+                  <template #header-page="{ node }">
+                    <MHoverable
+                      no-background
+                      no-padding
+                      v-slot="{ hovered }"
+                      class="full-width">
+                      <div class="row items-center" style="min-height: 32px">
+                        <div class="col-auto q-pr-sm">
+                          <q-icon v-if="node.icon" :name="node.icon" />
+                        </div>
+
+                        <div class="col">
+                          {{ node.label }}
+                        </div>
+
+                        <div v-if="hovered" class="col-auto q-pl-sm">
+                          <div class="row">
+                            <TertiaryButton
+                              icon="mdi-chat-outline"
+                              text-color="grey-10"
+                              dense
+                              flat
+                              tooltip="Diskussionen"
+                              :loading="
+                                performingDeletePage.includes(node.pageId)
+                              "
+                              @click="
+                                openDeletePageDialog(
+                                  node.teachingPhaseId,
+                                  node.pageId
+                                )
+                              " />
+
+                            <TertiaryButton
+                              v-if="hovered"
+                              icon="mdi-delete-outline"
+                              text-color="grey-10"
+                              dense
+                              flat
+                              tooltip="Löschen"
+                              :loading="
+                                performingDeletePage.includes(node.pageId)
+                              "
+                              @click="
+                                openDeletePageDialog(
+                                  node.teachingPhaseId,
+                                  node.pageId
+                                )
+                              " />
+                          </div>
+                        </div>
+                      </div>
+                    </MHoverable>
+                  </template>
+
+                  <template #header-add-page="{ node }">
+                    <SecondaryButton
+                      label="Neue Seite"
+                      icon="mdi-plus"
+                      color="indigo-1"
+                      text-color="indigo-10"
+                      dense
+                      class="text-caption elst__rounded full-width"
+                      style="max-width: 200px; min-width: 110px"
+                      :loading="
+                        performingCreatePage.includes(node.teachingPhaseId)
+                      "
+                      @click.stop="
+                        openCreatePageDialog(node.teachingPhaseId)
+                      " />
+                  </template>
+
+                  <template #body-phase="{ node }">
+                    <q-badge
+                      v-if="node.phase"
+                      :color="learningCyclePhaseColor(node.phase)"
+                      rounded
+                      class="justify-center text-grey-10 q-pa-xs text-weight-medium"
+                      style="width: 150px">
+                      {{ learningCyclePhaseLabel(node.phase) }}
+                    </q-badge>
+
+                    <q-item-label caption class="text-body2 q-mt-sm">
+                      Geplante Dauer:
+                      <span class="text-weight-medium">
+                        {{
+                          node.timeFrame ? node.timeFrame + ' Minuten' : 'Keine'
+                        }}
+                      </span>
+                    </q-item-label>
+                  </template>
+                </q-tree>
+              </div>
+            </template>
+
+            <template v-slot:after>
+              <div v-if="selectedPage" class="q-pa-md">
+                <div class="col">
+                  <div class="row">
+                    <MHoverable
+                      v-ripple
+                      class="relative-position"
+                      @click="openEditPageTitle(selectedPage)">
+                      <div class="row text-h6 items-center" style="gap: 0.5rem">
+                        <span>
+                          {{ selectedPage.title }}
+                        </span>
+                        <q-icon name="mdi-pencil-outline" />
+                      </div>
+                    </MHoverable>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <OPageBuildingBlockList
+                        :building-blocks="selectedPage.buildingBlocks"
+                        :initialized="initialized"
+                        :fetching="loading">
+                        <template #item="{ pageBuildingBlock }">
+                          <MPageBuildingBlock
+                            :building-block="pageBuildingBlock">
+                            <template #after>
+                              <q-item-section side>
+                                <PrimaryButton
+                                  icon="mdi-delete"
+                                  dense
+                                  flat
+                                  text-color="grey-6"
+                                  hover-text-color="red-10"
+                                  hover-color="red-1" />
+                              </q-item-section>
+                            </template>
+                          </MPageBuildingBlock>
+                        </template>
+                      </OPageBuildingBlockList>
+
+                      <div class="row justify-center q-mt-md">
+                        <PrimaryButton
+                          label="Baustein hinzufügen"
+                          :to="
+                            selectBuildingBlockRoute(courseId, selectedPage.id)
+                          " />
+                      </div>
+                    </div>
+
+                    <div class="col-auto">
+                      <q-list>
+                        <q-item v-for="mockup in selectedPage.mockups">
+                        </q-item>
+                      </q-list>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </q-splitter>
         </div>
       </div>
     </div>
@@ -48,24 +211,39 @@
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
 import { computed, onMounted, ref } from 'vue';
-import { withLoading } from 'src/core/useWithLoading';
-import { courseApi } from 'src/services/course_conceptualization';
+import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
+import { courseApi, pageApi } from 'src/services/course_conceptualization';
 import {
   Course,
   CourseTeachingUnit,
   Lesson,
+  Page,
 } from 'src/services/generated/openapi';
 import { lessonApi } from 'src/services/lesson_planning';
 import OCourseHeader from 'src/courses/view-course/OCourseHeader.vue';
 import { useQuasar } from 'quasar';
 import { useNotifications } from 'src/core/useNotifications';
-import { isRequired, stringPromptDialog } from 'src/core/useBaseDialog';
+import {
+  confirmDialog,
+  isRequired,
+  stringPromptDialog,
+} from 'src/core/useBaseDialog';
 import BaseInput from 'src/core/BaseInput.vue';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
-import OCourseTeachingUnit from 'src/courses/view-course/OCourseTeachingUnit.vue';
+import MPageBuildingBlock from 'src/courses/view-course/MPageBuildingBlock.vue';
+import OPageBuildingBlockList from 'src/courses/view-course/OPageBuildingBlockList.vue';
+import { useAppRouter } from 'src/router/useAppRouter';
+import SecondaryButton from 'src/core/SecondaryButton.vue';
+import {
+  learningCyclePhaseColor,
+  learningCyclePhaseLabel,
+} from 'src/lessons/view-teaching-unit/useTeachingPhase';
+import MHoverable from 'src/core/MHoverable.vue';
+import TertiaryButton from 'src/core/TertiaryButton.vue';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
+const { selectBuildingBlockRoute } = useAppRouter();
 
 const props = defineProps<{
   lessonId: string;
@@ -83,6 +261,48 @@ const lastSavedNotes = ref<string>();
 const performingSaveNotes = ref(false);
 const canSaveNotes = computed(
   () => course.value?.notes !== lastSavedNotes.value
+);
+
+const splitterModel = ref(30);
+const selectedPageId = ref<string>('');
+const selectedPage = ref<Page>();
+const performingCreatePage = ref<string[]>([]);
+const performingDeletePage = ref<string[]>([]);
+
+const teachingUnitTree = computed(() =>
+  courseTeachingUnits.value.map((teachingUnit) => {
+    return {
+      label: teachingUnit.topic,
+      value: teachingUnit.id,
+      selectable: false,
+      children: teachingUnit.teachingPhases.map((teachingPhase) => {
+        return {
+          label: teachingPhase.topic,
+          value: teachingPhase.id,
+          phase: teachingPhase.phase,
+          timeFrame: teachingPhase.timeFrame,
+          selectable: false,
+          body: 'phase',
+          children: [
+            ...teachingPhase.pages.map((page) => {
+              return {
+                value: page.id,
+                label: page.title,
+                teachingPhaseId: teachingPhase.id,
+                pageId: page.id,
+                icon: 'mdi-monitor',
+                header: 'page',
+              };
+            }),
+            {
+              header: 'add-page',
+              teachingPhaseId: teachingPhase.id,
+            },
+          ],
+        };
+      }),
+    };
+  })
 );
 
 onMounted(() => {
@@ -103,6 +323,14 @@ onMounted(() => {
     .getCourseStructure(props.courseId)
     .then((response) => {
       courseTeachingUnits.value = response.data;
+
+      const pages = courseTeachingUnits.value
+        .flatMap((teachingUnit) => teachingUnit.teachingPhases)
+        .flatMap((teachingPhase) => teachingPhase.pages);
+
+      if (pages.length > 0) {
+        selectTeachingPhase(pages[0].id);
+      }
     });
 
   withLoading(
@@ -116,6 +344,19 @@ onMounted(() => {
     loading
   );
 });
+
+function selectTeachingPhase(pageId: string | undefined) {
+  selectedPageId.value = pageId ?? '';
+
+  if (!pageId) {
+    selectedPage.value = undefined;
+  }
+
+  selectedPage.value = courseTeachingUnits.value
+    .flatMap((teachingUnit) => teachingUnit.teachingPhases)
+    .flatMap((teachingPhase) => teachingPhase.pages)
+    .find((page) => page.id === selectedPageId.value);
+}
 
 function openEditTechnologyWishDialog() {
   quasar
@@ -161,5 +402,108 @@ function saveNotes() {
       }),
     performingSaveNotes
   );
+}
+
+function openCreatePageDialog(teachingPhaseId: string) {
+  quasar
+    .dialog(
+      stringPromptDialog('Neue Seite', 'Titel', {
+        ok: {
+          label: 'Erstellen',
+        },
+        isValid: isRequired,
+      })
+    )
+    .onOk((title) => {
+      withLoadingArray(
+        pageApi
+          .createPage(props.courseId, {
+            teachingPhaseId,
+            title,
+          })
+          .then((response) => {
+            notifications.created();
+
+            const teachingPhase = courseTeachingUnits.value
+              .flatMap((teachingUnit) => teachingUnit.teachingPhases)
+              .find((teachingPhase) => teachingPhase.id === teachingPhaseId);
+
+            if (teachingPhase) {
+              teachingPhase.pages.push({
+                id: response.data,
+                teachingPhaseId: teachingPhaseId,
+                title,
+                linkedPages: [],
+                buildingBlocks: [],
+                mockups: [],
+              });
+            }
+          })
+          .catch((err) => {
+            notifications.apiError(err);
+          }),
+        performingCreatePage,
+        teachingPhaseId
+      );
+    });
+}
+
+function openEditPageTitle(page: Page) {
+  quasar
+    .dialog(
+      stringPromptDialog('Titel bearbeiten', 'Titel', {
+        ok: {
+          label: 'Speichern',
+        },
+        isValid: isRequired,
+        model: page.title,
+      })
+    )
+    .onOk((payload) => {
+      pageApi
+        .editPage(page.id, {
+          title: payload,
+        })
+        .then(() => {
+          notifications.saved();
+
+          page.title = payload;
+        })
+        .catch((err) => {
+          notifications.apiError(err);
+        });
+    });
+}
+
+function openDeletePageDialog(teachingPhaseId: string, pageId: string) {
+  quasar.dialog(confirmDialog()).onOk(() => {
+    withLoadingArray(
+      pageApi
+        .deletePage(pageId)
+        .then(() => {
+          notifications.deleted();
+
+          const teachingPhase = courseTeachingUnits.value
+            .flatMap((teachingUnit) => teachingUnit.teachingPhases)
+            .find((teachingPhase) => teachingPhase.id === teachingPhaseId);
+
+          if (!teachingPhase) {
+            return;
+          }
+
+          const index = teachingPhase.pages.findIndex(
+            (page) => page.id === pageId
+          );
+          if (index >= 0) {
+            teachingPhase.pages.splice(index, 1);
+          }
+        })
+        .catch((err) => {
+          notifications.apiError(err);
+        }),
+      performingDeletePage,
+      pageId
+    );
+  });
 }
 </script>
