@@ -69,14 +69,8 @@
                               dense
                               flat
                               tooltip="Diskussionen"
-                              :loading="
-                                performingDeletePage.includes(node.pageId)
-                              "
                               @click="
-                                openDeletePageDialog(
-                                  node.teachingPhaseId,
-                                  node.pageId
-                                )
+                                togglePageDiscussionDrawer(node.pageId)
                               " />
 
                             <TertiaryButton
@@ -158,7 +152,7 @@
                     </MHoverable>
                   </div>
 
-                  <div class="row">
+                  <div class="row q-col-gutter-lg">
                     <div class="col">
                       <OPageBuildingBlockList
                         :building-blocks="selectedPage.buildingBlocks"
@@ -191,10 +185,50 @@
                       </div>
                     </div>
 
-                    <div class="col-auto">
-                      <q-list>
-                        <q-item v-for="mockup in selectedPage.mockups">
-                        </q-item>
+                    <div class="col-auto" style="min-width: 350px">
+                      <p class="text-body2 text-weight-medium"> Mockups </p>
+                      <q-list class="column" style="gap: 0.5rem">
+                        <MMockup
+                          v-for="mockup in selectedPage.mockups"
+                          :key="mockup.id"
+                          :mockup="mockup">
+                          <template #after>
+                            <q-item-section side>
+                              <div class="row" style="gap: 0.75rem">
+                                <PrimaryButton
+                                  icon="mdi-download-outline"
+                                  text-color="primary"
+                                  dense
+                                  flat
+                                  @click="downloadFile(mockup.fileId)" />
+
+                                <TertiaryButton
+                                  icon="mdi-delete-outline"
+                                  dense
+                                  flat
+                                  hover-color="red-1"
+                                  hover-text-color="red-10"
+                                  :loading="
+                                    performingDeleteMockup.includes(mockup.id)
+                                  "
+                                  @click="openDeleteMockupDialog(mockup)" />
+                              </div>
+                            </q-item-section>
+                          </template>
+                        </MMockup>
+
+                        <div
+                          class="row"
+                          :class="{
+                            'q-py-md': selectedPage.mockups.length > 0,
+                          }">
+                          <BaseUploader
+                            multiple
+                            :factory="mockupUploadFactory"
+                            color="transparent"
+                            text-color="grey-8"
+                            class="bg-grey-2 full-width" />
+                        </div>
                       </q-list>
                     </div>
                   </div>
@@ -212,16 +246,21 @@
 import PBase from 'src/core/PBase.vue';
 import { computed, onMounted, ref } from 'vue';
 import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
-import { courseApi, pageApi } from 'src/services/course_conceptualization';
+import {
+  courseApi,
+  mockupApi,
+  pageApi,
+} from 'src/services/course_conceptualization';
 import {
   Course,
   CourseTeachingUnit,
   Lesson,
+  Mockup,
   Page,
 } from 'src/services/generated/openapi';
 import { lessonApi } from 'src/services/lesson_planning';
 import OCourseHeader from 'src/courses/view-course/OCourseHeader.vue';
-import { useQuasar } from 'quasar';
+import { QUploaderFactoryObject, useQuasar } from 'quasar';
 import { useNotifications } from 'src/core/useNotifications';
 import {
   confirmDialog,
@@ -240,10 +279,19 @@ import {
 } from 'src/lessons/view-teaching-unit/useTeachingPhase';
 import MHoverable from 'src/core/MHoverable.vue';
 import TertiaryButton from 'src/core/TertiaryButton.vue';
+import MMockup from 'src/courses/view-course/MMockup.vue';
+import BaseUploader from 'src/core/BaseUploader.vue';
+import { basePath } from 'boot/axios';
+import { useAuthenticationStore } from 'stores/authentication/store';
+import { useContentDownload } from 'src/core/useContentDownload';
+import { useDiscussions } from 'src/discussions/useDiscussions';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
+const authStore = useAuthenticationStore();
+const { downloadFile } = useContentDownload();
 const { selectBuildingBlockRoute } = useAppRouter();
+const { togglePageDiscussionDrawer } = useDiscussions();
 
 const props = defineProps<{
   lessonId: string;
@@ -268,6 +316,7 @@ const selectedPageId = ref<string>('');
 const selectedPage = ref<Page>();
 const performingCreatePage = ref<string[]>([]);
 const performingDeletePage = ref<string[]>([]);
+const performingDeleteMockup = ref<string[]>([]);
 
 const teachingUnitTree = computed(() =>
   courseTeachingUnits.value.map((teachingUnit) => {
@@ -344,6 +393,34 @@ onMounted(() => {
     loading
   );
 });
+
+function mockupUploadFactory(
+  files: readonly File[]
+): Promise<QUploaderFactoryObject> {
+  const page = selectedPage.value;
+
+  if (!page) {
+    return Promise.reject();
+  }
+
+  return authStore.getAccessToken().then((accessToken) => {
+    return {
+      url: `${basePath}/pages/${page.id}/mockups`,
+      headers: [
+        {
+          name: 'Authorization',
+          value: 'Bearer ' + accessToken,
+        },
+      ],
+      formFields: files.map((file) => {
+        return {
+          name: 'name',
+          value: file.name,
+        };
+      }),
+    };
+  });
+}
 
 function selectTeachingPhase(pageId: string | undefined) {
   selectedPageId.value = pageId ?? '';
@@ -503,6 +580,33 @@ function openDeletePageDialog(teachingPhaseId: string, pageId: string) {
         }),
       performingDeletePage,
       pageId
+    );
+  });
+}
+
+function openDeleteMockupDialog(mockup: Mockup) {
+  quasar.dialog(confirmDialog()).onOk(() => {
+    withLoadingArray(
+      mockupApi
+        .deleteMockup(mockup.id)
+        .then(() => {
+          const page = selectedPage.value;
+
+          if (page) {
+            const index = page.mockups.indexOf(mockup);
+
+            if (index >= 0) {
+              page.mockups.splice(index, 1);
+            }
+          }
+
+          notifications.deleted();
+        })
+        .catch((err) => {
+          notifications.apiError(err);
+        }),
+      performingDeleteMockup,
+      mockup.id
     );
   });
 }
