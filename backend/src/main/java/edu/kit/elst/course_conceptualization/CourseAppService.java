@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -60,5 +61,9 @@ public class CourseAppService {
     public CourseNote courseNote(CourseId courseId) {
         return courseNotes.findById(courseId)
                 .orElse(new CourseNote(courseId));
+    }
+
+    public Collection<Course> courses(Set<CourseId> courseIds) {
+        return courses.findAllById(courseIds);
     }
 }

@@ -284,14 +284,14 @@ import BaseUploader from 'src/core/BaseUploader.vue';
 import { basePath } from 'boot/axios';
 import { useAuthenticationStore } from 'stores/authentication/store';
 import { useContentDownload } from 'src/core/useContentDownload';
-import { useDiscussions } from 'src/discussions/useDiscussions';
+import { useDiscussionDrawer } from 'src/discussions/useDiscussionDrawer';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
 const authStore = useAuthenticationStore();
 const { downloadFile } = useContentDownload();
 const { selectBuildingBlockRoute } = useAppRouter();
-const { togglePageDiscussionDrawer } = useDiscussions();
+const { togglePageDiscussionDrawer } = useDiscussionDrawer();
 
 const props = defineProps<{
   lessonId: string;

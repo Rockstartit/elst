@@ -19,12 +19,12 @@ paths:
     $ref: "./openapi-discussion.yaml#/paths/~1discussions~1{discussionId}~1comments"
   /lessons/{lessonId}/teaching-units:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons~1{lessonId}~1teaching-units"
-  /files/{fileId}:
-    $ref: "./openapi-files.yaml#/paths/~1files~1{fileId}"
   /lessons/{lessonId}/courses:
     $ref: "./openapi-courses.yaml#/paths/~1lessons~1{lessonId}~1courses"
   /mockups/{mockupId}:
     $ref: "./openapi-courses.yaml#/paths/~1mockups~1{mockupId}"
+  /files/{fileId}:
+    $ref: "./openapi-files.yaml#/paths/~1files~1{fileId}"
   /courses/{courseId}:
     $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}"
   /teaching-phases/{teachingPhaseId}/learning-materials:
@@ -57,12 +57,12 @@ paths:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}"
   /learning-materials/{learningMaterialId}:
     $ref: "./openapi-lessons.yaml#/paths/~1learning-materials~1{learningMaterialId}"
+  /courses/{courseId}/pages:
+    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1pages"
   /lessons:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons"
   /comments/{commentId}:
     $ref: "./openapi-discussion.yaml#/paths/~1comments~1{commentId}"
-  /courses/{courseId}/pages:
-    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1pages"
   /pages/{pageId}:
     $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}"
   /lessons/{lessonId}:

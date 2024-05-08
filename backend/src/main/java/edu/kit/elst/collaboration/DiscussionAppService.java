@@ -23,12 +23,10 @@ public class DiscussionAppService {
     private final Comments comments;
     private final Discussions discussions;
 
-    public DiscussionId startDiscussion(String title, String comment) {
+    public DiscussionId startDiscussion(String title) {
         Discussion discussion = new Discussion(UserContext.getUserId(), title);
 
         discussions.save(discussion);
-
-        addComment(discussion.id(), comment);
 
         return discussion.id();
     }

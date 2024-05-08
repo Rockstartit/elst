@@ -96,4 +96,8 @@ public class PageAppService {
     public Collection<PageBuildingBlock> pageBuildingBlocks(Set<PageId> pageIds) {
         return pageBuildingBlocks.findAllByPageIdIn(pageIds);
     }
+
+    public Collection<Page> pages(Set<PageId> pageIds) {
+        return pages.findAllById(pageIds);
+    }
 }

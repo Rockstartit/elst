@@ -16,6 +16,6 @@ interface Comments extends JpaRepository<Comment, CommentId> {
 
     @Query("select comment from Comment comment " +
             "where comment.discussion = :discussion " +
-            "order by comment.createdAt desc")
+            "order by comment.createdAt asc")
     List<Comment> findAllByDiscussion(Discussion discussion);
 }

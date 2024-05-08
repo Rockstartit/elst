@@ -6,12 +6,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class DiscussionReferenceAppService {
     private final Discussions discussions;
+    private final PageReferences pageReferences;
+    private final MockupReferences mockupReferences;
+    private final CourseReferences courseReferences;
     private final DiscussionReferences discussionReferences;
 
     public DiscussionReferenceId createReference(DiscussionId discussionId, MockupId mockupId) {
@@ -58,5 +62,13 @@ public class DiscussionReferenceAppService {
 
     public Collection<DiscussionId> openDiscussions(CourseId courseId) {
         return discussionReferences.findAllOpenDiscussions(courseId);
+    }
+
+    public ReferencesToDiscussion references(DiscussionId discussionId) {
+        Collection<CourseReference> courseRefs = courseReferences.findAllByDiscussionId(discussionId);
+        Collection<PageReference> pageRefs = pageReferences.findAllByDiscussionId(discussionId);
+        Collection<MockupReference> mockupRefs = mockupReferences.findAllByDiscussionId(discussionId);
+
+        return new ReferencesToDiscussion(courseRefs, pageRefs, mockupRefs);
     }
 }

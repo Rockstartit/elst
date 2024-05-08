@@ -22,7 +22,9 @@ model/add-comment-request.ts
 model/building-block-requirement.ts
 model/building-block-version.ts
 model/building-block.ts
+model/comment.ts
 model/course-overview.ts
+model/course-reference.ts
 model/course-teaching-phase.ts
 model/course-teaching-unit.ts
 model/course.ts
@@ -31,6 +33,8 @@ model/create-lesson-request.ts
 model/create-page-request.ts
 model/create-teaching-phase-request.ts
 model/create-teaching-unit-request.ts
+model/discussion-overview.ts
+model/discussion-reference.ts
 model/discussion-state.ts
 model/discussion.ts
 model/document-requirement-request.ts
@@ -52,9 +56,11 @@ model/learning-material.ts
 model/lesson-overview.ts
 model/lesson.ts
 model/link-pages-request.ts
+model/mockup-reference.ts
 model/mockup.ts
 model/page-building-block.ts
 model/page-overview.ts
+model/page-reference.ts
 model/page.ts
 model/preparation-factors.ts
 model/release-status.ts

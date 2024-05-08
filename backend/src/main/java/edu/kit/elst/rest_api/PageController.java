@@ -69,7 +69,7 @@ public class PageController implements PageApi {
         Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap
                 = buildingBlockService.buildingBlocks(buildingBlockVersions).stream()
                 .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
-        Collection<Mockup> mockups = mockupAppService.mockups(aPageId);
+        Collection<Mockup> mockups = mockupAppService.mockupsByPageId(aPageId);
 
         Collection<edu.kit.elst.course_conceptualization.Page> linkedPages = pageAppService.linkedPages(aPageId);
 

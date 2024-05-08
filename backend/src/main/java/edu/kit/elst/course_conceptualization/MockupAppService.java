@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -44,7 +43,7 @@ public class MockupAppService {
         mockups.deleteById(mockupId);
     }
 
-    public Collection<Mockup> mockups(PageId pageId) {
+    public Collection<Mockup> mockupsByPageId(PageId pageId) {
         return mockups.findAllByPageId(pageId);
     }
 
@@ -52,7 +51,11 @@ public class MockupAppService {
         return mockups.findById(mockupId);
     }
 
-    public Collection<Mockup> mockups(Set<PageId> pageIds) {
+    public Collection<Mockup> mockupsByPageId(Set<PageId> pageIds) {
         return mockups.findAllByPageIdIn(pageIds);
+    }
+
+    public Collection<Mockup> mockups(Set<MockupId> mockupIds) {
+        return mockups.findAllById(mockupIds);
     }
 }

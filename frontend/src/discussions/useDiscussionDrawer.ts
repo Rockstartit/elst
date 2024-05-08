@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-import { Discussion } from 'src/services/generated/openapi';
 
 export const discussionDrawerOpen = ref(false);
 
@@ -7,9 +6,7 @@ const openCourseId = ref<string>();
 const openPageId = ref<string>();
 const openMockupId = ref<string>();
 
-const discussions = ref<Discussion[]>([]);
-
-export function useDiscussions() {
+export function useDiscussionDrawer() {
   function toggleCourseDiscussionDrawer(courseId: string) {
     if (openCourseId.value !== courseId) {
       discussionDrawerOpen.value = true;
@@ -52,7 +49,9 @@ export function useDiscussions() {
   }
 
   return {
-    discussions,
+    openPageId,
+    openCourseId,
+    openMockupId,
     discussionDrawerOpen,
     closeDiscussionDrawer,
     togglePageDiscussionDrawer,

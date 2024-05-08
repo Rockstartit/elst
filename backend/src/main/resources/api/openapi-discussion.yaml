@@ -38,7 +38,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Discussion"
+                  $ref: "#/components/schemas/DiscussionOverview"
         400:
           description: Invalid Request
         401:
@@ -113,7 +113,7 @@ paths:
     get:
       tags:
         - Discussion
-      summary: Get all discussions
+      summary: Get discussion
       operationId: getDiscussion
       parameters:
         - name: discussionId
@@ -134,6 +134,31 @@ paths:
         401:
           description: Not Authenticated
   /discussions/{discussionId}/comments:
+    get:
+      tags:
+        - Discussion
+      summary: Get all comments in discussion
+      operationId: getAllComments
+      parameters:
+        - name: discussionId
+          in: path
+          description: Id of discussion
+          schema:
+            $ref: '#/components/schemas/EntityId'
+          required: true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
     post:
       tags:
         - Discussion
@@ -210,7 +235,25 @@ paths:
           description: Not Authenticated
 components:
   schemas:
-    Discussion:
+    Comment:
+      type: object
+      required:
+        - id
+        - content
+        - createdBy
+        - createdAt
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        content:
+          type: string
+          example: Feedback
+        createdBy:
+          $ref: '#/components/schemas/User'
+        createdAt:
+          type: string
+          format: date-time
+    DiscussionOverview:
       type: object
       required:
         - id
@@ -230,6 +273,68 @@ components:
         resolvedAt:
           type: string
           format: date-time
+    Discussion:
+      type: object
+      required:
+        - id
+        - title
+        - createdBy
+        - state
+        - references
+      properties:
+        id:
+          $ref: '#/components/schemas/EntityId'
+        title:
+          type: string
+          example: Feedback
+        createdBy:
+          $ref: '#/components/schemas/User'
+        state:
+          $ref: '#/components/schemas/DiscussionState'
+        resolvedAt:
+          type: string
+          format: date-time
+        references:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscussionReference'
+    DiscussionReference:
+      oneOf:
+        - $ref: '#/components/schemas/CourseReference'
+        - $ref: '#/components/schemas/PageReference'
+        - $ref: '#/components/schemas/MockupReference'
+    CourseReference:
+      type: object
+      required:
+        - courseId
+        - topic
+      properties:
+        courseId:
+          $ref: '#/components/schemas/EntityId'
+        topic:
+          type: string
+          example: Bienen
+    PageReference:
+      type: object
+      required:
+        - pageId
+        - topic
+      properties:
+        pageId:
+          $ref: '#/components/schemas/EntityId'
+        title:
+          type: string
+          example: Startseite
+    MockupReference:
+      type: object
+      required:
+        - mockupId
+        - description
+      properties:
+        mockupId:
+          $ref: '#/components/schemas/EntityId'
+        description:
+          type: string
     DiscussionState:
       type: string
       enum:
@@ -253,7 +358,6 @@ components:
       type: object
       required:
         - title
-        - comment
       properties:
         title:
           type: string

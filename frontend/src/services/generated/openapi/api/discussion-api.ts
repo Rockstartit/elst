@@ -24,7 +24,11 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError, ope
 // @ts-ignore
 import { AddCommentRequest } from '../model';
 // @ts-ignore
+import { Comment } from '../model';
+// @ts-ignore
 import { Discussion } from '../model';
+// @ts-ignore
+import { DiscussionOverview } from '../model';
 // @ts-ignore
 import { EditCommentRequest } from '../model';
 // @ts-ignore
@@ -209,6 +213,44 @@ export const DiscussionApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
+         * @summary Get all comments in discussion
+         * @param {string} discussionId Id of discussion
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllComments: async (discussionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'discussionId' is not null or undefined
+            assertParamExists('getAllComments', 'discussionId', discussionId)
+            const localVarPath = `/discussions/{discussionId}/comments`
+                .replace(`{${"discussionId"}}`, encodeURIComponent(String(discussionId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get all discussions
          * @param {string} [courseId] Id of course
          * @param {string} [pageId] Id of page
@@ -258,7 +300,7 @@ export const DiscussionApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary Get all discussions
+         * @summary Get discussion
          * @param {string} discussionId Id of discussion
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -439,6 +481,19 @@ export const DiscussionApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get all comments in discussion
+         * @param {string} discussionId Id of discussion
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllComments(discussionId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Comment>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllComments(discussionId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DiscussionApi.getAllComments']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Get all discussions
          * @param {string} [courseId] Id of course
          * @param {string} [pageId] Id of page
@@ -446,7 +501,7 @@ export const DiscussionApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllDiscussions(courseId?: string, pageId?: string, mockupId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Discussion>>> {
+        async getAllDiscussions(courseId?: string, pageId?: string, mockupId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DiscussionOverview>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getAllDiscussions(courseId, pageId, mockupId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DiscussionApi.getAllDiscussions']?.[localVarOperationServerIndex]?.url;
@@ -454,7 +509,7 @@ export const DiscussionApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get all discussions
+         * @summary Get discussion
          * @param {string} discussionId Id of discussion
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -546,6 +601,16 @@ export const DiscussionApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
+         * @summary Get all comments in discussion
+         * @param {string} discussionId Id of discussion
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllComments(discussionId: string, options?: any): AxiosPromise<Array<Comment>> {
+            return localVarFp.getAllComments(discussionId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get all discussions
          * @param {string} [courseId] Id of course
          * @param {string} [pageId] Id of page
@@ -553,12 +618,12 @@ export const DiscussionApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllDiscussions(courseId?: string, pageId?: string, mockupId?: string, options?: any): AxiosPromise<Array<Discussion>> {
+        getAllDiscussions(courseId?: string, pageId?: string, mockupId?: string, options?: any): AxiosPromise<Array<DiscussionOverview>> {
             return localVarFp.getAllDiscussions(courseId, pageId, mockupId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get all discussions
+         * @summary Get discussion
          * @param {string} discussionId Id of discussion
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -649,6 +714,18 @@ export class DiscussionApi extends BaseAPI {
 
     /**
      * 
+     * @summary Get all comments in discussion
+     * @param {string} discussionId Id of discussion
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DiscussionApi
+     */
+    public getAllComments(discussionId: string, options?: RawAxiosRequestConfig) {
+        return DiscussionApiFp(this.configuration).getAllComments(discussionId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Get all discussions
      * @param {string} [courseId] Id of course
      * @param {string} [pageId] Id of page
@@ -663,7 +740,7 @@ export class DiscussionApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get all discussions
+     * @summary Get discussion
      * @param {string} discussionId Id of discussion
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

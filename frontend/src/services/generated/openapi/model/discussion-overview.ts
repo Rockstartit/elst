@@ -15,9 +15,6 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { DiscussionReference } from './discussion-reference';
-// May contain unused imports in some cases
-// @ts-ignore
 import { DiscussionState } from './discussion-state';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -26,45 +23,39 @@ import { User } from './user';
 /**
  * 
  * @export
- * @interface Discussion
+ * @interface DiscussionOverview
  */
-export interface Discussion {
+export interface DiscussionOverview {
     /**
      * 
      * @type {string}
-     * @memberof Discussion
+     * @memberof DiscussionOverview
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof Discussion
+     * @memberof DiscussionOverview
      */
     'title': string;
     /**
      * 
      * @type {User}
-     * @memberof Discussion
+     * @memberof DiscussionOverview
      */
     'createdBy': User;
     /**
      * 
      * @type {DiscussionState}
-     * @memberof Discussion
+     * @memberof DiscussionOverview
      */
     'state': DiscussionState;
     /**
      * 
      * @type {string}
-     * @memberof Discussion
+     * @memberof DiscussionOverview
      */
     'resolvedAt'?: string;
-    /**
-     * 
-     * @type {Array<DiscussionReference>}
-     * @memberof Discussion
-     */
-    'references': Array<DiscussionReference>;
 }
 
 

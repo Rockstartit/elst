@@ -13,42 +13,39 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { User } from './user';
 
 /**
  * 
  * @export
- * @interface StartDiscussionRequest
+ * @interface Comment
  */
-export interface StartDiscussionRequest {
+export interface Comment {
     /**
      * 
      * @type {string}
-     * @memberof StartDiscussionRequest
+     * @memberof Comment
      */
-    'title': string;
+    'id': string;
     /**
      * 
      * @type {string}
-     * @memberof StartDiscussionRequest
+     * @memberof Comment
      */
-    'comment'?: string;
+    'content': string;
+    /**
+     * 
+     * @type {User}
+     * @memberof Comment
+     */
+    'createdBy': User;
     /**
      * 
      * @type {string}
-     * @memberof StartDiscussionRequest
+     * @memberof Comment
      */
-    'courseId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof StartDiscussionRequest
-     */
-    'pageId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof StartDiscussionRequest
-     */
-    'mockupId'?: string;
+    'createdAt': string;
 }
 

@@ -125,7 +125,7 @@ public class CourseController implements CourseApi {
                 .map(Page::id)
                 .collect(Collectors.toSet());
 
-        Map<PageId, List<Mockup>> mockupsMap = mockupAppService.mockups(pageIds).stream()
+        Map<PageId, List<Mockup>> mockupsMap = mockupAppService.mockupsByPageId(pageIds).stream()
                 .collect(Collectors.groupingBy(Mockup::pageId));
 
         Map<PageId, List<PageBuildingBlock>> pageBuildingBlocksMap = pageAppService.pageBuildingBlocks(pageIds).stream()

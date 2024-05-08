@@ -33,7 +33,7 @@
 
           <q-btn dense flat no-wrap>
             <q-avatar rounded size="20px" class="q-mr-xs">
-              <img :src="profilePicture" />
+              <img :src="profilePicture" alt="Profilbild" />
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
 
@@ -41,7 +41,9 @@
               <q-list dense>
                 <q-item>
                   <q-item-section>
-                    <div>Angemeldet als <strong>Daniel</strong></div>
+                    <div
+                      >Angemeldet als <strong>{{ authStore.name }}</strong></div
+                    >
                   </q-item-section>
                 </q-item>
 
@@ -60,26 +62,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="discussionDrawerOpen"
-      side="right"
-      overlay
-      elevated
-      :width="550">
-      <div class="q-pa-md">
-        <ODiscussions>
-          <template #action>
-            <div class="col-auto">
-              <TertiaryButton
-                icon="mdi-close"
-                dense
-                flat
-                @click="closeDiscussionDrawer" />
-            </div>
-          </template>
-        </ODiscussions>
-      </div>
-    </q-drawer>
+    <ODiscussionDrawer />
 
     <q-page-container>
       <router-view />
@@ -92,13 +75,10 @@ import { availableRoutes } from 'src/router/routes';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useAuthenticationStore } from 'stores/authentication/store';
 import { computed } from 'vue';
-import { useDiscussions } from 'src/discussions/useDiscussions';
-import ODiscussions from 'src/discussions/ODiscussions.vue';
-import TertiaryButton from 'src/core/TertiaryButton.vue';
+import ODiscussionDrawer from 'src/discussions/ODiscussionDrawer.vue';
 
 const { logout } = useAuth0();
 const authStore = useAuthenticationStore();
-const { discussionDrawerOpen, closeDiscussionDrawer } = useDiscussions();
 
 const profilePicture = computed(() => authStore.profilePicture);
 </script>
