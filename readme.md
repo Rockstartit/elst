@@ -8,6 +8,10 @@ Connect to instance:
 
 ## Deployment
 
+Docker Engine installieren
+
+    https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+
 Clone/Pull Repository:
 
     git clone <repository-url>
