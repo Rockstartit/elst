@@ -132,11 +132,11 @@ public class CourseController implements CourseApi {
                 .collect(Collectors.groupingBy(PageBuildingBlock::pageId));
         Set<BuildingBlockId> buildingBlockIds = pageBuildingBlocksMap.values().stream()
                 .flatMap(Collection::stream)
-                .map(PageBuildingBlock::version)
+                .map(PageBuildingBlock::buildingBlockId)
                 .collect(Collectors.toSet());
 
         Map<BuildingBlockId, BuildingBlock> buildingBlockMap = buildingBlockService.buildingBlocks(buildingBlockIds).stream()
-                .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
+                .collect(Collectors.toMap(BuildingBlock::id, Function.identity()));
 
         Map<PageId, Collection<Page>> linkedPagesMap = new HashMap<>();
         for (PageId pageId : pageIds) {

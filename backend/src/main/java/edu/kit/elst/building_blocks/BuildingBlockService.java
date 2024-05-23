@@ -16,16 +16,7 @@ public class BuildingBlockService {
     private final BuildingBlocks buildingBlocks;
 
     public BuildingBlockId registerBuildingBlock(BuildingBlockDetails details) {
-        BuildingBlockId version = buildingBlocks.newBuildingBlockVersion();
-
-        BuildingBlock buildingBlock = new BuildingBlock(version, details);
-        buildingBlocks.save(buildingBlock);
-
-        return version;
-    }
-
-    public BuildingBlockId registerBuildingBlock(BuildingBlockId previousVersion, BuildingBlockDetails details) {
-        BuildingBlockId version = buildingBlocks.incrementVersion(previousVersion);
+        BuildingBlockId version = buildingBlocks.nextIdentity();
 
         BuildingBlock buildingBlock = new BuildingBlock(version, details);
         buildingBlocks.save(buildingBlock);

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -29,44 +28,31 @@ public class BuildingBlockController implements BuildingBlockApi {
     }
 
     @Override
-    public ResponseEntity<BuildingBlockVersion> requestBuildingBlock(RequestBuildingBlockRequest body) {
-        BuildingBlockId previousVersion = null;
-
-        if (body.getPreviousVersion() != null) {
-            previousVersion = BuildingBlockMapper.mapToBuildingBlockVersion(body.getPreviousVersion());
-        }
-
+    public ResponseEntity<UUID> requestBuildingBlock(RequestBuildingBlockRequest body) {
         BuildingBlockDetails buildingBlockDetails = new BuildingBlockDetails(
                 body.getName(), body.getDescription());
 
-        BuildingBlockId buildingBlockId;
-        if (previousVersion != null) {
-            buildingBlockId = buildingBlockService.registerBuildingBlock(previousVersion, buildingBlockDetails);
-        } else {
-            buildingBlockId = buildingBlockService.registerBuildingBlock(buildingBlockDetails);
-        }
+        BuildingBlockId buildingBlockId = buildingBlockService.registerBuildingBlock(buildingBlockDetails);
 
-        return ResponseEntity.ok(BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId));
+        return ResponseEntity.ok(buildingBlockId.value());
     }
 
     @Override
-    public ResponseEntity<BuildingBlock> getBuildingBlock(UUID buildingBlockId, BigDecimal versionNumber) {
-        BuildingBlockId version
-                = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
+    public ResponseEntity<BuildingBlock> getBuildingBlock(UUID buildingBlockId) {
+        BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
 
-        edu.kit.elst.building_blocks.BuildingBlock buildingBlock = buildingBlockService.buildingBlock(version)
-                .orElseThrow(() -> new BuildingBlockNotFoundException(version));
+        edu.kit.elst.building_blocks.BuildingBlock buildingBlock = buildingBlockService.buildingBlock(aBuildingBlockId)
+                .orElseThrow(() -> new BuildingBlockNotFoundException(aBuildingBlockId));
 
         return ResponseEntity.ok(BuildingBlockMapper.mapToBuildingBlock(buildingBlock));
     }
 
     @Override
-    public ResponseEntity<Void> editBuildingBlock(UUID buildingBlockId, BigDecimal versionNumber, EditBuildingBlockRequest body) {
-        BuildingBlockId version
-                = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
+    public ResponseEntity<Void> editBuildingBlock(UUID buildingBlockId, EditBuildingBlockRequest body) {
+        BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
 
         BuildingBlockDetails details = new BuildingBlockDetails(body.getName(), body.getDescription());
-        buildingBlockService.editBuildingBlock(version, details);
+        buildingBlockService.editBuildingBlock(aBuildingBlockId, details);
 
         return ResponseEntity.ok().build();
     }

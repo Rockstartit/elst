@@ -64,11 +64,11 @@ public class PageController implements PageApi {
 
         Collection<PageBuildingBlock> pageBuildingBlocks = pageAppService.pageBuildingBlocks(aPageId);
         Set<BuildingBlockId> buildingBlockIds = pageBuildingBlocks.stream()
-                .map(PageBuildingBlock::version)
+                .map(PageBuildingBlock::buildingBlockId)
                 .collect(Collectors.toSet());
         Map<BuildingBlockId, BuildingBlock> buildingBlockMap
                 = buildingBlockService.buildingBlocks(buildingBlockIds).stream()
-                .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
+                .collect(Collectors.toMap(BuildingBlock::id, Function.identity()));
         Collection<Mockup> mockups = mockupAppService.mockupsByPageId(aPageId);
 
         Collection<edu.kit.elst.course_conceptualization.Page> linkedPages = pageAppService.linkedPages(aPageId);
@@ -111,8 +111,7 @@ public class PageController implements PageApi {
     @Override
     public ResponseEntity<UUID> addBuildingBlockToPage(UUID pageId, AddBuildingBlockToPageRequest body) {
         PageId aPageId = new PageId(pageId);
-        BuildingBlockId buildingBlockId
-                = BuildingBlockMapper.mapToBuildingBlockVersion(body.getBuildingBlockId(), body.getVersion());
+        BuildingBlockId buildingBlockId = new BuildingBlockId(body.getBuildingBlockId());
 
         PageBuildingBlockId pageBuildingBlockId = pageAppService.addBuildingBlockToPage(aPageId, buildingBlockId);
 

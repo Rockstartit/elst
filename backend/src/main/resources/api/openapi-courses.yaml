@@ -642,14 +642,13 @@ components:
       type: object
       required:
         - pageBuildingBlockId
-        - version
         - name
         - releaseStatus
       properties:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
-        version:
-          $ref: "./openapi-building-blocks.yaml#/components/schemas/BuildingBlockVersion"
+        buildingBlockId:
+          $ref: "#/components/schemas/EntityId"
         name:
           type: string
         description:
@@ -660,20 +659,14 @@ components:
       type: object
       required:
         - buildingBlockId
-        - version
       properties:
         buildingBlockId:
           $ref: "#/components/schemas/EntityId"
-        version:
-          $ref: "#/components/schemas/VersionNumber"
     ReleaseStatus:
       type: string
       enum:
         - IN_DEVELOPMENT
         - RELEASED
-    VersionNumber:
-      type: number
-      example: 1
     EntityId:
       type: string
       format: uuid

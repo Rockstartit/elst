@@ -17,19 +17,19 @@ public class PageBuildingBlock {
     @EmbeddedId
     private final PageBuildingBlockId id;
 
-    private BuildingBlockId version;
+    private BuildingBlockId buildingBlockId;
 
     @Getter(AccessLevel.NONE)
     @JoinColumn(name = "page_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Page page;
 
-    public PageBuildingBlock(Page page, BuildingBlockId version) {
+    public PageBuildingBlock(Page page, BuildingBlockId buildingBlockId) {
         Guards.notNull(page, "page");
-        Guards.notNull(version, "version");
+        Guards.notNull(buildingBlockId, "buildingBlockId");
 
         this.id = PageBuildingBlocks.nextIdentity();
-        this.version = version;
+        this.buildingBlockId = buildingBlockId;
         this.page = page;
     }
 

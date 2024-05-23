@@ -73,7 +73,7 @@ public class CourseMapper {
                 .toList());
         dto.setBuildingBlocks(pageBuildingBlocks.stream()
                 .map(pageBuildingBlock -> mapToPageBuildingBlock(
-                        pageBuildingBlock, buildingBlockMap.get(pageBuildingBlock.version())))
+                        pageBuildingBlock, buildingBlockMap.get(pageBuildingBlock.buildingBlockId())))
                 .toList());
 
         return dto;
@@ -83,7 +83,7 @@ public class CourseMapper {
         edu.kit.elst.rest_api.PageBuildingBlock dto = new edu.kit.elst.rest_api.PageBuildingBlock();
 
         dto.setPageBuildingBlockId(pageBuildingBlock.id().value());
-        dto.setVersion(BuildingBlockMapper.mapToBuildingBlockVersion(pageBuildingBlock.version()));
+        dto.setBuildingBlockId(pageBuildingBlock.buildingBlockId().value());
         dto.setName(buildingBlock.details().name());
         dto.setDescription(buildingBlock.details().description());
         dto.setReleaseStatus(buildingBlock.releaseStatus());
