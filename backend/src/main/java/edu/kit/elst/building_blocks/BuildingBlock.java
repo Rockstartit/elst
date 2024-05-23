@@ -24,12 +24,8 @@ public class BuildingBlock {
     private ReleaseStatus releaseStatus;
 
     @ElementCollection
-    @CollectionTable(
-            name = "building_block_properties",
-            joinColumns = {
-                    @JoinColumn(name = "building_block_id", referencedColumnName = "building_block_id"),
-                    @JoinColumn(name = "building_block_version_number", referencedColumnName = "building_block_version_number")
-            })
+    @CollectionTable(name = "building_block_properties",
+            joinColumns = @JoinColumn(name = "building_block_id", referencedColumnName = "building_block_id"))
     private Collection<Property> properties;
 
     BuildingBlock(BuildingBlockId id, BuildingBlockDetails details) {
