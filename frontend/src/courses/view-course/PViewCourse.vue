@@ -138,7 +138,7 @@
             <template v-slot:after>
               <div v-if="selectedPage" class="q-pa-md">
                 <div class="col">
-                  <div class="row">
+                  <div class="row q-mb-md">
                     <MHoverable
                       v-ripple
                       class="relative-position"
@@ -239,6 +239,20 @@
         </div>
       </div>
     </div>
+
+    <template #breadcrumbs>
+      <TheBreadcrumbs>
+        <q-breadcrumbs-el
+          class="cursor-pointer"
+          :to="{ name: availableRoutes.view_lesson, params: { lessonId } }">
+          {{ lesson?.topic }}
+        </q-breadcrumbs-el>
+        <q-breadcrumbs-el class="text-black"> Kurse </q-breadcrumbs-el>
+        <q-breadcrumbs-el>
+          {{ course?.technologyWish }}
+        </q-breadcrumbs-el>
+      </TheBreadcrumbs>
+    </template>
   </PBase>
 </template>
 
@@ -285,6 +299,8 @@ import { basePath } from 'boot/axios';
 import { useAuthenticationStore } from 'stores/authentication/store';
 import { useContentDownload } from 'src/core/useContentDownload';
 import { useDiscussionDrawer } from 'src/discussions/useDiscussionDrawer';
+import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
+import { availableRoutes } from 'src/router/routes';
 
 const quasar = useQuasar();
 const notifications = useNotifications();

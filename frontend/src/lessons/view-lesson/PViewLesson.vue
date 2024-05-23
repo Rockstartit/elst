@@ -126,6 +126,14 @@
         </div>
       </div>
     </div>
+
+    <template #breadcrumbs>
+      <TheBreadcrumbs>
+        <q-breadcrumbs-el>
+          {{ lesson?.topic }}
+        </q-breadcrumbs-el>
+      </TheBreadcrumbs>
+    </template>
   </PBase>
 </template>
 
@@ -150,6 +158,7 @@ import TertiaryButton from 'src/core/TertiaryButton.vue';
 import { useAppRouter } from 'src/router/useAppRouter';
 import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
 import OCoursesForLesson from 'src/lessons/view-lesson/OCoursesForLesson.vue';
+import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
 
 const quasar = useQuasar();
 const notifications = useNotifications();

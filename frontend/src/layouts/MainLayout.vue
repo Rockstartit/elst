@@ -1,6 +1,6 @@
 <template>
   <q-layout class="bg-white">
-    <q-header elevated class="text-white bg-header" height-hint="61.59">
+    <q-header bordered class="text-white bg-header" style="position: sticky">
       <q-toolbar class="q-py-sm q-px-md">
         <q-btn
           round
@@ -64,7 +64,18 @@
 
     <ODiscussionDrawer />
 
-    <q-page-container>
+    <q-page-container style="padding-top: 0 !important">
+      <div
+        id="breadcrumbs"
+        class="nav row q-py-sm q-px-lg"
+        style="
+          position: sticky;
+          top: 62px;
+          z-index: 2;
+          transition: box-shadow 0.3s ease-in-out;
+        ">
+      </div>
+
       <router-view />
     </q-page-container>
   </q-layout>
@@ -83,12 +94,29 @@ const authStore = useAuthenticationStore();
 const profilePicture = computed(() => authStore.profilePicture);
 </script>
 
-<style lang="sass">
-.elst
-  &__toolbar-link
-    a
-      color: white
-      text-decoration: none
-      &:hover
-        opacity: 0.7
+<style lang="scss">
+.elst {
+  &__toolbar-link {
+    a {
+      color: white;
+      text-decoration: none;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+@keyframes shadow-in {
+  to {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.26);
+  }
+}
+
+#breadcrumbs {
+  background-color: white;
+  animation: shadow-in linear both;
+  animation-timeline: scroll();
+  animation-range: 0 100px;
+}
 </style>
