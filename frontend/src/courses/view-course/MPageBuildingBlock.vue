@@ -12,9 +12,6 @@
           {{ buildingBlock.description }}
         </q-item-label>
       </q-item-section>
-      <q-item-section side>
-        <q-badge>{{ 'Version ' + buildingBlock.version.version }}</q-badge>
-      </q-item-section>
       <slot name="after" />
     </q-item>
     <div v-if="inDevelopment" class="q-mt-sm">
@@ -33,10 +30,10 @@
 
 <script lang="ts" setup>
 import { QItemProps } from 'quasar';
-import { PageBuildingBlock } from 'src/services/generated/openapi/courses';
 import { computed } from 'vue';
 import { useAppRouter } from 'src/router/useAppRouter';
 import ALink from 'src/core/ALink.vue';
+import { PageBuildingBlock } from 'src/services/generated/openapi';
 
 const { viewBuildingBlockRoute } = useAppRouter();
 

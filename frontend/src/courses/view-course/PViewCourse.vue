@@ -169,7 +169,12 @@
                                   flat
                                   text-color="grey-6"
                                   hover-text-color="red-10"
-                                  hover-color="red-1" />
+                                  hover-color="red-1"
+                                  @click="
+                                    openRemoveBuildingBlockDialog(
+                                      pageBuildingBlock
+                                    )
+                                  " />
                               </q-item-section>
                             </template>
                           </MPageBuildingBlock>
@@ -271,6 +276,7 @@ import {
   Lesson,
   Mockup,
   Page,
+  PageBuildingBlock,
 } from 'src/services/generated/openapi';
 import { lessonApi } from 'src/services/lesson_planning';
 import OCourseHeader from 'src/courses/view-course/OCourseHeader.vue';
@@ -333,6 +339,7 @@ const selectedPage = ref<Page>();
 const performingCreatePage = ref<string[]>([]);
 const performingDeletePage = ref<string[]>([]);
 const performingDeleteMockup = ref<string[]>([]);
+const performingRemovePageBuildingBlock = ref<string[]>([]);
 
 const teachingUnitTree = computed(() =>
   courseTeachingUnits.value.map((teachingUnit) => {
@@ -623,6 +630,33 @@ function openDeleteMockupDialog(mockup: Mockup) {
         }),
       performingDeleteMockup,
       mockup.id
+    );
+  });
+}
+
+function openRemoveBuildingBlockDialog(pageBuildingBlock: PageBuildingBlock) {
+  quasar.dialog(confirmDialog()).onOk(() => {
+    withLoadingArray(
+      pageApi
+        .removeBuildingBlockFromPage(pageBuildingBlock.pageBuildingBlockId)
+        .then(() => {
+          const page = selectedPage.value;
+
+          if (page) {
+            const index = page.buildingBlocks.indexOf(pageBuildingBlock);
+
+            if (index >= 0) {
+              page.buildingBlocks.splice(index, 1);
+            }
+          }
+
+          notifications.deleted();
+        })
+        .catch((err) => {
+          notifications.apiError(err);
+        }),
+      performingRemovePageBuildingBlock,
+      pageBuildingBlock.pageBuildingBlockId
     );
   });
 }
