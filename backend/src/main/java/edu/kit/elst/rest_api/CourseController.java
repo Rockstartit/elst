@@ -2,7 +2,7 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockService;
-import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.*;
 import edu.kit.elst.course_conceptualization.Mockup;
@@ -130,12 +130,12 @@ public class CourseController implements CourseApi {
 
         Map<PageId, List<PageBuildingBlock>> pageBuildingBlocksMap = pageAppService.pageBuildingBlocks(pageIds).stream()
                 .collect(Collectors.groupingBy(PageBuildingBlock::pageId));
-        Set<BuildingBlockVersion> buildingBlockVersions = pageBuildingBlocksMap.values().stream()
+        Set<BuildingBlockId> buildingBlockIds = pageBuildingBlocksMap.values().stream()
                 .flatMap(Collection::stream)
                 .map(PageBuildingBlock::version)
                 .collect(Collectors.toSet());
 
-        Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap = buildingBlockService.buildingBlocks(buildingBlockVersions).stream()
+        Map<BuildingBlockId, BuildingBlock> buildingBlockMap = buildingBlockService.buildingBlocks(buildingBlockIds).stream()
                 .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
 
         Map<PageId, Collection<Page>> linkedPagesMap = new HashMap<>();

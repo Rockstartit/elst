@@ -2,7 +2,7 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockService;
-import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
@@ -63,11 +63,11 @@ public class PageController implements PageApi {
                 .orElseThrow(() -> new PageNotFoundException(aPageId));
 
         Collection<PageBuildingBlock> pageBuildingBlocks = pageAppService.pageBuildingBlocks(aPageId);
-        Set<BuildingBlockVersion> buildingBlockVersions = pageBuildingBlocks.stream()
+        Set<BuildingBlockId> buildingBlockIds = pageBuildingBlocks.stream()
                 .map(PageBuildingBlock::version)
                 .collect(Collectors.toSet());
-        Map<BuildingBlockVersion, BuildingBlock> buildingBlockMap
-                = buildingBlockService.buildingBlocks(buildingBlockVersions).stream()
+        Map<BuildingBlockId, BuildingBlock> buildingBlockMap
+                = buildingBlockService.buildingBlocks(buildingBlockIds).stream()
                 .collect(Collectors.toMap(BuildingBlock::version, Function.identity()));
         Collection<Mockup> mockups = mockupAppService.mockupsByPageId(aPageId);
 
@@ -111,10 +111,10 @@ public class PageController implements PageApi {
     @Override
     public ResponseEntity<UUID> addBuildingBlockToPage(UUID pageId, AddBuildingBlockToPageRequest body) {
         PageId aPageId = new PageId(pageId);
-        BuildingBlockVersion buildingBlockVersion
+        BuildingBlockId buildingBlockId
                 = BuildingBlockMapper.mapToBuildingBlockVersion(body.getBuildingBlockId(), body.getVersion());
 
-        PageBuildingBlockId pageBuildingBlockId = pageAppService.addBuildingBlockToPage(aPageId, buildingBlockVersion);
+        PageBuildingBlockId pageBuildingBlockId = pageAppService.addBuildingBlockToPage(aPageId, buildingBlockId);
 
         return ResponseEntity.ok(pageBuildingBlockId.value());
     }

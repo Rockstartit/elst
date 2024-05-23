@@ -15,8 +15,8 @@ import java.util.Set;
 public class BuildingBlockService {
     private final BuildingBlocks buildingBlocks;
 
-    public BuildingBlockVersion registerBuildingBlock(BuildingBlockDetails details) {
-        BuildingBlockVersion version = buildingBlocks.newBuildingBlockVersion();
+    public BuildingBlockId registerBuildingBlock(BuildingBlockDetails details) {
+        BuildingBlockId version = buildingBlocks.newBuildingBlockVersion();
 
         BuildingBlock buildingBlock = new BuildingBlock(version, details);
         buildingBlocks.save(buildingBlock);
@@ -24,8 +24,8 @@ public class BuildingBlockService {
         return version;
     }
 
-    public BuildingBlockVersion registerBuildingBlock(BuildingBlockVersion previousVersion, BuildingBlockDetails details) {
-        BuildingBlockVersion version = buildingBlocks.incrementVersion(previousVersion);
+    public BuildingBlockId registerBuildingBlock(BuildingBlockId previousVersion, BuildingBlockDetails details) {
+        BuildingBlockId version = buildingBlocks.incrementVersion(previousVersion);
 
         BuildingBlock buildingBlock = new BuildingBlock(version, details);
         buildingBlocks.save(buildingBlock);
@@ -33,7 +33,7 @@ public class BuildingBlockService {
         return version;
     }
 
-    public void releaseBuildingBlock(BuildingBlockVersion version, List<Property> properties) {
+    public void releaseBuildingBlock(BuildingBlockId version, List<Property> properties) {
         BuildingBlock buildingBlock = buildingBlocks.findById(version)
                 .orElseThrow(() -> new BuildingBlockNotFoundException(version));
 
@@ -45,15 +45,15 @@ public class BuildingBlockService {
         return buildingBlocks.findAll();
     }
 
-    public Collection<BuildingBlock> buildingBlocks(Set<BuildingBlockVersion> buildingBlockVersions) {
-        return buildingBlocks.findAllById(buildingBlockVersions);
+    public Collection<BuildingBlock> buildingBlocks(Set<BuildingBlockId> buildingBlockIds) {
+        return buildingBlocks.findAllById(buildingBlockIds);
     }
 
-    public Optional<BuildingBlock> buildingBlock(BuildingBlockVersion version) {
+    public Optional<BuildingBlock> buildingBlock(BuildingBlockId version) {
         return buildingBlocks.findById(version);
     }
 
-    public void editBuildingBlock(BuildingBlockVersion version, BuildingBlockDetails details) {
+    public void editBuildingBlock(BuildingBlockId version, BuildingBlockDetails details) {
         BuildingBlock buildingBlock = buildingBlock(version)
                 .orElseThrow(() -> new BuildingBlockNotFoundException(version));
 

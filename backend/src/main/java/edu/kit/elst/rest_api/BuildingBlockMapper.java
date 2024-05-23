@@ -1,20 +1,22 @@
 package edu.kit.elst.rest_api;
 
+import edu.kit.elst.building_blocks.BuildingBlockId;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
 public class BuildingBlockMapper {
-    public static BuildingBlockVersion mapToBuildingBlockVersion(edu.kit.elst.building_blocks.BuildingBlockVersion version) {
+    public static BuildingBlockVersion mapToBuildingBlockVersion(BuildingBlockId version) {
         BuildingBlockVersion dto = new BuildingBlockVersion();
 
-        dto.setBuildingBlockId(version.buildingBlockId());
+        dto.setBuildingBlockId(version.value());
         dto.setVersion(BigDecimal.valueOf(version.versionNumber()));
 
         return dto;
     }
 
-    public static edu.kit.elst.building_blocks.BuildingBlockVersion mapToBuildingBlockVersion(BuildingBlockVersion version) {
-        return new edu.kit.elst.building_blocks.BuildingBlockVersion(
+    public static BuildingBlockId mapToBuildingBlockVersion(BuildingBlockVersion version) {
+        return new BuildingBlockId(
                 version.getBuildingBlockId(), version.getVersion().longValue());
     }
 
@@ -29,7 +31,7 @@ public class BuildingBlockMapper {
         return dto;
     }
 
-    public static edu.kit.elst.building_blocks.BuildingBlockVersion mapToBuildingBlockVersion(UUID buildingBlockId, BigDecimal versionNumber) {
-        return new edu.kit.elst.building_blocks.BuildingBlockVersion(buildingBlockId, versionNumber.longValue());
+    public static BuildingBlockId mapToBuildingBlockVersion(UUID buildingBlockId, BigDecimal versionNumber) {
+        return new BuildingBlockId(buildingBlockId, versionNumber.longValue());
     }
 }

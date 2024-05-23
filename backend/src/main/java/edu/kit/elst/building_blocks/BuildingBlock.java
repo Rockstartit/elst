@@ -16,7 +16,7 @@ import java.util.Collections;
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class BuildingBlock {
     @EmbeddedId
-    private final BuildingBlockVersion version;
+    private final BuildingBlockId version;
 
     @Embedded
     private BuildingBlockDetails details;
@@ -32,7 +32,7 @@ public class BuildingBlock {
             })
     private Collection<Property> properties;
 
-    BuildingBlock(BuildingBlockVersion version, BuildingBlockDetails details) {
+    BuildingBlock(BuildingBlockId version, BuildingBlockDetails details) {
         Guards.notNull(version, "version");
         Guards.notNull(details, "details");
 

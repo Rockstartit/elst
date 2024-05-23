@@ -181,7 +181,6 @@
                             </typeMappings>
                             <importMappings>
                                 <importMapping>ReleaseStatus=edu.kit.elst.building_blocks.ReleaseStatus</importMapping>
-                                <importMapping>RequirementType=edu.kit.elst.course_implementation.RequirementType</importMapping>
                                 <importMapping>LearningCyclePhase=edu.kit.elst.lesson_planning.LearningCyclePhase</importMapping>
                                 <importMapping>DiscussionState=edu.kit.elst.collaboration.DiscussionState</importMapping>
                             </importMappings>

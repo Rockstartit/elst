@@ -1,6 +1,7 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlockDetails;
+import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.building_blocks.BuildingBlockNotFoundException;
 import edu.kit.elst.building_blocks.BuildingBlockService;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class BuildingBlockController implements BuildingBlockApi {
 
     @Override
     public ResponseEntity<BuildingBlockVersion> requestBuildingBlock(RequestBuildingBlockRequest body) {
-        edu.kit.elst.building_blocks.BuildingBlockVersion previousVersion = null;
+        BuildingBlockId previousVersion = null;
 
         if (body.getPreviousVersion() != null) {
             previousVersion = BuildingBlockMapper.mapToBuildingBlockVersion(body.getPreviousVersion());
@@ -38,19 +39,19 @@ public class BuildingBlockController implements BuildingBlockApi {
         BuildingBlockDetails buildingBlockDetails = new BuildingBlockDetails(
                 body.getName(), body.getDescription());
 
-        edu.kit.elst.building_blocks.BuildingBlockVersion buildingBlockVersion;
+        BuildingBlockId buildingBlockId;
         if (previousVersion != null) {
-            buildingBlockVersion = buildingBlockService.registerBuildingBlock(previousVersion, buildingBlockDetails);
+            buildingBlockId = buildingBlockService.registerBuildingBlock(previousVersion, buildingBlockDetails);
         } else {
-            buildingBlockVersion = buildingBlockService.registerBuildingBlock(buildingBlockDetails);
+            buildingBlockId = buildingBlockService.registerBuildingBlock(buildingBlockDetails);
         }
 
-        return ResponseEntity.ok(BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockVersion));
+        return ResponseEntity.ok(BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId));
     }
 
     @Override
     public ResponseEntity<BuildingBlock> getBuildingBlock(UUID buildingBlockId, BigDecimal versionNumber) {
-        edu.kit.elst.building_blocks.BuildingBlockVersion version
+        BuildingBlockId version
                 = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
 
         edu.kit.elst.building_blocks.BuildingBlock buildingBlock = buildingBlockService.buildingBlock(version)
@@ -61,7 +62,7 @@ public class BuildingBlockController implements BuildingBlockApi {
 
     @Override
     public ResponseEntity<Void> editBuildingBlock(UUID buildingBlockId, BigDecimal versionNumber, EditBuildingBlockRequest body) {
-        edu.kit.elst.building_blocks.BuildingBlockVersion version
+        BuildingBlockId version
                 = BuildingBlockMapper.mapToBuildingBlockVersion(buildingBlockId, versionNumber);
 
         BuildingBlockDetails details = new BuildingBlockDetails(body.getName(), body.getDescription());

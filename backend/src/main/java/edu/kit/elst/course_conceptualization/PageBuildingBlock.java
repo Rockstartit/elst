@@ -1,6 +1,6 @@
 package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
@@ -17,14 +17,14 @@ public class PageBuildingBlock {
     @EmbeddedId
     private final PageBuildingBlockId id;
 
-    private BuildingBlockVersion version;
+    private BuildingBlockId version;
 
     @Getter(AccessLevel.NONE)
     @JoinColumn(name = "page_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Page page;
 
-    public PageBuildingBlock(Page page, BuildingBlockVersion version) {
+    public PageBuildingBlock(Page page, BuildingBlockId version) {
         Guards.notNull(page, "page");
         Guards.notNull(version, "version");
 

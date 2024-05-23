@@ -1,6 +1,6 @@
 package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.building_blocks.BuildingBlockVersion;
+import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -54,7 +53,7 @@ public class PageAppService {
         pages.deleteById(pageId);
     }
 
-    public PageBuildingBlockId addBuildingBlockToPage(PageId pageId, BuildingBlockVersion version) {
+    public PageBuildingBlockId addBuildingBlockToPage(PageId pageId, BuildingBlockId version) {
         Page page = pages.getReferenceById(pageId);
 
         PageBuildingBlock buildingBlock = new PageBuildingBlock(page, version);
