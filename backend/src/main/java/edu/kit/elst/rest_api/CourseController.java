@@ -1,7 +1,7 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
-import edu.kit.elst.building_blocks.BuildingBlockService;
+import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.*;
@@ -26,7 +26,7 @@ public class CourseController implements CourseApi {
     private final PageAppService pageAppService;
     private final CourseAppService courseAppService;
     private final MockupAppService mockupAppService;
-    private final BuildingBlockService buildingBlockService;
+    private final BuildingBlockAppService buildingBlockService;
     private final TeachingUnitAppService teachingUnitAppService;
     private final TeachingPhaseAppService teachingPhaseAppService;
     private final LearningMaterialAppService learningMaterialAppService;

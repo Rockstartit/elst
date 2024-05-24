@@ -1,7 +1,7 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
-import edu.kit.elst.building_blocks.BuildingBlockService;
+import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class PageController implements PageApi {
     private final PageAppService pageAppService;
     private final MockupAppService mockupAppService;
-    private final BuildingBlockService buildingBlockService;
+    private final BuildingBlockAppService buildingBlockService;
 
     @Override
     public ResponseEntity<UUID> createPage(UUID courseId, CreatePageRequest body) {

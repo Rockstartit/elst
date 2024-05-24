@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.time.Duration;
 
 public class UtilMapper {
+    public static BigDecimal mapToBigDecimal(int value) {
+        return BigDecimal.valueOf(value);
+    }
+
     public static BigDecimal mapToBigDecimal(Duration duration) {
         return BigDecimal.valueOf(duration.toMinutes());
     }

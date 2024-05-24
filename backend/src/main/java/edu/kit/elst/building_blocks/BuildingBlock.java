@@ -21,24 +21,28 @@ public class BuildingBlock {
     @Embedded
     private BuildingBlockDetails details;
 
+    @Embedded
+    private Technology technology;
+
     private ReleaseStatus releaseStatus;
 
     @ElementCollection
     @CollectionTable(name = "building_block_properties",
             joinColumns = @JoinColumn(name = "building_block_id", referencedColumnName = "building_block_id"))
-    private Collection<Property> properties;
+    private Collection<BuildingBlockProperty> properties;
 
-    BuildingBlock(BuildingBlockId id, BuildingBlockDetails details) {
+    BuildingBlock(BuildingBlockId id, Technology technology, BuildingBlockDetails details) {
         Guards.notNull(id, "id");
-        Guards.notNull(details, "details");
 
         this.id = id;
-        this.details = details;
         this.releaseStatus = ReleaseStatus.IN_DEVELOPMENT;
         this.properties = new ArrayList<>();
+
+        setDetails(details);
+        setTechnology(technology);
     }
 
-    void setProperties(Collection<Property> properties) {
+    void setProperties(Collection<BuildingBlockProperty> properties) {
         this.properties.clear();
 
         if (properties != null) {
@@ -50,7 +54,7 @@ public class BuildingBlock {
         this.releaseStatus = ReleaseStatus.RELEASED;
     }
 
-    public Collection<Property> properties() {
+    public Collection<BuildingBlockProperty> properties() {
         return Collections.unmodifiableCollection(properties);
     }
 
@@ -58,5 +62,11 @@ public class BuildingBlock {
         Guards.notNull(details, "details");
 
         this.details = details;
+    }
+
+    public void setTechnology(Technology technology) {
+        Guards.notNull(technology, "technology");
+
+        this.technology = technology;
     }
 }

@@ -17,6 +17,8 @@ paths:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-phases~1{teachingPhaseId}"
   /discussions/{discussionId}/comments:
     $ref: "./openapi-discussion.yaml#/paths/~1discussions~1{discussionId}~1comments"
+  /building-blocks/{buildingBlockId}/properties:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1properties"
   /lessons/{lessonId}/teaching-units:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons~1{lessonId}~1teaching-units"
   /files/{fileId}:
@@ -33,8 +35,6 @@ paths:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks"
   /teaching-units/{teachingUnitId}/teaching-phases:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}~1teaching-phases"
-  /building-blocks/{buildingBlockId}/{version}:
-    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1{version}"
   /discussions/{discussionId}:
     $ref: "./openapi-discussion.yaml#/paths/~1discussions~1{discussionId}"
   /courses:
@@ -55,6 +55,8 @@ paths:
     $ref: "./openapi-lessons.yaml#/paths/~1learning-materials~1{learningMaterialId}"
   /lessons:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons"
+  /building-blocks/{buildingBlockId}/release:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1release"
   /comments/{commentId}:
     $ref: "./openapi-discussion.yaml#/paths/~1comments~1{commentId}"
   /courses/{courseId}/pages:
@@ -63,6 +65,8 @@ paths:
     $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}"
   /lessons/{lessonId}:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons~1{lessonId}"
+  /building-blocks/{buildingBlockId}:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}"
   /page-links/{pageId}/to/{targetPageId}:
     $ref: "./openapi-courses.yaml#/paths/~1page-links~1{pageId}~1to~1{targetPageId}"
 info:

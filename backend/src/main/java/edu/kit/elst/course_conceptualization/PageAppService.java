@@ -53,10 +53,10 @@ public class PageAppService {
         pages.deleteById(pageId);
     }
 
-    public PageBuildingBlockId addBuildingBlockToPage(PageId pageId, BuildingBlockId version) {
+    public PageBuildingBlockId addBuildingBlockToPage(PageId pageId, BuildingBlockId id) {
         Page page = pages.getReferenceById(pageId);
 
-        PageBuildingBlock buildingBlock = new PageBuildingBlock(page, version);
+        PageBuildingBlock buildingBlock = new PageBuildingBlock(page, id);
         pageBuildingBlocks.save(buildingBlock);
 
         return buildingBlock.id();

@@ -1,9 +1,6 @@
 package edu.kit.elst.rest_api;
 
-import edu.kit.elst.building_blocks.BuildingBlockDetails;
-import edu.kit.elst.building_blocks.BuildingBlockId;
-import edu.kit.elst.building_blocks.BuildingBlockNotFoundException;
-import edu.kit.elst.building_blocks.BuildingBlockService;
+import edu.kit.elst.building_blocks.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +12,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 public class BuildingBlockController implements BuildingBlockApi {
-    private final BuildingBlockService buildingBlockService;
+    private final BuildingBlockAppService buildingBlockService;
 
     @Override
     public ResponseEntity<List<BuildingBlock>> getBuildingBlocks() {
@@ -31,8 +28,9 @@ public class BuildingBlockController implements BuildingBlockApi {
     public ResponseEntity<UUID> requestBuildingBlock(RequestBuildingBlockRequest body) {
         BuildingBlockDetails buildingBlockDetails = new BuildingBlockDetails(
                 body.getName(), body.getDescription());
+        Technology technology = new Technology(body.getTechnology());
 
-        BuildingBlockId buildingBlockId = buildingBlockService.registerBuildingBlock(buildingBlockDetails);
+        BuildingBlockId buildingBlockId = buildingBlockService.registerBuildingBlock(buildingBlockDetails, technology);
 
         return ResponseEntity.ok(buildingBlockId.value());
     }
@@ -52,7 +50,30 @@ public class BuildingBlockController implements BuildingBlockApi {
         BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
 
         BuildingBlockDetails details = new BuildingBlockDetails(body.getName(), body.getDescription());
-        buildingBlockService.editBuildingBlock(aBuildingBlockId, details);
+        Technology technology = new Technology(body.getTechnology());
+        buildingBlockService.editBuildingBlock(aBuildingBlockId, details, technology);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> editBuildingBlockProperties(UUID buildingBlockId, EditBuildingBlockPropertiesRequest body) {
+        BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
+
+        List<edu.kit.elst.building_blocks.BuildingBlockProperty> properties = body.getProperties().stream()
+                .map(BuildingBlockMapper::mapToBuildingBlockProperty)
+                .toList();
+
+        buildingBlockService.editBuildingBlockProperties(aBuildingBlockId, properties);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> releaseBuildingBlock(UUID buildingBlockId) {
+        BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
+
+        buildingBlockService.releaseBuildingBlock(aBuildingBlockId);
 
         return ResponseEntity.ok().build();
     }

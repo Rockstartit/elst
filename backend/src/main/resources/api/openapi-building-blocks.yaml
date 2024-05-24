@@ -47,7 +47,7 @@ paths:
           description: Invalid Request
         401:
           description: Not Authenticated
-  /building-blocks/{buildingBlockId}/{version}:
+  /building-blocks/{buildingBlockId}:
     get:
       tags:
         - Building Block
@@ -94,6 +94,52 @@ paths:
           description: Invalid Request
         401:
           description: Not Authenticated
+  /building-blocks/{buildingBlockId}/properties:
+    put:
+      tags:
+        - Building Block
+      summary: Edit building block properties
+      operationId: editBuildingBlockProperties
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditBuildingBlockPropertiesRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /building-blocks/{buildingBlockId}/release:
+    post:
+      tags:
+        - Building Block
+      summary: Release building block
+      operationId: releaseBuildingBlock
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
 components:
   schemas:
     BuildingBlock:
@@ -101,6 +147,7 @@ components:
       required:
         - version
         - name
+        - properties
         - releaseStatus
       properties:
         id:
@@ -111,8 +158,24 @@ components:
         description:
           type: string
           example: Eine Komponente zum Darstellen eines Textes.
+        technology:
+          type: string
+          example: Vue
+        properties:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildingBlockProperty"
         releaseStatus:
           $ref: "#/components/schemas/ReleaseStatus"
+    EditBuildingBlockPropertiesRequest:
+      type: object
+      required:
+        - properties
+      properties:
+        properties:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuildingBlockProperty"
     RequestBuildingBlockRequest:
       type: object
       required:
@@ -121,6 +184,9 @@ components:
         name:
           type: string
           example: Text
+        technology:
+          type: string
+          example: Vue
         description:
           type: string
           example: Eine Komponente zum Darstellen eines Textes.
@@ -128,6 +194,7 @@ components:
       type: object
       required:
         - name
+        - technology
       properties:
         name:
           type: string
@@ -135,6 +202,29 @@ components:
         description:
           type: string
           example: Eine Komponente zum Darstellen eines Textes.
+        technology:
+          type: string
+          example: Vue
+    BuildingBlockProperty:
+      type: object
+      properties:
+        key:
+          type: string
+          example: value_1
+        type:
+          $ref: "#/components/schemas/BuildingBlockPropertyType"
+        displayName:
+          type: string
+          example: Wert 1
+        description:
+          type: string
+        order:
+          type: number
+          example: 0
+    BuildingBlockPropertyType:
+      type: string
+      enum:
+        - STRING
     ReleaseStatus:
       type: string
       enum:

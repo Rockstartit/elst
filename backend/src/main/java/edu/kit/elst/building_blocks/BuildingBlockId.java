@@ -28,8 +28,8 @@ public class BuildingBlockId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BuildingBlockId version = (BuildingBlockId) o;
-        return Objects.equals(value, version.value);
+        BuildingBlockId id = (BuildingBlockId) o;
+        return Objects.equals(value, id.value);
     }
 
     @Override
