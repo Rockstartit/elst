@@ -12,13 +12,13 @@
           color="white"
           class="q-mr-sm"
           no-caps
-          :to="{ name: availableRoutes.browse_courses }" />
+          :to="{ name: availableRoutes.browse_lessons }" />
 
         <div
           v-if="$q.screen.gt.sm"
           class="elst__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
-          <router-link :to="{ name: availableRoutes.browse_courses }">
-            <a class="text-white"> Kurse </a>
+          <router-link :to="{ name: availableRoutes.browse_lessons }">
+            <a class="text-white"> Unterrichte </a>
           </router-link>
 
           <router-link :to="{ name: availableRoutes.browse_building_blocks }">
