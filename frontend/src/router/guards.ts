@@ -1,6 +1,7 @@
 import { createAuthGuard, useAuth0 } from '@auth0/auth0-vue';
 import { App } from 'vue';
 import { availableRoutes } from 'src/router/routes';
+import { authorizationParams } from 'stores/authentication/store';
 
 export function authenticationRouteGuard(app: App) {
   return async (to) => {
@@ -13,9 +14,7 @@ export function authenticationRouteGuard(app: App) {
     return createAuthGuard({
       app,
       redirectLoginOptions: {
-        authorizationParams: {
-          redirect_uri: window.location.origin + '/public/pub/callback',
-        },
+        authorizationParams,
       },
     })(to);
   };

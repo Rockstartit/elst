@@ -52,7 +52,7 @@
                 <q-item clickable>
                   <q-item-section>Einstellungen</q-item-section>
                 </q-item>
-                <q-item clickable @click="logout()">
+                <q-item clickable @click="authStore.logout">
                   <q-item-section>Abmelden</q-item-section>
                 </q-item>
               </q-list>
@@ -83,12 +83,10 @@
 
 <script lang="ts" setup>
 import { availableRoutes } from 'src/router/routes';
-import { useAuth0 } from '@auth0/auth0-vue';
 import { useAuthenticationStore } from 'stores/authentication/store';
 import { computed } from 'vue';
 import ODiscussionDrawer from 'src/discussions/ODiscussionDrawer.vue';
 
-const { logout } = useAuth0();
 const authStore = useAuthenticationStore();
 
 const profilePicture = computed(() => authStore.profilePicture);

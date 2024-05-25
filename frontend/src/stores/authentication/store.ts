@@ -2,6 +2,10 @@ import { defineStore } from 'pinia';
 import { computed } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 
+export const authorizationParams = {
+  redirect_uri: window.location.origin + '/public/pub/callback',
+};
+
 export const useAuthenticationStore = defineStore('authentication', () => {
   const auth0 = useAuth0();
 
@@ -31,8 +35,24 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     return Promise.resolve('');
   }
 
+  function login() {
+    auth0.loginWithRedirect({
+      authorizationParams,
+    });
+  }
+
+  function logout() {
+    auth0.logout({
+      logoutParams: {
+        redirect_uri: window.location.origin + '/public/pub/login',
+      },
+    });
+  }
+
   return {
     name,
+    login,
+    logout,
     userId,
     lastName,
     firstName,
