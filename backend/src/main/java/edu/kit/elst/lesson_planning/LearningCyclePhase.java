@@ -1,7 +1,10 @@
 package edu.kit.elst.lesson_planning;
 
 public enum LearningCyclePhase {
-    CONCEPTUALIZATION,
-    CONSTRUCTION,
-    DIALOG
+    ACQUISITION,
+    COLLABORATION,
+    DISCUSSION,
+    INQUIRY,
+    PRACTICE,
+    PRODUCTION
 }

@@ -21,9 +21,12 @@
  */
 
 export const LearningCyclePhase = {
-    Conceptualization: 'CONCEPTUALIZATION',
-    Construction: 'CONSTRUCTION',
-    Dialog: 'DIALOG'
+    Acquisition: 'ACQUISITION',
+    Collaboration: 'COLLABORATION',
+    Discussion: 'DISCUSSION',
+    Inquiry: 'INQUIRY',
+    Practice: 'PRACTICE',
+    Production: 'PRODUCTION'
 } as const;
 
 export type LearningCyclePhase = typeof LearningCyclePhase[keyof typeof LearningCyclePhase];

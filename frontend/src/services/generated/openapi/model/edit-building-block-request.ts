@@ -32,5 +32,11 @@ export interface EditBuildingBlockRequest {
      * @memberof EditBuildingBlockRequest
      */
     'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EditBuildingBlockRequest
+     */
+    'technology': string;
 }
 

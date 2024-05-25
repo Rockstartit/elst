@@ -17,14 +17,14 @@
 /**
  * 
  * @export
- * @interface AddBuildingBlockToPageRequest
+ * @enum {string}
  */
-export interface AddBuildingBlockToPageRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof AddBuildingBlockToPageRequest
-     */
-    'buildingBlockId': string;
-}
+
+export const BuildingBlockPropertyType = {
+    String: 'STRING'
+} as const;
+
+export type BuildingBlockPropertyType = typeof BuildingBlockPropertyType[keyof typeof BuildingBlockPropertyType];
+
+
 

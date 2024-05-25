@@ -22,7 +22,6 @@ export * from './api/learning-material-api';
 export * from './api/lesson-api';
 export * from './api/mockup-api';
 export * from './api/page-api';
-export * from './api/requirement-api';
 export * from './api/teaching-phase-api';
 export * from './api/teaching-unit-api';
 

@@ -9,7 +9,6 @@ api/learning-material-api.ts
 api/lesson-api.ts
 api/mockup-api.ts
 api/page-api.ts
-api/requirement-api.ts
 api/teaching-phase-api.ts
 api/teaching-unit-api.ts
 base.ts
@@ -19,8 +18,8 @@ git_push.sh
 index.ts
 model/add-building-block-to-page-request.ts
 model/add-comment-request.ts
-model/building-block-requirement.ts
-model/building-block-version.ts
+model/building-block-property-type.ts
+model/building-block-property.ts
 model/building-block.ts
 model/comment.ts
 model/course-overview.ts
@@ -37,7 +36,7 @@ model/discussion-overview.ts
 model/discussion-reference.ts
 model/discussion-state.ts
 model/discussion.ts
-model/document-requirement-request.ts
+model/edit-building-block-properties-request.ts
 model/edit-building-block-request.ts
 model/edit-comment-request.ts
 model/edit-course-request.ts
@@ -46,7 +45,6 @@ model/edit-learning-material-request.ts
 model/edit-lesson-request.ts
 model/edit-mockup-request.ts
 model/edit-page-request.ts
-model/edit-requirement-request.ts
 model/edit-teaching-phase-request.ts
 model/edit-teaching-unit-request.ts
 model/index.ts
@@ -65,7 +63,6 @@ model/page.ts
 model/preparation-factors.ts
 model/release-status.ts
 model/request-building-block-request.ts
-model/requirement-type.ts
 model/start-discussion-request.ts
 model/teaching-phase.ts
 model/teaching-unit-overview.ts

@@ -626,9 +626,12 @@ components:
     LearningCyclePhase:
       type: string
       enum:
-        - CONCEPTUALIZATION
-        - CONSTRUCTION
-        - DIALOG
+        - ACQUISITION
+        - COLLABORATION
+        - DISCUSSION
+        - INQUIRY
+        - PRACTICE
+        - PRODUCTION
     EntityId:
       type: string
       format: uuid

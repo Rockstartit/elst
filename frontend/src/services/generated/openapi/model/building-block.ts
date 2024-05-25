@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { BuildingBlockVersion } from './building-block-version';
+import { BuildingBlockProperty } from './building-block-property';
 // May contain unused imports in some cases
 // @ts-ignore
 import { ReleaseStatus } from './release-status';
@@ -28,10 +28,10 @@ import { ReleaseStatus } from './release-status';
 export interface BuildingBlock {
     /**
      * 
-     * @type {BuildingBlockVersion}
+     * @type {string}
      * @memberof BuildingBlock
      */
-    'version': BuildingBlockVersion;
+    'id'?: string;
     /**
      * 
      * @type {string}
@@ -44,6 +44,18 @@ export interface BuildingBlock {
      * @memberof BuildingBlock
      */
     'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BuildingBlock
+     */
+    'technology'?: string;
+    /**
+     * 
+     * @type {Array<BuildingBlockProperty>}
+     * @memberof BuildingBlock
+     */
+    'properties': Array<BuildingBlockProperty>;
     /**
      * 
      * @type {ReleaseStatus}

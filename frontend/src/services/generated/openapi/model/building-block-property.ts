@@ -15,44 +15,44 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ReleaseStatus } from './release-status';
+import { BuildingBlockPropertyType } from './building-block-property-type';
 
 /**
  * 
  * @export
- * @interface PageBuildingBlock
+ * @interface BuildingBlockProperty
  */
-export interface PageBuildingBlock {
+export interface BuildingBlockProperty {
     /**
      * 
      * @type {string}
-     * @memberof PageBuildingBlock
+     * @memberof BuildingBlockProperty
      */
-    'pageBuildingBlockId': string;
+    'key'?: string;
     /**
      * 
-     * @type {string}
-     * @memberof PageBuildingBlock
+     * @type {BuildingBlockPropertyType}
+     * @memberof BuildingBlockProperty
      */
-    'buildingBlockId'?: string;
+    'type'?: BuildingBlockPropertyType;
     /**
      * 
      * @type {string}
-     * @memberof PageBuildingBlock
+     * @memberof BuildingBlockProperty
      */
-    'name': string;
+    'displayName'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PageBuildingBlock
+     * @memberof BuildingBlockProperty
      */
     'description'?: string;
     /**
      * 
-     * @type {ReleaseStatus}
-     * @memberof PageBuildingBlock
+     * @type {number}
+     * @memberof BuildingBlockProperty
      */
-    'releaseStatus': ReleaseStatus;
+    'order'?: number;
 }
 
 

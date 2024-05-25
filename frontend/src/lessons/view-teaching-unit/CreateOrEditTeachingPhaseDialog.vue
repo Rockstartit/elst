@@ -79,6 +79,7 @@ import BaseInput from 'src/core/BaseInput.vue';
 import { useRules } from 'src/core/useRules';
 import { LearningCyclePhase } from 'src/services/generated/openapi';
 import BaseSelect from 'src/core/BaseSelect.vue';
+import { learningCyclePhaseLabel } from 'src/lessons/view-teaching-unit/useTeachingPhase';
 
 const { isRequired, isGreaterThanOrEqual } = useRules();
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
@@ -95,20 +96,32 @@ const timeFrame = ref(props.teachingPhase?.timeFrame?.toString() ?? '');
 
 const phaseOptions: { label: string; value: LearningCyclePhase }[] = [
   {
-    label: 'Konzeptionalisierung',
-    value: LearningCyclePhase.Conceptualization,
+    label: learningCyclePhaseLabel(LearningCyclePhase.Acquisition),
+    value: LearningCyclePhase.Acquisition,
   },
   {
-    label: 'Konstruktion',
-    value: LearningCyclePhase.Construction,
+    label: learningCyclePhaseLabel(LearningCyclePhase.Collaboration),
+    value: LearningCyclePhase.Collaboration,
   },
   {
-    label: 'Dialog',
-    value: LearningCyclePhase.Dialog,
+    label: learningCyclePhaseLabel(LearningCyclePhase.Discussion),
+    value: LearningCyclePhase.Discussion,
+  },
+  {
+    label: learningCyclePhaseLabel(LearningCyclePhase.Inquiry),
+    value: LearningCyclePhase.Inquiry,
+  },
+  {
+    label: learningCyclePhaseLabel(LearningCyclePhase.Practice),
+    value: LearningCyclePhase.Practice,
+  },
+  {
+    label: learningCyclePhaseLabel(LearningCyclePhase.Production),
+    value: LearningCyclePhase.Production,
   },
 ];
 const phase = ref<LearningCyclePhase>(
-  props.teachingPhase?.phase ?? 'CONCEPTUALIZATION'
+  props.teachingPhase?.phase ?? LearningCyclePhase.Acquisition
 );
 
 function submit() {

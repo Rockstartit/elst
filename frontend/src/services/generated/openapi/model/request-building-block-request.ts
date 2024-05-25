@@ -13,9 +13,6 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { BuildingBlockVersion } from './building-block-version';
 
 /**
  * 
@@ -25,16 +22,16 @@ import { BuildingBlockVersion } from './building-block-version';
 export interface RequestBuildingBlockRequest {
     /**
      * 
-     * @type {BuildingBlockVersion}
+     * @type {string}
      * @memberof RequestBuildingBlockRequest
      */
-    'previousVersion'?: BuildingBlockVersion;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof RequestBuildingBlockRequest
      */
-    'name': string;
+    'technology'?: string;
     /**
      * 
      * @type {string}
