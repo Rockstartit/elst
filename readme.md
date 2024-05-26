@@ -4,7 +4,7 @@ Connect to instance:
 
     ssh -i <ssh-key>  <username>@<hostname>
 
-    ssh -i elst-deployment ubuntu@330ce66f-b890-4be8-a01c-ed122261bf8c.ka.bw-cloud-instance.org
+    ssh -i elst-deployment ubuntu@ee60dea8-624b-4422-b153-d96c6a404142.ka.bw-cloud-instance.org
 
 ## Deployment
 

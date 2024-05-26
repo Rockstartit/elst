@@ -10,12 +10,6 @@
         <q-tab-panel name="overview" class="bg-grey-1">
           <TBuildingBlockOverview v-model="buildingBlock" />
         </q-tab-panel>
-        <q-tab-panel name="requirements" class="bg-grey-1">
-          <TRequirements :building-block-version="buildingBlock.version" />
-        </q-tab-panel>
-        <q-tab-panel name="mockups" class="bg-grey-1">
-          <TMockups :building-block-version="buildingBlock.version" />
-        </q-tab-panel>
       </q-tab-panels>
     </div>
   </PBase>
@@ -23,37 +17,24 @@
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { withLoading } from 'src/core/useWithLoading';
 import { useQuasar } from 'quasar';
 import OBuildingBlockHeader, {
   BuildingBlockHeaderTab,
 } from 'src/building-blocks/view-building-block/OBuildingBlockHeader.vue';
 import TBuildingBlockOverview from 'src/building-blocks/view-building-block/overview/TBuildingBlockOverview.vue';
-import TRequirements from 'src/building-blocks/view-building-block/requirements/TRequirements.vue';
-import TMockups from 'src/building-blocks/view-building-block/mockups/TMockups.vue';
-import {
-  BuildingBlock,
-  BuildingBlockVersion,
-} from 'src/services/generated/openapi';
+import { BuildingBlock } from 'src/services/generated/openapi';
 import { buildingBlockApi } from 'src/services/building_blocks';
 
 const quasar = useQuasar();
 
 const props = defineProps<{
   buildingBlockId: string;
-  version: string;
 }>();
 
 const initialized = ref(false);
 const loading = ref(false);
-
-const buildingBlockVersion = computed<BuildingBlockVersion>(() => {
-  return {
-    buildingBlockId: props.buildingBlockId,
-    version: Number.parseInt(props.version),
-  };
-});
 
 const tab = ref<BuildingBlockHeaderTab>('overview');
 const buildingBlock = ref<BuildingBlock>();
@@ -61,10 +42,7 @@ const buildingBlock = ref<BuildingBlock>();
 onMounted(() => {
   withLoading(
     buildingBlockApi
-      .getBuildingBlock(
-        buildingBlockVersion.value.buildingBlockId,
-        buildingBlockVersion.value.version
-      )
+      .getBuildingBlock(props.buildingBlockId)
       .then((response) => {
         buildingBlock.value = response.data;
       })
@@ -87,14 +65,11 @@ function openEditNameDialog() {
     .onOk((payload) => {
       if (buildingBlock.value) {
         buildingBlockApi
-          .editBuildingBlock(
-            buildingBlockVersion.value.buildingBlockId,
-            buildingBlockVersion.value.version,
-            {
-              name: payload,
-              description: buildingBlock.value.description,
-            }
-          )
+          .editBuildingBlock(props.buildingBlockId, {
+            name: payload,
+            technology: buildingBlock.value.technology,
+            description: buildingBlock.value.description,
+          })
           .then(() => {
             if (buildingBlock.value) {
               buildingBlock.value.name = payload;
