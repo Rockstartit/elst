@@ -1,6 +1,5 @@
 import { RouteLocationRaw, useRouter } from 'vue-router';
 import { availableRoutes } from 'src/router/routes';
-import { BuildingBlockVersion } from 'src/services/generated/openapi';
 
 export function useAppRouter() {
   const router = useRouter();
@@ -52,54 +51,26 @@ export function useAppRouter() {
     });
   }
 
-  function viewBuildingBlockRoute(buildingBlockVersion: BuildingBlockVersion) {
+  function viewBuildingBlockRoute(buildingBlockId: string) {
     return {
       name: availableRoutes.view_building_block,
       params: {
-        buildingBlockId: buildingBlockVersion.buildingBlockId,
-        version: buildingBlockVersion.version,
+        buildingBlockId,
       },
     };
   }
 
-  function viewBuildingBlock(buildingBlockVersion: BuildingBlockVersion) {
-    return goToRoute(viewBuildingBlockRoute(buildingBlockVersion));
-  }
-
-  function viewPageRoute(courseId: string, pageId: string) {
-    return {
-      name: availableRoutes.view_page,
-      params: {
-        courseId,
-        pageId,
-      },
-    };
-  }
-
-  function viewPage(courseId: string, pageId: string) {
-    return goToRoute(viewPageRoute(courseId, pageId));
-  }
-
-  function selectBuildingBlockRoute(courseId: string, pageId: string) {
-    return {
-      name: availableRoutes.select_building_block,
-      params: {
-        courseId,
-        pageId,
-      },
-    };
+  function viewBuildingBlock(buildingBlockId: string) {
+    return goToRoute(viewBuildingBlockRoute(buildingBlockId));
   }
 
   return {
-    viewPage,
     viewCourse,
     viewLesson,
-    viewPageRoute,
     browseLessons,
     viewLessonRoute,
     viewBuildingBlock,
     viewTeachingUnitRoute,
     viewBuildingBlockRoute,
-    selectBuildingBlockRoute,
   };
 }

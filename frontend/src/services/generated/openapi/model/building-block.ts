@@ -31,7 +31,7 @@ export interface BuildingBlock {
      * @type {string}
      * @memberof BuildingBlock
      */
-    'id'?: string;
+    'id': string;
     /**
      * 
      * @type {string}
@@ -49,7 +49,7 @@ export interface BuildingBlock {
      * @type {string}
      * @memberof BuildingBlock
      */
-    'technology'?: string;
+    'technology': string;
     /**
      * 
      * @type {Array<BuildingBlockProperty>}

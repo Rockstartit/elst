@@ -1,6 +1,5 @@
 <template>
   <OBaseAnimatedList
-    :key-fn="keyFn"
     :items="buildingBlocks"
     :initialized="initialized"
     :fetching="fetching"
@@ -21,7 +20,6 @@
 import { useBrowseBuildingBlocks } from 'src/building-blocks/browse/useBrowseBuildingBlocks';
 import { onMounted, ref } from 'vue';
 import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
-import { BuildingBlock } from 'src/services/generated/openapi';
 
 const { fetching, buildingBlocks, fetchBuildingBlocks } =
   useBrowseBuildingBlocks();
@@ -33,8 +31,4 @@ onMounted(() => {
     initialized.value = true;
   });
 });
-
-function keyFn(buildingBlock: BuildingBlock) {
-  return buildingBlock.version.buildingBlockId + buildingBlock.version.version;
-}
 </script>

@@ -124,15 +124,36 @@
         </BaseCard>
       </div>
     </div>
+
+    <template #breadcrumbs>
+      <TheBreadcrumbs>
+        <q-breadcrumbs-el
+          class="cursor-pointer"
+          :to="{ name: availableRoutes.view_lesson, params: { lessonId } }">
+          {{ lesson?.topic }}
+        </q-breadcrumbs-el>
+        <q-breadcrumbs-el class="text-black">
+          Unterrichtseinheiten
+        </q-breadcrumbs-el>
+        <q-breadcrumbs-el>
+          {{ teachingUnit?.topic }}
+        </q-breadcrumbs-el>
+      </TheBreadcrumbs>
+    </template>
   </PBase>
 </template>
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
 import { onMounted, ref } from 'vue';
-import { TeachingPhase, TeachingUnit } from 'src/services/generated/openapi';
+import {
+  Lesson,
+  TeachingPhase,
+  TeachingUnit,
+} from 'src/services/generated/openapi';
 import { withLoading } from 'src/core/useWithLoading';
 import {
+  lessonApi,
   teachingPhaseApi,
   teachingUnitApi,
 } from 'src/services/lesson_planning';
@@ -156,6 +177,8 @@ import {
   editTeachingPhaseDialog,
 } from 'src/lessons/view-teaching-unit/useTeachingPhaseDialog';
 import OTeachingPhase from 'src/lessons/view-teaching-unit/OTeachingPhase.vue';
+import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
+import { availableRoutes } from 'src/router/routes';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -169,21 +192,27 @@ const props = defineProps<{
 const initialized = ref(false);
 const loading = ref(false);
 
+const lesson = ref<Lesson>();
 const teachingUnit = ref<TeachingUnit>();
 const performingEdit = ref(false);
 const performingDelete = ref(false);
 const performingCreateTeachingPhase = ref(false);
 
 onMounted(() => {
+  const teachingUnitPromise = teachingUnitApi
+    .getTeachingUnit(props.teachingUnitId)
+    .then((response) => {
+      teachingUnit.value = response.data;
+    });
+
+  const lessonPromise = lessonApi.getLesson(props.lessonId).then((response) => {
+    lesson.value = response.data;
+  });
+
   withLoading(
-    teachingUnitApi
-      .getTeachingUnit(props.teachingUnitId)
-      .then((response) => {
-        teachingUnit.value = response.data;
-      })
-      .finally(() => {
-        initialized.value = true;
-      }),
+    Promise.allSettled([teachingUnitPromise, lessonPromise]).finally(() => {
+      initialized.value = true;
+    }),
     loading
   );
 });

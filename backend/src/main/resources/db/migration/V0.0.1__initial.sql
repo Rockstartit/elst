@@ -3,8 +3,8 @@ create table lessons (lesson_id binary(16) not null, learning_prerequisites varc
 create table teaching_units (teaching_unit_id binary(16) not null, acquired_competences varchar(1024), didactic_considerations varchar(4048), rough_content_analysis varchar(4048), topic varchar(255), curriculum_alignment varchar(4048), framework_conditions varchar(512), instruction_methods varchar(255), lesson_id binary(16) not null, primary key (teaching_unit_id)) engine=InnoDB;
 create table teaching_phase (teaching_phase_id binary(16) not null, phase tinyint, time_frame decimal(21,0), topic varchar(255), teaching_unit_id binary(16) not null, primary key (teaching_phase_id)) engine=InnoDB;
 create table uploaded_files (file_id binary(16) not null, data longblob, name varchar(255), type varchar(255), primary key (file_id)) engine=InnoDB;
-create table building_block_properties (building_block_id binary(16) not null, display_name varchar(255), `key` varchar(255), `order` integer) engine=InnoDB;
-create table building_blocks (building_block_id binary(16) not null, description varchar(255), name varchar(50) not null, release_status tinyint, primary key (building_block_id)) engine=InnoDB;
+create table building_block_properties (building_block_id binary(16) not null, display_name varchar(255), `key` varchar(255), `order` integer, type tinyint, description varchar(255)) engine=InnoDB;
+create table building_blocks (building_block_id binary(16) not null, description varchar(255), technology varchar(255), name varchar(50) not null, release_status tinyint, primary key (building_block_id)) engine=InnoDB;
 create table comments (comment_id binary(16) not null, content varchar(255), created_at datetime(6), user_id varchar(255), discussion_id binary(16) not null, primary key (comment_id)) engine=InnoDB;
 create table course_notes (course_id binary(16) not null, content tinyblob, primary key (course_id)) engine=InnoDB;
 create table courses (course_id binary(16) not null, lesson_id binary(16), user_id varchar(255), technology_wish varchar(255), primary key (course_id)) engine=InnoDB;

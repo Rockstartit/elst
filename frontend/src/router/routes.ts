@@ -9,8 +9,6 @@ export const availableRoutes = {
   view_lesson: 'view_lesson',
   view_teaching_unit: 'view_teaching_unit',
   view_course: 'view_course',
-  browse_building_blocks: 'browse_building_blocks',
-  select_building_block: 'select_building_block',
   view_building_block: 'view_building_block',
 };
 
@@ -47,22 +45,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('src/courses/view-course/PViewCourse.vue'),
       },
       {
-        name: availableRoutes.select_building_block,
-        path: 'courses/:courseId/pages/:pageId/select',
-        props: true,
-        component: () =>
-          import('src/courses/select-building-block/PSelectBuildingBlock.vue'),
-      },
-      {
-        name: availableRoutes.browse_building_blocks,
-        path: 'building-blocks/browse',
-        props: true,
-        component: () =>
-          import('src/building-blocks/browse/PBrowseBuildingBlocks.vue'),
-      },
-      {
         name: availableRoutes.view_building_block,
-        path: 'building-blocks/:buildingBlockId/:version',
+        path: 'building-blocks/:buildingBlockId',
         props: true,
         component: () =>
           import(

@@ -184,8 +184,8 @@
                       <div class="row justify-center q-mt-md">
                         <PrimaryButton
                           label="Baustein hinzufügen"
-                          :to="
-                            selectBuildingBlockRoute(courseId, selectedPage.id)
+                          @click="
+                            openSelectBuildingBlockDialog(selectedPage.id)
                           " />
                       </div>
                     </div>
@@ -291,7 +291,6 @@ import BaseInput from 'src/core/BaseInput.vue';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import MPageBuildingBlock from 'src/courses/view-course/MPageBuildingBlock.vue';
 import OPageBuildingBlockList from 'src/courses/view-course/OPageBuildingBlockList.vue';
-import { useAppRouter } from 'src/router/useAppRouter';
 import SecondaryButton from 'src/core/SecondaryButton.vue';
 import {
   learningCyclePhaseColor,
@@ -307,12 +306,15 @@ import { useContentDownload } from 'src/core/useContentDownload';
 import { useDiscussionDrawer } from 'src/discussions/useDiscussionDrawer';
 import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
 import { availableRoutes } from 'src/router/routes';
+import {
+  selectBuildingBlockDialog,
+  SelectBuildingBlockDialogResult,
+} from 'src/courses/select-building-block/useSelectBuildingBlockDialog';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
 const authStore = useAuthenticationStore();
 const { downloadFile } = useContentDownload();
-const { selectBuildingBlockRoute } = useAppRouter();
 const { togglePageDiscussionDrawer } = useDiscussionDrawer();
 
 const props = defineProps<{
@@ -340,6 +342,7 @@ const performingCreatePage = ref<string[]>([]);
 const performingDeletePage = ref<string[]>([]);
 const performingDeleteMockup = ref<string[]>([]);
 const performingRemovePageBuildingBlock = ref<string[]>([]);
+const performingAddBuildingBlockToPage = ref(false);
 
 const teachingUnitTree = computed(() =>
   courseTeachingUnits.value.map((teachingUnit) => {
@@ -659,5 +662,44 @@ function openRemoveBuildingBlockDialog(pageBuildingBlock: PageBuildingBlock) {
       pageBuildingBlock.pageBuildingBlockId
     );
   });
+}
+
+function openSelectBuildingBlockDialog(pageId: string) {
+  const technologyWish = course.value?.technologyWish;
+
+  if (!technologyWish) {
+    console.error('could not find technologyWish');
+    return;
+  }
+
+  quasar
+    .dialog(selectBuildingBlockDialog(technologyWish))
+    .onOk((result: SelectBuildingBlockDialogResult) => {
+      withLoading(
+        pageApi
+          .addBuildingBlockToPage(pageId, {
+            buildingBlockId: result.buildingBlock.id,
+          })
+          .then((response) => {
+            const page = selectedPage.value;
+
+            if (page) {
+              page.buildingBlocks.push({
+                pageBuildingBlockId: response.data,
+                buildingBlockId: result.buildingBlock.id,
+                name: result.buildingBlock.name,
+                releaseStatus: result.buildingBlock.releaseStatus,
+                description: result.buildingBlock.description,
+              });
+            }
+
+            notifications.success();
+          })
+          .catch((err) => {
+            notifications.apiError(err);
+          }),
+        performingAddBuildingBlockToPage
+      );
+    });
 }
 </script>

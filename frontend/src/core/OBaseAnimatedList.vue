@@ -1,31 +1,33 @@
 <template>
-  <transition enter-active-class="animated fadeIn">
-    <div v-if="fetching" class="row justify-center q-py-md">
-      <q-spinner />
-    </div>
+  <div class="column" style="gap: 0.75rem">
+    <slot name="before" />
 
-    <q-list
-      v-else-if="initialized && !fetching"
-      class="column"
-      style="gap: 0.75rem">
-      <slot name="before" />
-
-      <div v-if="items.length > 0" class="column" :style="'gap: ' + gap">
-        <slot
-          name="item"
-          v-for="(item, index) in items"
-          :key="keyFn(item)"
-          :item="item"
-          :index="index" />
+    <transition enter-active-class="animated fadeIn">
+      <div v-if="fetching" class="row justify-center q-py-md">
+        <q-spinner />
       </div>
 
-      <div v-else-if="initialized" class="row justify-center q-mt-sm">
-        {{ emptyMessage }}
-      </div>
+      <q-list
+        v-else-if="initialized && !fetching"
+        class="column"
+        style="gap: 0.75rem">
+        <div v-if="items.length > 0" class="column" :style="'gap: ' + gap">
+          <slot
+            name="item"
+            v-for="(item, index) in items"
+            :key="keyFn(item)"
+            :item="item"
+            :index="index" />
+        </div>
 
-      <slot name="after" />
-    </q-list>
-  </transition>
+        <div v-else-if="initialized" class="row justify-center q-mt-sm">
+          {{ emptyMessage }}
+        </div>
+
+        <slot name="after" />
+      </q-list>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts" setup generic="T">

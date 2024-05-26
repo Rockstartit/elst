@@ -22,7 +22,7 @@
 
       <ALink
         label="Zur Entwicklung beitragen"
-        :to="viewBuildingBlockRoute(buildingBlock.version)"
+        :to="viewBuildingBlockRoute(buildingBlock.buildingBlockId)"
         class="text-body2 text-primary text-weight-medium" />
     </div>
   </div>

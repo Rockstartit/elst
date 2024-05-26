@@ -7,10 +7,7 @@
     </q-item-section>
     <q-item-section>
       <q-item-label> Neuen Baustein beantragen </q-item-label>
-      <q-item-label caption class="text-indigo-7">
-        Startet einen neuen Entwicklungsprozess für einen von Ihnen
-        spezifizierten Baustein.
-      </q-item-label>
+      <q-item-label caption class="text-indigo-7"> </q-item-label>
     </q-item-section>
   </q-item>
 </template>

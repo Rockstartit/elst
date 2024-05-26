@@ -47,7 +47,7 @@ public class BuildingBlockAppService {
     }
 
     public Collection<BuildingBlock> allBuildingBlocks() {
-        return buildingBlocks.findAll();
+        return buildingBlocks.findAllWithProperties();
     }
 
     public Collection<BuildingBlock> buildingBlocks(Set<BuildingBlockId> buildingBlockIds) {

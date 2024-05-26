@@ -145,9 +145,10 @@ components:
     BuildingBlock:
       type: object
       required:
-        - version
+        - id
         - name
         - properties
+        - technology
         - releaseStatus
       properties:
         id:
