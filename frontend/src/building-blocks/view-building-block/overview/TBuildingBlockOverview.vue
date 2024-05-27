@@ -2,10 +2,6 @@
   <div class="overflow-hidden">
     <div class="row q-col-gutter-lg">
       <div class="col">
-        <OMockups
-          :building-block-version="buildingBlock.version"
-          height="300px" />
-
         <OMarkdownRenderer :content="readme" class="q-mt-lg relative-position">
           <template #before>
             <SecondaryButton
@@ -30,7 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import OMockups from 'src/building-blocks/view-building-block/overview/OMockups.vue';
 import OMarkdownRenderer from 'src/core/OMarkdownRenderer.vue';
 import OBuildingBlockDetails from 'src/building-blocks/view-building-block/overview/OBuildingBlockDetails.vue';
 import { useQuasar } from 'quasar';

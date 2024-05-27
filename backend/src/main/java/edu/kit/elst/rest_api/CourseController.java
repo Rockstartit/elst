@@ -5,7 +5,7 @@ import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.*;
-import edu.kit.elst.course_conceptualization.Mockup;
+import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.course_conceptualization.Page;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
 import edu.kit.elst.lesson_planning.*;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class CourseController implements CourseApi {
     private final PageAppService pageAppService;
     private final CourseAppService courseAppService;
-    private final MockupAppService mockupAppService;
+    private final PageMockupAppService pageMockupAppService;
     private final BuildingBlockAppService buildingBlockService;
     private final TeachingUnitAppService teachingUnitAppService;
     private final TeachingPhaseAppService teachingPhaseAppService;
@@ -125,8 +125,8 @@ public class CourseController implements CourseApi {
                 .map(Page::id)
                 .collect(Collectors.toSet());
 
-        Map<PageId, List<Mockup>> mockupsMap = mockupAppService.mockupsByPageId(pageIds).stream()
-                .collect(Collectors.groupingBy(Mockup::pageId));
+        Map<PageId, List<PageMockup>> mockupsMap = pageMockupAppService.mockupsByPageId(pageIds).stream()
+                .collect(Collectors.groupingBy(PageMockup::pageId));
 
         Map<PageId, List<PageBuildingBlock>> pageBuildingBlocksMap = pageAppService.pageBuildingBlocks(pageIds).stream()
                 .collect(Collectors.groupingBy(PageBuildingBlock::pageId));

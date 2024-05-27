@@ -5,8 +5,7 @@ import edu.kit.elst.collaboration.ReferencesToDiscussion;
 import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
-import edu.kit.elst.core.shared.UserId;
-import edu.kit.elst.course_conceptualization.Mockup;
+import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.course_conceptualization.Page;
 import edu.kit.elst.lesson_planning.Lesson;
 
@@ -34,7 +33,7 @@ public class DiscussionMapper {
                                        ReferencesToDiscussion references,
                                        Map<CourseId, edu.kit.elst.lesson_planning.Lesson> lessonMap,
                                        Map<PageId, edu.kit.elst.course_conceptualization.Page> pageMap,
-                                       Map<MockupId, edu.kit.elst.course_conceptualization.Mockup> mockupMap) {
+                                       Map<MockupId, PageMockup> mockupMap) {
         Discussion dto = new Discussion();
 
         dto.setId(discussion.id().value());
@@ -60,7 +59,7 @@ public class DiscussionMapper {
         return dto;
     }
 
-    private static edu.kit.elst.rest_api.MockupReference mapToMockupReference(edu.kit.elst.collaboration.MockupReference reference, Mockup mockup) {
+    private static edu.kit.elst.rest_api.MockupReference mapToMockupReference(edu.kit.elst.collaboration.MockupReference reference, PageMockup mockup) {
         edu.kit.elst.rest_api.MockupReference dto = new edu.kit.elst.rest_api.MockupReference();
 
         dto.setMockupId(reference.mockupId().value());

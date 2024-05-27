@@ -7,11 +7,21 @@
         @edit-name="openEditNameDialog" />
 
       <q-tab-panels v-model="tab">
-        <q-tab-panel name="overview" class="bg-grey-1">
+        <q-tab-panel name="overview">
           <TBuildingBlockOverview v-model="buildingBlock" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
+
+    <template #breadcrumbs>
+      <TheBreadcrumbs>
+        <q-breadcrumbs-el class="text-black"> Bausteine </q-breadcrumbs-el>
+
+        <q-breadcrumbs-el>
+          {{ buildingBlock?.name }}
+        </q-breadcrumbs-el>
+      </TheBreadcrumbs>
+    </template>
   </PBase>
 </template>
 
@@ -26,6 +36,7 @@ import OBuildingBlockHeader, {
 import TBuildingBlockOverview from 'src/building-blocks/view-building-block/overview/TBuildingBlockOverview.vue';
 import { BuildingBlock } from 'src/services/generated/openapi';
 import { buildingBlockApi } from 'src/services/building_blocks';
+import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
 
 const quasar = useQuasar();
 

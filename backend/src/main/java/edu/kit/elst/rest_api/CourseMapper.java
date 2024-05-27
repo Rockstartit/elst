@@ -5,6 +5,7 @@ import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
 import edu.kit.elst.course_conceptualization.CourseNote;
+import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.lesson_planning.TeachingPhase;
 import edu.kit.elst.lesson_planning.TeachingUnit;
 
@@ -35,7 +36,7 @@ public class CourseMapper {
         return dto;
     }
 
-    public static Mockup mapToMockup(edu.kit.elst.course_conceptualization.Mockup mockup) {
+    public static Mockup mapToMockup(PageMockup mockup) {
         Mockup dto = new Mockup();
 
         dto.setId(mockup.id().value());
@@ -57,7 +58,7 @@ public class CourseMapper {
 
     public static Page mapToPage(edu.kit.elst.course_conceptualization.Page page,
                            Collection<edu.kit.elst.course_conceptualization.Page> linkedPages,
-                           Collection<edu.kit.elst.course_conceptualization.Mockup> mockups,
+                           Collection<PageMockup> mockups,
                            Collection<edu.kit.elst.course_conceptualization.PageBuildingBlock> pageBuildingBlocks,
                            Map<BuildingBlockId, edu.kit.elst.building_blocks.BuildingBlock> buildingBlockMap) {
         Page dto = new Page();
@@ -105,7 +106,7 @@ public class CourseMapper {
                                                        List<edu.kit.elst.lesson_planning.TeachingPhase> teachingPhases,
                                                        Map<TeachingPhaseId, List<edu.kit.elst.lesson_planning.LearningMaterial>> learningMaterialsMap,
                                                        Map<TeachingPhaseId, List<edu.kit.elst.course_conceptualization.Page>> pagesMap,
-                                                       Map<PageId, List<edu.kit.elst.course_conceptualization.Mockup>> mockupsMap,
+                                                       Map<PageId, List<PageMockup>> mockupsMap,
                                                        Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
                                                        Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
                                                        Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {
@@ -131,7 +132,7 @@ public class CourseMapper {
     public static CourseTeachingPhase mapToCourseTeachingPhase(TeachingPhase teachingPhase,
                                                          List<edu.kit.elst.lesson_planning.LearningMaterial> learningMaterials,
                                                          List<edu.kit.elst.course_conceptualization.Page> pages,
-                                                         Map<PageId, List<edu.kit.elst.course_conceptualization.Mockup>> mockupsMap,
+                                                         Map<PageId, List<PageMockup>> mockupsMap,
                                                          Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
                                                          Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
                                                          Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {

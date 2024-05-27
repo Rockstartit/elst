@@ -7,8 +7,8 @@ import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
-import edu.kit.elst.course_conceptualization.Mockup;
-import edu.kit.elst.course_conceptualization.MockupAppService;
+import edu.kit.elst.course_conceptualization.PageMockup;
+import edu.kit.elst.course_conceptualization.PageMockupAppService;
 import edu.kit.elst.course_conceptualization.PageAppService;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
 import edu.kit.elst.course_conceptualization.PageNotFoundException;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PageController implements PageApi {
     private final PageAppService pageAppService;
-    private final MockupAppService mockupAppService;
+    private final PageMockupAppService pageMockupAppService;
     private final BuildingBlockAppService buildingBlockService;
 
     @Override
@@ -69,7 +69,7 @@ public class PageController implements PageApi {
         Map<BuildingBlockId, BuildingBlock> buildingBlockMap
                 = buildingBlockService.buildingBlocks(buildingBlockIds).stream()
                 .collect(Collectors.toMap(BuildingBlock::id, Function.identity()));
-        Collection<Mockup> mockups = mockupAppService.mockupsByPageId(aPageId);
+        Collection<PageMockup> mockups = pageMockupAppService.mockupsByPageId(aPageId);
 
         Collection<edu.kit.elst.course_conceptualization.Page> linkedPages = pageAppService.linkedPages(aPageId);
 

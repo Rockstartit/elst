@@ -140,6 +140,110 @@ paths:
           description: Invalid Request
         401:
           description: Not Authenticated
+  /building-blocks/{buildingBlockId}/mockups:
+    get:
+      tags:
+        - Building Block Mockup
+      summary: Get all building block mockups
+      operationId: getAllMockups
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./openapi-courses.yaml#/components/schemas/Mockup"
+        401:
+          description: Not Authenticated
+    post:
+      tags:
+        - Building Block Mockup
+      summary: Upload mockup
+      operationId: uploadMockup
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                fileName:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityId'
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
+  /building-block-mockups/{mockupId}:
+    patch:
+      tags:
+        - Building Block Mockup
+      summary: Edit mockup
+      operationId: editMockup
+      parameters:
+        - in: path
+          name: mockupId
+          description: ID of mockup
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditMockupRequest'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
+    delete:
+      tags:
+        - Building Block Mockup
+      summary: Delete mockup
+      operationId: deleteMockup
+      parameters:
+        - in: path
+          name: mockupId
+          description: Id of mockup
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad request, e.g., invalid file format
+        '500':
+          description: Internal server error
 components:
   schemas:
     BuildingBlock:
@@ -231,6 +335,14 @@ components:
       enum:
         - IN_DEVELOPMENT
         - RELEASED
+    EditMockupRequest:
+      type: object
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          example: Lernplan
     EntityId:
       type: string
       format: uuid

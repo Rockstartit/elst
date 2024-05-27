@@ -2,13 +2,14 @@
 .npmignore
 api.ts
 api/building-block-api.ts
+api/building-block-mockup-api.ts
 api/course-api.ts
 api/discussion-api.ts
 api/file-api.ts
 api/learning-material-api.ts
 api/lesson-api.ts
-api/mockup-api.ts
 api/page-api.ts
+api/page-mockup-api.ts
 api/teaching-phase-api.ts
 api/teaching-unit-api.ts
 base.ts

@@ -267,7 +267,7 @@ import { computed, onMounted, ref } from 'vue';
 import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
 import {
   courseApi,
-  mockupApi,
+  pageMockupApi,
   pageApi,
 } from 'src/services/course_conceptualization';
 import {
@@ -613,7 +613,7 @@ function openDeletePageDialog(teachingPhaseId: string, pageId: string) {
 function openDeleteMockupDialog(mockup: Mockup) {
   quasar.dialog(confirmDialog()).onOk(() => {
     withLoadingArray(
-      mockupApi
+      pageMockupApi
         .deleteMockup(mockup.id)
         .then(() => {
           const page = selectedPage.value;

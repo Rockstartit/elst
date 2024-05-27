@@ -17,9 +17,6 @@
     <q-tabs v-model="tab" no-caps dense align="left" class="q-mt-xs">
       <q-tab name="overview"> Übersicht </q-tab>
       <q-tab name="issues"> Issues </q-tab>
-      <q-tab name="requirements"> Anforderungen </q-tab>
-      <q-tab name="mockups"> Mockups </q-tab>
-      <q-tab name="diagrams"> Diagramme </q-tab>
       <q-tab name="discussion"> Diskussionen </q-tab>
     </q-tabs>
 

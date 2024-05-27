@@ -15,13 +15,14 @@
 
 
 export * from './api/building-block-api';
+export * from './api/building-block-mockup-api';
 export * from './api/course-api';
 export * from './api/discussion-api';
 export * from './api/file-api';
 export * from './api/learning-material-api';
 export * from './api/lesson-api';
-export * from './api/mockup-api';
 export * from './api/page-api';
+export * from './api/page-mockup-api';
 export * from './api/teaching-phase-api';
 export * from './api/teaching-unit-api';
 

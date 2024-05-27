@@ -20,6 +20,18 @@ Clone/Pull Repository:
 
     git pull
 
+Configure frontend environment variables (.env.local):
+
+    BASE_PATH=<base-path>
+    AUTH0_DOMAIN=<auth0-domain>
+    AUTH0_CLIENT_ID=<auth0-client-id>
+    AUTH0_AUDIENCE=<auth0-api-audience>
+
+    BASE_PATH=/
+    AUTH0_DOMAIN=elst.eu.auth0.com
+    AUTH0_CLIENT_ID=JQ3G7d5UXPeDl3o4zkQcg0DHvCoGJjr8
+    AUTH0_AUDIENCE=https://elst.de/api/
+
 Navigate to code folder
 
     cd danielaugustin/code

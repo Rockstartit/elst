@@ -1,10 +1,10 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.building_blocks;
 
-import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.core.shared.MockupId;
-import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.UserId;
+import edu.kit.elst.course_conceptualization.PageMockups;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,13 +14,13 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@Table(name = "mockups")
+@Table(name = "building_block_mockups")
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
-public class Mockup {
+public class BuildingBlockMockup {
     @EmbeddedId
     private final MockupId id;
 
-    private final PageId pageId;
+    private final BuildingBlockId buildingBlockId;
     private final FileId fileId;
 
     @AttributeOverride(name = "value", column = @Column(name = "created_by"))
@@ -28,13 +28,13 @@ public class Mockup {
 
     private String description;
 
-    public Mockup(PageId pageId, FileId fileId, UserId createdBy) {
+    public BuildingBlockMockup(BuildingBlockId buildingBlockId, FileId fileId, UserId createdBy) {
         Guards.notNull(fileId, "fileId");
-        Guards.notNull(pageId, "pageId");
+        Guards.notNull(buildingBlockId, "buildingBlockId");
         Guards.notNull(createdBy, "createdBy");
 
-        this.id = Mockups.nextIdentity();
-        this.pageId = pageId;
+        this.id = PageMockups.nextIdentity();
+        this.buildingBlockId = buildingBlockId;
         this.fileId = fileId;
         this.createdBy = createdBy;
     }

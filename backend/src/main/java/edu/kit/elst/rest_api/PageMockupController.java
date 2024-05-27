@@ -2,7 +2,7 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
-import edu.kit.elst.course_conceptualization.MockupAppService;
+import edu.kit.elst.course_conceptualization.PageMockupAppService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,14 +12,14 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-public class MockupController implements MockupApi {
-    private final MockupAppService mockupAppService;
+public class PageMockupController implements PageMockupApi {
+    private final PageMockupAppService pageMockupAppService;
 
     @Override
     public ResponseEntity<UUID> uploadMockup(UUID pageId, String description, MultipartFile file) {
         PageId aPageId = new PageId(pageId);
 
-        MockupId mockupId = mockupAppService.uploadMockup(aPageId, file, description);
+        MockupId mockupId = pageMockupAppService.uploadMockup(aPageId, file, description);
 
         return ResponseEntity.ok(mockupId.value());
     }
@@ -28,7 +28,7 @@ public class MockupController implements MockupApi {
     public ResponseEntity<Void> editMockup(UUID mockupId, EditMockupRequest body) {
         MockupId aMockupId = new MockupId(mockupId);
 
-        mockupAppService.editMockupDescription(aMockupId, body.getDescription());
+        pageMockupAppService.editMockupDescription(aMockupId, body.getDescription());
 
         return ResponseEntity.ok().build();
     }
@@ -37,7 +37,7 @@ public class MockupController implements MockupApi {
     public ResponseEntity<Void> deleteMockup(UUID mockupId) {
         MockupId aMockupId = new MockupId(mockupId);
 
-        mockupAppService.deleteMockup(aMockupId);
+        pageMockupAppService.deleteMockup(aMockupId);
 
         return ResponseEntity.ok().build();
     }

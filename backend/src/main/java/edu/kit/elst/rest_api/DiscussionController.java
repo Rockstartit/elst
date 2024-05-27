@@ -6,7 +6,7 @@ import edu.kit.elst.collaboration.PageReference;
 import edu.kit.elst.collaboration.*;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.Course;
-import edu.kit.elst.course_conceptualization.Mockup;
+import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.course_conceptualization.Page;
 import edu.kit.elst.course_conceptualization.*;
 import edu.kit.elst.lesson_planning.Lesson;
@@ -29,7 +29,7 @@ public class DiscussionController implements DiscussionApi {
     private final PageAppService pageAppService;
     private final CourseAppService courseAppService;
     private final LessonAppService lessonAppService;
-    private final MockupAppService mockupAppService;
+    private final PageMockupAppService pageMockupAppService;
     private final DiscussionAppService discussionAppService;
     private final DiscussionReferenceAppService discussionReferenceAppService;
 
@@ -128,7 +128,7 @@ public class DiscussionController implements DiscussionApi {
 
         Map<CourseId, Lesson> courseToLessonMap = getCourseToLessonMap(references.courseReferences());
         Map<PageId, Page> pageMap = getPageMap(references.pageReferences());
-        Map<MockupId, Mockup> mockupMap = getMockupMap(references.mockupReferences());
+        Map<MockupId, PageMockup> mockupMap = getMockupMap(references.mockupReferences());
 
         return ResponseEntity.ok(DiscussionMapper.mapToDiscussion(
                 discussion,
@@ -185,13 +185,13 @@ public class DiscussionController implements DiscussionApi {
                 .toList());
     }
 
-    private Map<MockupId, Mockup> getMockupMap(Collection<MockupReference> mockupReferences) {
+    private Map<MockupId, PageMockup> getMockupMap(Collection<MockupReference> mockupReferences) {
         Set<MockupId> mockupIds = mockupReferences.stream()
                 .map(MockupReference::mockupId)
                 .collect(Collectors.toSet());
 
-        return mockupAppService.mockups(mockupIds).stream()
-                .collect(Collectors.toMap(Mockup::id, Function.identity()));
+        return pageMockupAppService.pageMockups(mockupIds).stream()
+                .collect(Collectors.toMap(PageMockup::id, Function.identity()));
     }
 
     private Map<PageId, Page> getPageMap(Collection<PageReference> pageReferences) {

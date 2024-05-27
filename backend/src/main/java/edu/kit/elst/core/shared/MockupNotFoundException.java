@@ -1,4 +1,4 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.core.shared;
 
 import edu.kit.elst.core.shared.MockupId;
 

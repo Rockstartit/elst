@@ -1,6 +1,8 @@
 package edu.kit.elst.rest_api;
 
+import edu.kit.elst.building_blocks.BuildingBlockMockup;
 import edu.kit.elst.building_blocks.BuildingBlockProperty;
+import edu.kit.elst.course_conceptualization.PageMockup;
 
 public class BuildingBlockMapper {
     public static BuildingBlock mapToBuildingBlock(edu.kit.elst.building_blocks.BuildingBlock buildingBlock) {
@@ -36,5 +38,15 @@ public class BuildingBlockMapper {
         property.type(dto.getType());
 
         return property;
+    }
+
+    public static Mockup mapToMockup(BuildingBlockMockup mockup) {
+        Mockup dto = new Mockup();
+
+        dto.setId(mockup.id().value());
+        dto.setFileId(mockup.fileId().value());
+        dto.setDescription(mockup.description());
+
+        return dto;
     }
 }

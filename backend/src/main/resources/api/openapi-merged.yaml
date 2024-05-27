@@ -11,10 +11,14 @@ components:
             scheme: bearer
             bearerFormat: JWT
 paths:
+  /building-block-mockups/{mockupId}:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-block-mockups~1{mockupId}"
   /page-links:
     $ref: "./openapi-courses.yaml#/paths/~1page-links"
   /teaching-phases/{teachingPhaseId}:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-phases~1{teachingPhaseId}"
+  /building-blocks/{buildingBlockId}/mockups:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1mockups"
   /discussions/{discussionId}/comments:
     $ref: "./openapi-discussion.yaml#/paths/~1discussions~1{discussionId}~1comments"
   /building-blocks/{buildingBlockId}/properties:
@@ -25,8 +29,6 @@ paths:
     $ref: "./openapi-files.yaml#/paths/~1files~1{fileId}"
   /lessons/{lessonId}/courses:
     $ref: "./openapi-courses.yaml#/paths/~1lessons~1{lessonId}~1courses"
-  /mockups/{mockupId}:
-    $ref: "./openapi-courses.yaml#/paths/~1mockups~1{mockupId}"
   /courses/{courseId}:
     $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}"
   /teaching-phases/{teachingPhaseId}/learning-materials:
@@ -47,6 +49,8 @@ paths:
     $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}~1mockups"
   /discussions:
     $ref: "./openapi-discussion.yaml#/paths/~1discussions"
+  /page-mockups/{mockupId}:
+    $ref: "./openapi-courses.yaml#/paths/~1page-mockups~1{mockupId}"
   /courses/{courseId}/structure:
     $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1structure"
   /teaching-units/{teachingUnitId}:

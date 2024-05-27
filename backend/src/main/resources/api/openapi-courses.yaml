@@ -381,7 +381,7 @@ paths:
   /pages/{pageId}/mockups:
     post:
       tags:
-        - Mockup
+        - Page Mockup
       summary: Upload mockup
       operationId: uploadMockup
       parameters:
@@ -414,10 +414,10 @@ paths:
           description: Bad request, e.g., invalid file format
         '500':
           description: Internal server error
-  /mockups/{mockupId}:
+  /page-mockups/{mockupId}:
     patch:
       tags:
-        - Mockup
+        - Page Mockup
       summary: Edit mockup
       operationId: editMockup
       parameters:
@@ -442,7 +442,7 @@ paths:
           description: Internal server error
     delete:
       tags:
-        - Mockup
+        - Page Mockup
       summary: Delete mockup
       operationId: deleteMockup
       parameters:
