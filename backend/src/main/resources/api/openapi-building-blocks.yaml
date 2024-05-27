@@ -369,6 +369,12 @@ components:
           example: Vue
     BuildingBlockProperty:
       type: object
+      required:
+        - key
+        - type
+        - displayName
+        - description
+        - order
       properties:
         key:
           type: string

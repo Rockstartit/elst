@@ -28,31 +28,31 @@ export interface BuildingBlockProperty {
      * @type {string}
      * @memberof BuildingBlockProperty
      */
-    'key'?: string;
+    'key': string;
     /**
      * 
      * @type {BuildingBlockPropertyType}
      * @memberof BuildingBlockProperty
      */
-    'type'?: BuildingBlockPropertyType;
+    'type': BuildingBlockPropertyType;
     /**
      * 
      * @type {string}
      * @memberof BuildingBlockProperty
      */
-    'displayName'?: string;
+    'displayName': string;
     /**
      * 
      * @type {string}
      * @memberof BuildingBlockProperty
      */
-    'description'?: string;
+    'description': string;
     /**
      * 
      * @type {number}
      * @memberof BuildingBlockProperty
      */
-    'order'?: number;
+    'order': number;
 }
 
 

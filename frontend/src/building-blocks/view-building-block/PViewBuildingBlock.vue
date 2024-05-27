@@ -4,11 +4,17 @@
       <OBuildingBlockHeader
         v-model="tab"
         :name="buildingBlock.name"
-        @edit-name="openEditNameDialog" />
+        :technology="buildingBlock.technology"
+        @edit-name="openEditNameDialog"
+        @edit-technology="openEditTechnologyDialog" />
 
       <q-tab-panels v-model="tab">
         <q-tab-panel name="overview" class="q-px-none">
           <TBuildingBlockOverview v-model="buildingBlock" />
+        </q-tab-panel>
+
+        <q-tab-panel name="properties" class="q-px-none">
+          <TBuildingBlockProperties v-model="buildingBlock" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -37,6 +43,7 @@ import TBuildingBlockOverview from 'src/building-blocks/view-building-block/over
 import { BuildingBlock } from 'src/services/generated/openapi';
 import { buildingBlockApi } from 'src/services/building_blocks';
 import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
+import TBuildingBlockProperties from 'src/building-blocks/view-building-block/properties/TBuildingBlockProperties.vue';
 
 const quasar = useQuasar();
 
@@ -84,6 +91,32 @@ function openEditNameDialog() {
           .then(() => {
             if (buildingBlock.value) {
               buildingBlock.value.name = payload;
+            }
+          });
+      }
+    });
+}
+
+function openEditTechnologyDialog() {
+  quasar
+    .dialog({
+      title: 'Technologie bearbeiten',
+      prompt: {
+        model: buildingBlock.value?.technology ?? '',
+      },
+      cancel: true,
+    })
+    .onOk((payload) => {
+      if (buildingBlock.value) {
+        buildingBlockApi
+          .editBuildingBlock(props.buildingBlockId, {
+            name: buildingBlock.value.name,
+            technology: payload,
+            description: buildingBlock.value.description,
+          })
+          .then(() => {
+            if (buildingBlock.value) {
+              buildingBlock.value.technology = payload;
             }
           });
       }
