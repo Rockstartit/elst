@@ -27,6 +27,7 @@ export * from './edit-learning-material-request';
 export * from './edit-lesson-request';
 export * from './edit-mockup-request';
 export * from './edit-page-request';
+export * from './edit-read-me-request';
 export * from './edit-teaching-phase-request';
 export * from './edit-teaching-unit-request';
 export * from './instructional-parameters';

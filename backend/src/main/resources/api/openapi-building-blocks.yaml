@@ -244,8 +244,65 @@ paths:
           description: Bad request, e.g., invalid file format
         '500':
           description: Internal server error
+  /building-blocks/{buildingBlockId}/readme:
+    get:
+      tags:
+        - Building Block ReadMe
+      summary: Get building block readme
+      operationId: getBuildingBlockReadMe
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadMe"
+        401:
+          description: Not Authenticated
+    put:
+      tags:
+        - Building Block ReadMe
+      summary: Edit building block readme
+      operationId: editBuildingBlockReadMe
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditReadMeRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
 components:
   schemas:
+    ReadMe:
+      type: string
+      example: Inhalt einer Datei
+    EditReadMeRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          $ref: "#/components/schemas/ReadMe"
     BuildingBlock:
       type: object
       required:

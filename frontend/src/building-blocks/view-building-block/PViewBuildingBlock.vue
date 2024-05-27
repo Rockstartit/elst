@@ -7,7 +7,7 @@
         @edit-name="openEditNameDialog" />
 
       <q-tab-panels v-model="tab">
-        <q-tab-panel name="overview">
+        <q-tab-panel name="overview" class="q-px-none">
           <TBuildingBlockOverview v-model="buildingBlock" />
         </q-tab-panel>
       </q-tab-panels>

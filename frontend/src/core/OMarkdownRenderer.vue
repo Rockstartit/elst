@@ -1,6 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-2 elst__bordered elst__rounded">
-    <slot name="before" />
+  <div class="row q-py-md">
     <p
       v-html="sanitizedContent"
       class="markdown-renderer"

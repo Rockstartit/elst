@@ -3,6 +3,7 @@
 api.ts
 api/building-block-api.ts
 api/building-block-mockup-api.ts
+api/building-block-read-me-api.ts
 api/course-api.ts
 api/discussion-api.ts
 api/file-api.ts
@@ -46,6 +47,7 @@ model/edit-learning-material-request.ts
 model/edit-lesson-request.ts
 model/edit-mockup-request.ts
 model/edit-page-request.ts
+model/edit-read-me-request.ts
 model/edit-teaching-phase-request.ts
 model/edit-teaching-unit-request.ts
 model/index.ts
