@@ -5,11 +5,14 @@ import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.lesson_planning.Lesson;
+import edu.kit.elst.lesson_planning.TeachingUnit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,8 +27,11 @@ public class PageAppService {
 
     public PageId createPage(CourseId courseId, TeachingPhaseId teachingPhaseId, String title) {
         Course course = courses.getReferenceById(courseId);
+        Long maxOrder = pages.maxOrderByCourse(course);
+        long order = maxOrder != null ? maxOrder + 1 : 0;
 
         Page page = new Page(course, teachingPhaseId, title);
+        page.order(order);
         pages.save(page);
 
         return page.id();
@@ -98,5 +104,15 @@ public class PageAppService {
 
     public Collection<Page> pages(Set<PageId> pageIds) {
         return pages.findAllById(pageIds);
+    }
+
+    public void reorderPages(CourseId courseId, List<PageId> pageIds) {
+        Course course = courses.getReferenceById(courseId);
+
+        Collection<Page> pageList = pages.findAllByCourse(course);
+
+        for (Page page : pageList) {
+            page.order(pageIds.indexOf(page.id()));
+        }
     }
 }

@@ -61,6 +61,8 @@ paths:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}"
   /learning-materials/{learningMaterialId}:
     $ref: "./openapi-lessons.yaml#/paths/~1learning-materials~1{learningMaterialId}"
+  /courses/{courseId}/pages/order:
+    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1pages~1order"
   /lessons:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons"
   /building-blocks/{buildingBlockId}/release:

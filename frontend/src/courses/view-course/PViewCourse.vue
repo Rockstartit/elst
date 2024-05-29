@@ -45,73 +45,7 @@
                   selected-color="primary"
                   default-expand-all
                   no-selection-unset
-                  @update:selected="selectTeachingPhase">
-                  <template #header-page="{ node }">
-                    <MHoverable
-                      no-background
-                      no-padding
-                      v-slot="{ hovered }"
-                      class="full-width">
-                      <div class="row items-center" style="min-height: 32px">
-                        <div class="col-auto q-pr-sm">
-                          <q-icon v-if="node.icon" :name="node.icon" />
-                        </div>
-
-                        <div class="col">
-                          {{ node.label }}
-                        </div>
-
-                        <div v-if="hovered" class="col-auto q-pl-sm">
-                          <div class="row">
-                            <TertiaryButton
-                              icon="mdi-chat-outline"
-                              text-color="grey-10"
-                              dense
-                              flat
-                              tooltip="Diskussionen"
-                              @click="
-                                togglePageDiscussionDrawer(node.pageId)
-                              " />
-
-                            <TertiaryButton
-                              v-if="hovered"
-                              icon="mdi-delete-outline"
-                              text-color="grey-10"
-                              dense
-                              flat
-                              tooltip="Löschen"
-                              :loading="
-                                performingDeletePage.includes(node.pageId)
-                              "
-                              @click="
-                                openDeletePageDialog(
-                                  node.teachingPhaseId,
-                                  node.pageId
-                                )
-                              " />
-                          </div>
-                        </div>
-                      </div>
-                    </MHoverable>
-                  </template>
-
-                  <template #header-add-page="{ node }">
-                    <SecondaryButton
-                      label="Neue Seite"
-                      icon="mdi-plus"
-                      color="indigo-1"
-                      text-color="indigo-10"
-                      dense
-                      class="text-caption elst__rounded full-width"
-                      style="max-width: 200px; min-width: 110px"
-                      :loading="
-                        performingCreatePage.includes(node.teachingPhaseId)
-                      "
-                      @click.stop="
-                        openCreatePageDialog(node.teachingPhaseId)
-                      " />
-                  </template>
-
+                  @update:selected="selectPage">
                   <template #body-phase="{ node }">
                     <q-badge
                       v-if="node.phase"
@@ -130,6 +64,87 @@
                         }}
                       </span>
                     </q-item-label>
+
+                    <div class="q-py-md">
+                      <Sortable
+                        :list="node.pages"
+                        item-key="id"
+                        tag="div"
+                        class="column"
+                        style="gap: 0.2rem"
+                        :options="sortableOptions"
+                        @update="onPagesReorder(node.value, $event)">
+                        <template #item="{ element }">
+                          <MHoverable
+                            no-background
+                            no-padding
+                            v-slot="{ hovered }"
+                            class="full-width text-black">
+                            <q-item
+                              clickable
+                              class="elst__rounded"
+                              @click="selectPage(element.id)">
+                              <q-item-section side>
+                                <q-icon
+                                  name="mdi-drag"
+                                  class="drag-handle"
+                                  draggable="true" />
+                              </q-item-section>
+
+                              <q-item-section side>
+                                <q-icon name="mdi-monitor" />
+                              </q-item-section>
+
+                              <q-item-section>
+                                {{ element.title }}
+                              </q-item-section>
+
+                              <q-item-section v-if="hovered" side>
+                                <div class="row">
+                                  <TertiaryButton
+                                    icon="mdi-chat-outline"
+                                    text-color="grey-10"
+                                    dense
+                                    flat
+                                    tooltip="Diskussionen"
+                                    @click="
+                                      togglePageDiscussionDrawer(element.id)
+                                    " />
+
+                                  <TertiaryButton
+                                    v-if="hovered"
+                                    icon="mdi-delete-outline"
+                                    text-color="grey-10"
+                                    dense
+                                    flat
+                                    tooltip="Löschen"
+                                    :loading="
+                                      performingDeletePage.includes(element.id)
+                                    "
+                                    @click="
+                                      openDeletePageDialog(
+                                        element.teachingPhaseId,
+                                        element.id
+                                      )
+                                    " />
+                                </div>
+                              </q-item-section>
+                            </q-item>
+                          </MHoverable>
+                        </template>
+                      </Sortable>
+                    </div>
+
+                    <SecondaryButton
+                      label="Neue Seite"
+                      icon="mdi-plus"
+                      color="indigo-1"
+                      text-color="indigo-10"
+                      dense
+                      class="text-caption elst__rounded full-width"
+                      style="max-width: 200px; min-width: 110px"
+                      :loading="performingCreatePage.includes(node.value)"
+                      @click.stop="openCreatePageDialog(node.value)" />
                   </template>
                 </q-tree>
               </div>
@@ -267,8 +282,8 @@ import { computed, onMounted, ref } from 'vue';
 import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
 import {
   courseApi,
-  pageMockupApi,
   pageApi,
+  pageMockupApi,
 } from 'src/services/course_conceptualization';
 import {
   Course,
@@ -310,6 +325,8 @@ import {
   selectBuildingBlockDialog,
   SelectBuildingBlockDialogResult,
 } from 'src/courses/select-building-block/useSelectBuildingBlockDialog';
+import { sortableOptions } from 'src/core/useSortableList';
+import { Sortable } from 'sortablejs-vue3';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -356,24 +373,9 @@ const teachingUnitTree = computed(() =>
           value: teachingPhase.id,
           phase: teachingPhase.phase,
           timeFrame: teachingPhase.timeFrame,
+          pages: teachingPhase.pages,
           selectable: false,
           body: 'phase',
-          children: [
-            ...teachingPhase.pages.map((page) => {
-              return {
-                value: page.id,
-                label: page.title,
-                teachingPhaseId: teachingPhase.id,
-                pageId: page.id,
-                icon: 'mdi-monitor',
-                header: 'page',
-              };
-            }),
-            {
-              header: 'add-page',
-              teachingPhaseId: teachingPhase.id,
-            },
-          ],
         };
       }),
     };
@@ -404,7 +406,7 @@ onMounted(() => {
         .flatMap((teachingPhase) => teachingPhase.pages);
 
       if (pages.length > 0) {
-        selectTeachingPhase(pages[0].id);
+        selectPage(pages[0].id);
       }
     });
 
@@ -448,7 +450,7 @@ function mockupUploadFactory(
   });
 }
 
-function selectTeachingPhase(pageId: string | undefined) {
+function selectPage(pageId: string | undefined) {
   selectedPageId.value = pageId ?? '';
 
   if (!pageId) {
@@ -532,6 +534,10 @@ function openCreatePageDialog(teachingPhaseId: string) {
               .find((teachingPhase) => teachingPhase.id === teachingPhaseId);
 
             if (teachingPhase) {
+              const maxOrder = Math.max(
+                ...teachingPhase.pages.map((page) => page.order)
+              );
+
               teachingPhase.pages.push({
                 id: response.data,
                 teachingPhaseId: teachingPhaseId,
@@ -539,6 +545,7 @@ function openCreatePageDialog(teachingPhaseId: string) {
                 linkedPages: [],
                 buildingBlocks: [],
                 mockups: [],
+                order: maxOrder + 1,
               });
             }
           })
@@ -701,5 +708,41 @@ function openSelectBuildingBlockDialog(pageId: string) {
         performingAddBuildingBlockToPage
       );
     });
+}
+
+function onPagesReorder(
+  teachingPhaseId: string,
+  event: { oldIndex: number; newIndex: number }
+) {
+  const teachingPhase = courseTeachingUnits.value
+    .flatMap((teachingUnit) => teachingUnit.teachingPhases)
+    .find((teachingPhase) => teachingPhase.id === teachingPhaseId);
+
+  if (!teachingPhase) {
+    return;
+  }
+
+  const length = teachingPhase.pages.length ?? 0;
+
+  if (event.oldIndex < length && event.newIndex < length) {
+    const element = teachingPhase.pages.splice(event.oldIndex, 1)[0];
+    teachingPhase.pages.splice(event.newIndex, 0, element);
+
+    pageApi
+      .reorderPages(
+        props.courseId,
+        teachingPhase.pages.map((page) => page.id)
+      )
+      .then(() => {
+        notifications.success();
+
+        teachingPhase.pages.forEach((page, index) => (page.order = index));
+      })
+      .catch((err) => {
+        notifications.apiError(err);
+
+        teachingPhase.pages.sort((a, b) => a.order - b.order);
+      });
+  }
 }
 </script>

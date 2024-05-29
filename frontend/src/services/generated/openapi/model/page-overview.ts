@@ -38,5 +38,11 @@ export interface PageOverview {
      * @memberof PageOverview
      */
     'title': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageOverview
+     */
+    'order': number;
 }
 

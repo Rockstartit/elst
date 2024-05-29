@@ -3,10 +3,7 @@ package edu.kit.elst.rest_api;
 import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.building_blocks.BuildingBlockId;
-import edu.kit.elst.core.shared.CourseId;
-import edu.kit.elst.core.shared.PageBuildingBlockId;
-import edu.kit.elst.core.shared.PageId;
-import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.course_conceptualization.PageMockupAppService;
 import edu.kit.elst.course_conceptualization.PageAppService;
@@ -123,6 +120,18 @@ public class PageController implements PageApi {
         PageBuildingBlockId aPageBuildingBlockId = new PageBuildingBlockId(pageBuildingBlockId);
 
         pageAppService.removeBuildingBlockFromPage(aPageBuildingBlockId);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> reorderPages(UUID courseId, List<UUID> pageIds) {
+        CourseId aCourseId = new CourseId(courseId);
+        List<PageId> thePageIds = pageIds.stream()
+                .map(PageId::new)
+                .toList();
+
+        pageAppService.reorderPages(aCourseId, thePageIds);
 
         return ResponseEntity.ok().build();
     }

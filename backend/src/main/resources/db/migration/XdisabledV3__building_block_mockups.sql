@@ -4,3 +4,4 @@ create table readme (building_block_id binary(16) not null, content blob, primar
 
 alter table teaching_units add column order_index varchar(255) default 0;
 alter table teaching_phase add column order_index varchar(255) default 0;
+alter table pages add column order_index varchar(255) default 0;

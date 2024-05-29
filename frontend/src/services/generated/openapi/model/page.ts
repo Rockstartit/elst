@@ -65,5 +65,11 @@ export interface Page {
      * @memberof Page
      */
     'mockups': Array<Mockup>;
+    /**
+     * 
+     * @type {number}
+     * @memberof Page
+     */
+    'order': number;
 }
 

@@ -211,6 +211,32 @@ paths:
           description: Not Found
         401:
           description: Not Authenticated
+  /courses/{courseId}/pages/order:
+    post:
+      tags:
+        - Page
+      summary: Reorder pages
+      operationId: reorderPages
+      parameters:
+        - name: courseId
+          in: path
+          description: Id of course
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './openapi-lessons.yaml#/components/schemas/ReorderRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
   /pages/{pageId}:
     get:
       tags:
@@ -582,6 +608,7 @@ components:
         - id
         - teachingPhaseId
         - title
+        - order
       properties:
         id:
           $ref: "#/components/schemas/EntityId"
@@ -589,6 +616,9 @@ components:
           $ref: "#/components/schemas/EntityId"
         title:
           type: string
+        order:
+          type: number
+          example: 0
     Page:
       type: object
       required:
@@ -598,6 +628,7 @@ components:
         - buildingBlocks
         - linkedPages
         - mockups
+        - order
       properties:
         id:
           $ref: "#/components/schemas/EntityId"
@@ -617,6 +648,9 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Mockup"
+        order:
+          type: number
+          example: 0
     Mockup:
       type: object
       required:

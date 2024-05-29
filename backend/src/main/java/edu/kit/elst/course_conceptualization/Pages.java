@@ -2,6 +2,7 @@ package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
+import edu.kit.elst.lesson_planning.TeachingUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -27,4 +28,9 @@ interface Pages extends JpaRepository<Page, PageId> {
             "where page.course = :course " +
             "and page.teachingPhaseId in :teachingPhaseIds")
     Collection<Page> findAllByCourseAndTeachingPhaseIdIn(Course course, Set<TeachingPhaseId> teachingPhaseIds);
+
+    @Query("select max(page.order) from Page page " +
+            "where page.course = :course " +
+            "group by page.course.id ")
+    Long maxOrderByCourse(Course course);
 }

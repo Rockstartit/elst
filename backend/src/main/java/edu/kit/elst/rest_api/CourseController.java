@@ -144,6 +144,7 @@ public class CourseController implements CourseApi {
         }
 
         return ResponseEntity.ok(teachingUnits.stream()
+                .sorted(Comparator.comparing(TeachingUnit::order))
                 .map(teachingUnit -> CourseMapper.mapToCourseTeachingUnit(
                         teachingUnit,
                         teachingPhases.getOrDefault(teachingUnit.id(), Collections.emptyList()),

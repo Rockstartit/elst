@@ -28,6 +28,9 @@ public class Page {
 
     private String title;
 
+    @Column(name = "order_index")
+    private long order;
+
     public Page(Course course, TeachingPhaseId teachingPhaseId, String title) {
         Guards.notNull(course, "course");
         Guards.notNull(teachingPhaseId, "teachingPhaseId");
@@ -37,5 +40,6 @@ public class Page {
         this.course = course;
         this.teachingPhaseId = teachingPhaseId;
         this.title = title;
+        this.order = 0;
     }
 }

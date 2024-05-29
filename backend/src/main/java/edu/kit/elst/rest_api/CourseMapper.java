@@ -9,10 +9,7 @@ import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.lesson_planning.TeachingPhase;
 import edu.kit.elst.lesson_planning.TeachingUnit;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CourseMapper {
     public static Course mapToCourse(edu.kit.elst.course_conceptualization.Course course, CourseNote notes) {
@@ -57,14 +54,15 @@ public class CourseMapper {
     }
 
     public static Page mapToPage(edu.kit.elst.course_conceptualization.Page page,
-                           Collection<edu.kit.elst.course_conceptualization.Page> linkedPages,
-                           Collection<PageMockup> mockups,
-                           Collection<edu.kit.elst.course_conceptualization.PageBuildingBlock> pageBuildingBlocks,
-                           Map<BuildingBlockId, edu.kit.elst.building_blocks.BuildingBlock> buildingBlockMap) {
+                                 Collection<edu.kit.elst.course_conceptualization.Page> linkedPages,
+                                 Collection<PageMockup> mockups,
+                                 Collection<edu.kit.elst.course_conceptualization.PageBuildingBlock> pageBuildingBlocks,
+                                 Map<BuildingBlockId, edu.kit.elst.building_blocks.BuildingBlock> buildingBlockMap) {
         Page dto = new Page();
 
         dto.setId(page.id().value());
         dto.setTitle(page.title());
+        dto.setOrder(UtilMapper.mapToBigDecimal(page.order()));
         dto.setTeachingPhaseId(page.teachingPhaseId().value());
         dto.setMockups(mockups.stream()
                 .map(CourseMapper::mapToMockup)
@@ -98,23 +96,25 @@ public class CourseMapper {
         dto.setId(page.id().value());
         dto.setTitle(page.title());
         dto.setTeachingPhaseId(page.teachingPhaseId().value());
+        dto.setOrder(UtilMapper.mapToBigDecimal(page.order()));
 
         return dto;
     }
 
     public static CourseTeachingUnit mapToCourseTeachingUnit(TeachingUnit teachingUnit,
-                                                       List<edu.kit.elst.lesson_planning.TeachingPhase> teachingPhases,
-                                                       Map<TeachingPhaseId, List<edu.kit.elst.lesson_planning.LearningMaterial>> learningMaterialsMap,
-                                                       Map<TeachingPhaseId, List<edu.kit.elst.course_conceptualization.Page>> pagesMap,
-                                                       Map<PageId, List<PageMockup>> mockupsMap,
-                                                       Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
-                                                       Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
-                                                       Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {
+                                                             List<edu.kit.elst.lesson_planning.TeachingPhase> teachingPhases,
+                                                             Map<TeachingPhaseId, List<edu.kit.elst.lesson_planning.LearningMaterial>> learningMaterialsMap,
+                                                             Map<TeachingPhaseId, List<edu.kit.elst.course_conceptualization.Page>> pagesMap,
+                                                             Map<PageId, List<PageMockup>> mockupsMap,
+                                                             Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
+                                                             Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
+                                                             Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {
         CourseTeachingUnit dto = new CourseTeachingUnit();
 
         dto.setId(teachingUnit.id().value());
         dto.setTopic(teachingUnit.topic().value());
         dto.setTeachingPhases(teachingPhases.stream()
+                .sorted(Comparator.comparing(TeachingPhase::order))
                 .map(teachingPhase -> mapToCourseTeachingPhase(
                         teachingPhase,
                         learningMaterialsMap.getOrDefault(teachingPhase.id(), Collections.emptyList()),
@@ -130,12 +130,12 @@ public class CourseMapper {
     }
 
     public static CourseTeachingPhase mapToCourseTeachingPhase(TeachingPhase teachingPhase,
-                                                         List<edu.kit.elst.lesson_planning.LearningMaterial> learningMaterials,
-                                                         List<edu.kit.elst.course_conceptualization.Page> pages,
-                                                         Map<PageId, List<PageMockup>> mockupsMap,
-                                                         Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
-                                                         Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
-                                                         Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {
+                                                               List<edu.kit.elst.lesson_planning.LearningMaterial> learningMaterials,
+                                                               List<edu.kit.elst.course_conceptualization.Page> pages,
+                                                               Map<PageId, List<PageMockup>> mockupsMap,
+                                                               Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
+                                                               Map<PageId, Collection<edu.kit.elst.course_conceptualization.Page>> linkedPagesMap,
+                                                               Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {
         CourseTeachingPhase dto = new CourseTeachingPhase();
 
         dto.setId(teachingPhase.id().value());
@@ -149,6 +149,7 @@ public class CourseMapper {
                 .toList());
 
         dto.setPages(pages.stream()
+                .sorted(Comparator.comparing(edu.kit.elst.course_conceptualization.Page::order))
                 .map(page -> CourseMapper.mapToPage(
                         page,
                         linkedPagesMap.getOrDefault(page.id(), Collections.emptyList()),
