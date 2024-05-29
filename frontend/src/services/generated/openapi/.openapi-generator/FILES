@@ -3,6 +3,7 @@
 api.ts
 api/building-block-api.ts
 api/building-block-mockup-api.ts
+api/building-block-property-api.ts
 api/building-block-read-me-api.ts
 api/course-api.ts
 api/discussion-api.ts
@@ -29,6 +30,7 @@ model/course-reference.ts
 model/course-teaching-phase.ts
 model/course-teaching-unit.ts
 model/course.ts
+model/create-building-block-property-request.ts
 model/create-course-request.ts
 model/create-lesson-request.ts
 model/create-page-request.ts
@@ -38,7 +40,7 @@ model/discussion-overview.ts
 model/discussion-reference.ts
 model/discussion-state.ts
 model/discussion.ts
-model/edit-building-block-properties-request.ts
+model/edit-building-block-property-request.ts
 model/edit-building-block-request.ts
 model/edit-comment-request.ts
 model/edit-course-request.ts

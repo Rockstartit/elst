@@ -16,9 +16,11 @@ public class BuildingBlockProperty {
     @EmbeddedId
     private final BuildingBlockPropertyId id;
 
-    private final String displayName;
+    private String displayName;
     private String description;
-    private final int order;
+
+    @Column(name = "order_index")
+    private long order;
 
     @Enumerated(EnumType.ORDINAL)
     private BuildingBlockPropertyType type;

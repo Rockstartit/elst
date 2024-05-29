@@ -18,7 +18,7 @@ public class BuildingBlockPropertyId implements Serializable {
     @Column(name = "building_block_id", nullable = false)
     private final UUID buildingBlockId;
 
-    @Column(name = "key", nullable = false)
+    @Column(name = "key_name", nullable = false)
     private final String key;
 
     public BuildingBlockPropertyId(BuildingBlockId buildingBlockId, String key) {

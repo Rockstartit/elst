@@ -97,7 +97,7 @@ paths:
   /building-blocks/{buildingBlockId}/properties:
     post:
       tags:
-        - Building Block
+        - Building Block Property
       summary: Create building block property
       operationId: createBuildingBlockProperty
       parameters:
@@ -123,7 +123,7 @@ paths:
   /building-blocks/{buildingBlockId}/properties/{key}:
     patch:
       tags:
-        - Building Block
+        - Building Block Property
       summary: Edit building block property
       operationId: editBuildingBlockProperty
       parameters:
@@ -154,7 +154,7 @@ paths:
           description: Not Authenticated
     delete:
       tags:
-        - Building Block
+        - Building Block Property
       summary: Delete building block property
       operationId: deleteBuildingBlockProperty
       parameters:

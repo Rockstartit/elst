@@ -29,3 +29,12 @@ html {
     width: 200px
   }
 }
+
+kbd {
+  background-color: $grey-4;
+  border-radius: 3px;
+  display: inline-block;
+  line-height: 1;
+  padding: 3px 6px;
+  white-space: nowrap;
+}

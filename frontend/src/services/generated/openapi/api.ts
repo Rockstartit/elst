@@ -16,6 +16,7 @@
 
 export * from './api/building-block-api';
 export * from './api/building-block-mockup-api';
+export * from './api/building-block-property-api';
 export * from './api/building-block-read-me-api';
 export * from './api/course-api';
 export * from './api/discussion-api';

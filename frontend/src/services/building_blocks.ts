@@ -1,6 +1,7 @@
 import {
   BuildingBlockApi,
   BuildingBlockMockupApi,
+  BuildingBlockPropertyApi,
   BuildingBlockReadMeApi,
 } from 'src/services/generated/openapi';
 import { api, basePath } from 'boot/axios';
@@ -19,6 +20,12 @@ export const buildingBlockMockupApi = new BuildingBlockMockupApi(
 );
 
 export const buildingBlockReadMeApi = new BuildingBlockReadMeApi(
+  apiConfiguration,
+  basePath,
+  api
+);
+
+export const buildingBlockPropertyApi = new BuildingBlockPropertyApi(
   apiConfiguration,
   basePath,
   api

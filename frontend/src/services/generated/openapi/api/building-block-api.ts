@@ -24,8 +24,6 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError, ope
 // @ts-ignore
 import { BuildingBlock } from '../model';
 // @ts-ignore
-import { EditBuildingBlockPropertiesRequest } from '../model';
-// @ts-ignore
 import { EditBuildingBlockRequest } from '../model';
 // @ts-ignore
 import { RequestBuildingBlockRequest } from '../model';
@@ -73,50 +71,6 @@ export const BuildingBlockApiAxiosParamCreator = function (configuration?: Confi
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(editBuildingBlockRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Edit building block properties
-         * @param {string} buildingBlockId Id of building block
-         * @param {EditBuildingBlockPropertiesRequest} editBuildingBlockPropertiesRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        editBuildingBlockProperties: async (buildingBlockId: string, editBuildingBlockPropertiesRequest: EditBuildingBlockPropertiesRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'buildingBlockId' is not null or undefined
-            assertParamExists('editBuildingBlockProperties', 'buildingBlockId', buildingBlockId)
-            // verify required parameter 'editBuildingBlockPropertiesRequest' is not null or undefined
-            assertParamExists('editBuildingBlockProperties', 'editBuildingBlockPropertiesRequest', editBuildingBlockPropertiesRequest)
-            const localVarPath = `/building-blocks/{buildingBlockId}/properties`
-                .replace(`{${"buildingBlockId"}}`, encodeURIComponent(String(buildingBlockId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(editBuildingBlockPropertiesRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -299,20 +253,6 @@ export const BuildingBlockApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Edit building block properties
-         * @param {string} buildingBlockId Id of building block
-         * @param {EditBuildingBlockPropertiesRequest} editBuildingBlockPropertiesRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async editBuildingBlockProperties(buildingBlockId: string, editBuildingBlockPropertiesRequest: EditBuildingBlockPropertiesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.editBuildingBlockProperties(buildingBlockId, editBuildingBlockPropertiesRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['BuildingBlockApi.editBuildingBlockProperties']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @summary Get building block
          * @param {string} buildingBlockId Id of building block
          * @param {*} [options] Override http request option.
@@ -385,17 +325,6 @@ export const BuildingBlockApiFactory = function (configuration?: Configuration, 
         },
         /**
          * 
-         * @summary Edit building block properties
-         * @param {string} buildingBlockId Id of building block
-         * @param {EditBuildingBlockPropertiesRequest} editBuildingBlockPropertiesRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        editBuildingBlockProperties(buildingBlockId: string, editBuildingBlockPropertiesRequest: EditBuildingBlockPropertiesRequest, options?: any): AxiosPromise<void> {
-            return localVarFp.editBuildingBlockProperties(buildingBlockId, editBuildingBlockPropertiesRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary Get building block
          * @param {string} buildingBlockId Id of building block
          * @param {*} [options] Override http request option.
@@ -454,19 +383,6 @@ export class BuildingBlockApi extends BaseAPI {
      */
     public editBuildingBlock(buildingBlockId: string, editBuildingBlockRequest: EditBuildingBlockRequest, options?: RawAxiosRequestConfig) {
         return BuildingBlockApiFp(this.configuration).editBuildingBlock(buildingBlockId, editBuildingBlockRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Edit building block properties
-     * @param {string} buildingBlockId Id of building block
-     * @param {EditBuildingBlockPropertiesRequest} editBuildingBlockPropertiesRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BuildingBlockApi
-     */
-    public editBuildingBlockProperties(buildingBlockId: string, editBuildingBlockPropertiesRequest: EditBuildingBlockPropertiesRequest, options?: RawAxiosRequestConfig) {
-        return BuildingBlockApiFp(this.configuration).editBuildingBlockProperties(buildingBlockId, editBuildingBlockPropertiesRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
