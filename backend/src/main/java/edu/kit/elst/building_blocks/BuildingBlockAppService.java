@@ -32,13 +32,6 @@ public class BuildingBlockAppService {
         buildingBlock.setTechnology(technology);
     }
 
-    public void editBuildingBlockProperties(BuildingBlockId id, List<BuildingBlockProperty> properties) {
-        BuildingBlock buildingBlock = buildingBlocks.findById(id)
-                .orElseThrow(() -> new BuildingBlockNotFoundException(id));
-
-        buildingBlock.setProperties(properties);
-    }
-
     public void releaseBuildingBlock(BuildingBlockId id) {
         BuildingBlock buildingBlock = buildingBlocks.findById(id)
                 .orElseThrow(() -> new BuildingBlockNotFoundException(id));
@@ -57,4 +50,6 @@ public class BuildingBlockAppService {
     public Optional<BuildingBlock> buildingBlock(BuildingBlockId id) {
         return buildingBlocks.findWithPropertiesById(id);
     }
+
+    
 }

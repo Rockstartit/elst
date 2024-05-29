@@ -26,9 +26,7 @@ public class BuildingBlock {
 
     private ReleaseStatus releaseStatus;
 
-    @ElementCollection
-    @CollectionTable(name = "building_block_properties",
-            joinColumns = @JoinColumn(name = "building_block_id", referencedColumnName = "building_block_id"))
+    @OneToMany(orphanRemoval = true, mappedBy = "buildingBlock")
     private Collection<BuildingBlockProperty> properties;
 
     BuildingBlock(BuildingBlockId id, Technology technology, BuildingBlockDetails details) {
@@ -40,14 +38,6 @@ public class BuildingBlock {
 
         setDetails(details);
         setTechnology(technology);
-    }
-
-    void setProperties(Collection<BuildingBlockProperty> properties) {
-        this.properties.clear();
-
-        if (properties != null) {
-            this.properties.addAll(properties);
-        }
     }
 
     void release() {

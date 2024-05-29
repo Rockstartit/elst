@@ -57,19 +57,6 @@ public class BuildingBlockController implements BuildingBlockApi {
     }
 
     @Override
-    public ResponseEntity<Void> editBuildingBlockProperties(UUID buildingBlockId, EditBuildingBlockPropertiesRequest body) {
-        BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
-
-        List<edu.kit.elst.building_blocks.BuildingBlockProperty> properties = body.getProperties().stream()
-                .map(BuildingBlockMapper::mapToBuildingBlockProperty)
-                .toList();
-
-        buildingBlockService.editBuildingBlockProperties(aBuildingBlockId, properties);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
     public ResponseEntity<Void> releaseBuildingBlock(UUID buildingBlockId) {
         BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
 

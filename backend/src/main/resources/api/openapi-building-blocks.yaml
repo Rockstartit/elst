@@ -95,11 +95,11 @@ paths:
         401:
           description: Not Authenticated
   /building-blocks/{buildingBlockId}/properties:
-    put:
+    post:
       tags:
         - Building Block
-      summary: Edit building block properties
-      operationId: editBuildingBlockProperties
+      summary: Create building block property
+      operationId: createBuildingBlockProperty
       parameters:
         - name: buildingBlockId
           in: path
@@ -111,8 +111,65 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EditBuildingBlockPropertiesRequest'
+              $ref: '#/components/schemas/CreateBuildingBlockPropertyRequest'
         required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /building-blocks/{buildingBlockId}/properties/{key}:
+    patch:
+      tags:
+        - Building Block
+      summary: Edit building block property
+      operationId: editBuildingBlockProperty
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: key
+          in: path
+          description: Key of building block property
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditBuildingBlockPropertyRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+    delete:
+      tags:
+        - Building Block
+      summary: Delete building block property
+      operationId: deleteBuildingBlockProperty
+      parameters:
+        - name: buildingBlockId
+          in: path
+          description: Id of building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: key
+          in: path
+          description: Key of building block property
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Ok
@@ -329,15 +386,40 @@ components:
             $ref: "#/components/schemas/BuildingBlockProperty"
         releaseStatus:
           $ref: "#/components/schemas/ReleaseStatus"
-    EditBuildingBlockPropertiesRequest:
+    CreateBuildingBlockPropertyRequest:
       type: object
       required:
-        - properties
+        - key
+        - type
+        - displayName
+        - description
+        - order
       properties:
-        properties:
-          type: array
-          items:
-            $ref: "#/components/schemas/BuildingBlockProperty"
+        key:
+          type: string
+          example: value_1
+        type:
+          $ref: "#/components/schemas/BuildingBlockPropertyType"
+        displayName:
+          type: string
+          example: Wert 1
+        description:
+          type: string
+    EditBuildingBlockPropertyRequest:
+      type: object
+      required:
+        - type
+        - displayName
+        - description
+        - order
+      properties:
+        type:
+          $ref: "#/components/schemas/BuildingBlockPropertyType"
+        displayName:
+          type: string
+          example: Wert 1
+        description:
+          type: string
     RequestBuildingBlockRequest:
       type: object
       required:

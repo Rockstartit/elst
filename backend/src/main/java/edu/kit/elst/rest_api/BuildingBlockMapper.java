@@ -32,14 +32,6 @@ public class BuildingBlockMapper {
         return dto;
     }
 
-    public static edu.kit.elst.building_blocks.BuildingBlockProperty mapToBuildingBlockProperty(edu.kit.elst.rest_api.BuildingBlockProperty dto) {
-        edu.kit.elst.building_blocks.BuildingBlockProperty property = new edu.kit.elst.building_blocks.BuildingBlockProperty(dto.getKey(), dto.getDisplayName(), dto.getOrder().intValue());
-        property.description(dto.getDescription());
-        property.type(dto.getType());
-
-        return property;
-    }
-
     public static Mockup mapToMockup(BuildingBlockMockup mockup) {
         Mockup dto = new Mockup();
 

@@ -1,9 +1,7 @@
 package edu.kit.elst.building_blocks;
 
 import edu.kit.elst.core.Guards;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +9,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Embeddable
+@Entity
+@Table(name = "building_block_properties")
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class BuildingBlockProperty {
-    private final String key;
+    @EmbeddedId
+    private final BuildingBlockPropertyId id;
+
     private final String displayName;
     private String description;
     private final int order;
@@ -22,12 +23,26 @@ public class BuildingBlockProperty {
     @Enumerated(EnumType.ORDINAL)
     private BuildingBlockPropertyType type;
 
-    public BuildingBlockProperty(String key, String displayName, int order) {
-        Guards.notEmptyBlankOrNull(key, "key");
+    @Getter(AccessLevel.NONE)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "building_block_id", insertable = false, updatable = false)
+    private BuildingBlock buildingBlock;
+
+    public BuildingBlockProperty(BuildingBlock buildingBlock, String key, String displayName) {
+        Guards.notNull(buildingBlock, "buildingBlock");
         Guards.notEmptyBlankOrNull(displayName, "displayName");
 
-        this.key = key;
+        this.id = new BuildingBlockPropertyId(buildingBlock.id(), key);
+        this.buildingBlock = buildingBlock;
         this.displayName = displayName;
-        this.order = order;
+        this.order = 0;
+    }
+
+    public String key() {
+        return id.key();
+    }
+
+    public BuildingBlockId buildingBlockId() {
+        return id.buildingBlockId();
     }
 }

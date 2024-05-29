@@ -31,6 +31,8 @@ paths:
     $ref: "./openapi-files.yaml#/paths/~1files~1{fileId}"
   /lessons/{lessonId}/courses:
     $ref: "./openapi-courses.yaml#/paths/~1lessons~1{lessonId}~1courses"
+  /building-blocks/{buildingBlockId}/properties/{key}:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1properties~1{key}"
   /courses/{courseId}:
     $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}"
   /teaching-phases/{teachingPhaseId}/learning-materials:
