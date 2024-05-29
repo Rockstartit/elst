@@ -22,4 +22,9 @@ interface TeachingPhases extends JpaRepository<TeachingPhase, TeachingPhaseId> {
             "join fetch teachingPhase.teachingUnit " +
             "where teachingPhase.teachingUnit.id in :teachingUnitIds")
     Collection<TeachingPhase> findAllByTeachingUnitIdIn(Set<TeachingUnitId> teachingUnitIds);
+
+    @Query("select max(teachingPhase.order) from TeachingPhase teachingPhase " +
+            "where teachingPhase.teachingUnit = :teachingUnit " +
+            "group by teachingPhase.teachingUnit.id ")
+    Long maxOrderByTeachingUnit(TeachingUnit teachingUnit);
 }

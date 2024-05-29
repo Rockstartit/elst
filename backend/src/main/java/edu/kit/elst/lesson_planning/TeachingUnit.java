@@ -44,11 +44,15 @@ public class TeachingUnit {
     @Embedded
     private InstructionMethods instructionMethods;
 
+    @Column(name = "order_index")
+    private long order;
+
     public TeachingUnit(Lesson lesson, Topic topic) {
         Guards.notNull(lesson, "lesson");
 
         this.id = TeachingUnits.nextIdentity();
         this.lesson = lesson;
+        this.order = 0;
 
         topic(topic);
     }

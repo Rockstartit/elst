@@ -52,11 +52,9 @@
 
         <BaseCard title="Unterrichtsverlaufsplan">
           <q-card-section>
-            <OBaseAnimatedList
-              :items="teachingUnit.teachingPhases"
-              gap="1.5rem">
+            <OBaseAnimatedList :items="sortedTeachingPhases" gap="1.5rem">
               <template #item="{ item, index }">
-                <OTeachingPhase v-model="teachingUnit.teachingPhases[index]">
+                <OTeachingPhase v-model="sortedTeachingPhases[index]">
                   <template #before>
                     <q-item-section side>
                       <q-icon
@@ -145,7 +143,7 @@
 
 <script setup lang="ts">
 import PBase from 'src/core/PBase.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import {
   Lesson,
   TeachingPhase,
@@ -197,6 +195,16 @@ const teachingUnit = ref<TeachingUnit>();
 const performingEdit = ref(false);
 const performingDelete = ref(false);
 const performingCreateTeachingPhase = ref(false);
+
+const sortedTeachingPhases = computed(() => {
+  if (!teachingUnit.value) {
+    return [];
+  }
+
+  return [...teachingUnit.value.teachingPhases].sort(
+    (a, b) => a.order - b.order
+  );
+});
 
 onMounted(() => {
   const teachingUnitPromise = teachingUnitApi
@@ -298,12 +306,19 @@ function openCreateTeachingPhaseDialog() {
           })
           .then((response) => {
             if (teachingUnit.value) {
+              const maxOrder = Math.max(
+                ...(teachingUnit.value?.teachingPhases.map(
+                  (teachingPhase) => teachingPhase.order
+                ) ?? [0])
+              );
+
               teachingUnit.value.teachingPhases.push({
                 id: response.data,
                 topic: result.topic,
                 phase: result.phase,
                 timeFrame: result.timeFrame,
                 learningMaterials: [],
+                order: maxOrder + 1,
               });
             }
 

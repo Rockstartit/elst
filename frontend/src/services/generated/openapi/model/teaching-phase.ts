@@ -56,6 +56,12 @@ export interface TeachingPhase {
      * @memberof TeachingPhase
      */
     'learningMaterials': Array<LearningMaterial>;
+    /**
+     * 
+     * @type {number}
+     * @memberof TeachingPhase
+     */
+    'order': number;
 }
 
 

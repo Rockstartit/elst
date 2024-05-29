@@ -129,6 +129,7 @@ public class LessonController implements LessonApi {
 
         dto.setId(teachingUnit.id().value());
         dto.setTopic(teachingUnit.topic().value());
+        dto.setOrder(UtilMapper.mapToBigDecimal(teachingUnit.order()));
 
         return dto;
     }

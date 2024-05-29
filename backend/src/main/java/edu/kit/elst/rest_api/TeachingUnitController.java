@@ -104,6 +104,18 @@ public class TeachingUnitController implements TeachingUnitApi {
         return ResponseEntity.ok(mapToTeachingUnit(teachingUnit, teachingPhases, learningMaterials));
     }
 
+    @Override
+    public ResponseEntity<Void> reorderTeachingUnits(UUID lessonId, List<UUID> teachingUnitIds) {
+        LessonId aLessonId = new LessonId(lessonId);
+        List<TeachingUnitId> theTeachingUnitIds = teachingUnitIds.stream()
+                .map(TeachingUnitId::new)
+                .toList();
+
+        teachingUnitAppService.reorderTeachingUnits(aLessonId, theTeachingUnitIds);
+
+        return ResponseEntity.ok().build();
+    }
+
     private TeachingUnit mapToTeachingUnit(edu.kit.elst.lesson_planning.TeachingUnit teachingUnit,
                                            Collection<TeachingPhase> teachingPhases,
                                            Map<TeachingPhaseId, List<LearningMaterial>> learningMaterials) {
@@ -130,6 +142,7 @@ public class TeachingUnitController implements TeachingUnitApi {
         edu.kit.elst.rest_api.TeachingPhase dto = new edu.kit.elst.rest_api.TeachingPhase();
 
         dto.setId(teachingPhase.id().value());
+        dto.setOrder(UtilMapper.mapToBigDecimal(teachingPhase.order()));
         dto.setTopic(teachingPhase.topic().value());
 
         teachingPhase.timeFrame().map(UtilMapper::mapToBigDecimal).ifPresent(dto::setTimeFrame);

@@ -32,5 +32,11 @@ export interface TeachingUnitOverview {
      * @memberof TeachingUnitOverview
      */
     'topic': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TeachingUnitOverview
+     */
+    'order': number;
 }
 

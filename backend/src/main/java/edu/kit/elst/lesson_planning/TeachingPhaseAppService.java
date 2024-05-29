@@ -22,8 +22,12 @@ public class TeachingPhaseAppService {
 
     public TeachingPhaseId createTeachingPhase(TeachingUnitId teachingUnitId, Topic topic) {
         TeachingUnit teachingUnit = teachingUnits.getReferenceById(teachingUnitId);
+        Long maxOrder = teachingPhases.maxOrderByTeachingUnit(teachingUnit);
+        long order = maxOrder != null ? maxOrder + 1 : 0;
+
 
         TeachingPhase teachingPhase = new TeachingPhase(teachingUnit, topic);
+        teachingPhase.order(order);
         teachingPhases.save(teachingPhase);
 
         return teachingPhase.id();

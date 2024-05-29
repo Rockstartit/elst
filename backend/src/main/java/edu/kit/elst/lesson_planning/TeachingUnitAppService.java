@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,8 +20,11 @@ public class TeachingUnitAppService {
 
     public TeachingUnitId createTeachingUnit(LessonId lessonId, Topic topic) {
         Lesson lesson = lessons.getReferenceById(lessonId);
+        Long maxOrder = teachingUnits.maxOrderByLesson(lesson);
+        long order = maxOrder != null ? maxOrder + 1 : 0;
 
         TeachingUnit teachingUnit = new TeachingUnit(lesson, topic);
+        teachingUnit.order(order);
 
         teachingUnits.save(teachingUnit);
 
@@ -99,5 +103,15 @@ public class TeachingUnitAppService {
         Lesson lesson = lessons.getReferenceById(lessonId);
 
         return teachingUnits.findAllByLesson(lesson);
+    }
+
+    public void reorderTeachingUnits(LessonId lessonId, List<TeachingUnitId> teachingUnitIds) {
+        Lesson lesson = lessons.getReferenceById(lessonId);
+
+        Collection<TeachingUnit> units = teachingUnits.findAllByLesson(lesson);
+
+        for (TeachingUnit teachingUnit : units) {
+            teachingUnit.order(teachingUnitIds.indexOf(teachingUnit.id()));
+        }
     }
 }

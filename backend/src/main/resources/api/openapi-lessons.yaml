@@ -215,6 +215,32 @@ paths:
           description: Invalid Request
         401:
           description: Not Authenticated
+  /lessons/{lessonId}/teaching-units/order:
+    post:
+      tags:
+        - Teaching Unit
+      summary: Reorder teaching units
+      operationId: reorderTeachingUnits
+      parameters:
+        - name: lessonId
+          in: path
+          description: Id of lesson
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderTeachingUnitsRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
   /teaching-units/{teachingUnitId}/teaching-phases:
     post:
       tags:
@@ -487,6 +513,10 @@ components:
         topic:
           type: string
           example: Bienen
+    ReorderTeachingUnitsRequest:
+      type: array
+      items:
+        $ref: "#/components/schemas/EntityId"
     EditTeachingUnitRequest:
       type: object
       properties:
@@ -516,12 +546,16 @@ components:
       required:
         - id
         - topic
+        - order
       properties:
         id:
           $ref: '#/components/schemas/EntityId'
         topic:
           type: string
           example: Bienen
+        order:
+          type: number
+          example: 0
     TeachingUnit:
       type: object
       required:
@@ -586,6 +620,7 @@ components:
         - id
         - topic
         - learningMaterials
+        - order
       properties:
         id:
           $ref: '#/components/schemas/EntityId'
@@ -601,6 +636,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningMaterial'
+        order:
+          type: number
+          example: 0
     EditLearningMaterialRequest:
       type: object
       required:

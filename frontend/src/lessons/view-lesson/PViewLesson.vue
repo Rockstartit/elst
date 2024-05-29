@@ -67,27 +67,39 @@
 
           <BaseCard title="Unterrichtseinheiten">
             <q-card-section>
-              <OBaseAnimatedList :items="lesson.teachingUnits">
-                <template #item="{ item }">
+              <Sortable
+                :list="lesson.teachingUnits"
+                item-key="id"
+                tag="div"
+                class="column"
+                style="gap: 0.75rem"
+                :options="sortableOptions"
+                @update="onTeachingUnitsReorder">
+                <template #item="{ element }">
                   <q-item
+                    :key="element.id"
                     clickable
                     class="bg-grey-2 elst__rounded"
-                    :to="viewTeachingUnitRoute(lessonId, item.id)">
+                    style="cursor: grab !important"
+                    :to="viewTeachingUnitRoute(lessonId, element.id)">
                     <q-item-section side>
                       <q-icon
                         name="mdi-drag"
                         class="drag-handle"
-                        draggable="true"
-                        style="cursor: grab" />
+                        draggable="true" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>
-                        {{ item.topic }}
+                        {{ element.topic }}
                       </q-item-label>
                     </q-item-section>
                   </q-item>
                 </template>
-              </OBaseAnimatedList>
+              </Sortable>
+
+              <p v-if="lesson.teachingUnits.length === 0" class="q-mb-none">
+                Unterteile den Unterricht in mehrere Unterrichtseinheiten.
+              </p>
 
               <PrimaryButton
                 label="Hinzufügen"
@@ -156,9 +168,9 @@ import PrimaryButton from 'src/core/PrimaryButton.vue';
 import BaseCard from 'src/core/BaseCard.vue';
 import TertiaryButton from 'src/core/TertiaryButton.vue';
 import { useAppRouter } from 'src/router/useAppRouter';
-import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
 import OCoursesForLesson from 'src/lessons/view-lesson/OCoursesForLesson.vue';
 import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
+import { Sortable } from 'sortablejs-vue3';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -176,12 +188,18 @@ const performingEditLesson = ref(false);
 const performingDeleteLesson = ref(false);
 const performingCreateTeachingUnit = ref(false);
 
+const sortableOptions = {
+  animation: 250,
+  easing: 'cubic-bezier(1, 0, 0, 1)',
+};
+
 onMounted(() => {
   withLoading(
     lessonApi
       .getLesson(props.lessonId)
       .then((response) => {
         lesson.value = response.data;
+        lesson.value?.teachingUnits?.sort((a, b) => a.order - b.order);
       })
       .catch((err) => {
         notifications.apiError(err);
@@ -286,9 +304,16 @@ function openCreateTeachingUnitDialog() {
           })
           .then((response) => {
             if (lesson.value) {
+              const maxOrder = Math.max(
+                ...(lesson.value?.teachingUnits.map(
+                  (teachingUnit) => teachingUnit.order
+                ) ?? [0])
+              );
+
               lesson.value.teachingUnits.push({
                 id: response.data,
                 topic,
+                order: maxOrder + 1,
               });
             }
 
@@ -300,5 +325,32 @@ function openCreateTeachingUnitDialog() {
         performingCreateTeachingUnit
       );
     });
+}
+
+function onTeachingUnitsReorder(event: { oldIndex: number; newIndex: number }) {
+  const length = lesson.value?.teachingUnits.length ?? 0;
+
+  if (lesson.value && event.oldIndex < length && event.newIndex < length) {
+    const element = lesson.value.teachingUnits.splice(event.oldIndex, 1)[0];
+    lesson.value.teachingUnits.splice(event.newIndex, 0, element);
+
+    teachingUnitApi
+      .reorderTeachingUnits(
+        props.lessonId,
+        lesson.value.teachingUnits.map((teachingUnit) => teachingUnit.id)
+      )
+      .then(() => {
+        notifications.success();
+
+        lesson.value?.teachingUnits.forEach(
+          (teachingUnit, index) => (teachingUnit.order = index)
+        );
+      })
+      .catch((err) => {
+        notifications.apiError(err);
+
+        lesson.value?.teachingUnits.sort((a, b) => a.order - b.order);
+      });
+  }
 }
 </script>

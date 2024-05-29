@@ -31,11 +31,15 @@ public class TeachingPhase {
 
     private LearningCyclePhase phase;
 
+    @Column(name = "order_index")
+    private long order;
+
     public TeachingPhase(TeachingUnit teachingUnit, Topic topic) {
         Guards.notNull(teachingUnit, "teachingUnit");
 
         this.id = TeachingPhases.nextIdentity();
         this.teachingUnit = teachingUnit;
+        this.order = 0;
 
         topic(topic);
     }
