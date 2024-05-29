@@ -22,6 +22,19 @@
       </p>
 
       <p v-else class="text-grey-7 q-mb-none"> Keine Beschreibung </p>
+
+      <PrimaryButton
+        v-if="buildingBlock.releaseStatus === 'IN_DEVELOPMENT'"
+        icon="mdi-rocket-launch-outline"
+        label="Veröffentlichen"
+        class="q-mt-md"
+        @click="releaseBuildingBlock" />
+
+      <p
+        v-if="buildingBlock.releaseStatus === 'RELEASED'"
+        class="q-mb-none q-mt-md text-body1 text-green-10 text-weight-medium">
+        Veröffentlicht!
+      </p>
     </div>
 
     <q-separator class="q-my-md" />
@@ -85,14 +98,17 @@ import BaseUploader from 'src/core/BaseUploader.vue';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import TertiaryButton from 'src/core/TertiaryButton.vue';
 import { confirmDialog } from 'src/core/useBaseDialog';
-import { withLoadingArray } from 'src/core/useWithLoading';
+import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
 import { QUploaderFactoryObject, useQuasar } from 'quasar';
 import { onMounted, ref } from 'vue';
 import { useNotifications } from 'src/core/useNotifications';
 import { useContentDownload } from 'src/core/useContentDownload';
 import { basePath } from 'boot/axios';
 import { useAuthenticationStore } from 'stores/authentication/store';
-import { buildingBlockMockupApi } from 'src/services/building_blocks';
+import {
+  buildingBlockApi,
+  buildingBlockMockupApi,
+} from 'src/services/building_blocks';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -103,11 +119,12 @@ const props = defineProps<{
   buildingBlock: BuildingBlock;
 }>();
 
-defineEmits(['edit']);
+const emit = defineEmits(['edit', 'release']);
 
 const mockups = ref<Mockup[]>([]);
 
 const performingDeleteMockup = ref<string[]>([]);
+const performingRelease = ref(false);
 
 onMounted(() => {
   buildingBlockMockupApi
@@ -163,5 +180,21 @@ function mockupUploadFactory(
       }),
     };
   });
+}
+
+function releaseBuildingBlock() {
+  withLoading(
+    buildingBlockApi
+      .releaseBuildingBlock(props.buildingBlock.id)
+      .then(() => {
+        emit('release');
+
+        notifications.success();
+      })
+      .catch((err) => {
+        notifications.apiError(err);
+      }),
+    performingRelease
+  );
 }
 </script>

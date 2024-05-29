@@ -48,7 +48,8 @@
         <OBuildingBlockDetails
           :building-block="buildingBlock"
           class="elst__detail-sidebar"
-          @edit="openEditDescriptionDialog" />
+          @edit="openEditDescriptionDialog"
+          @release="onBuildingBlockReleased" />
       </div>
     </div>
   </div>
@@ -132,5 +133,9 @@ function saveReadMe() {
       }),
     performingSaveReadMe
   );
+}
+
+function onBuildingBlockReleased() {
+  buildingBlock.value.releaseStatus = 'RELEASED';
 }
 </script>
