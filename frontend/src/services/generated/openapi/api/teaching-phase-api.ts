@@ -157,6 +157,50 @@ export const TeachingPhaseApiAxiosParamCreator = function (configuration?: Confi
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Reorder teaching phases
+         * @param {string} teachingUnitId Id of teaching unit
+         * @param {Array<string>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reorderTeachingPhases: async (teachingUnitId: string, requestBody: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'teachingUnitId' is not null or undefined
+            assertParamExists('reorderTeachingPhases', 'teachingUnitId', teachingUnitId)
+            // verify required parameter 'requestBody' is not null or undefined
+            assertParamExists('reorderTeachingPhases', 'requestBody', requestBody)
+            const localVarPath = `/teaching-units/{teachingUnitId}/teaching-phases/order`
+                .replace(`{${"teachingUnitId"}}`, encodeURIComponent(String(teachingUnitId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -208,6 +252,20 @@ export const TeachingPhaseApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['TeachingPhaseApi.editTeachingPhase']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Reorder teaching phases
+         * @param {string} teachingUnitId Id of teaching unit
+         * @param {Array<string>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async reorderTeachingPhases(teachingUnitId: string, requestBody: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reorderTeachingPhases(teachingUnitId, requestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TeachingPhaseApi.reorderTeachingPhases']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -249,6 +307,17 @@ export const TeachingPhaseApiFactory = function (configuration?: Configuration, 
          */
         editTeachingPhase(teachingPhaseId: string, editTeachingPhaseRequest: EditTeachingPhaseRequest, options?: any): AxiosPromise<void> {
             return localVarFp.editTeachingPhase(teachingPhaseId, editTeachingPhaseRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Reorder teaching phases
+         * @param {string} teachingUnitId Id of teaching unit
+         * @param {Array<string>} requestBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        reorderTeachingPhases(teachingUnitId: string, requestBody: Array<string>, options?: any): AxiosPromise<void> {
+            return localVarFp.reorderTeachingPhases(teachingUnitId, requestBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -296,6 +365,19 @@ export class TeachingPhaseApi extends BaseAPI {
      */
     public editTeachingPhase(teachingPhaseId: string, editTeachingPhaseRequest: EditTeachingPhaseRequest, options?: RawAxiosRequestConfig) {
         return TeachingPhaseApiFp(this.configuration).editTeachingPhase(teachingPhaseId, editTeachingPhaseRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Reorder teaching phases
+     * @param {string} teachingUnitId Id of teaching unit
+     * @param {Array<string>} requestBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeachingPhaseApi
+     */
+    public reorderTeachingPhases(teachingUnitId: string, requestBody: Array<string>, options?: RawAxiosRequestConfig) {
+        return TeachingPhaseApiFp(this.configuration).reorderTeachingPhases(teachingUnitId, requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

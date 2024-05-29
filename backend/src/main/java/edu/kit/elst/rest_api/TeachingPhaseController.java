@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,6 +58,18 @@ public class TeachingPhaseController implements TeachingPhaseApi {
 
             teachingPhaseAppService.editTeachingPhase(aTeachingPhaseId, timeFrame, body.getPhase());
         }
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> reorderTeachingPhases(UUID teachingUnitId, List<UUID> teachingPhaseIds) {
+        TeachingUnitId aTeachingUnitId = new TeachingUnitId(teachingUnitId);
+        List<TeachingPhaseId> theTeachingPhaseIds = teachingPhaseIds.stream()
+                .map(TeachingPhaseId::new)
+                .toList();
+
+        teachingPhaseAppService.reorderTeachingPhases(aTeachingUnitId, theTeachingPhaseIds);
 
         return ResponseEntity.ok().build();
     }

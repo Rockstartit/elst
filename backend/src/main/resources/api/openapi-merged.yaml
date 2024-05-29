@@ -19,10 +19,10 @@ paths:
     $ref: "./openapi-courses.yaml#/paths/~1page-links"
   /teaching-phases/{teachingPhaseId}:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-phases~1{teachingPhaseId}"
-  /discussions/{discussionId}/comments:
-    $ref: "./openapi-discussion.yaml#/paths/~1discussions~1{discussionId}~1comments"
   /building-blocks/{buildingBlockId}/mockups:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1mockups"
+  /discussions/{discussionId}/comments:
+    $ref: "./openapi-discussion.yaml#/paths/~1discussions~1{discussionId}~1comments"
   /building-blocks/{buildingBlockId}/properties:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1properties"
   /lessons/{lessonId}/teaching-units:
@@ -53,28 +53,30 @@ paths:
     $ref: "./openapi-discussion.yaml#/paths/~1discussions"
   /page-mockups/{mockupId}:
     $ref: "./openapi-courses.yaml#/paths/~1page-mockups~1{mockupId}"
+  /teaching-units/{teachingUnitId}/teaching-phases/order:
+    $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}~1teaching-phases~1order"
   /courses/{courseId}/structure:
     $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1structure"
   /teaching-units/{teachingUnitId}:
     $ref: "./openapi-lessons.yaml#/paths/~1teaching-units~1{teachingUnitId}"
   /learning-materials/{learningMaterialId}:
     $ref: "./openapi-lessons.yaml#/paths/~1learning-materials~1{learningMaterialId}"
-  /comments/{commentId}:
-    $ref: "./openapi-discussion.yaml#/paths/~1comments~1{commentId}"
-  /building-blocks/{buildingBlockId}/release:
-    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1release"
-  /courses/{courseId}/pages:
-    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1pages"
   /lessons:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons"
+  /building-blocks/{buildingBlockId}/release:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1release"
+  /comments/{commentId}:
+    $ref: "./openapi-discussion.yaml#/paths/~1comments~1{commentId}"
+  /courses/{courseId}/pages:
+    $ref: "./openapi-courses.yaml#/paths/~1courses~1{courseId}~1pages"
   /building-blocks/{buildingBlockId}/readme:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1readme"
   /pages/{pageId}:
     $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}"
-  /building-blocks/{buildingBlockId}:
-    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}"
   /lessons/{lessonId}:
     $ref: "./openapi-lessons.yaml#/paths/~1lessons~1{lessonId}"
+  /building-blocks/{buildingBlockId}:
+    $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}"
   /page-links/{pageId}/to/{targetPageId}:
     $ref: "./openapi-courses.yaml#/paths/~1page-links~1{pageId}~1to~1{targetPageId}"
 info:

@@ -52,8 +52,15 @@
 
         <BaseCard title="Unterrichtsverlaufsplan">
           <q-card-section>
-            <OBaseAnimatedList :items="sortedTeachingPhases" gap="1.5rem">
-              <template #item="{ item, index }">
+            <Sortable
+              :list="teachingUnit.teachingPhases"
+              item-key="id"
+              tag="div"
+              class="column"
+              style="gap: 1.5rem"
+              :options="sortableOptions"
+              @update="onTeachingPhasesReorder">
+              <template #item="{ element, index }">
                 <OTeachingPhase v-model="sortedTeachingPhases[index]">
                   <template #before>
                     <q-item-section side>
@@ -73,7 +80,7 @@
                           dense
                           flat
                           text-color="grey-10"
-                          @click="openEditTeachingPhaseDialog(item)" />
+                          @click="openEditTeachingPhaseDialog(element)" />
 
                         <TertiaryButton
                           icon="mdi-delete-outline"
@@ -82,13 +89,13 @@
                           text-color="grey-10"
                           hover-color="red-1"
                           hover-text-color="red-10"
-                          @click="openDeleteTeachingPhaseDialog(item)" />
+                          @click="openDeleteTeachingPhaseDialog(element)" />
                       </div>
                     </q-item-section>
                   </template>
                 </OTeachingPhase>
               </template>
-            </OBaseAnimatedList>
+            </Sortable>
 
             <PrimaryButton
               label="Hinzufügen"
@@ -167,7 +174,6 @@ import PrimaryButton from 'src/core/PrimaryButton.vue';
 import BaseCard from 'src/core/BaseCard.vue';
 import TertiaryButton from 'src/core/TertiaryButton.vue';
 import { useAppRouter } from 'src/router/useAppRouter';
-import OBaseAnimatedList from 'src/core/OBaseAnimatedList.vue';
 import OTeachingUnitHeader from 'src/lessons/view-teaching-unit/OTeachingUnitHeader.vue';
 import {
   CreateOrEditTeachingPhaseDialogResult,
@@ -177,6 +183,8 @@ import {
 import OTeachingPhase from 'src/lessons/view-teaching-unit/OTeachingPhase.vue';
 import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
 import { availableRoutes } from 'src/router/routes';
+import { Sortable } from 'sortablejs-vue3';
+import { sortableOptions } from 'src/core/useSortableList';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -211,6 +219,7 @@ onMounted(() => {
     .getTeachingUnit(props.teachingUnitId)
     .then((response) => {
       teachingUnit.value = response.data;
+      teachingUnit.value?.teachingPhases.sort((a, b) => a.order - b.order);
     });
 
   const lessonPromise = lessonApi.getLesson(props.lessonId).then((response) => {
@@ -385,5 +394,44 @@ function openDeleteTeachingPhaseDialog(teachingPhase: TeachingPhase) {
       performingDelete
     );
   });
+}
+
+function onTeachingPhasesReorder(event: {
+  oldIndex: number;
+  newIndex: number;
+}) {
+  const length = teachingUnit.value?.teachingPhases.length ?? 0;
+
+  if (
+    teachingUnit.value &&
+    event.oldIndex < length &&
+    event.newIndex < length
+  ) {
+    const element = teachingUnit.value.teachingPhases.splice(
+      event.oldIndex,
+      1
+    )[0];
+    teachingUnit.value.teachingPhases.splice(event.newIndex, 0, element);
+
+    teachingPhaseApi
+      .reorderTeachingPhases(
+        props.teachingUnitId,
+        teachingUnit.value.teachingPhases.map(
+          (teachingPhase) => teachingPhase.id
+        )
+      )
+      .then(() => {
+        notifications.success();
+
+        teachingUnit.value?.teachingPhases.forEach(
+          (teachingPhase, index) => (teachingPhase.order = index)
+        );
+      })
+      .catch((err) => {
+        notifications.apiError(err);
+
+        teachingUnit.value?.teachingPhases.sort((a, b) => a.order - b.order);
+      });
+  }
 }
 </script>

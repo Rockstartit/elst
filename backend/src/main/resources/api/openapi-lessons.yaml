@@ -232,7 +232,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReorderTeachingUnitsRequest'
+              $ref: '#/components/schemas/ReorderRequest'
         required: true
       responses:
         200:
@@ -267,6 +267,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EntityId'
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
+  /teaching-units/{teachingUnitId}/teaching-phases/order:
+    post:
+      tags:
+        - Teaching Phase
+      summary: Reorder teaching phases
+      operationId: reorderTeachingPhases
+      parameters:
+        - name: teachingUnitId
+          in: path
+          description: Id of teaching unit
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
         400:
           description: Invalid Request
         401:
@@ -513,7 +539,7 @@ components:
         topic:
           type: string
           example: Bienen
-    ReorderTeachingUnitsRequest:
+    ReorderRequest:
       type: array
       items:
         $ref: "#/components/schemas/EntityId"

@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -64,6 +61,16 @@ public class TeachingPhaseAppService {
 
         for (TeachingPhase teachingPhase : toDelete) {
             deleteTeachingPhase(teachingPhase.id());
+        }
+    }
+
+    public void reorderTeachingPhases(TeachingUnitId teachingUnitId, List<TeachingPhaseId> teachingPhaseIds) {
+        TeachingUnit teachingUnit = teachingUnits.getReferenceById(teachingUnitId);
+
+        Collection<TeachingPhase> phases = teachingPhases.findAllByTeachingUnit(teachingUnit);
+
+        for (TeachingPhase teachingPhase : phases) {
+            teachingPhase.order(teachingPhaseIds.indexOf(teachingPhase.id()));
         }
     }
 

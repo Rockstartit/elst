@@ -171,6 +171,7 @@ import { useAppRouter } from 'src/router/useAppRouter';
 import OCoursesForLesson from 'src/lessons/view-lesson/OCoursesForLesson.vue';
 import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
 import { Sortable } from 'sortablejs-vue3';
+import { sortableOptions } from 'src/core/useSortableList';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -187,11 +188,6 @@ const lesson = ref<Lesson>();
 const performingEditLesson = ref(false);
 const performingDeleteLesson = ref(false);
 const performingCreateTeachingUnit = ref(false);
-
-const sortableOptions = {
-  animation: 250,
-  easing: 'cubic-bezier(1, 0, 0, 1)',
-};
 
 onMounted(() => {
   withLoading(
