@@ -2,6 +2,7 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.building_blocks.BuildingBlockProperty;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
 import edu.kit.elst.course_conceptualization.CourseNote;
@@ -86,6 +87,24 @@ public class CourseMapper {
         dto.setName(buildingBlock.details().name());
         dto.setDescription(buildingBlock.details().description());
         dto.setReleaseStatus(buildingBlock.releaseStatus());
+
+        dto.setProperties(buildingBlock.properties().stream()
+                .sorted(Comparator.comparing(BuildingBlockProperty::order))
+                .map(CourseMapper::mapToPageBuildingBlockProperty)
+                .toList());
+
+        return dto;
+    }
+
+    private static PageBuildingBlockProperty mapToPageBuildingBlockProperty(BuildingBlockProperty property) {
+        PageBuildingBlockProperty dto = new PageBuildingBlockProperty();
+
+        dto.setKey(property.key());
+        dto.setDisplayName(property.displayName());
+        dto.setDescription(property.description());
+        dto.setOrder(UtilMapper.mapToBigDecimal(property.order()));
+        dto.setType(property.type());
+        dto.setValue(""); // TODO provide value
 
         return dto;
     }

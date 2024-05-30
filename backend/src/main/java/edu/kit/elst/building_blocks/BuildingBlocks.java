@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 interface BuildingBlocks extends JpaRepository<BuildingBlock, BuildingBlockId> {
@@ -20,4 +21,9 @@ interface BuildingBlocks extends JpaRepository<BuildingBlock, BuildingBlockId> {
     @Query("select buildingBlock from BuildingBlock buildingBlock " +
             "left join fetch buildingBlock.properties")
     Collection<BuildingBlock> findAllWithProperties();
+
+    @Query("select buildingBlock from BuildingBlock buildingBlock " +
+            "left join fetch buildingBlock.properties " +
+            "where buildingBlock.id in :buildingBlockIds")
+    Collection<BuildingBlock> findAllWithPropertiesByIdIn(Set<BuildingBlockId> buildingBlockIds);
 }

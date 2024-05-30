@@ -80,7 +80,6 @@
                     :key="element.id"
                     clickable
                     class="bg-grey-2 elst__rounded"
-                    style="cursor: grab !important"
                     :to="viewTeachingUnitRoute(lessonId, element.id)">
                     <q-item-section side>
                       <q-icon

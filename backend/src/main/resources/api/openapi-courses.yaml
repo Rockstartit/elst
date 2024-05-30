@@ -676,8 +676,10 @@ components:
       type: object
       required:
         - pageBuildingBlockId
+        - buildingBlockId
         - name
         - releaseStatus
+        - properties
       properties:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
@@ -689,6 +691,34 @@ components:
           type: string
         releaseStatus:
           $ref: "#/components/schemas/ReleaseStatus"
+        properties:
+          type: array
+          items:
+            $ref: "#/components/schemas/PageBuildingBlockProperty"
+    PageBuildingBlockProperty:
+      type: object
+      required:
+        - key
+        - type
+        - displayName
+        - order
+        - value
+      properties:
+        key:
+          type: string
+          example: value_1
+        type:
+          $ref: "./openapi-building-blocks.yaml#/components/schemas/BuildingBlockPropertyType"
+        displayName:
+          type: string
+          example: Wert 1
+        description:
+          type: string
+        order:
+          type: number
+          example: 0
+        value:
+          type: string
     AddBuildingBlockToPageRequest:
       type: object
       required:

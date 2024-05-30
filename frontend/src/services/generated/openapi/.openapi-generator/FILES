@@ -61,6 +61,7 @@ model/lesson.ts
 model/link-pages-request.ts
 model/mockup-reference.ts
 model/mockup.ts
+model/page-building-block-property.ts
 model/page-building-block.ts
 model/page-overview.ts
 model/page-reference.ts

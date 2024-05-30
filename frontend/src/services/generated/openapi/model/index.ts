@@ -41,6 +41,7 @@ export * from './mockup';
 export * from './mockup-reference';
 export * from './page';
 export * from './page-building-block';
+export * from './page-building-block-property';
 export * from './page-overview';
 export * from './page-reference';
 export * from './preparation-factors';

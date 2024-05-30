@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -44,7 +41,11 @@ public class BuildingBlockAppService {
     }
 
     public Collection<BuildingBlock> buildingBlocks(Set<BuildingBlockId> buildingBlockIds) {
-        return buildingBlocks.findAllById(buildingBlockIds);
+        if (buildingBlockIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return buildingBlocks.findAllWithPropertiesByIdIn(buildingBlockIds);
     }
 
     public Optional<BuildingBlock> buildingBlock(BuildingBlockId id) {

@@ -2,14 +2,24 @@
   <div class="bg-grey-1 elst__rounded elst__bordered q-pa-md">
     <q-item v-bind="$props" class="q-pa-none">
       <q-item-section avatar>
-        <q-icon name="mdi-wrench-outline" size="1.5rem" />
+        <q-icon
+          :name="
+            inDevelopment ? 'mdi-wrench-outline' : 'mdi-package-variant-closed'
+          "
+          size="1.5rem" />
       </q-item-section>
       <q-item-section>
-        <q-item-label>
+        <q-item-label class="text-h6 row items-baseline">
           {{ buildingBlock.name }}
-        </q-item-label>
-        <q-item-label v-if="buildingBlock.description" caption>
-          {{ buildingBlock.description }}
+
+          <q-icon
+            v-if="buildingBlock.description"
+            name="mdi-information-outline"
+            class="text-body1 q-ml-sm">
+            <q-tooltip class="text-caption">
+              {{ buildingBlock.description }}
+            </q-tooltip>
+          </q-icon>
         </q-item-label>
       </q-item-section>
       <slot name="after" />
@@ -25,6 +35,16 @@
         :to="viewBuildingBlockRoute(buildingBlock.buildingBlockId)"
         class="text-body2 text-primary text-weight-medium" />
     </div>
+
+    <q-list v-if="!inDevelopment">
+      <q-item-label header class="text-black text-weight-medium text-body2">
+        Konfigurationsmöglichkeiten
+      </q-item-label>
+      <MPageBuildingBlockProperty
+        v-for="property in buildingBlock.properties"
+        :key="property.key"
+        :property="property" />
+    </q-list>
   </div>
 </template>
 
@@ -34,6 +54,7 @@ import { computed } from 'vue';
 import { useAppRouter } from 'src/router/useAppRouter';
 import ALink from 'src/core/ALink.vue';
 import { PageBuildingBlock } from 'src/services/generated/openapi';
+import MPageBuildingBlockProperty from 'src/courses/view-course/MPageBuildingBlockProperty.vue';
 
 const { viewBuildingBlockRoute } = useAppRouter();
 
