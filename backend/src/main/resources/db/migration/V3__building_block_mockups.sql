@@ -8,5 +8,5 @@ alter table pages add column order_index varchar(255) default 0;
 
 drop table building_block_properties;
 
-create table building_block_properties (building_block_id binary(16) not null, display_name varchar(255), `key_name` varchar(255) not null, order_index integer, type tinyint, description varchar(255), primary key (building_block_id, `key`)) engine=InnoDB;
+create table building_block_properties (building_block_id binary(16) not null, display_name varchar(255), `key_name` varchar(255) not null, order_index integer, type tinyint, description varchar(255), primary key (building_block_id, `key_name`)) engine=InnoDB;
 alter table building_block_properties add constraint FKsa46ycrttslf80o4rxs1pfiy3 foreign key (building_block_id) references building_blocks (building_block_id);
