@@ -37,69 +37,62 @@
         <div>
           <q-splitter v-model="splitterModel">
             <template v-slot:before>
-              <div class="q-pa-md">
-                <q-tree
-                  :selected="selectedPageId"
-                  :nodes="teachingUnitTree"
-                  node-key="value"
-                  selected-color="primary"
-                  default-expand-all
-                  no-selection-unset
-                  @update:selected="selectPage">
-                  <template #body-phase="{ node }">
-                    <q-badge
-                      v-if="node.phase"
-                      :color="learningCyclePhaseColor(node.phase)"
-                      rounded
-                      class="justify-center text-grey-10 q-pa-xs text-weight-medium"
-                      style="width: 150px">
-                      {{ learningCyclePhaseLabel(node.phase) }}
-                    </q-badge>
+              <q-scroll-area style="height: calc(100dvh - 200px)">
+                <div class="q-pa-md">
+                  <q-tree
+                    :selected="selectedPageId"
+                    :nodes="teachingUnitTree"
+                    node-key="value"
+                    selected-color="primary"
+                    default-expand-all
+                    no-selection-unset
+                    @update:selected="selectPage">
+                    <template #header-phase="{ node }">
+                      <div class="col q-mt-md">
+                        <div class="row">
+                          <q-badge
+                            v-if="node.phase"
+                            :color="learningCyclePhaseColor(node.phase)"
+                            rounded
+                            class="justify-center text-grey-10 q-pa-xs text-weight-medium full-width"
+                            style="width: 150px">
+                            {{ learningCyclePhaseLabel(node.phase) }}
+                          </q-badge>
+                        </div>
 
-                    <q-item-label caption class="text-body2 q-mt-sm">
-                      Geplante Dauer:
-                      <span class="text-weight-medium">
-                        {{
-                          node.timeFrame ? node.timeFrame + ' Minuten' : 'Keine'
-                        }}
-                      </span>
-                    </q-item-label>
+                        <q-item-label caption class="text-body2 q-mt-sm">
+                          Geplante Dauer:
+                          <span class="text-weight-medium">
+                            {{
+                              node.timeFrame
+                                ? node.timeFrame + ' Minuten'
+                                : 'Keine'
+                            }}
+                          </span>
+                        </q-item-label>
+                      </div>
+                    </template>
+                    <template #body-phase="{ node }">
+                      <q-item-label
+                        class="preserve-line-breaks text-grey-10 q-my-md">
+                        {{ node.label }}
+                      </q-item-label>
 
-                    <div class="q-py-md">
-                      <Sortable
-                        :list="node.pages"
-                        item-key="id"
-                        tag="div"
-                        class="column"
-                        style="gap: 0.2rem"
-                        :options="sortableOptions"
-                        @update="onPagesReorder(node.value, $event)">
-                        <template #item="{ element }">
-                          <MHoverable
-                            no-background
-                            no-padding
-                            v-slot="{ hovered }"
-                            class="full-width text-black">
-                            <q-item
-                              clickable
-                              class="elst__rounded"
+                      <div>
+                        <Sortable
+                          :list="node.pages"
+                          item-key="id"
+                          tag="div"
+                          class="column"
+                          style="gap: 0.2rem"
+                          :options="sortableOptions"
+                          @update="onPagesReorder(node.value, $event)">
+                          <template #item="{ element }">
+                            <MPageItem
+                              :title="element.title"
+                              :active="selectedPageId === element.id"
                               @click="selectPage(element.id)">
-                              <q-item-section side>
-                                <q-icon
-                                  name="mdi-drag"
-                                  class="drag-handle"
-                                  draggable="true" />
-                              </q-item-section>
-
-                              <q-item-section side>
-                                <q-icon name="mdi-monitor" />
-                              </q-item-section>
-
-                              <q-item-section>
-                                {{ element.title }}
-                              </q-item-section>
-
-                              <q-item-section v-if="hovered" side>
+                              <template #actions>
                                 <div class="row">
                                   <TertiaryButton
                                     icon="mdi-chat-outline"
@@ -112,7 +105,6 @@
                                     " />
 
                                   <TertiaryButton
-                                    v-if="hovered"
                                     icon="mdi-delete-outline"
                                     text-color="grey-10"
                                     dense
@@ -128,86 +120,63 @@
                                       )
                                     " />
                                 </div>
-                              </q-item-section>
-                            </q-item>
-                          </MHoverable>
-                        </template>
-                      </Sortable>
-                    </div>
+                              </template>
+                            </MPageItem>
+                          </template>
+                        </Sortable>
+                      </div>
 
-                    <SecondaryButton
-                      label="Neue Seite"
-                      icon="mdi-plus"
-                      color="indigo-1"
-                      text-color="indigo-10"
-                      dense
-                      class="text-caption elst__rounded full-width"
-                      style="max-width: 200px; min-width: 110px"
-                      :loading="performingCreatePage.includes(node.value)"
-                      @click.stop="openCreatePageDialog(node.value)" />
-                  </template>
-                </q-tree>
-              </div>
+                      <SecondaryButton
+                        label="Neue Seite"
+                        icon="mdi-plus"
+                        color="indigo-1"
+                        text-color="indigo-10"
+                        dense
+                        flat
+                        class="text-caption elst__rounded q-mt-sm"
+                        style="max-width: 200px; min-width: 110px"
+                        :loading="performingCreatePage.includes(node.value)"
+                        @click.stop="openCreatePageDialog(node.value)" />
+                    </template>
+                  </q-tree>
+                </div>
+              </q-scroll-area>
             </template>
 
             <template v-slot:after>
-              <div v-if="selectedPage" class="q-pa-md">
-                <div class="col">
-                  <div class="row q-mb-md">
-                    <MHoverable
-                      v-ripple
-                      class="relative-position"
-                      @click="openEditPageTitle(selectedPage)">
-                      <div class="row text-h6 items-center" style="gap: 0.5rem">
-                        <span>
-                          {{ selectedPage.title }}
-                        </span>
-                        <q-icon name="mdi-pencil-outline" />
-                      </div>
-                    </MHoverable>
-                  </div>
-
-                  <div class="row q-col-gutter-lg">
-                    <div class="col">
-                      <OPageBuildingBlockList
-                        :building-blocks="selectedPage.buildingBlocks"
-                        :initialized="initialized"
-                        :fetching="loading">
-                        <template #item="{ pageBuildingBlock }">
-                          <MPageBuildingBlock
-                            :building-block="pageBuildingBlock">
-                            <template #after>
-                              <q-item-section side>
-                                <PrimaryButton
-                                  icon="mdi-delete"
-                                  dense
-                                  flat
-                                  text-color="grey-6"
-                                  hover-text-color="red-10"
-                                  hover-color="red-1"
-                                  @click="
-                                    openRemoveBuildingBlockDialog(
-                                      pageBuildingBlock
-                                    )
-                                  " />
-                              </q-item-section>
-                            </template>
-                          </MPageBuildingBlock>
-                        </template>
-                      </OPageBuildingBlockList>
-
-                      <div class="row justify-center q-mt-md">
-                        <PrimaryButton
-                          label="Baustein hinzufügen"
-                          @click="
-                            openSelectBuildingBlockDialog(selectedPage.id)
-                          " />
-                      </div>
+              <q-scroll-area style="height: calc(100dvh - 200px)">
+                <div v-if="selectedPage" class="q-pa-md">
+                  <div class="col">
+                    <div class="row">
+                      <MHoverable
+                        v-ripple
+                        class="relative-position"
+                        @click="openEditPageTitle(selectedPage)">
+                        <div
+                          class="row text-h6 items-center"
+                          style="gap: 0.5rem">
+                          <span>
+                            {{ selectedPage.title }}
+                          </span>
+                          <q-icon name="mdi-pencil-outline" />
+                        </div>
+                      </MHoverable>
                     </div>
 
-                    <div class="col-auto" style="min-width: 350px">
-                      <p class="text-body2 text-weight-medium"> Mockups </p>
-                      <q-list class="column" style="gap: 0.5rem">
+                    <div class="row q-mt-md">
+                      <BaseInput
+                        label="Hinweise"
+                        type="textarea"
+                        class="full-width" />
+                    </div>
+
+                    <div class="row q-mt-lg">
+                      <p class="text-body2 text-weight-medium">
+                        Designvorschläge
+                      </p>
+                    </div>
+                    <div class="row">
+                      <q-list class="column col" style="gap: 0.5rem">
                         <MMockup
                           v-for="mockup in selectedPage.mockups"
                           :key="mockup.id"
@@ -247,13 +216,56 @@
                             :factory="mockupUploadFactory"
                             color="transparent"
                             text-color="grey-8"
-                            class="bg-grey-2 full-width" />
+                            class="full-width" />
                         </div>
                       </q-list>
                     </div>
+
+                    <div class="row items-baseline justify-between q-mt-lg">
+                      <p class="text-body2 text-weight-medium">
+                        Ausgewählte Bausteine
+                      </p>
+
+                      <PrimaryButton
+                        label="Baustein hinzufügen"
+                        icon="mdi-plus"
+                        @click="
+                          openSelectBuildingBlockDialog(selectedPageId)
+                        " />
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <OPageBuildingBlockList
+                          :building-blocks="selectedPage.buildingBlocks"
+                          :initialized="initialized"
+                          :fetching="loading">
+                          <template #item="{ pageBuildingBlock }">
+                            <MPageBuildingBlock
+                              :building-block="pageBuildingBlock">
+                              <template #after>
+                                <q-item-section side>
+                                  <PrimaryButton
+                                    icon="mdi-delete"
+                                    dense
+                                    flat
+                                    text-color="grey-6"
+                                    hover-text-color="red-10"
+                                    hover-color="red-1"
+                                    @click="
+                                      openRemoveBuildingBlockDialog(
+                                        pageBuildingBlock
+                                      )
+                                    " />
+                                </q-item-section>
+                              </template>
+                            </MPageBuildingBlock>
+                          </template>
+                        </OPageBuildingBlockList>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </q-scroll-area>
             </template>
           </q-splitter>
         </div>
@@ -327,6 +339,7 @@ import {
 } from 'src/courses/select-building-block/useSelectBuildingBlockDialog';
 import { sortableOptions } from 'src/core/useSortableList';
 import { Sortable } from 'sortablejs-vue3';
+import MPageItem from 'src/courses/view-course/MPageItem.vue';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -376,6 +389,7 @@ const teachingUnitTree = computed(() =>
           pages: teachingPhase.pages,
           selectable: false,
           body: 'phase',
+          header: 'phase',
         };
       }),
     };

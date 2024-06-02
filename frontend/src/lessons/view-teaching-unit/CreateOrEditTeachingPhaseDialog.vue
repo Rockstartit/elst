@@ -18,7 +18,11 @@
               <div class="col">
                 <BaseInput
                   v-model="topic"
-                  label="Thema"
+                  label="Unterrichtsgeschehen"
+                  placeholder="z.B. Die SuS bearbeiten Thema xy"
+                  type="textarea"
+                  autogrow
+                  input-style="max-height: 300px"
                   :rules="[isRequired]" />
               </div>
             </div>

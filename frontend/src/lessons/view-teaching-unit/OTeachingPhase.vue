@@ -3,7 +3,7 @@
     <q-item class="bg-grey-3">
       <slot name="before" />
 
-      <q-item-section side>
+      <q-item-section side top>
         <q-badge
           v-if="teachingPhase.phase"
           :color="learningCyclePhaseColor(teachingPhase.phase)"
@@ -12,21 +12,22 @@
           style="width: 150px">
           {{ learningCyclePhaseLabel(teachingPhase.phase) }}
         </q-badge>
-      </q-item-section>
 
-      <q-item-section>
-        <q-item-label>
-          {{ teachingPhase.topic }}
-        </q-item-label>
-        <q-item-label caption>
+        <q-item-label caption class="q-mt-xs">
           Geplante Dauer:
-          <span class="text-body2 text-weight-medium">
+          <span class="text-caption text-weight-medium">
             {{
               teachingPhase.timeFrame
                 ? teachingPhase.timeFrame + ' Minuten'
                 : 'Keine'
             }}
           </span>
+        </q-item-label>
+      </q-item-section>
+
+      <q-item-section top>
+        <q-item-label class="preserve-line-breaks">
+          {{ teachingPhase.topic }}
         </q-item-label>
       </q-item-section>
 
@@ -72,11 +73,11 @@
 
     <div class="row q-px-md q-pb-md">
       <BaseUploader
+        label="Lehrmaterial hochladen"
         multiple
         :factory="learningMaterialUploadFactory"
         color="transparent"
-        text-color="grey-8"
-        class="bg-grey-2 full-width" />
+        text-color="grey-8" />
     </div>
   </div>
 </template>

@@ -42,3 +42,7 @@ kbd {
 .drag-handle {
   cursor: grab
 }
+
+.preserve-line-breaks {
+  white-space: pre-wrap;
+}

@@ -77,7 +77,7 @@
               <template #item="{ element, index }">
                 <OTeachingPhase v-model="sortedTeachingPhases[index]">
                   <template #before>
-                    <q-item-section side>
+                    <q-item-section side top>
                       <q-icon
                         name="mdi-drag"
                         class="drag-handle"
@@ -87,7 +87,7 @@
                   </template>
 
                   <template #after>
-                    <q-item-section side>
+                    <q-item-section side top>
                       <div class="row" style="gap: 0.75rem">
                         <TertiaryButton
                           icon="mdi-pencil-outline"
