@@ -26,11 +26,15 @@ import { AddBuildingBlockToPageRequest } from '../model';
 // @ts-ignore
 import { CreatePageRequest } from '../model';
 // @ts-ignore
+import { EditPageBuildingBlockPropertyValue } from '../model';
+// @ts-ignore
 import { EditPageRequest } from '../model';
 // @ts-ignore
 import { LinkPagesRequest } from '../model';
 // @ts-ignore
 import { Page } from '../model';
+// @ts-ignore
+import { PageBuildingBlockProperty } from '../model';
 // @ts-ignore
 import { PageOverview } from '../model';
 /**
@@ -167,6 +171,50 @@ export const PageApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary Edit building block properties
+         * @param {string} pageBuildingBlockId Id of page building block
+         * @param {Array<EditPageBuildingBlockPropertyValue>} editPageBuildingBlockPropertyValue 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editBuildingBlockProperties: async (pageBuildingBlockId: string, editPageBuildingBlockPropertyValue: Array<EditPageBuildingBlockPropertyValue>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'pageBuildingBlockId' is not null or undefined
+            assertParamExists('editBuildingBlockProperties', 'pageBuildingBlockId', pageBuildingBlockId)
+            // verify required parameter 'editPageBuildingBlockPropertyValue' is not null or undefined
+            assertParamExists('editBuildingBlockProperties', 'editPageBuildingBlockPropertyValue', editPageBuildingBlockPropertyValue)
+            const localVarPath = `/page-building-blocks/{pageBuildingBlockId}/properties`
+                .replace(`{${"pageBuildingBlockId"}}`, encodeURIComponent(String(pageBuildingBlockId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editPageBuildingBlockPropertyValue, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Edit page
          * @param {string} pageId Id of page
          * @param {EditPageRequest} editPageRequest 
@@ -203,6 +251,44 @@ export const PageApiAxiosParamCreator = function (configuration?: Configuration)
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(editPageRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get building block properties
+         * @param {string} pageBuildingBlockId Id of page building block
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBuildingBlockProperties: async (pageBuildingBlockId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'pageBuildingBlockId' is not null or undefined
+            assertParamExists('getBuildingBlockProperties', 'pageBuildingBlockId', pageBuildingBlockId)
+            const localVarPath = `/page-building-blocks/{pageBuildingBlockId}/properties`
+                .replace(`{${"pageBuildingBlockId"}}`, encodeURIComponent(String(pageBuildingBlockId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -502,6 +588,20 @@ export const PageApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Edit building block properties
+         * @param {string} pageBuildingBlockId Id of page building block
+         * @param {Array<EditPageBuildingBlockPropertyValue>} editPageBuildingBlockPropertyValue 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editBuildingBlockProperties(pageBuildingBlockId: string, editPageBuildingBlockPropertyValue: Array<EditPageBuildingBlockPropertyValue>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editBuildingBlockProperties(pageBuildingBlockId, editPageBuildingBlockPropertyValue, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PageApi.editBuildingBlockProperties']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Edit page
          * @param {string} pageId Id of page
          * @param {EditPageRequest} editPageRequest 
@@ -512,6 +612,19 @@ export const PageApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.editPage(pageId, editPageRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PageApi.editPage']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get building block properties
+         * @param {string} pageBuildingBlockId Id of page building block
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBuildingBlockProperties(pageBuildingBlockId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PageBuildingBlockProperty>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBuildingBlockProperties(pageBuildingBlockId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PageApi.getBuildingBlockProperties']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -638,6 +751,17 @@ export const PageApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @summary Edit building block properties
+         * @param {string} pageBuildingBlockId Id of page building block
+         * @param {Array<EditPageBuildingBlockPropertyValue>} editPageBuildingBlockPropertyValue 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editBuildingBlockProperties(pageBuildingBlockId: string, editPageBuildingBlockPropertyValue: Array<EditPageBuildingBlockPropertyValue>, options?: any): AxiosPromise<void> {
+            return localVarFp.editBuildingBlockProperties(pageBuildingBlockId, editPageBuildingBlockPropertyValue, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Edit page
          * @param {string} pageId Id of page
          * @param {EditPageRequest} editPageRequest 
@@ -646,6 +770,16 @@ export const PageApiFactory = function (configuration?: Configuration, basePath?
          */
         editPage(pageId: string, editPageRequest: EditPageRequest, options?: any): AxiosPromise<void> {
             return localVarFp.editPage(pageId, editPageRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get building block properties
+         * @param {string} pageBuildingBlockId Id of page building block
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBuildingBlockProperties(pageBuildingBlockId: string, options?: any): AxiosPromise<Array<PageBuildingBlockProperty>> {
+            return localVarFp.getBuildingBlockProperties(pageBuildingBlockId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -759,6 +893,19 @@ export class PageApi extends BaseAPI {
 
     /**
      * 
+     * @summary Edit building block properties
+     * @param {string} pageBuildingBlockId Id of page building block
+     * @param {Array<EditPageBuildingBlockPropertyValue>} editPageBuildingBlockPropertyValue 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PageApi
+     */
+    public editBuildingBlockProperties(pageBuildingBlockId: string, editPageBuildingBlockPropertyValue: Array<EditPageBuildingBlockPropertyValue>, options?: RawAxiosRequestConfig) {
+        return PageApiFp(this.configuration).editBuildingBlockProperties(pageBuildingBlockId, editPageBuildingBlockPropertyValue, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Edit page
      * @param {string} pageId Id of page
      * @param {EditPageRequest} editPageRequest 
@@ -768,6 +915,18 @@ export class PageApi extends BaseAPI {
      */
     public editPage(pageId: string, editPageRequest: EditPageRequest, options?: RawAxiosRequestConfig) {
         return PageApiFp(this.configuration).editPage(pageId, editPageRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get building block properties
+     * @param {string} pageBuildingBlockId Id of page building block
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PageApi
+     */
+    public getBuildingBlockProperties(pageBuildingBlockId: string, options?: RawAxiosRequestConfig) {
+        return PageApiFp(this.configuration).getBuildingBlockProperties(pageBuildingBlockId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

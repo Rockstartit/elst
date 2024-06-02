@@ -9,9 +9,12 @@ import edu.kit.elst.course_conceptualization.PageMockupAppService;
 import edu.kit.elst.course_conceptualization.PageAppService;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
 import edu.kit.elst.course_conceptualization.PageNotFoundException;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -38,7 +41,13 @@ public class PageController implements PageApi {
     public ResponseEntity<Void> editPage(UUID pageId, EditPageRequest body) {
         PageId aPageId = new PageId(pageId);
 
-        pageAppService.editPage(aPageId, body.getTitle());
+        if (body.getTitle() != null) {
+            pageAppService.editPageTitle(aPageId, body.getTitle());
+        }
+
+        if (body.getNotes() != null) {
+            pageAppService.editPageNotes(aPageId, body.getNotes());
+        }
 
         return ResponseEntity.ok().build();
     }
@@ -134,5 +143,27 @@ public class PageController implements PageApi {
         pageAppService.reorderPages(aCourseId, thePageIds);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> editBuildingBlockProperties(UUID pageBuildingBlockId, List<EditPageBuildingBlockPropertyValue> editPageBuildingBlockPropertyValue) {
+        PageBuildingBlockId aPageBuildingBlockId = new PageBuildingBlockId(pageBuildingBlockId);
+
+        return PageApi.super.editBuildingBlockProperties(pageBuildingBlockId, editPageBuildingBlockPropertyValue);
+    }
+
+    @Override
+    public ResponseEntity<List<PageBuildingBlockProperty>> getBuildingBlockProperties(UUID pageBuildingBlockId) {
+        PageBuildingBlockId aPageBuildingBlockId = new PageBuildingBlockId(pageBuildingBlockId);
+
+        PageBuildingBlock pageBuildingBlock = pageAppService.pageBuildingBlock(aPageBuildingBlockId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        BuildingBlock buildingBlock = buildingBlockService.buildingBlock(pageBuildingBlock.buildingBlockId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return ResponseEntity.ok(buildingBlock.properties().stream()
+                .map(CourseMapper::mapToPageBuildingBlockProperty)
+                .toList());
     }
 }

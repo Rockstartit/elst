@@ -17,20 +17,20 @@
 /**
  * 
  * @export
- * @interface EditPageRequest
+ * @interface EditPageBuildingBlockPropertyValue
  */
-export interface EditPageRequest {
+export interface EditPageBuildingBlockPropertyValue {
     /**
      * 
      * @type {string}
-     * @memberof EditPageRequest
+     * @memberof EditPageBuildingBlockPropertyValue
      */
-    'title'?: string;
+    'key': string;
     /**
      * 
      * @type {string}
-     * @memberof EditPageRequest
+     * @memberof EditPageBuildingBlockPropertyValue
      */
-    'notes'?: string;
+    'value': string;
 }
 

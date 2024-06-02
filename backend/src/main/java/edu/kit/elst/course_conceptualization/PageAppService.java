@@ -5,8 +5,6 @@ import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
-import edu.kit.elst.lesson_planning.Lesson;
-import edu.kit.elst.lesson_planning.TeachingUnit;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,11 +35,18 @@ public class PageAppService {
         return page.id();
     }
 
-    public void editPage(PageId pageId, String title) {
+    public void editPageTitle(PageId pageId, String title) {
         Page page = pages.findById(pageId)
                 .orElseThrow(() -> new PageNotFoundException(pageId));
 
         page.title(title);
+    }
+
+    public void editPageNotes(PageId pageId, String notes) {
+        Page page = pages.findById(pageId)
+                .orElseThrow(() -> new PageNotFoundException(pageId));
+
+        page.notes(notes);
     }
 
     public void linkPages(PageId pageId, PageId targetPageId) {
@@ -114,5 +119,9 @@ public class PageAppService {
         for (Page page : pageList) {
             page.order(pageIds.indexOf(page.id()));
         }
+    }
+
+    public Optional<PageBuildingBlock> pageBuildingBlock(PageBuildingBlockId pageBuildingBlockId) {
+        return pageBuildingBlocks.findById(pageBuildingBlockId);
     }
 }

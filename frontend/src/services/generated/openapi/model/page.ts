@@ -49,6 +49,12 @@ export interface Page {
     'title': string;
     /**
      * 
+     * @type {string}
+     * @memberof Page
+     */
+    'notes'?: string;
+    /**
+     * 
      * @type {Array<PageBuildingBlock>}
      * @memberof Page
      */

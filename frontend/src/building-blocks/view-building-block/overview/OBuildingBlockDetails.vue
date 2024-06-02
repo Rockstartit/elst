@@ -76,7 +76,7 @@
             :factory="mockupUploadFactory"
             color="transparent"
             text-color="grey-8"
-            class="bg-grey-2 full-width" />
+            class="full-width" />
         </div>
       </q-list>
     </div>

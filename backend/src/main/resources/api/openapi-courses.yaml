@@ -404,6 +404,57 @@ paths:
           description: Not Found
         401:
           description: Not Authenticated
+  /page-building-blocks/{pageBuildingBlockId}/properties:
+    get:
+      tags:
+        - Page
+      summary: Get building block properties
+      operationId: getBuildingBlockProperties
+      parameters:
+        - name: pageBuildingBlockId
+          in: path
+          description: Id of page building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PageBuildingBlockProperty"
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
+    put:
+      tags:
+        - Page
+      summary: Edit building block properties
+      operationId: editBuildingBlockProperties
+      parameters:
+        - name: pageBuildingBlockId
+          in: path
+          description: Id of page building block
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditBuildingBlockPropertiesRequest'
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
   /pages/{pageId}/mockups:
     post:
       tags:
@@ -587,10 +638,10 @@ components:
           $ref: "#/components/schemas/EntityId"
     EditPageRequest:
       type: object
-      required:
-        - title
       properties:
         title:
+          type: string
+        notes:
           type: string
     LinkPagesRequest:
       type: object
@@ -636,6 +687,8 @@ components:
           $ref: "#/components/schemas/EntityId"
         title:
           type: string
+        notes:
+          type: string
         buildingBlocks:
           type: array
           items:
@@ -679,7 +732,6 @@ components:
         - buildingBlockId
         - name
         - releaseStatus
-        - properties
       properties:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
@@ -691,10 +743,21 @@ components:
           type: string
         releaseStatus:
           $ref: "#/components/schemas/ReleaseStatus"
-        properties:
-          type: array
-          items:
-            $ref: "#/components/schemas/PageBuildingBlockProperty"
+    EditBuildingBlockPropertiesRequest:
+      type: array
+      items:
+        $ref: "#/components/schemas/EditPageBuildingBlockPropertyValue"
+    EditPageBuildingBlockPropertyValue:
+      type: object
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+          example: value_1
+        value:
+          type: string
     PageBuildingBlockProperty:
       type: object
       required:

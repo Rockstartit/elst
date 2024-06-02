@@ -48,6 +48,7 @@ model/edit-discussion-request.ts
 model/edit-learning-material-request.ts
 model/edit-lesson-request.ts
 model/edit-mockup-request.ts
+model/edit-page-building-block-property-value.ts
 model/edit-page-request.ts
 model/edit-read-me-request.ts
 model/edit-teaching-phase-request.ts

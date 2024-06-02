@@ -83,6 +83,8 @@ paths:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}"
   /page-links/{pageId}/to/{targetPageId}:
     $ref: "./openapi-courses.yaml#/paths/~1page-links~1{pageId}~1to~1{targetPageId}"
+  /page-building-blocks/{pageBuildingBlockId}/properties:
+    $ref: "./openapi-courses.yaml#/paths/~1page-building-blocks~1{pageBuildingBlockId}~1properties"
 info:
   title: "merged spec"
   description: "merged spec"

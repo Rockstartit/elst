@@ -28,6 +28,8 @@ public class Page {
 
     private String title;
 
+    private String notes;
+
     @Column(name = "order_index")
     private long order;
 
@@ -40,6 +42,7 @@ public class Page {
         this.course = course;
         this.teachingPhaseId = teachingPhaseId;
         this.title = title;
+        this.notes = null;
         this.order = 0;
     }
 }

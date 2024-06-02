@@ -88,15 +88,10 @@ public class CourseMapper {
         dto.setDescription(buildingBlock.details().description());
         dto.setReleaseStatus(buildingBlock.releaseStatus());
 
-        dto.setProperties(buildingBlock.properties().stream()
-                .sorted(Comparator.comparing(BuildingBlockProperty::order))
-                .map(CourseMapper::mapToPageBuildingBlockProperty)
-                .toList());
-
         return dto;
     }
 
-    private static PageBuildingBlockProperty mapToPageBuildingBlockProperty(BuildingBlockProperty property) {
+    public static PageBuildingBlockProperty mapToPageBuildingBlockProperty(BuildingBlockProperty property) {
         PageBuildingBlockProperty dto = new PageBuildingBlockProperty();
 
         dto.setKey(property.key());

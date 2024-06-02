@@ -11,20 +11,30 @@
         @edit-technology-wish="openEditTechnologyWishDialog" />
 
       <div>
-        <BaseInput
-          v-model="course.notes"
-          type="textarea"
-          autogrow
-          placeholder="Hier können Hinweise zur Umsetzung des E-Learning Kurses dokumentiert werden."
-          hint="Umsetzungshinweise für Entwickler"
-          input-style="min-height: 300px" />
+        <AToggleInput>
+          <template #input="{ hideInput }">
+            <BaseInput
+              v-model="course.notes"
+              type="textarea"
+              autogrow
+              placeholder="Hier können Hinweise zur Umsetzung des E-Learning Kurses dokumentiert werden."
+              hint="Umsetzungshinweise für Entwickler"
+              input-style="min-height: 100px; max-height: 300px" />
 
-        <PrimaryButton
-          v-if="canSaveNotes"
-          label="Speichern"
-          :loading="performingSaveNotes"
-          class="q-mt-md elst__base-button-width"
-          @click="saveNotes" />
+            <PrimaryButton
+              v-if="canSaveNotes"
+              label="Speichern"
+              :loading="performingSaveNotes"
+              class="q-mt-md elst__base-button-width"
+              @click="saveNotes(hideInput)" />
+          </template>
+
+          <template #display>
+            <p class="text-body2 preserve-line-breaks">
+              {{ course.notes }}
+            </p>
+          </template>
+        </AToggleInput>
       </div>
 
       <div>
@@ -55,7 +65,7 @@
                             :color="learningCyclePhaseColor(node.phase)"
                             rounded
                             class="justify-center text-grey-10 q-pa-xs text-weight-medium full-width"
-                            style="width: 150px">
+                            style="width: 150px; max-width: 400px">
                             {{ learningCyclePhaseLabel(node.phase) }}
                           </q-badge>
                         </div>
@@ -74,11 +84,12 @@
                     </template>
                     <template #body-phase="{ node }">
                       <q-item-label
-                        class="preserve-line-breaks text-grey-10 q-my-md">
+                        class="preserve-line-breaks text-grey-10 q-my-md"
+                        style="max-width: 90ch">
                         {{ node.label }}
                       </q-item-label>
 
-                      <div>
+                      <div style="max-width: 500px">
                         <Sortable
                           :list="node.pages"
                           item-key="id"
@@ -146,7 +157,7 @@
             <template v-slot:after>
               <q-scroll-area style="height: calc(100dvh - 200px)">
                 <div v-if="selectedPage" class="q-pa-md">
-                  <div class="col">
+                  <div class="col" style="max-width: 600px">
                     <div class="row">
                       <MHoverable
                         v-ripple
@@ -164,10 +175,30 @@
                     </div>
 
                     <div class="row q-mt-md">
-                      <BaseInput
-                        label="Hinweise"
-                        type="textarea"
-                        class="full-width" />
+                      <p class="text-body2 text-weight-medium"> Hinweise </p>
+                      <AToggleInput class="full-width">
+                        <template #display>
+                          <p v-if="selectedPage.notes" class="text-body2">
+                            {{ selectedPage.notes }}
+                          </p>
+                          <p v-else class="text-body2 text-grey-7">
+                            Keine Hinweise
+                          </p>
+                        </template>
+
+                        <template #input="{ hideInput }">
+                          <BaseInput
+                            v-model="selectedPage.notes"
+                            label="Hinweise"
+                            type="textarea"
+                            class="full-width" />
+
+                          <PrimaryButton
+                            label="Speichern"
+                            class="q-mt-md elst__base-button-width"
+                            @click="savePageNotes(hideInput)" />
+                        </template>
+                      </AToggleInput>
                     </div>
 
                     <div class="row q-mt-lg">
@@ -340,6 +371,7 @@ import {
 import { sortableOptions } from 'src/core/useSortableList';
 import { Sortable } from 'sortablejs-vue3';
 import MPageItem from 'src/courses/view-course/MPageItem.vue';
+import AToggleInput from 'src/core/AToggleInput.vue';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -373,6 +405,7 @@ const performingDeletePage = ref<string[]>([]);
 const performingDeleteMockup = ref<string[]>([]);
 const performingRemovePageBuildingBlock = ref<string[]>([]);
 const performingAddBuildingBlockToPage = ref(false);
+const performingSavePageNotes = ref(false);
 
 const teachingUnitTree = computed(() =>
   courseTeachingUnits.value.map((teachingUnit) => {
@@ -506,7 +539,7 @@ function openEditTechnologyWishDialog() {
     });
 }
 
-function saveNotes() {
+function saveNotes(hideInput?: () => void) {
   return withLoading(
     courseApi
       .editCourse(props.courseId, {
@@ -515,6 +548,10 @@ function saveNotes() {
       .then(() => {
         lastSavedNotes.value = course.value?.notes;
         notifications.saved();
+
+        if (hideInput) {
+          hideInput();
+        }
       })
       .catch((err) => {
         notifications.apiError(err);
@@ -758,5 +795,25 @@ function onPagesReorder(
         teachingPhase.pages.sort((a, b) => a.order - b.order);
       });
   }
+}
+
+function savePageNotes(hideInput?: () => void) {
+  withLoading(
+    pageApi
+      .editPage(selectedPageId.value, {
+        notes: selectedPage.value?.notes,
+      })
+      .then(() => {
+        notifications.saved();
+
+        if (hideInput) {
+          hideInput();
+        }
+      })
+      .catch((err) => {
+        notifications.apiError(err);
+      }),
+    performingSavePageNotes
+  );
 }
 </script>

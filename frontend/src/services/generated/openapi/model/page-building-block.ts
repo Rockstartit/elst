@@ -15,9 +15,6 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { PageBuildingBlockProperty } from './page-building-block-property';
-// May contain unused imports in some cases
-// @ts-ignore
 import { ReleaseStatus } from './release-status';
 
 /**
@@ -56,12 +53,6 @@ export interface PageBuildingBlock {
      * @memberof PageBuildingBlock
      */
     'releaseStatus': ReleaseStatus;
-    /**
-     * 
-     * @type {Array<PageBuildingBlockProperty>}
-     * @memberof PageBuildingBlock
-     */
-    'properties': Array<PageBuildingBlockProperty>;
 }
 
 
