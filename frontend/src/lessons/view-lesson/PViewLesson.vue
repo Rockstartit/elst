@@ -39,11 +39,6 @@
                     placeholder="jedes Semester" />
 
                   <BaseInput
-                    v-model="lesson.priorKnowledge"
-                    label="Vorwissen"
-                    type="textarea" />
-
-                  <BaseInput
                     v-model="lesson.learningPrerequisites"
                     label="Lernvoraussetzung"
                     type="textarea" />

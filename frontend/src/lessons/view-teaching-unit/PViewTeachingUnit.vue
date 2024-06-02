@@ -14,29 +14,43 @@
                 <BaseInput
                   v-model="teachingUnit.roughContentAnalysis"
                   label="Grobe Sachanalyse"
-                  type="textarea" />
+                  type="textarea"
+                  autogrow
+                  input-style="min-height: 100px; max-height: 300px" />
 
                 <BaseInput
                   v-model="teachingUnit.curriculumAlignment"
                   label="Einordnung in Bildungsplan"
-                  type="textarea" />
+                  type="textarea"
+                  autogrow
+                  input-style="min-height: 100px; max-height: 300px" />
 
                 <BaseInput
                   v-model="teachingUnit.acquiredCompetences"
-                  label="Erlernte Kompetenzen" />
+                  type="textarea"
+                  autogrow
+                  input-style="max-height: 300px" />
 
                 <BaseInput
                   v-model="teachingUnit.instructionMethods"
-                  label="Lehrmethoden" />
+                  label="Lehrmethoden"
+                  type="textarea"
+                  autogrow
+                  input-style="max-height: 300px" />
 
                 <BaseInput
                   v-model="teachingUnit.frameworkConditions"
-                  label="Rahmenbedingungen" />
+                  label="Rahmenbedingungen"
+                  type="textarea"
+                  autogrow
+                  input-style="max-height: 300px" />
 
                 <BaseInput
                   v-model="teachingUnit.didacticConsiderations"
                   label="Didaktische Überlegungen"
-                  type="textarea" />
+                  type="textarea"
+                  autogrow
+                  input-style="min-height: 100px; max-height: 300px" />
 
                 <div class="row">
                   <PrimaryButton
