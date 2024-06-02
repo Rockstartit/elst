@@ -1,5 +1,5 @@
 <template>
-  <q-item v-bind="$props" class="bg-grey-3 elst__rounded elst__bordered">
+  <q-item v-bind="$props" class="bg-grey-1 elst__rounded elst__bordered">
     <q-item-section side>
       <q-icon name="mdi-file-outline" />
     </q-item-section>

@@ -5,10 +5,12 @@
 
     <PrimaryButton
       v-else
+      dense
       flat
       :label="label ?? 'Hochladen'"
       text-color="primary"
       icon="mdi-upload-outline"
+      class="text-caption"
       @click="showUpload = true" />
   </div>
 </template>
