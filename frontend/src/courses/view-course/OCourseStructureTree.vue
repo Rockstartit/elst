@@ -7,6 +7,7 @@
       selected-color="primary"
       default-expand-all
       no-selection-unset
+      no-nodes-label="Im Unterricht wurde kein Unterrichtsverlaufsplan erstellt. Erstelle mindestens eine Unterrichtsphase, um den Kurs weiterplanen zu können."
       @update:selected="$emit('select-page', $event)">
       <template #header-phase="{ node }">
         <div class="col q-mt-md">
@@ -128,8 +129,8 @@ const props = defineProps<{
   selectedPageId?: string;
 }>();
 
-defineEmits<{
-  (e: 'select-page', pageId: string): void;
+const emit = defineEmits<{
+  (e: 'select-page', pageId: string | undefined): void;
 }>();
 
 const courseTeachingUnits = defineModel<CourseTeachingUnit[]>({
@@ -179,6 +180,8 @@ function openCreatePageDialog(teachingPhaseId: string) {
             title,
           })
           .then((response) => {
+            const pageId = response.data;
+
             notifications.created();
 
             const teachingPhase = courseTeachingUnits.value
@@ -191,7 +194,7 @@ function openCreatePageDialog(teachingPhaseId: string) {
               );
 
               teachingPhase.pages.push({
-                id: response.data,
+                id: pageId,
                 teachingPhaseId: teachingPhaseId,
                 title,
                 linkedPages: [],
@@ -199,6 +202,8 @@ function openCreatePageDialog(teachingPhaseId: string) {
                 mockups: [],
                 order: maxOrder + 1,
               });
+
+              emit('select-page', pageId);
             }
           })
           .catch((err) => {
@@ -231,6 +236,8 @@ function openDeletePageDialog(teachingPhaseId: string, pageId: string) {
           );
           if (index >= 0) {
             teachingPhase.pages.splice(index, 1);
+
+            emit('select-page', undefined);
           }
         })
         .catch((err) => {

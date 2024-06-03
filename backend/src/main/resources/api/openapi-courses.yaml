@@ -353,7 +353,7 @@ paths:
   /pages/{pageId}/page-building-blocks:
     post:
       tags:
-        - Page
+        - Page Building Block
       summary: Add building block to page
       operationId: addBuildingBlockToPage
       parameters:
@@ -383,7 +383,7 @@ paths:
   /page-building-blocks/{pageBuildingBlockId}:
     delete:
       tags:
-        - Page
+        - Page Building Block
       summary: Remove building block from page
       operationId: removeBuildingBlockFromPage
       parameters:
@@ -407,7 +407,7 @@ paths:
   /page-building-blocks/{pageBuildingBlockId}/properties:
     get:
       tags:
-        - Page
+        - Page Building Block
       summary: Get building block properties
       operationId: getBuildingBlockProperties
       parameters:
@@ -430,11 +430,12 @@ paths:
           description: Not Found
         401:
           description: Not Authenticated
+  /page-building-blocks/{pageBuildingBlockId}/properties/{key}:
     put:
       tags:
-        - Page
-      summary: Edit building block properties
-      operationId: editBuildingBlockProperties
+        - Page Building Block
+      summary: Edit building block property
+      operationId: editBuildingBlockProperty
       parameters:
         - name: pageBuildingBlockId
           in: path
@@ -442,12 +443,19 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/EntityId'
+        - name: key
+          in: path
+          description: Key of property
+          required: true
+          schema:
+            type: string
+            example: value__1
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EditBuildingBlockPropertiesRequest'
+              $ref: '#/components/schemas/EditBuildingBlockPropertyValueRequest'
       responses:
         200:
           description: ok
@@ -743,19 +751,11 @@ components:
           type: string
         releaseStatus:
           $ref: "#/components/schemas/ReleaseStatus"
-    EditBuildingBlockPropertiesRequest:
-      type: array
-      items:
-        $ref: "#/components/schemas/EditPageBuildingBlockPropertyValue"
-    EditPageBuildingBlockPropertyValue:
+    EditBuildingBlockPropertyValueRequest:
       type: object
       required:
-        - key
         - value
       properties:
-        key:
-          type: string
-          example: value_1
         value:
           type: string
     PageBuildingBlockProperty:

@@ -6,6 +6,7 @@ import edu.kit.elst.building_blocks.BuildingBlockProperty;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
 import edu.kit.elst.course_conceptualization.CourseNote;
+import edu.kit.elst.course_conceptualization.PageBuildingBlockPropertyValue;
 import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.lesson_planning.TeachingPhase;
 import edu.kit.elst.lesson_planning.TeachingUnit;
@@ -91,7 +92,7 @@ public class CourseMapper {
         return dto;
     }
 
-    public static PageBuildingBlockProperty mapToPageBuildingBlockProperty(BuildingBlockProperty property) {
+    public static PageBuildingBlockProperty mapToPageBuildingBlockProperty(BuildingBlockProperty property, PageBuildingBlockPropertyValue propertyValue) {
         PageBuildingBlockProperty dto = new PageBuildingBlockProperty();
 
         dto.setKey(property.key());
@@ -99,7 +100,12 @@ public class CourseMapper {
         dto.setDescription(property.description());
         dto.setOrder(UtilMapper.mapToBigDecimal(property.order()));
         dto.setType(property.type());
-        dto.setValue(""); // TODO provide value
+
+        if (propertyValue != null) {
+            dto.setValue(propertyValue.value());
+        } else {
+            dto.setValue("");
+        }
 
         return dto;
     }

@@ -17,22 +17,41 @@
             <MPageBuildingBlock :building-block="pageBuildingBlock">
               <template #actions>
                 <PrimaryButton
+                  icon="mdi-delete"
+                  dense
+                  flat
+                  text-color="grey-7"
+                  hover-text-color="red-10"
+                  hover-color="red-1"
+                  tooltip="Baustein entfernen"
+                  @click="openRemoveBuildingBlockDialog(pageBuildingBlock)" />
+
+                <PrimaryButton
+                  icon="mdi-cog-outline"
+                  dense
+                  flat
+                  text-color="black"
+                  :tooltip="
+                    configurePageBuildingBlockTooltip(pageBuildingBlock)
+                  "
+                  :disable="
+                    pageBuildingBlock.releaseStatus === 'IN_DEVELOPMENT'
+                  "
+                  @click="
+                    openConfigureBuildingBlockDialog(
+                      pageBuildingBlock.pageBuildingBlockId
+                    )
+                  " />
+
+                <PrimaryButton
                   icon="mdi-open-in-new"
                   dense
                   flat
                   text-color="primary"
+                  tooltip="Detailseite anzeigen"
                   :to="
                     viewBuildingBlockRoute(pageBuildingBlock.buildingBlockId)
                   " />
-
-                <PrimaryButton
-                  icon="mdi-delete"
-                  dense
-                  flat
-                  text-color="grey-6"
-                  hover-text-color="red-10"
-                  hover-color="red-1"
-                  @click="openRemoveBuildingBlockDialog(pageBuildingBlock)" />
               </template>
             </MPageBuildingBlock>
           </template>
@@ -49,7 +68,7 @@ import PrimaryButton from 'src/core/PrimaryButton.vue';
 import { PageBuildingBlock } from 'src/services/generated/openapi';
 import { confirmDialog } from 'src/core/useBaseDialog';
 import { withLoading, withLoadingArray } from 'src/core/useWithLoading';
-import { pageApi } from 'src/services/course_conceptualization';
+import { pageBuildingBlockApi } from 'src/services/course_conceptualization';
 import {
   selectBuildingBlockDialog,
   SelectBuildingBlockDialogResult,
@@ -58,6 +77,7 @@ import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useNotifications } from 'src/core/useNotifications';
 import { useAppRouter } from 'src/router/useAppRouter';
+import { configurePageBuildingBlockDialog } from 'src/courses/view-course/useConfigurePageBuildingBlockDialog';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
@@ -73,10 +93,20 @@ const pageBuildingBlocks = defineModel<PageBuildingBlock[]>({ required: true });
 const performingRemovePageBuildingBlock = ref<string[]>([]);
 const performingAddBuildingBlockToPage = ref(false);
 
+function configurePageBuildingBlockTooltip(
+  pageBuildingBlock: PageBuildingBlock
+) {
+  if (pageBuildingBlock.releaseStatus === 'IN_DEVELOPMENT') {
+    return 'Der Baustein muss veröffentlicht sein, bevor dieser konfiguriert werden kann.';
+  }
+
+  return 'Baustein konfigurieren';
+}
+
 function openRemoveBuildingBlockDialog(pageBuildingBlock: PageBuildingBlock) {
   quasar.dialog(confirmDialog()).onOk(() => {
     withLoadingArray(
-      pageApi
+      pageBuildingBlockApi
         .removeBuildingBlockFromPage(pageBuildingBlock.pageBuildingBlockId)
         .then(() => {
           const index = pageBuildingBlocks.value.indexOf(pageBuildingBlock);
@@ -106,7 +136,7 @@ function openSelectBuildingBlockDialog(pageId: string) {
     .dialog(selectBuildingBlockDialog(props.technologyWish))
     .onOk((result: SelectBuildingBlockDialogResult) => {
       withLoading(
-        pageApi
+        pageBuildingBlockApi
           .addBuildingBlockToPage(pageId, {
             buildingBlockId: result.buildingBlock.id,
           })
@@ -127,5 +157,9 @@ function openSelectBuildingBlockDialog(pageId: string) {
         performingAddBuildingBlockToPage
       );
     });
+}
+
+function openConfigureBuildingBlockDialog(pageBuildingBlockId: string) {
+  quasar.dialog(configurePageBuildingBlockDialog(pageBuildingBlockId));
 }
 </script>

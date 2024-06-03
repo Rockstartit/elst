@@ -24,6 +24,7 @@ export * from './api/file-api';
 export * from './api/learning-material-api';
 export * from './api/lesson-api';
 export * from './api/page-api';
+export * from './api/page-building-block-api';
 export * from './api/page-mockup-api';
 export * from './api/teaching-phase-api';
 export * from './api/teaching-unit-api';

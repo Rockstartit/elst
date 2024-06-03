@@ -30,6 +30,7 @@ public class CourseController implements CourseApi {
     private final TeachingUnitAppService teachingUnitAppService;
     private final TeachingPhaseAppService teachingPhaseAppService;
     private final LearningMaterialAppService learningMaterialAppService;
+    private final PageBuildingBlockAppService pageBuildingBlockAppService;
 
     @Override
     public ResponseEntity<UUID> createCourse(UUID lessonId, CreateCourseRequest body) {
@@ -128,7 +129,7 @@ public class CourseController implements CourseApi {
         Map<PageId, List<PageMockup>> mockupsMap = pageMockupAppService.mockupsByPageId(pageIds).stream()
                 .collect(Collectors.groupingBy(PageMockup::pageId));
 
-        Map<PageId, List<PageBuildingBlock>> pageBuildingBlocksMap = pageAppService.pageBuildingBlocks(pageIds).stream()
+        Map<PageId, List<PageBuildingBlock>> pageBuildingBlocksMap = pageBuildingBlockAppService.pageBuildingBlocks(pageIds).stream()
                 .collect(Collectors.groupingBy(PageBuildingBlock::pageId));
         Set<BuildingBlockId> buildingBlockIds = pageBuildingBlocksMap.values().stream()
                 .flatMap(Collection::stream)

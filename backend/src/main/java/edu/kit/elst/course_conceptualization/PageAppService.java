@@ -1,8 +1,6 @@
 package edu.kit.elst.course_conceptualization;
 
-import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.CourseId;
-import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
 import lombok.AllArgsConstructor;
@@ -21,7 +19,6 @@ public class PageAppService {
     private final Pages pages;
     private final Courses courses;
     private final PageLinks pageLinks;
-    private final PageBuildingBlocks pageBuildingBlocks;
 
     public PageId createPage(CourseId courseId, TeachingPhaseId teachingPhaseId, String title) {
         Course course = courses.getReferenceById(courseId);
@@ -64,19 +61,6 @@ public class PageAppService {
         pages.deleteById(pageId);
     }
 
-    public PageBuildingBlockId addBuildingBlockToPage(PageId pageId, BuildingBlockId id) {
-        Page page = pages.getReferenceById(pageId);
-
-        PageBuildingBlock buildingBlock = new PageBuildingBlock(page, id);
-        pageBuildingBlocks.save(buildingBlock);
-
-        return buildingBlock.id();
-    }
-
-    public void removeBuildingBlockFromPage(PageBuildingBlockId buildingBlockId) {
-        pageBuildingBlocks.deleteById(buildingBlockId);
-    }
-
     public Collection<Page> pages(CourseId courseId) {
         Course course = courses.getReferenceById(courseId);
 
@@ -87,24 +71,10 @@ public class PageAppService {
         return pages.findById(pageId);
     }
 
-    public Collection<PageBuildingBlock> pageBuildingBlocks(PageId pageId) {
-        Page page = pages.getReferenceById(pageId);
-
-        return pageBuildingBlocks.findAllByPage(page);
-    }
-
-    public Collection<Page> linkedPages(PageId pageId) {
-        return pages.findAllLinkedTo(pageId);
-    }
-
     public Collection<Page> pages(CourseId courseId, Set<TeachingPhaseId> teachingPhaseIds) {
         Course course = courses.getReferenceById(courseId);
 
         return pages.findAllByCourseAndTeachingPhaseIdIn(course, teachingPhaseIds);
-    }
-
-    public Collection<PageBuildingBlock> pageBuildingBlocks(Set<PageId> pageIds) {
-        return pageBuildingBlocks.findAllByPageIdIn(pageIds);
     }
 
     public Collection<Page> pages(Set<PageId> pageIds) {
@@ -121,7 +91,7 @@ public class PageAppService {
         }
     }
 
-    public Optional<PageBuildingBlock> pageBuildingBlock(PageBuildingBlockId pageBuildingBlockId) {
-        return pageBuildingBlocks.findById(pageBuildingBlockId);
+    public Collection<Page> linkedPages(PageId pageId) {
+        return pages.findAllLinkedTo(pageId);
     }
 }

@@ -9,7 +9,7 @@
           type="textarea"
           autogrow
           placeholder="Hier können Hinweise zur Umsetzung des E-Learning Kurses dokumentiert werden."
-          hint="Umsetzungshinweise für Entwickler"
+          hint="Allgemeine Umsetzungshinweise für den Kurs. Für jede Kursseite können eigene Umsetzungshinweise hinterlegt werden."
           input-style="min-height: 100px; max-height: 300px" />
 
         <PrimaryButton

@@ -4,11 +4,8 @@ import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
-import edu.kit.elst.course_conceptualization.PageMockup;
-import edu.kit.elst.course_conceptualization.PageMockupAppService;
-import edu.kit.elst.course_conceptualization.PageAppService;
+import edu.kit.elst.course_conceptualization.*;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
-import edu.kit.elst.course_conceptualization.PageNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +23,7 @@ public class PageController implements PageApi {
     private final PageAppService pageAppService;
     private final PageMockupAppService pageMockupAppService;
     private final BuildingBlockAppService buildingBlockService;
+    private final PageBuildingBlockAppService pageBuildingBlockAppService;
 
     @Override
     public ResponseEntity<UUID> createPage(UUID courseId, CreatePageRequest body) {
@@ -68,7 +66,7 @@ public class PageController implements PageApi {
         edu.kit.elst.course_conceptualization.Page page = pageAppService.page(aPageId)
                 .orElseThrow(() -> new PageNotFoundException(aPageId));
 
-        Collection<PageBuildingBlock> pageBuildingBlocks = pageAppService.pageBuildingBlocks(aPageId);
+        Collection<PageBuildingBlock> pageBuildingBlocks = pageBuildingBlockAppService.pageBuildingBlocks(aPageId);
         Set<BuildingBlockId> buildingBlockIds = pageBuildingBlocks.stream()
                 .map(PageBuildingBlock::buildingBlockId)
                 .collect(Collectors.toSet());
@@ -115,25 +113,6 @@ public class PageController implements PageApi {
     }
 
     @Override
-    public ResponseEntity<UUID> addBuildingBlockToPage(UUID pageId, AddBuildingBlockToPageRequest body) {
-        PageId aPageId = new PageId(pageId);
-        BuildingBlockId buildingBlockId = new BuildingBlockId(body.getBuildingBlockId());
-
-        PageBuildingBlockId pageBuildingBlockId = pageAppService.addBuildingBlockToPage(aPageId, buildingBlockId);
-
-        return ResponseEntity.ok(pageBuildingBlockId.value());
-    }
-
-    @Override
-    public ResponseEntity<UUID> removeBuildingBlockFromPage(UUID pageBuildingBlockId) {
-        PageBuildingBlockId aPageBuildingBlockId = new PageBuildingBlockId(pageBuildingBlockId);
-
-        pageAppService.removeBuildingBlockFromPage(aPageBuildingBlockId);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @Override
     public ResponseEntity<Void> reorderPages(UUID courseId, List<UUID> pageIds) {
         CourseId aCourseId = new CourseId(courseId);
         List<PageId> thePageIds = pageIds.stream()
@@ -143,27 +122,5 @@ public class PageController implements PageApi {
         pageAppService.reorderPages(aCourseId, thePageIds);
 
         return ResponseEntity.ok().build();
-    }
-
-    @Override
-    public ResponseEntity<Void> editBuildingBlockProperties(UUID pageBuildingBlockId, List<EditPageBuildingBlockPropertyValue> editPageBuildingBlockPropertyValue) {
-        PageBuildingBlockId aPageBuildingBlockId = new PageBuildingBlockId(pageBuildingBlockId);
-
-        return PageApi.super.editBuildingBlockProperties(pageBuildingBlockId, editPageBuildingBlockPropertyValue);
-    }
-
-    @Override
-    public ResponseEntity<List<PageBuildingBlockProperty>> getBuildingBlockProperties(UUID pageBuildingBlockId) {
-        PageBuildingBlockId aPageBuildingBlockId = new PageBuildingBlockId(pageBuildingBlockId);
-
-        PageBuildingBlock pageBuildingBlock = pageAppService.pageBuildingBlock(aPageBuildingBlockId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        BuildingBlock buildingBlock = buildingBlockService.buildingBlock(pageBuildingBlock.buildingBlockId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        return ResponseEntity.ok(buildingBlock.properties().stream()
-                .map(CourseMapper::mapToPageBuildingBlockProperty)
-                .toList());
     }
 }
