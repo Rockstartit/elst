@@ -15,6 +15,7 @@
       <OCourseStructure
         v-model="courseTeachingUnits"
         :course-id="courseId"
+        :lesson-id="lessonId"
         :technology-wish="course.technologyWish" />
     </div>
 
@@ -22,7 +23,7 @@
       <TheBreadcrumbs>
         <q-breadcrumbs-el
           class="cursor-pointer"
-          :to="{ name: availableRoutes.view_lesson, params: { lessonId } }">
+          :to="viewLessonRoute(lessonId)">
           {{ lesson?.topic }}
         </q-breadcrumbs-el>
         <q-breadcrumbs-el class="text-black"> Kurse </q-breadcrumbs-el>
@@ -53,9 +54,11 @@ import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
 import { availableRoutes } from 'src/router/routes';
 import OCourseNotes from 'src/courses/view-course/OCourseNotes.vue';
 import OCourseStructure from 'src/courses/view-course/OCourseStructure.vue';
+import { useAppRouter } from 'src/router/useAppRouter';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
+const { viewLessonRoute } = useAppRouter();
 
 const props = defineProps<{
   lessonId: string;

@@ -9,6 +9,24 @@
       no-selection-unset
       no-nodes-label="Im Unterricht wurde kein Unterrichtsverlaufsplan erstellt. Erstelle mindestens eine Unterrichtsphase, um den Kurs weiterplanen zu können."
       @update:selected="$emit('select-page', $event)">
+      <template #header-teaching-unit="{ node }">
+        <q-item dense class="full-width">
+          <q-item-section>
+            <q-item-label>
+              {{ node.label }}
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <TertiaryButton
+              icon="mdi-open-in-new"
+              tooltip="Unterrichtseinheit anzeigen"
+              dense
+              flat
+              :to="viewTeachingUnitRoute(lessonId, node.value)"
+              @click.stop />
+          </q-item-section>
+        </q-item>
+      </template>
       <template #header-phase="{ node }">
         <div class="col q-mt-md">
           <div class="row">
@@ -32,12 +50,60 @@
       </template>
       <template #body-phase="{ node }">
         <q-item-label
-          class="preserve-line-breaks text-grey-10 q-my-md"
+          class="preserve-line-breaks text-grey-10 q-mt-md"
           style="max-width: 90ch">
           {{ node.label }}
         </q-item-label>
 
-        <div style="max-width: 500px">
+        <q-chip
+          v-if="node.learningMaterials.length > 0"
+          rounded
+          outline
+          color="indigo"
+          size="12px"
+          class="cursor-pointer q-mt-md">
+          <div class="row items-center" style="gap: 0.3rem">
+            <q-icon name="mdi-file-outline" />
+
+            <span class="text-weight-medium">
+              {{
+                node.learningMaterials.length > 0
+                  ? node.learningMaterials.length
+                  : 'Keine'
+              }}
+            </span>
+
+            <span> Lernmaterialien verfügbar </span>
+
+            <q-icon
+              v-if="node.learningMaterials.length > 0"
+              name="mdi-chevron-down"
+              size="1rem"
+              class="" />
+          </div>
+
+          <q-menu>
+            <q-list>
+              <MLearningMaterial
+                v-for="learningMaterial in node.learningMaterials"
+                :key="learningMaterial.id"
+                :learning-material="learningMaterial">
+                <template #after>
+                  <q-item-section side>
+                    <PrimaryButton
+                      icon="mdi-download-outline"
+                      text-color="primary"
+                      dense
+                      flat
+                      @click="downloadFile(learningMaterial.fileId)" />
+                  </q-item-section>
+                </template>
+              </MLearningMaterial>
+            </q-list>
+          </q-menu>
+        </q-chip>
+
+        <div style="max-width: 500px" class="q-mt-md">
           <Sortable
             :list="node.pages"
             item-key="id"
@@ -124,13 +190,20 @@ import { withLoadingArray } from 'src/core/useWithLoading';
 import { pageApi } from 'src/services/course_conceptualization';
 import { useNotifications } from 'src/core/useNotifications';
 import { useQuasar } from 'quasar';
+import MLearningMaterial from 'src/lessons/view-teaching-unit/MLearningMaterial.vue';
+import PrimaryButton from 'src/core/PrimaryButton.vue';
+import { useContentDownload } from 'src/core/useContentDownload';
+import { useAppRouter } from 'src/router/useAppRouter';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
+const { downloadFile } = useContentDownload();
 const { togglePageDiscussionDrawer } = useDiscussionDrawer();
+const { viewTeachingUnitRoute } = useAppRouter();
 
 const props = defineProps<{
   courseId: string;
+  lessonId: string;
   selectedPageId?: string;
 }>();
 
@@ -151,6 +224,7 @@ const teachingUnitTree = computed(() =>
       label: teachingUnit.topic,
       value: teachingUnit.id,
       selectable: false,
+      header: 'teaching-unit',
       children: teachingUnit.teachingPhases.map((teachingPhase) => {
         return {
           label: teachingPhase.topic,
@@ -158,6 +232,7 @@ const teachingUnitTree = computed(() =>
           phase: teachingPhase.phase,
           timeFrame: teachingPhase.timeFrame,
           pages: teachingPhase.pages,
+          learningMaterials: teachingPhase.learningMaterials,
           selectable: false,
           body: 'phase',
           header: 'phase',

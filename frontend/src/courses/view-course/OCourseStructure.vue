@@ -13,6 +13,7 @@
             <OCourseStructureTree
               v-model="courseTeachingUnits"
               :course-id="courseId"
+              :lesson-id="lessonId"
               :selected-page-id="selectedPageId"
               @select-page="selectPage" />
           </q-scroll-area>
@@ -40,6 +41,7 @@ import OPage from 'src/courses/view-course/OPage.vue';
 
 defineProps<{
   courseId: string;
+  lessonId: string;
   technologyWish: string;
 }>();
 

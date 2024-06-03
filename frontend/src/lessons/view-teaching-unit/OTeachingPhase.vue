@@ -44,7 +44,8 @@
       <MLearningMaterial
         v-for="learningMaterial in teachingPhase.learningMaterials"
         :key="learningMaterial.id"
-        :learning-material="learningMaterial">
+        :learning-material="learningMaterial"
+        class="bg-grey-1 elst__rounded elst__bordered">
         <template #after>
           <q-item-section side>
             <div class="row" style="gap: 0.75rem">

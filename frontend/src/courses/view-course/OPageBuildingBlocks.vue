@@ -6,9 +6,10 @@
       <PrimaryButton
         label="Baustein hinzufügen"
         icon="mdi-plus"
+        class="text-caption"
         @click="openSelectBuildingBlockDialog(pageId)" />
     </div>
-    <div class="row">
+    <div class="row q-mt-md">
       <div class="col">
         <OPageBuildingBlockList
           :building-blocks="pageBuildingBlocks"
