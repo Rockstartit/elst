@@ -51,7 +51,6 @@ import { useQuasar } from 'quasar';
 import { useNotifications } from 'src/core/useNotifications';
 import { isRequired, stringPromptDialog } from 'src/core/useBaseDialog';
 import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
-import { availableRoutes } from 'src/router/routes';
 import OCourseNotes from 'src/courses/view-course/OCourseNotes.vue';
 import OCourseStructure from 'src/courses/view-course/OCourseStructure.vue';
 import { useAppRouter } from 'src/router/useAppRouter';

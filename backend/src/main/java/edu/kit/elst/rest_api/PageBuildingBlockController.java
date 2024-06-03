@@ -74,4 +74,16 @@ public class PageBuildingBlockController implements PageBuildingBlockApi {
 
         return ResponseEntity.ok().build();
     }
+
+    @Override
+    public ResponseEntity<Void> reorderPageBuildingBlocks(UUID pageId, List<UUID> pageBuildingBlockIds) {
+        PageId aPageId = new PageId(pageId);
+        List<PageBuildingBlockId> thePageBuildingBlockIds = pageBuildingBlockIds.stream()
+                .map(PageBuildingBlockId::new)
+                .toList();
+
+        pageBuildingBlockAppService.reorderPageBuildingBlocks(aPageId, thePageBuildingBlockIds);
+
+        return ResponseEntity.ok().build();
+    }
 }

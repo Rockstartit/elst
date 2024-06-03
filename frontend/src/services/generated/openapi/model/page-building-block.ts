@@ -53,6 +53,12 @@ export interface PageBuildingBlock {
      * @memberof PageBuildingBlock
      */
     'releaseStatus': ReleaseStatus;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageBuildingBlock
+     */
+    'order': number;
 }
 
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -22,8 +22,11 @@ public class PageBuildingBlockAppService {
 
     public PageBuildingBlockId addBuildingBlockToPage(PageId pageId, BuildingBlockId id) {
         Page page = pages.getReferenceById(pageId);
+        Long maxOrder = pageBuildingBlocks.maxOrderByPage(page);
+        long order = maxOrder != null ? maxOrder + 1 : 0;
 
         PageBuildingBlock buildingBlock = new PageBuildingBlock(page, id);
+        buildingBlock.order(order);
         pageBuildingBlocks.save(buildingBlock);
 
         return buildingBlock.id();
@@ -58,5 +61,15 @@ public class PageBuildingBlockAppService {
 
     public Collection<PageBuildingBlockPropertyValue> buildingBlockPropertyValues(PageBuildingBlockId pageBuildingBlockId) {
         return pageBuildingBlockPropertyValues.findAllByPageBuildingBlockId(pageBuildingBlockId);
+    }
+
+    public void reorderPageBuildingBlocks(PageId pageId, List<PageBuildingBlockId> pageBuildingBlockIds) {
+        Page page = pages.getReferenceById(pageId);
+
+        Collection<PageBuildingBlock> buildingBlocks = pageBuildingBlocks.findAllByPage(page);
+
+        for (PageBuildingBlock pageBuildingBlock : buildingBlocks) {
+            pageBuildingBlock.order(pageBuildingBlockIds.indexOf(pageBuildingBlock.id()));
+        }
     }
 }

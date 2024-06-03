@@ -2,6 +2,7 @@ package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import edu.kit.elst.core.shared.PageId;
+import edu.kit.elst.lesson_planning.Lesson;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -22,4 +23,9 @@ interface PageBuildingBlocks extends CrudRepository<PageBuildingBlock, PageBuild
             "join fetch pageBuildingBlock.page " +
             "where pageBuildingBlock.page.id in :pageIds")
     Collection<PageBuildingBlock> findAllByPageIdIn(Set<PageId> pageIds);
+
+    @Query("select max(pageBuildingBlock.order) from PageBuildingBlock pageBuildingBlock " +
+            "where pageBuildingBlock.page = :page " +
+            "group by pageBuildingBlock.page.id ")
+    Long maxOrderByPage(Page page);
 }

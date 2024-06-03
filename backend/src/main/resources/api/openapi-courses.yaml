@@ -380,6 +380,32 @@ paths:
           description: Not Found
         401:
           description: Not Authenticated
+  /pages/{pageId}/page-building-blocks/order:
+    post:
+      tags:
+        - Page Building Block
+      summary: Reorder page building blocks
+      operationId: reorderPageBuildingBlocks
+      parameters:
+        - name: pageId
+          in: path
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './openapi-lessons.yaml#/components/schemas/ReorderRequest'
+        required: true
+      responses:
+        200:
+          description: Ok
+        400:
+          description: Invalid Request
+        401:
+          description: Not Authenticated
   /page-building-blocks/{pageBuildingBlockId}:
     delete:
       tags:
@@ -755,6 +781,7 @@ components:
         - buildingBlockId
         - name
         - releaseStatus
+        - order
       properties:
         pageBuildingBlockId:
           $ref: "#/components/schemas/EntityId"
@@ -766,6 +793,8 @@ components:
           type: string
         releaseStatus:
           $ref: "#/components/schemas/ReleaseStatus"
+        order:
+          type: number
     EditBuildingBlockPropertyValueRequest:
       type: object
       required:

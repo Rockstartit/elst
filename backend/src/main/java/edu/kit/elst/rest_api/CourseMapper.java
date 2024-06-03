@@ -89,6 +89,7 @@ public class CourseMapper {
         dto.setName(buildingBlock.details().name());
         dto.setDescription(buildingBlock.details().description());
         dto.setReleaseStatus(buildingBlock.releaseStatus());
+        dto.setOrder(UtilMapper.mapToBigDecimal(pageBuildingBlock.order()));
 
         return dto;
     }

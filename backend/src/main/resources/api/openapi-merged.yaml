@@ -79,6 +79,8 @@ paths:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}~1readme"
   /pages/{pageId}:
     $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}"
+  /pages/{pageId}/page-building-blocks/order:
+    $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}~1page-building-blocks~1order"
   /building-blocks/{buildingBlockId}:
     $ref: "./openapi-building-blocks.yaml#/paths/~1building-blocks~1{buildingBlockId}"
   /lessons/{lessonId}:

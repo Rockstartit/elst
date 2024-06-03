@@ -1,5 +1,6 @@
 <template>
   <q-item v-bind="$props" class="bg-grey-1 elst__rounded elst__bordered">
+    <slot name="before" />
     <q-item-section avatar>
       <q-icon
         :name="

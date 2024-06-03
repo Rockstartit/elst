@@ -19,6 +19,9 @@ public class PageBuildingBlock {
 
     private BuildingBlockId buildingBlockId;
 
+    @Column(name = "order_index")
+    private long order;
+
     @Getter(AccessLevel.NONE)
     @JoinColumn(name = "page_id")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -31,6 +34,11 @@ public class PageBuildingBlock {
         this.id = PageBuildingBlocks.nextIdentity();
         this.buildingBlockId = buildingBlockId;
         this.page = page;
+        this.order = 0;
+    }
+
+    public void order(long order) {
+        this.order = order;
     }
 
     public PageId pageId() {
