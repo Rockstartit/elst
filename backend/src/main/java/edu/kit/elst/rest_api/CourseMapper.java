@@ -64,6 +64,7 @@ public class CourseMapper {
 
         dto.setId(page.id().value());
         dto.setTitle(page.title());
+        dto.setImplementationStatus(page.implementationStatus());
         dto.setOrder(UtilMapper.mapToBigDecimal(page.order()));
         dto.setTeachingPhaseId(page.teachingPhaseId().value());
         dto.setMockups(mockups.stream()
@@ -116,6 +117,7 @@ public class CourseMapper {
         dto.setId(page.id().value());
         dto.setTitle(page.title());
         dto.setTeachingPhaseId(page.teachingPhaseId().value());
+        dto.setImplementationStatus(page.implementationStatus());
         dto.setOrder(UtilMapper.mapToBigDecimal(page.order()));
 
         return dto;

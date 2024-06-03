@@ -46,6 +46,13 @@ public class PageAppService {
         page.notes(notes);
     }
 
+    public void editPageImplementationStatus(PageId pageId, ImplementationStatus status) {
+        Page page = pages.findById(pageId)
+                .orElseThrow(() -> new PageNotFoundException(pageId));
+
+        page.implementationStatus(status);
+    }
+
     public void linkPages(PageId pageId, PageId targetPageId) {
         PageLink pageLink = new PageLink(pageId, targetPageId);
 

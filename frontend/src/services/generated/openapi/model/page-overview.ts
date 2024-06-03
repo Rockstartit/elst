@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { ImplementationStatus } from './implementation-status';
 
 /**
  * 
@@ -40,9 +43,17 @@ export interface PageOverview {
     'title': string;
     /**
      * 
+     * @type {ImplementationStatus}
+     * @memberof PageOverview
+     */
+    'implementationStatus': ImplementationStatus;
+    /**
+     * 
      * @type {number}
      * @memberof PageOverview
      */
     'order': number;
 }
+
+
 

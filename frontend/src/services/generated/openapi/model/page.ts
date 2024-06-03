@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { ImplementationStatus } from './implementation-status';
+// May contain unused imports in some cases
+// @ts-ignore
 import { Mockup } from './mockup';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -55,6 +58,12 @@ export interface Page {
     'notes'?: string;
     /**
      * 
+     * @type {ImplementationStatus}
+     * @memberof Page
+     */
+    'implementationStatus': ImplementationStatus;
+    /**
+     * 
      * @type {Array<PageBuildingBlock>}
      * @memberof Page
      */
@@ -78,4 +87,6 @@ export interface Page {
      */
     'order': number;
 }
+
+
 

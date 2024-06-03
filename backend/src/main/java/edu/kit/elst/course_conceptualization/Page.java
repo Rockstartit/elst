@@ -30,6 +30,9 @@ public class Page {
 
     private String notes;
 
+    @Enumerated(EnumType.ORDINAL)
+    private ImplementationStatus implementationStatus;
+
     @Column(name = "order_index")
     private long order;
 
@@ -43,6 +46,13 @@ public class Page {
         this.teachingPhaseId = teachingPhaseId;
         this.title = title;
         this.notes = null;
+        this.implementationStatus = ImplementationStatus.NOT_STARTED;
         this.order = 0;
+    }
+
+    public void implementationStatus(ImplementationStatus implementationStatus) {
+        Guards.notNull(implementationStatus, "implementationStatus");
+
+        this.implementationStatus = implementationStatus;
     }
 }

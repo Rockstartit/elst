@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { ImplementationStatus } from './implementation-status';
 
 /**
  * 
@@ -32,5 +35,13 @@ export interface EditPageRequest {
      * @memberof EditPageRequest
      */
     'notes'?: string;
+    /**
+     * 
+     * @type {ImplementationStatus}
+     * @memberof EditPageRequest
+     */
+    'implementationStatus'?: ImplementationStatus;
 }
+
+
 

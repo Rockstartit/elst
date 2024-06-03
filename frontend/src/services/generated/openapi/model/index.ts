@@ -32,6 +32,7 @@ export * from './edit-page-request';
 export * from './edit-read-me-request';
 export * from './edit-teaching-phase-request';
 export * from './edit-teaching-unit-request';
+export * from './implementation-status';
 export * from './instructional-parameters';
 export * from './learning-cycle-phase';
 export * from './learning-material';

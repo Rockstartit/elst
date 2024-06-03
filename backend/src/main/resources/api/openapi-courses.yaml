@@ -651,6 +651,15 @@ components:
           type: string
         notes:
           type: string
+        implementationStatus:
+          $ref: "#/components/schemas/ImplementationStatus"
+    ImplementationStatus:
+      type: string
+      enum:
+        - NOT_STARTED
+        - STARTED
+        - WAITING_FOR_FEEDBACK
+        - COMPLETED
     LinkPagesRequest:
       type: object
       required:
@@ -667,6 +676,7 @@ components:
         - id
         - teachingPhaseId
         - title
+        - implementationStatus
         - order
       properties:
         id:
@@ -675,6 +685,8 @@ components:
           $ref: "#/components/schemas/EntityId"
         title:
           type: string
+        implementationStatus:
+          $ref: "#/components/schemas/ImplementationStatus"
         order:
           type: number
           example: 0
@@ -686,6 +698,7 @@ components:
         - teachingPhaseId
         - buildingBlocks
         - linkedPages
+        - implementationStatus
         - mockups
         - order
       properties:
@@ -697,6 +710,8 @@ components:
           type: string
         notes:
           type: string
+        implementationStatus:
+          $ref: "#/components/schemas/ImplementationStatus"
         buildingBlocks:
           type: array
           items:

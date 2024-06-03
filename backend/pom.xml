@@ -184,6 +184,7 @@
                                 <importMapping>LearningCyclePhase=edu.kit.elst.lesson_planning.LearningCyclePhase</importMapping>
                                 <importMapping>DiscussionState=edu.kit.elst.collaboration.DiscussionState</importMapping>
                                 <importMapping>BuildingBlockPropertyType=edu.kit.elst.building_blocks.BuildingBlockPropertyType</importMapping>
+                                <importMapping>ImplementationStatus=edu.kit.elst.course_conceptualization.ImplementationStatus</importMapping>
                             </importMappings>
                             <skipValidateSpec>false</skipValidateSpec>
                             <mergedFileName>openapi-merged</mergedFileName>

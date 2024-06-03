@@ -54,6 +54,7 @@ model/edit-page-request.ts
 model/edit-read-me-request.ts
 model/edit-teaching-phase-request.ts
 model/edit-teaching-unit-request.ts
+model/implementation-status.ts
 model/index.ts
 model/instructional-parameters.ts
 model/learning-cycle-phase.ts

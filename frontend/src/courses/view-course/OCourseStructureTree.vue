@@ -48,8 +48,9 @@
             @update="onPagesReorder(node.value, $event)">
             <template #item="{ element }">
               <MPageItem
-                :title="element.title"
+                :page="element"
                 :active="selectedPageId === element.id"
+                @edit-status="editPageImplementationStatus(element, $event)"
                 @click="$emit('select-page', element.id)">
                 <template #actions>
                   <div class="row">
@@ -108,7 +109,11 @@ import MPageItem from 'src/courses/view-course/MPageItem.vue';
 import TertiaryButton from 'src/core/TertiaryButton.vue';
 import SecondaryButton from 'src/core/SecondaryButton.vue';
 import { computed, ref } from 'vue';
-import { CourseTeachingUnit } from 'src/services/generated/openapi';
+import {
+  CourseTeachingUnit,
+  ImplementationStatus,
+  Page,
+} from 'src/services/generated/openapi';
 import { useDiscussionDrawer } from 'src/discussions/useDiscussionDrawer';
 import {
   confirmDialog,
@@ -201,6 +206,7 @@ function openCreatePageDialog(teachingPhaseId: string) {
                 buildingBlocks: [],
                 mockups: [],
                 order: maxOrder + 1,
+                implementationStatus: ImplementationStatus.NotStarted,
               });
 
               emit('select-page', pageId);
@@ -283,5 +289,23 @@ function onPagesReorder(
         teachingPhase.pages.sort((a, b) => a.order - b.order);
       });
   }
+}
+
+function editPageImplementationStatus(
+  page: Page,
+  status: ImplementationStatus
+) {
+  pageApi
+    .editPage(page.id, {
+      implementationStatus: status,
+    })
+    .then(() => {
+      page.implementationStatus = status;
+
+      notifications.saved();
+    })
+    .catch((err) => {
+      notifications.apiError(err);
+    });
 }
 </script>

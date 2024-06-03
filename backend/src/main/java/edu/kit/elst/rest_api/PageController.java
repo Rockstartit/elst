@@ -47,6 +47,10 @@ public class PageController implements PageApi {
             pageAppService.editPageNotes(aPageId, body.getNotes());
         }
 
+        if (body.getImplementationStatus() != null) {
+            pageAppService.editPageImplementationStatus(aPageId, body.getImplementationStatus());
+        }
+
         return ResponseEntity.ok().build();
     }
 
