@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-grey-2 elst__rounded overflow-hidden">
+  <div class="bg-white elst__rounded overflow-hidden shadow-1">
     <q-item class="bg-grey-3">
       <slot name="before" />
 
@@ -12,6 +12,13 @@
           style="width: 150px">
           {{ learningCyclePhaseLabel(teachingPhase.phase) }}
         </q-badge>
+
+        <q-item-label caption class="q-mt-xs">
+          Lehrerpräsenz:
+          <span class="text-caption text-weight-medium">
+            {{ getTeacherPresenceLabel(teachingPhase.teacherPresence) }}
+          </span>
+        </q-item-label>
 
         <q-item-label caption class="q-mt-xs">
           Geplante Dauer:
@@ -105,11 +112,13 @@ import { useNotifications } from 'src/core/useNotifications';
 import { ref } from 'vue';
 import { withLoadingArray } from 'src/core/useWithLoading';
 import { useContentDownload } from 'src/core/useContentDownload';
+import { useTeacherPresence } from 'src/lessons/view-teaching-unit/useTeacherPresence';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
 const authStore = useAuthenticationStore();
 const { downloadFile } = useContentDownload();
+const { getTeacherPresenceLabel } = useTeacherPresence();
 
 const teachingPhase = defineModel<TeachingPhase>({ required: true });
 

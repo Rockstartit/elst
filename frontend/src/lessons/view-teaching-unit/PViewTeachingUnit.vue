@@ -27,6 +27,7 @@
 
                 <BaseInput
                   v-model="teachingUnit.acquiredCompetences"
+                  label="Erlernte Kompetenzen"
                   type="textarea"
                   autogrow
                   input-style="max-height: 300px" />
@@ -55,7 +56,7 @@
                 <div class="row">
                   <PrimaryButton
                     label="Speichern"
-                    :loading="performingEdit"
+                    :loading="performingEditTeachingUnit"
                     class="elst__base-button-width"
                     type="submit" />
                 </div>
@@ -94,6 +95,7 @@
                           dense
                           flat
                           text-color="grey-10"
+                          :loading="performingEditTeachingPhase"
                           @click="openEditTeachingPhaseDialog(element)" />
 
                         <TertiaryButton
@@ -103,6 +105,7 @@
                           text-color="grey-10"
                           hover-color="red-1"
                           hover-text-color="red-10"
+                          :loading="performingDeleteTeachingPhase"
                           @click="openDeleteTeachingPhaseDialog(element)" />
                       </div>
                     </q-item-section>
@@ -136,7 +139,7 @@
               label="Löschen"
               hover-color="red-1"
               hover-text-color="red-10"
-              :loading="performingDelete"
+              :loading="performingDeleteTeachingUnit"
               class="elst__base-button-width"
               @click="openDeleteLessonDialog" />
           </q-card-section>
@@ -214,9 +217,11 @@ const loading = ref(false);
 
 const lesson = ref<Lesson>();
 const teachingUnit = ref<TeachingUnit>();
-const performingEdit = ref(false);
-const performingDelete = ref(false);
+const performingEditTeachingUnit = ref(false);
+const performingDeleteTeachingUnit = ref(false);
 const performingCreateTeachingPhase = ref(false);
+const performingEditTeachingPhase = ref(false);
+const performingDeleteTeachingPhase = ref(false);
 
 const sortedTeachingPhases = computed(() => {
   if (!teachingUnit.value) {
@@ -293,7 +298,7 @@ function editTeachingUnit() {
         .catch((err) => {
           notifications.apiError(err);
         }),
-      performingEdit
+      performingEditTeachingUnit
     );
   }
 }
@@ -311,7 +316,7 @@ function openDeleteLessonDialog() {
         .catch((err) => {
           notifications.apiError(err);
         }),
-      performingDelete
+      performingDeleteTeachingUnit
     );
   });
 }
@@ -326,6 +331,7 @@ function openCreateTeachingPhaseDialog() {
             topic: result.topic,
             phase: result.phase,
             timeFrame: result.timeFrame,
+            teacherPresence: result.teacherPresence,
           })
           .then((response) => {
             if (teachingUnit.value) {
@@ -340,6 +346,7 @@ function openCreateTeachingPhaseDialog() {
                 topic: result.topic,
                 phase: result.phase,
                 timeFrame: result.timeFrame,
+                teacherPresence: result.teacherPresence,
                 learningMaterials: [],
                 order: maxOrder + 1,
               });
@@ -369,18 +376,20 @@ function openEditTeachingPhaseDialog(teachingPhase: TeachingPhase) {
             topic: result.topic,
             phase: result.phase,
             timeFrame: result.timeFrame,
+            teacherPresence: result.teacherPresence,
           })
           .then(() => {
             teachingPhase.topic = result.topic;
             teachingPhase.timeFrame = result.timeFrame;
             teachingPhase.phase = result.phase;
+            teachingPhase.teacherPresence = result.teacherPresence;
 
             notifications.saved();
           })
           .catch((err) => {
             notifications.apiError(err);
           }),
-        performingCreateTeachingPhase
+        performingEditTeachingPhase
       );
     });
 }
@@ -405,7 +414,7 @@ function openDeleteTeachingPhaseDialog(teachingPhase: TeachingPhase) {
         .catch((err) => {
           notifications.apiError(err);
         }),
-      performingDelete
+      performingDeleteTeachingPhase
     );
   });
 }

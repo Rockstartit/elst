@@ -19,6 +19,9 @@ import { LearningCyclePhase } from './learning-cycle-phase';
 // May contain unused imports in some cases
 // @ts-ignore
 import { LearningMaterial } from './learning-material';
+// May contain unused imports in some cases
+// @ts-ignore
+import { TeacherPresence } from './teacher-presence';
 
 /**
  * 
@@ -56,6 +59,12 @@ export interface TeachingPhase {
      * @memberof TeachingPhase
      */
     'learningMaterials': Array<LearningMaterial>;
+    /**
+     * 
+     * @type {TeacherPresence}
+     * @memberof TeachingPhase
+     */
+    'teacherPresence'?: TeacherPresence;
     /**
      * 
      * @type {number}

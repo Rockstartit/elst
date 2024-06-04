@@ -43,6 +43,16 @@
                   :rules="[isGreaterThanOrEqual(0)]" />
               </div>
             </div>
+
+            <div class="row">
+              <div class="col">
+                <BaseSelect
+                  v-model="teacherPresence"
+                  label="Lehrerpräsenz"
+                  :options="teacherPresenceOptions"
+                  :rules="[isRequired]" />
+              </div>
+            </div>
           </div>
         </q-card-section>
 
@@ -81,10 +91,15 @@ import {
 } from 'src/lessons/view-teaching-unit/useTeachingPhaseDialog';
 import BaseInput from 'src/core/BaseInput.vue';
 import { useRules } from 'src/core/useRules';
-import { LearningCyclePhase } from 'src/services/generated/openapi';
+import {
+  LearningCyclePhase,
+  TeacherPresence,
+} from 'src/services/generated/openapi';
 import BaseSelect from 'src/core/BaseSelect.vue';
 import { learningCyclePhaseLabel } from 'src/lessons/view-teaching-unit/useTeachingPhase';
+import { useTeacherPresence } from 'src/lessons/view-teaching-unit/useTeacherPresence';
 
+const { getTeacherPresenceLabel } = useTeacherPresence();
 const { isRequired, isGreaterThanOrEqual } = useRules();
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
   useDialogPluginComponent();
@@ -97,6 +112,24 @@ const editMode = computed(() => props.teachingPhase !== undefined);
 
 const topic = ref(props.teachingPhase?.topic ?? '');
 const timeFrame = ref(props.teachingPhase?.timeFrame?.toString() ?? '');
+
+const teacherPresenceOptions: { label: string; value: TeacherPresence }[] = [
+  {
+    label: getTeacherPresenceLabel(TeacherPresence.Absent),
+    value: TeacherPresence.Absent,
+  },
+  {
+    label: getTeacherPresenceLabel(TeacherPresence.Remote),
+    value: TeacherPresence.Remote,
+  },
+  {
+    label: getTeacherPresenceLabel(TeacherPresence.OnSite),
+    value: TeacherPresence.OnSite,
+  },
+];
+const teacherPresence = ref(
+  props.teachingPhase?.teacherPresence ?? TeacherPresence.Absent
+);
 
 const phaseOptions: { label: string; value: LearningCyclePhase }[] = [
   {
@@ -133,6 +166,7 @@ function submit() {
     topic: topic.value,
     timeFrame: timeFrame.value ? Number.parseInt(timeFrame.value) : undefined,
     phase: phase.value,
+    teacherPresence: teacherPresence.value,
   };
 
   onDialogOK(result);

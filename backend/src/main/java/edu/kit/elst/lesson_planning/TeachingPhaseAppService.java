@@ -37,12 +37,13 @@ public class TeachingPhaseAppService {
         teachingPhase.topic(topic);
     }
 
-    public void editTeachingPhase(TeachingPhaseId teachingPhaseId, Duration timeFrame, LearningCyclePhase phase) {
+    public void editTeachingPhase(TeachingPhaseId teachingPhaseId, Duration timeFrame, LearningCyclePhase phase, TeacherPresence teacherPresence) {
         TeachingPhase teachingPhase = teachingPhase(teachingPhaseId)
                 .orElseThrow(() -> new TeachingPhaseNotFoundException(teachingPhaseId));
 
         teachingPhase.timeFrame(timeFrame);
         teachingPhase.phase(phase);
+        teachingPhase.teacherPresence(teacherPresence);
     }
 
     public void deleteTeachingPhase(TeachingPhaseId teachingPhaseId) {

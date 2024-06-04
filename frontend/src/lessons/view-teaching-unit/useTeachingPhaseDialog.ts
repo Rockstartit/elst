@@ -2,6 +2,7 @@ import { QDialogOptions } from 'quasar';
 import CreateOrEditTeachingPhaseDialog from 'src/lessons/view-teaching-unit/CreateOrEditTeachingPhaseDialog.vue';
 import {
   LearningCyclePhase,
+  TeacherPresence,
   TeachingPhase,
 } from 'src/services/generated/openapi';
 
@@ -13,6 +14,7 @@ export interface CreateOrEditTeachingPhaseDialogResult {
   topic: string;
   timeFrame?: number;
   phase?: LearningCyclePhase;
+  teacherPresence?: TeacherPresence;
 }
 
 export function createTeachingPhaseDialog(): QDialogOptions {

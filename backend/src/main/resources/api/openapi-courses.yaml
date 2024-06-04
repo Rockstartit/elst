@@ -606,6 +606,8 @@ components:
           example: 240
         phase:
           $ref: './openapi-lessons.yaml#/components/schemas/LearningCyclePhase'
+        teacherPresence:
+          $ref: './openapi-lessons.yaml#/components/schemas/TeacherPresence'
         learningMaterials:
           type: array
           items:

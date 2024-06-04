@@ -145,6 +145,7 @@ public class TeachingUnitController implements TeachingUnitApi {
         dto.setOrder(UtilMapper.mapToBigDecimal(teachingPhase.order()));
         dto.setTopic(teachingPhase.topic().value());
 
+        teachingPhase.teacherPresence().ifPresent(dto::setTeacherPresence);
         teachingPhase.timeFrame().map(UtilMapper::mapToBigDecimal).ifPresent(dto::setTimeFrame);
         teachingPhase.phase().ifPresent(dto::setPhase);
 

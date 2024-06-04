@@ -29,7 +29,11 @@ public class TeachingPhase {
 
     private Duration timeFrame;
 
+    @Enumerated(EnumType.ORDINAL)
     private LearningCyclePhase phase;
+
+    @Enumerated(EnumType.ORDINAL)
+    private TeacherPresence teacherPresence;
 
     @Column(name = "order_index")
     private long order;
@@ -56,6 +60,10 @@ public class TeachingPhase {
 
     public Optional<LearningCyclePhase> phase() {
         return Optional.ofNullable(phase);
+    }
+
+    public Optional<TeacherPresence> teacherPresence() {
+        return Optional.ofNullable(teacherPresence);
     }
 
     public TeachingUnitId teachingUnitId() {

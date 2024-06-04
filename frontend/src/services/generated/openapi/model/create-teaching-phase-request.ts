@@ -16,6 +16,9 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import { LearningCyclePhase } from './learning-cycle-phase';
+// May contain unused imports in some cases
+// @ts-ignore
+import { TeacherPresence } from './teacher-presence';
 
 /**
  * 
@@ -29,6 +32,12 @@ export interface CreateTeachingPhaseRequest {
      * @memberof CreateTeachingPhaseRequest
      */
     'topic': string;
+    /**
+     * 
+     * @type {TeacherPresence}
+     * @memberof CreateTeachingPhaseRequest
+     */
+    'teacherPresence'?: TeacherPresence;
     /**
      * 
      * @type {number}

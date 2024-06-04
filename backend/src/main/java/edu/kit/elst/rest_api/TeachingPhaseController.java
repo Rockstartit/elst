@@ -28,7 +28,7 @@ public class TeachingPhaseController implements TeachingPhaseApi {
         if (body.getPhase() != null || body.getTimeFrame() != null) {
             Duration timeFrame = Optional.ofNullable(body.getTimeFrame()).map(UtilMapper::mapToDuration).orElse(null);
 
-            teachingPhaseAppService.editTeachingPhase(teachingPhaseId, timeFrame, body.getPhase());
+            teachingPhaseAppService.editTeachingPhase(teachingPhaseId, timeFrame, body.getPhase(), body.getTeacherPresence());
         }
 
         return ResponseEntity.ok(teachingPhaseId.value());
@@ -56,7 +56,7 @@ public class TeachingPhaseController implements TeachingPhaseApi {
         if (body.getPhase() != null || body.getTimeFrame() != null) {
             Duration timeFrame = Optional.ofNullable(body.getTimeFrame()).map(UtilMapper::mapToDuration).orElse(null);
 
-            teachingPhaseAppService.editTeachingPhase(aTeachingPhaseId, timeFrame, body.getPhase());
+            teachingPhaseAppService.editTeachingPhase(aTeachingPhaseId, timeFrame, body.getPhase(), body.getTeacherPresence());
         }
 
         return ResponseEntity.ok().build();

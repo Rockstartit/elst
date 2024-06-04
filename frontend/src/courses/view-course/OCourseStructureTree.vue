@@ -28,7 +28,7 @@
         </q-item>
       </template>
       <template #header-phase="{ node }">
-        <div class="col q-mt-md">
+        <div class="col">
           <div class="row">
             <q-badge
               v-if="node.phase"
@@ -39,6 +39,13 @@
               {{ learningCyclePhaseLabel(node.phase) }}
             </q-badge>
           </div>
+
+          <q-item-label caption class="text-body2 q-mt-sm">
+            Lehrerpräsenz:
+            <span class="text-weight-medium">
+              {{ getTeacherPresenceLabel(node.teacherPresence) }}
+            </span>
+          </q-item-label>
 
           <q-item-label caption class="text-body2 q-mt-sm">
             Geplante Dauer:
@@ -194,12 +201,14 @@ import MLearningMaterial from 'src/lessons/view-teaching-unit/MLearningMaterial.
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import { useContentDownload } from 'src/core/useContentDownload';
 import { useAppRouter } from 'src/router/useAppRouter';
+import { useTeacherPresence } from 'src/lessons/view-teaching-unit/useTeacherPresence';
 
 const quasar = useQuasar();
 const notifications = useNotifications();
 const { downloadFile } = useContentDownload();
 const { togglePageDiscussionDrawer } = useDiscussionDrawer();
 const { viewTeachingUnitRoute } = useAppRouter();
+const { getTeacherPresenceLabel } = useTeacherPresence();
 
 const props = defineProps<{
   courseId: string;
@@ -232,6 +241,7 @@ const teachingUnitTree = computed(() =>
           phase: teachingPhase.phase,
           timeFrame: teachingPhase.timeFrame,
           pages: teachingPhase.pages,
+          teacherPresence: teachingPhase.teacherPresence,
           learningMaterials: teachingPhase.learningMaterials,
           selectable: false,
           body: 'phase',

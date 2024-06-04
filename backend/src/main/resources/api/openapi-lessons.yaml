@@ -624,6 +624,8 @@ components:
         topic:
           type: string
           example: Bienen
+        teacherPresence:
+          $ref: '#/components/schemas/TeacherPresence'
         timeFrame:
           type: number
           example: 240
@@ -635,11 +637,19 @@ components:
         topic:
           type: string
           example: Bienen
+        teacherPresence:
+          $ref: '#/components/schemas/TeacherPresence'
         timeFrame:
           type: number
           example: 240
         phase:
           $ref: '#/components/schemas/LearningCyclePhase'
+    TeacherPresence:
+      type: string
+      enum:
+        - ON_SITE
+        - REMOTE
+        - ABSENT
     TeachingPhase:
       type: object
       required:
@@ -662,6 +672,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningMaterial'
+        teacherPresence:
+          $ref: '#/components/schemas/TeacherPresence'
         order:
           type: number
           example: 0

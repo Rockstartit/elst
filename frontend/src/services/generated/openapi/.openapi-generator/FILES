@@ -73,6 +73,7 @@ model/preparation-factors.ts
 model/release-status.ts
 model/request-building-block-request.ts
 model/start-discussion-request.ts
+model/teacher-presence.ts
 model/teaching-phase.ts
 model/teaching-unit-overview.ts
 model/teaching-unit.ts

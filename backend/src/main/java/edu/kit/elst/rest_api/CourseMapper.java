@@ -166,6 +166,7 @@ public class CourseMapper {
 
         teachingPhase.phase().ifPresent(dto::setPhase);
         teachingPhase.timeFrame().map(UtilMapper::mapToBigDecimal).ifPresent(dto::setTimeFrame);
+        teachingPhase.teacherPresence().ifPresent(dto::setTeacherPresence);
 
         dto.setLearningMaterials(learningMaterials.stream()
                 .map(CourseMapper::mapToLearningMaterial)

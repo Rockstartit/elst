@@ -50,6 +50,7 @@ export * from './preparation-factors';
 export * from './release-status';
 export * from './request-building-block-request';
 export * from './start-discussion-request';
+export * from './teacher-presence';
 export * from './teaching-phase';
 export * from './teaching-unit';
 export * from './teaching-unit-overview';

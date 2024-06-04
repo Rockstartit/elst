@@ -185,6 +185,7 @@
                                 <importMapping>DiscussionState=edu.kit.elst.collaboration.DiscussionState</importMapping>
                                 <importMapping>BuildingBlockPropertyType=edu.kit.elst.building_blocks.BuildingBlockPropertyType</importMapping>
                                 <importMapping>ImplementationStatus=edu.kit.elst.course_conceptualization.ImplementationStatus</importMapping>
+                                <importMapping>TeacherPresence=edu.kit.elst.lesson_planning.TeacherPresence</importMapping>
                             </importMappings>
                             <skipValidateSpec>false</skipValidateSpec>
                             <mergedFileName>openapi-merged</mergedFileName>
