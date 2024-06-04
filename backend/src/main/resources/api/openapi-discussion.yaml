@@ -249,7 +249,7 @@ components:
           type: string
           example: Feedback
         createdBy:
-          $ref: '#/components/schemas/User'
+          $ref: './openapi-users.yaml#/components/schemas/UserProfile'
         createdAt:
           type: string
           format: date-time
@@ -267,7 +267,7 @@ components:
           type: string
           example: Feedback
         createdBy:
-          $ref: '#/components/schemas/User'
+          $ref: './openapi-users.yaml#/components/schemas/UserProfile'
         state:
           $ref: '#/components/schemas/DiscussionState'
         resolvedAt:
@@ -288,7 +288,7 @@ components:
           type: string
           example: Feedback
         createdBy:
-          $ref: '#/components/schemas/User'
+          $ref: './openapi-users.yaml#/components/schemas/UserProfile'
         state:
           $ref: '#/components/schemas/DiscussionState'
         resolvedAt:
@@ -340,20 +340,6 @@ components:
       enum:
         - OPEN
         - RESOLVED
-    User:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: string
-          example: auth0|123sdafasd21123dsf
-        firstName:
-          type: string
-          example: Sofia
-        lastName:
-          type: string
-          example: Mustermann
     StartDiscussionRequest:
       type: object
       required:

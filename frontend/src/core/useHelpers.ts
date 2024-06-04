@@ -1,6 +1,4 @@
-import { User } from 'src/services/generated/openapi';
-
-export function fullName(user: User) {
+export function fullName(user: { firstName?: string; lastName?: string }) {
   const fullName = [user.firstName, user.lastName].join(' ').trim();
 
   if (fullName.length === 0) {

@@ -49,8 +49,8 @@
 
                 <q-separator />
 
-                <q-item clickable>
-                  <q-item-section>Einstellungen</q-item-section>
+                <q-item clickable @click="authStore.openEditUserProfileDialog">
+                  <q-item-section>Profil bearbeiten</q-item-section>
                 </q-item>
                 <q-item clickable @click="authStore.logout">
                   <q-item-section>Abmelden</q-item-section>

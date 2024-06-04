@@ -20,7 +20,7 @@ public class DiscussionMapper {
 
         dto.setId(discussion.id().value());
         dto.setTitle(discussion.title());
-        dto.setCreatedBy(mapToUser(createdBy));
+        dto.setCreatedBy(UserMapper.mapToUserProfile(createdBy));
         dto.setState(discussion.state());
 
         discussion.resolvedAt().ifPresent(resolvedAt -> dto.setResolvedAt(resolvedAt.atOffset(ZoneOffset.UTC)));
@@ -29,16 +29,16 @@ public class DiscussionMapper {
     }
 
     public static Discussion mapToDiscussion(edu.kit.elst.collaboration.Discussion discussion,
-                                       edu.kit.elst.users.User createdBy,
-                                       ReferencesToDiscussion references,
-                                       Map<CourseId, edu.kit.elst.lesson_planning.Lesson> lessonMap,
-                                       Map<PageId, edu.kit.elst.course_conceptualization.Page> pageMap,
-                                       Map<MockupId, PageMockup> mockupMap) {
+                                             edu.kit.elst.users.User createdBy,
+                                             ReferencesToDiscussion references,
+                                             Map<CourseId, edu.kit.elst.lesson_planning.Lesson> lessonMap,
+                                             Map<PageId, edu.kit.elst.course_conceptualization.Page> pageMap,
+                                             Map<MockupId, PageMockup> mockupMap) {
         Discussion dto = new Discussion();
 
         dto.setId(discussion.id().value());
         dto.setTitle(discussion.title());
-        dto.setCreatedBy(mapToUser(createdBy));
+        dto.setCreatedBy(UserMapper.mapToUserProfile(createdBy));
         dto.setState(discussion.state());
 
         discussion.resolvedAt().ifPresent(resolvedAt -> dto.setResolvedAt(resolvedAt.atOffset(ZoneOffset.UTC)));
@@ -86,21 +86,11 @@ public class DiscussionMapper {
         return dto;
     }
 
-    private static edu.kit.elst.rest_api.User mapToUser(edu.kit.elst.users.User user) {
-        edu.kit.elst.rest_api.User dto = new edu.kit.elst.rest_api.User();
-
-        dto.setId(user.id().value());
-        dto.setFirstName(user.firstName());
-        dto.setLastName(user.lastName());
-
-        return dto;
-    }
-
     public static edu.kit.elst.rest_api.Comment mapToComment(Comment comment, edu.kit.elst.users.User createdBy) {
         edu.kit.elst.rest_api.Comment dto = new edu.kit.elst.rest_api.Comment();
 
         dto.setId(comment.id().value());
-        dto.setCreatedBy(mapToUser(createdBy));
+        dto.setCreatedBy(UserMapper.mapToUserProfile(createdBy));
         dto.setCreatedAt(comment.createdAt().atOffset(ZoneOffset.UTC));
         dto.setContent(comment.content());
 

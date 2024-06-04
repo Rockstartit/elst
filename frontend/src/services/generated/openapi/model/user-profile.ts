@@ -13,39 +13,30 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { UserProfile } from './user-profile';
 
 /**
  * 
  * @export
- * @interface Comment
+ * @interface UserProfile
  */
-export interface Comment {
+export interface UserProfile {
     /**
      * 
      * @type {string}
-     * @memberof Comment
+     * @memberof UserProfile
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof Comment
+     * @memberof UserProfile
      */
-    'content': string;
-    /**
-     * 
-     * @type {UserProfile}
-     * @memberof Comment
-     */
-    'createdBy': UserProfile;
+    'firstName'?: string;
     /**
      * 
      * @type {string}
-     * @memberof Comment
+     * @memberof UserProfile
      */
-    'createdAt': string;
+    'lastName'?: string;
 }
 

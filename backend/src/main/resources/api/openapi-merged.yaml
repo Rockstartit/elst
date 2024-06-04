@@ -51,6 +51,8 @@ paths:
     $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}~1page-building-blocks"
   /page-building-blocks/{pageBuildingBlockId}:
     $ref: "./openapi-courses.yaml#/paths/~1page-building-blocks~1{pageBuildingBlockId}"
+  /users/{userId}:
+    $ref: "./openapi-users.yaml#/paths/~1users~1{userId}"
   /pages/{pageId}/mockups:
     $ref: "./openapi-courses.yaml#/paths/~1pages~1{pageId}~1mockups"
   /discussions:

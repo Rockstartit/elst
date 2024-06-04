@@ -28,4 +28,5 @@ export * from './api/page-building-block-api';
 export * from './api/page-mockup-api';
 export * from './api/teaching-phase-api';
 export * from './api/teaching-unit-api';
+export * from './api/user-api';
 

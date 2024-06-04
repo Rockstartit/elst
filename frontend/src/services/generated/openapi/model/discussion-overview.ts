@@ -18,7 +18,7 @@
 import { DiscussionState } from './discussion-state';
 // May contain unused imports in some cases
 // @ts-ignore
-import { User } from './user';
+import { UserProfile } from './user-profile';
 
 /**
  * 
@@ -40,10 +40,10 @@ export interface DiscussionOverview {
     'title': string;
     /**
      * 
-     * @type {User}
+     * @type {UserProfile}
      * @memberof DiscussionOverview
      */
-    'createdBy': User;
+    'createdBy': UserProfile;
     /**
      * 
      * @type {DiscussionState}

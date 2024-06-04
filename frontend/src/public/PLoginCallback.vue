@@ -1,5 +1,9 @@
 <template>
-  <PBase content-width="1200px"> Login Callback </PBase>
+  <PBase content-width="600px">
+    <div class="row justify-center">
+      <p> Einen kleinen Moment, du wirst angemeldet... </p>
+    </div>
+  </PBase>
 </template>
 
 <script lang="ts" setup>

@@ -15,6 +15,7 @@ api/page-building-block-api.ts
 api/page-mockup-api.ts
 api/teaching-phase-api.ts
 api/teaching-unit-api.ts
+api/user-api.ts
 base.ts
 common.ts
 configuration.ts
@@ -54,6 +55,7 @@ model/edit-page-request.ts
 model/edit-read-me-request.ts
 model/edit-teaching-phase-request.ts
 model/edit-teaching-unit-request.ts
+model/edit-user-profile-request.ts
 model/implementation-status.ts
 model/index.ts
 model/instructional-parameters.ts
@@ -77,4 +79,4 @@ model/teacher-presence.ts
 model/teaching-phase.ts
 model/teaching-unit-overview.ts
 model/teaching-unit.ts
-model/user.ts
+model/user-profile.ts
