@@ -62,8 +62,6 @@
       </q-toolbar>
     </q-header>
 
-    <ODiscussionDrawer />
-
     <q-page-container style="padding-top: 0 !important">
       <div
         id="breadcrumbs"

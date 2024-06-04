@@ -15,17 +15,14 @@ interface DiscussionReferences extends JpaRepository<DiscussionReference, Discus
     }
 
     @Query("select reference.discussion.id from MockupReference reference " +
-            "where reference.mockupId = :mockupId " +
-            "and reference.discussion.state = edu.kit.elst.collaboration.DiscussionState.OPEN")
-    Set<DiscussionId> findAllOpenDiscussions(MockupId mockupId);
+            "where reference.mockupId = :mockupId")
+    Set<DiscussionId> findAllDiscussions(MockupId mockupId);
 
     @Query("select reference.discussion.id from PageReference reference " +
-            "where reference.pageId = :pageId " +
-            "and reference.discussion.state = edu.kit.elst.collaboration.DiscussionState.OPEN")
-    Set<DiscussionId> findAllOpenDiscussions(PageId pageId);
+            "where reference.pageId = :pageId")
+    Set<DiscussionId> findAllDiscussions(PageId pageId);
 
     @Query("select reference.discussion.id from CourseReference reference " +
-            "where reference.courseId = :courseId " +
-            "and reference.discussion.state = edu.kit.elst.collaboration.DiscussionState.OPEN")
-    Set<DiscussionId> findAllOpenDiscussions(CourseId courseId);
+            "where reference.courseId = :courseId")
+    Set<DiscussionId> findAllDiscussions(CourseId courseId);
 }

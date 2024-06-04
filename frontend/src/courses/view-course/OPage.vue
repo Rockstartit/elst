@@ -14,7 +14,7 @@
         <q-tab :name="buildingBlocksTab" class="full-width">
           Seitenstruktur
         </q-tab>
-        <q-tab class="full-width"> Diskussionen </q-tab>
+        <q-tab :name="discussionsTab" class="full-width"> Diskussionen </q-tab>
       </q-tabs>
 
       <q-tab-panels v-model="tab">
@@ -27,14 +27,20 @@
             :page-id="page.id"
             class="q-mt-lg" />
         </q-tab-panel>
+
         <q-tab-panel :name="mockupTab">
           <OPageMockups v-model="page.mockups" :page-id="page.id" />
         </q-tab-panel>
+
         <q-tab-panel :name="buildingBlocksTab">
           <OPageBuildingBlocks
             v-model="page.buildingBlocks"
             :page-id="page.id"
             :technology-wish="technologyWish" />
+        </q-tab-panel>
+
+        <q-tab-panel :name="discussionsTab">
+          <ODiscussionsBrowser :page-id="page.id" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -53,10 +59,12 @@ import OPageMockups from 'src/courses/view-course/OPageMockups.vue';
 import OPageBuildingBlocks from 'src/courses/view-course/OPageBuildingBlocks.vue';
 import { ref } from 'vue';
 import OLinkedPages from 'src/courses/view-course/OLinkedPages.vue';
+import ODiscussionsBrowser from 'src/discussions/ODiscussionsBrowser.vue';
 
 const generalTab = 'general';
 const mockupTab = 'mockups';
 const buildingBlocksTab = 'building_blocks';
+const discussionsTab = 'discussions';
 
 const quasar = useQuasar();
 const notifications = useNotifications();

@@ -4,7 +4,18 @@
       <slot name="action" />
 
       <div class="col">
-        <p class="text-h6 q-mb-none"> Diskussion </p>
+        <p class="text-h6 q-mb-none">
+          {{ discussion?.title }}
+
+          <q-badge
+            v-if="discussion?.state === 'RESOLVED'"
+            color="green"
+            outline
+            class="q-ml-sm">
+            <q-icon name="mdi-check" class="q-mr-sm" size="1rem" />
+            Abgeschlossen
+          </q-badge>
+        </p>
       </div>
 
       <div class="col-auto">
@@ -17,7 +28,7 @@
     </div>
 
     <div v-if="initialized && !loading" class="q-mt-md">
-      <q-scroll-area style="height: calc(100dvh - 365px)">
+      <q-scroll-area style="height: calc(100dvh - 630px)">
         <div>
           <div
             v-if="comments.length === 0"
@@ -26,6 +37,7 @@
           </div>
           <q-chat-message
             v-for="comment in comments"
+            :name="fullName(comment.createdBy)"
             :key="comment.id"
             :text="[comment.content]"
             :sent="comment.createdBy.id === authStore.userId" />
@@ -34,9 +46,17 @@
 
       <BaseInput v-model="newMessage" type="textarea" class="q-mt-xl" />
 
-      <div class="row justify-end q-mt-sm">
+      <div class="row justify-end q-mt-sm" style="gap: 0.75rem">
         <PrimaryButton
-          v-if="newMessage.trim().length > 0"
+          v-if="discussion?.state !== 'RESOLVED'"
+          label="Diskussion abschließen"
+          :color="newMessage.trim().length > 0 ? 'indigo-1' : undefined"
+          :text-color="newMessage.trim().length > 0 ? 'indigo-10' : undefined"
+          icon="mdi-check"
+          @click="resolveDiscussion" />
+
+        <PrimaryButton
+          :disable="newMessage.trim().length === 0"
           label="Absenden"
           class="elst__base-button-width"
           @click="addComment" />
@@ -55,6 +75,7 @@ import BaseInput from 'src/core/BaseInput.vue';
 import PrimaryButton from 'src/core/PrimaryButton.vue';
 import { useNotifications } from 'src/core/useNotifications';
 import TertiaryButton from 'src/core/TertiaryButton.vue';
+import { fullName } from 'src/core/useHelpers';
 
 const notifications = useNotifications();
 const authStore = useAuthenticationStore();
@@ -71,6 +92,7 @@ const comments = ref<Comment[]>([]);
 
 const newMessage = ref('');
 const performingAddComment = ref(false);
+const performingResolveDiscussion = ref(false);
 
 onMounted(() => {
   withLoading(
@@ -121,6 +143,19 @@ function addComment() {
         notifications.apiError(err);
       }),
     performingAddComment
+  );
+}
+
+function resolveDiscussion() {
+  return withLoading(
+    discussionApi.resolveDiscussion(props.discussionId).then(() => {
+      notifications.success();
+
+      if (discussion.value) {
+        discussion.value.state = 'RESOLVED';
+      }
+    }),
+    performingResolveDiscussion
   );
 }
 </script>

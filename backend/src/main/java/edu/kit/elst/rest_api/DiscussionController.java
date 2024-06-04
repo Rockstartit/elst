@@ -87,19 +87,19 @@ public class DiscussionController implements DiscussionApi {
         if (courseId != null) {
             CourseId aCourseId = new CourseId(courseId);
 
-            discussionIds.addAll(discussionReferenceAppService.openDiscussions(aCourseId));
+            discussionIds.addAll(discussionReferenceAppService.discussions(aCourseId));
         }
 
         if (pageId != null) {
             PageId aPageId = new PageId(pageId);
 
-            discussionIds.addAll(discussionReferenceAppService.openDiscussions(aPageId));
+            discussionIds.addAll(discussionReferenceAppService.discussions(aPageId));
         }
 
         if (mockupId != null) {
             MockupId aMockupId = new MockupId(mockupId);
 
-            discussionIds.addAll(discussionReferenceAppService.openDiscussions(aMockupId));
+            discussionIds.addAll(discussionReferenceAppService.discussions(aMockupId));
         }
 
         Collection<edu.kit.elst.collaboration.Discussion> discussions = discussionAppService.discussions(discussionIds);

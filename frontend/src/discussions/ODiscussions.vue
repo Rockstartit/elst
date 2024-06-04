@@ -1,14 +1,9 @@
 <template>
   <div class="column">
-    <div class="row">
-      <div class="col">
-        <p class="text-h6"> Diskussion </p>
-      </div>
-
-      <slot name="action" />
-    </div>
-
-    <OBaseAnimatedList :items="discussions" :fetching="fetchingDiscussions">
+    <OBaseAnimatedList
+      :items="discussions"
+      :fetching="fetchingDiscussions"
+      :initialized="initialized">
       <template #item="{ item }">
         <q-item
           clickable
@@ -25,6 +20,13 @@
               Erstellt durch
               {{ fullName(item.createdBy) }}
             </q-item-label>
+          </q-item-section>
+
+          <q-item-section v-if="item.state === 'RESOLVED'" side>
+            <q-badge color="green" outline>
+              <q-icon name="mdi-check" class="q-mr-sm" size="1rem" />
+              Abgeschlossen
+            </q-badge>
           </q-item-section>
         </q-item>
       </template>
@@ -71,6 +73,7 @@ defineEmits<{
   (e: 'select', discussionId: string): void;
 }>();
 
+const initialized = ref(false);
 const fetchingDiscussions = ref(false);
 const discussions = ref<DiscussionOverview[]>([]);
 
@@ -81,12 +84,18 @@ watch(
     [props.courseId, props.pageId, props.mockupId].filter(
       (value) => value !== undefined
     ),
-  () => fetchDiscussions(),
+  () => {
+    initialized.value = false;
+
+    fetchDiscussions().finally(() => {
+      initialized.value = true;
+    });
+  },
   { immediate: true }
 );
 
 function fetchDiscussions() {
-  withLoading(
+  return withLoading(
     discussionApi
       .getAllDiscussions(props.courseId, props.pageId, props.mockupId)
       .then((response) => {

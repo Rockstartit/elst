@@ -128,14 +128,6 @@
                 <template #actions>
                   <div class="row">
                     <TertiaryButton
-                      icon="mdi-chat-outline"
-                      text-color="grey-10"
-                      dense
-                      flat
-                      tooltip="Diskussionen"
-                      @click="togglePageDiscussionDrawer(element.id)" />
-
-                    <TertiaryButton
                       icon="mdi-delete-outline"
                       text-color="grey-10"
                       dense
@@ -187,7 +179,6 @@ import {
   ImplementationStatus,
   Page,
 } from 'src/services/generated/openapi';
-import { useDiscussionDrawer } from 'src/discussions/useDiscussionDrawer';
 import {
   confirmDialog,
   isRequired,
@@ -206,7 +197,6 @@ import { useTeacherPresence } from 'src/lessons/view-teaching-unit/useTeacherPre
 const quasar = useQuasar();
 const notifications = useNotifications();
 const { downloadFile } = useContentDownload();
-const { togglePageDiscussionDrawer } = useDiscussionDrawer();
 const { viewTeachingUnitRoute } = useAppRouter();
 const { getTeacherPresenceLabel } = useTeacherPresence();
 

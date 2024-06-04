@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Collections;
 
 @Service
 @Transactional
@@ -52,16 +51,16 @@ public class DiscussionReferenceAppService {
         discussionReferences.deleteById(referenceId);
     }
 
-    public Collection<DiscussionId> openDiscussions(MockupId mockupId) {
-        return discussionReferences.findAllOpenDiscussions(mockupId);
+    public Collection<DiscussionId> discussions(MockupId mockupId) {
+        return discussionReferences.findAllDiscussions(mockupId);
     }
 
-    public Collection<DiscussionId> openDiscussions(PageId pageId) {
-        return discussionReferences.findAllOpenDiscussions(pageId);
+    public Collection<DiscussionId> discussions(PageId pageId) {
+        return discussionReferences.findAllDiscussions(pageId);
     }
 
-    public Collection<DiscussionId> openDiscussions(CourseId courseId) {
-        return discussionReferences.findAllOpenDiscussions(courseId);
+    public Collection<DiscussionId> discussions(CourseId courseId) {
+        return discussionReferences.findAllDiscussions(courseId);
     }
 
     public ReferencesToDiscussion references(DiscussionId discussionId) {
