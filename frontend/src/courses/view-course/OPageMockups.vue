@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="row">
-      <p class="text-body2 text-weight-medium"> Designvorschläge </p>
-    </div>
-    <div class="row">
       <q-list class="column col" style="gap: 0.5rem">
         <MMockup v-for="mockup in mockups" :key="mockup.id" :mockup="mockup">
           <template #after>
