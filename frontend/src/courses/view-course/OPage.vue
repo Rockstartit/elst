@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="col" style="max-width: 600px">
+    <div class="col" style="max-width: 800px">
       <MPageHeader :title="page.title" @edit-title="openEditPageTitle" />
 
       <q-tabs
@@ -14,11 +14,18 @@
         <q-tab :name="buildingBlocksTab" class="full-width">
           Seitenstruktur
         </q-tab>
+        <q-tab class="full-width"> Diskussionen </q-tab>
       </q-tabs>
 
       <q-tab-panels v-model="tab">
         <q-tab-panel :name="generalTab">
           <OPageNotes v-model="page" />
+
+          <OLinkedPages
+            v-model="page.linkedPages"
+            :course-id="courseId"
+            :page-id="page.id"
+            class="q-mt-lg" />
         </q-tab-panel>
         <q-tab-panel :name="mockupTab">
           <OPageMockups v-model="page.mockups" :page-id="page.id" />
@@ -45,6 +52,7 @@ import OPageNotes from 'src/courses/view-course/OPageNotes.vue';
 import OPageMockups from 'src/courses/view-course/OPageMockups.vue';
 import OPageBuildingBlocks from 'src/courses/view-course/OPageBuildingBlocks.vue';
 import { ref } from 'vue';
+import OLinkedPages from 'src/courses/view-course/OLinkedPages.vue';
 
 const generalTab = 'general';
 const mockupTab = 'mockups';

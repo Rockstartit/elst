@@ -7,3 +7,5 @@ alter table page_building_blocks add column order_index tinyint default 0;
 alter table teaching_phase add column teacher_presence tinyint default 0;
 
 create table users (user_id varchar(255), first_name varchar(255), last_name varchar(255), primary key (user_id));
+
+alter table page_links add column `condition_value` varchar(512);

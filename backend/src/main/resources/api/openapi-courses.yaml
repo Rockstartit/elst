@@ -325,6 +325,37 @@ paths:
         401:
           description: Not Authenticated
   /page-links/{pageId}/to/{targetPageId}:
+    patch:
+      tags:
+        - Page
+      summary: Edit page link
+      operationId: editPageLink
+      parameters:
+        - name: pageId
+          in: path
+          description: Id of page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+        - name: targetPageId
+          in: path
+          description: Id of target page
+          required: true
+          schema:
+            $ref: '#/components/schemas/EntityId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditPageLinkRequest'
+        required: true
+      responses:
+        200:
+          description: ok
+        404:
+          description: Not Found
+        401:
+          description: Not Authenticated
     delete:
       tags:
         - Page
@@ -698,6 +729,13 @@ components:
           $ref: "#/components/schemas/EntityId"
         targetPageId:
           $ref: "#/components/schemas/EntityId"
+        condition:
+          type: string
+    EditPageLinkRequest:
+      type: object
+      properties:
+        condition:
+          type: string
     PageOverview:
       type: object
       required:
@@ -747,7 +785,7 @@ components:
         linkedPages:
           type: array
           items:
-            $ref: "#/components/schemas/PageOverview"
+            $ref: "#/components/schemas/PageLink"
         mockups:
           type: array
           items:
@@ -755,6 +793,19 @@ components:
         order:
           type: number
           example: 0
+    PageLink:
+      type: object
+      required:
+        - targetPageId
+        - targetPageTitle
+      properties:
+        targetPageId:
+          $ref: "#/components/schemas/EntityId"
+        targetPageTitle:
+          type: string
+          example: Startseite
+        condition:
+          type: string
     Mockup:
       type: object
       required:

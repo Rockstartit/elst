@@ -24,7 +24,7 @@ import { Mockup } from './mockup';
 import { PageBuildingBlock } from './page-building-block';
 // May contain unused imports in some cases
 // @ts-ignore
-import { PageOverview } from './page-overview';
+import { PageLink } from './page-link';
 
 /**
  * 
@@ -70,10 +70,10 @@ export interface Page {
     'buildingBlocks': Array<PageBuildingBlock>;
     /**
      * 
-     * @type {Array<PageOverview>}
+     * @type {Array<PageLink>}
      * @memberof Page
      */
-    'linkedPages': Array<PageOverview>;
+    'linkedPages': Array<PageLink>;
     /**
      * 
      * @type {Array<Mockup>}

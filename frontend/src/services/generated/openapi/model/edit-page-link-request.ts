@@ -17,25 +17,13 @@
 /**
  * 
  * @export
- * @interface LinkPagesRequest
+ * @interface EditPageLinkRequest
  */
-export interface LinkPagesRequest {
+export interface EditPageLinkRequest {
     /**
      * 
      * @type {string}
-     * @memberof LinkPagesRequest
-     */
-    'pageId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof LinkPagesRequest
-     */
-    'targetPageId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof LinkPagesRequest
+     * @memberof EditPageLinkRequest
      */
     'condition'?: string;
 }

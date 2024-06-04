@@ -5,6 +5,7 @@ import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.*;
+import edu.kit.elst.course_conceptualization.PageLink;
 import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.course_conceptualization.Page;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
@@ -139,10 +140,18 @@ public class CourseController implements CourseApi {
         Map<BuildingBlockId, BuildingBlock> buildingBlockMap = buildingBlockService.buildingBlocks(buildingBlockIds).stream()
                 .collect(Collectors.toMap(BuildingBlock::id, Function.identity()));
 
-        Map<PageId, Collection<Page>> linkedPagesMap = new HashMap<>();
+        Map<PageId, Collection<PageLink>> pageLinksMap = new HashMap<>();
         for (PageId pageId : pageIds) {
-            linkedPagesMap.put(pageId, pageAppService.linkedPages(pageId));
+            pageLinksMap.put(pageId, pageAppService.pageLinks(pageId));
         }
+
+        Set<PageId> linkedPageIds = pageLinksMap.values().stream()
+                .flatMap(Collection::stream)
+                .map(PageLink::targetPageId)
+                .collect(Collectors.toSet());
+
+        Map<PageId, Page> linkedPagesMap = pageAppService.pages(linkedPageIds).stream()
+                .collect(Collectors.toMap(Page::id, Function.identity()));
 
         return ResponseEntity.ok(teachingUnits.stream()
                 .sorted(Comparator.comparing(TeachingUnit::order))
@@ -153,6 +162,7 @@ public class CourseController implements CourseApi {
                         pagesMap,
                         mockupsMap,
                         pageBuildingBlocksMap,
+                        pageLinksMap,
                         linkedPagesMap,
                         buildingBlockMap
                 ))

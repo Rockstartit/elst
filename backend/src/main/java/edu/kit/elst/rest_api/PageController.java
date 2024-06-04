@@ -6,12 +6,10 @@ import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.*;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;
-import jakarta.validation.Valid;
+import edu.kit.elst.course_conceptualization.PageLink;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -79,9 +77,12 @@ public class PageController implements PageApi {
                 .collect(Collectors.toMap(BuildingBlock::id, Function.identity()));
         Collection<PageMockup> mockups = pageMockupAppService.mockupsByPageId(aPageId);
 
-        Collection<edu.kit.elst.course_conceptualization.Page> linkedPages = pageAppService.linkedPages(aPageId);
+        Collection<PageLink> pageLinks = pageAppService.pageLinks(aPageId);
+        Set<PageId> linkedPageIds = pageLinks.stream().map(PageLink::targetPageId).collect(Collectors.toSet());
+        Map<PageId, edu.kit.elst.course_conceptualization.Page> linkedPagesMap = pageAppService.pages(linkedPageIds).stream()
+                .collect(Collectors.toMap(edu.kit.elst.course_conceptualization.Page::id, Function.identity()));
 
-        return ResponseEntity.ok(CourseMapper.mapToPage(page, linkedPages, mockups, pageBuildingBlocks, buildingBlockMap));
+        return ResponseEntity.ok(CourseMapper.mapToPage(page, pageLinks, linkedPagesMap, mockups, pageBuildingBlocks, buildingBlockMap));
     }
 
     @Override
@@ -101,7 +102,17 @@ public class PageController implements PageApi {
         PageId aPageId = new PageId(body.getPageId());
         PageId aTargetPageId = new PageId(body.getTargetPageId());
 
-        pageAppService.linkPages(aPageId, aTargetPageId);
+        pageAppService.linkPages(aPageId, aTargetPageId, body.getCondition());
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> editPageLink(UUID pageId, UUID targetPageId, EditPageLinkRequest body) {
+        PageId aPageId = new PageId(pageId);
+        PageId aTargetPageId = new PageId(targetPageId);
+
+        pageAppService.editPageLink(aPageId, aTargetPageId, body.getCondition());
 
         return ResponseEntity.ok().build();
     }
@@ -111,7 +122,7 @@ public class PageController implements PageApi {
         PageId aPageId = new PageId(pageId);
         PageId aTargetPageId = new PageId(targetPageId);
 
-        pageAppService.linkPages(aPageId, aTargetPageId);
+        pageAppService.unlinkPages(aPageId, aTargetPageId);
 
         return ResponseEntity.ok().build();
     }

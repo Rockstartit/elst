@@ -35,7 +35,7 @@
               :color="learningCyclePhaseColor(node.phase)"
               rounded
               class="justify-center text-grey-10 q-pa-xs text-weight-medium full-width"
-              style="width: 150px; max-width: 400px">
+              style="width: 150px">
               {{ learningCyclePhaseLabel(node.phase) }}
             </q-badge>
           </div>
@@ -69,7 +69,7 @@
           color="indigo"
           size="12px"
           class="cursor-pointer q-mt-md">
-          <div class="row items-center" style="gap: 0.3rem">
+          <div class="row items-center no-wrap" style="gap: 0.3rem">
             <q-icon name="mdi-file-outline" />
 
             <span class="text-weight-medium">
@@ -110,7 +110,7 @@
           </q-menu>
         </q-chip>
 
-        <div style="max-width: 500px" class="q-mt-md">
+        <div class="q-mt-md">
           <Sortable
             :list="node.pages"
             item-key="id"

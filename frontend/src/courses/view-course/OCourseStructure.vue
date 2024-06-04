@@ -7,7 +7,7 @@
     </p>
 
     <div>
-      <q-splitter v-model="splitterModel">
+      <q-splitter v-model="splitterModel" unit="px" :limits="[300, 600]">
         <template v-slot:before>
           <q-scroll-area style="height: calc(100dvh - 200px)">
             <OCourseStructureTree
@@ -49,7 +49,7 @@ const courseTeachingUnits = defineModel<CourseTeachingUnit[]>({
   required: true,
 });
 
-const splitterModel = ref(30);
+const splitterModel = ref(400);
 
 const selectedPageId = ref<string>('');
 const selectedPage = ref<Page>();

@@ -51,6 +51,7 @@ model/edit-discussion-request.ts
 model/edit-learning-material-request.ts
 model/edit-lesson-request.ts
 model/edit-mockup-request.ts
+model/edit-page-link-request.ts
 model/edit-page-request.ts
 model/edit-read-me-request.ts
 model/edit-teaching-phase-request.ts
@@ -68,6 +69,7 @@ model/mockup-reference.ts
 model/mockup.ts
 model/page-building-block-property.ts
 model/page-building-block.ts
+model/page-link.ts
 model/page-overview.ts
 model/page-reference.ts
 model/page.ts

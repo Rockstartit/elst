@@ -53,11 +53,19 @@ public class PageAppService {
         page.implementationStatus(status);
     }
 
-    public void linkPages(PageId pageId, PageId targetPageId) {
+    public void linkPages(PageId pageId, PageId targetPageId, String condition) {
         PageLink pageLink = new PageLink(pageId, targetPageId);
+        pageLink.condition(condition);
 
         pageLinks.deleteByPageIdAndTargetPageId(pageId, targetPageId);
         pageLinks.save(pageLink);
+    }
+
+    public void editPageLink(PageId pageId, PageId targetPageId, String condition) {
+        PageLink pageLink = pageLinks.findByPageIdAndTargetPageId(pageId, targetPageId)
+                .orElseThrow();
+
+        pageLink.condition(condition);
     }
 
     public void unlinkPages(PageId pageId, PageId targetPageId) {
@@ -98,7 +106,7 @@ public class PageAppService {
         }
     }
 
-    public Collection<Page> linkedPages(PageId pageId) {
-        return pages.findAllLinkedTo(pageId);
+    public Collection<PageLink> pageLinks(PageId pageId) {
+        return pageLinks.findAllByPageId(pageId);
     }
 }
