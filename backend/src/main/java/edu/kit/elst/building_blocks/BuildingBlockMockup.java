@@ -33,7 +33,7 @@ public class BuildingBlockMockup {
         Guards.notNull(buildingBlockId, "buildingBlockId");
         Guards.notNull(createdBy, "createdBy");
 
-        this.id = PageMockups.nextIdentity();
+        this.id = BuildingBlockMockups.nextIdentity();
         this.buildingBlockId = buildingBlockId;
         this.fileId = fileId;
         this.createdBy = createdBy;
