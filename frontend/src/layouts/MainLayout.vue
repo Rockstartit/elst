@@ -83,7 +83,6 @@
 import { availableRoutes } from 'src/router/routes';
 import { useAuthenticationStore } from 'stores/authentication/store';
 import { computed } from 'vue';
-import ODiscussionDrawer from 'src/discussions/ODiscussionDrawer.vue';
 
 const authStore = useAuthenticationStore();
 
