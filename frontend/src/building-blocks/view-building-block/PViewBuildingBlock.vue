@@ -16,6 +16,10 @@
         <q-tab-panel name="properties" class="q-px-none">
           <TBuildingBlockProperties v-model="buildingBlock" />
         </q-tab-panel>
+
+        <q-tab-panel name="discussion" class="q-px-none">
+          <ODiscussionsBrowser :building-block-id="buildingBlockId" />
+        </q-tab-panel>
       </q-tab-panels>
     </div>
 
@@ -44,6 +48,7 @@ import { BuildingBlock } from 'src/services/generated/openapi';
 import { buildingBlockApi } from 'src/services/building_blocks';
 import TheBreadcrumbs from 'src/core/TheBreadcrumbs.vue';
 import TBuildingBlockProperties from 'src/building-blocks/view-building-block/properties/TBuildingBlockProperties.vue';
+import ODiscussionsBrowser from 'src/discussions/ODiscussionsBrowser.vue';
 
 const quasar = useQuasar();
 

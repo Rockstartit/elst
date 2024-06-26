@@ -95,7 +95,8 @@ function openCreateCourseDialog() {
           label: 'Erstellen',
         },
         isValid: isRequired,
-        message: 'In welcher Technologie soll der Kurs umgesetzt werden?',
+        message:
+          'In welcher Technologie soll der Kurs umgesetzt werden?\nZ.B. Wordpress, "Unklar"',
       })
     )
     .onOk((technologyWish) => {

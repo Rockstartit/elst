@@ -8,7 +8,7 @@ create table building_blocks (building_block_id binary(16) not null, description
 create table comments (comment_id binary(16) not null, content varchar(255), created_at datetime(6), user_id varchar(255), discussion_id binary(16) not null, primary key (comment_id)) engine=InnoDB;
 create table course_notes (course_id binary(16) not null, content tinyblob, primary key (course_id)) engine=InnoDB;
 create table courses (course_id binary(16) not null, lesson_id binary(16), user_id varchar(255), technology_wish varchar(255), primary key (course_id)) engine=InnoDB;
-create table discussion_references (dtype varchar(31) not null, discussion_reference_id binary(16) not null, course_id binary(16), mockup_id binary(16), page_id binary(16), discussion_id binary(16) not null, primary key (discussion_reference_id)) engine=InnoDB;
+create table discussion_references (dtype varchar(31) not null, discussion_reference_id binary(16) not null, building_block_id binary(16), mockup_id binary(16), page_id binary(16), discussion_id binary(16) not null, primary key (discussion_reference_id)) engine=InnoDB;
 create table discussions (discussion_id binary(16) not null, user_id varchar(255), resolved_at datetime(6), state tinyint, title varchar(255), primary key (discussion_id)) engine=InnoDB;
 create table mockups (mockup_id binary(16) not null, page_id binary(16), created_by varchar(255), description varchar(255), file_id binary(16) not null, primary key (mockup_id)) engine=InnoDB;
 create table page_building_blocks (page_building_block_id binary(16) not null, building_block_id binary(16) not null, page_id binary(16) not null, primary key (page_building_block_id)) engine=InnoDB;

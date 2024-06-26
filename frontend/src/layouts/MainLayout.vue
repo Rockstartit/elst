@@ -16,21 +16,13 @@
 
         <div
           v-if="$q.screen.gt.sm"
-          class="elst__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
-          <router-link :to="{ name: availableRoutes.browse_lessons }">
-            <a class="text-white"> Unterrichte </a>
-          </router-link>
-
-          <router-link :to="{ name: availableRoutes.browse_building_blocks }">
-            <a class="text-white"> Bausteine </a>
-          </router-link>
+          class="q-ml-xs text-body2 text-weight-bold row items-center no-wrap">
+          E-Learning Specification Tool (ELST)
         </div>
 
         <q-space />
 
         <div class="q-pl-sm q-gutter-md row items-center no-wrap">
-          <q-btn dense flat round size="sm" icon="notifications" />
-
           <q-btn dense flat no-wrap>
             <q-avatar rounded size="20px" class="q-mr-xs">
               <img :src="profilePicture" alt="Profilbild" />
@@ -90,18 +82,6 @@ const profilePicture = computed(() => authStore.profilePicture);
 </script>
 
 <style lang="scss">
-.elst {
-  &__toolbar-link {
-    a {
-      color: white;
-      text-decoration: none;
-      &:hover {
-        opacity: 0.7;
-      }
-    }
-  }
-}
-
 @keyframes shadow-in {
   to {
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.26);

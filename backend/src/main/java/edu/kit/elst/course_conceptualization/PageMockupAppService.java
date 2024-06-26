@@ -9,6 +9,7 @@ import edu.kit.elst.core.shared.PageId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
@@ -26,7 +27,12 @@ public class PageMockupAppService {
         FileId fileId = storageService.storeFile(file);
 
         PageMockup mockup = new PageMockup(pageId, fileId, UserContext.getUserId());
-        mockup.description(description);
+
+        if (StringUtils.hasText(description)) {
+            mockup.description(description);
+        } else {
+            mockup.description(file.getOriginalFilename());
+        }
 
         pageMockups.save(mockup);
 

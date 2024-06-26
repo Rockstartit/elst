@@ -1,5 +1,6 @@
 package edu.kit.elst.collaboration;
 
+import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,10 +38,10 @@ public class DiscussionReferenceAppService {
         return reference.id();
     }
 
-    public DiscussionReferenceId createReference(DiscussionId discussionId, CourseId courseId) {
+    public DiscussionReferenceId createReference(DiscussionId discussionId, BuildingBlockId buildingBlockId) {
         Discussion discussion = discussions.getReferenceById(discussionId);
 
-        DiscussionReference reference = new CourseReference(discussion, courseId);
+        DiscussionReference reference = new BuildingBlockReference(discussion, buildingBlockId);
 
         discussionReferences.save(reference);
 
@@ -59,12 +60,12 @@ public class DiscussionReferenceAppService {
         return discussionReferences.findAllDiscussions(pageId);
     }
 
-    public Collection<DiscussionId> discussions(CourseId courseId) {
-        return discussionReferences.findAllDiscussions(courseId);
+    public Collection<DiscussionId> discussions(BuildingBlockId buildingBlockId) {
+        return discussionReferences.findAllDiscussions(buildingBlockId);
     }
 
     public ReferencesToDiscussion references(DiscussionId discussionId) {
-        Collection<CourseReference> courseRefs = courseReferences.findAllByDiscussionId(discussionId);
+        Collection<BuildingBlockReference> courseRefs = courseReferences.findAllByDiscussionId(discussionId);
         Collection<PageReference> pageRefs = pageReferences.findAllByDiscussionId(discussionId);
         Collection<MockupReference> mockupRefs = mockupReferences.findAllByDiscussionId(discussionId);
 

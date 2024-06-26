@@ -252,13 +252,13 @@ export const DiscussionApiAxiosParamCreator = function (configuration?: Configur
         /**
          * 
          * @summary Get all discussions
-         * @param {string} [courseId] Id of course
+         * @param {string} [buildingBlockId] Id of building block
          * @param {string} [pageId] Id of page
          * @param {string} [mockupId] Id of mockup
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllDiscussions: async (courseId?: string, pageId?: string, mockupId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllDiscussions: async (buildingBlockId?: string, pageId?: string, mockupId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/discussions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -275,8 +275,8 @@ export const DiscussionApiAxiosParamCreator = function (configuration?: Configur
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (courseId !== undefined) {
-                localVarQueryParameter['courseId'] = courseId;
+            if (buildingBlockId !== undefined) {
+                localVarQueryParameter['buildingBlockId'] = buildingBlockId;
             }
 
             if (pageId !== undefined) {
@@ -495,14 +495,14 @@ export const DiscussionApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get all discussions
-         * @param {string} [courseId] Id of course
+         * @param {string} [buildingBlockId] Id of building block
          * @param {string} [pageId] Id of page
          * @param {string} [mockupId] Id of mockup
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllDiscussions(courseId?: string, pageId?: string, mockupId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DiscussionOverview>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllDiscussions(courseId, pageId, mockupId, options);
+        async getAllDiscussions(buildingBlockId?: string, pageId?: string, mockupId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DiscussionOverview>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllDiscussions(buildingBlockId, pageId, mockupId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DiscussionApi.getAllDiscussions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -612,14 +612,14 @@ export const DiscussionApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary Get all discussions
-         * @param {string} [courseId] Id of course
+         * @param {string} [buildingBlockId] Id of building block
          * @param {string} [pageId] Id of page
          * @param {string} [mockupId] Id of mockup
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllDiscussions(courseId?: string, pageId?: string, mockupId?: string, options?: any): AxiosPromise<Array<DiscussionOverview>> {
-            return localVarFp.getAllDiscussions(courseId, pageId, mockupId, options).then((request) => request(axios, basePath));
+        getAllDiscussions(buildingBlockId?: string, pageId?: string, mockupId?: string, options?: any): AxiosPromise<Array<DiscussionOverview>> {
+            return localVarFp.getAllDiscussions(buildingBlockId, pageId, mockupId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -727,15 +727,15 @@ export class DiscussionApi extends BaseAPI {
     /**
      * 
      * @summary Get all discussions
-     * @param {string} [courseId] Id of course
+     * @param {string} [buildingBlockId] Id of building block
      * @param {string} [pageId] Id of page
      * @param {string} [mockupId] Id of mockup
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DiscussionApi
      */
-    public getAllDiscussions(courseId?: string, pageId?: string, mockupId?: string, options?: RawAxiosRequestConfig) {
-        return DiscussionApiFp(this.configuration).getAllDiscussions(courseId, pageId, mockupId, options).then((request) => request(this.axios, this.basePath));
+    public getAllDiscussions(buildingBlockId?: string, pageId?: string, mockupId?: string, options?: RawAxiosRequestConfig) {
+        return DiscussionApiFp(this.configuration).getAllDiscussions(buildingBlockId, pageId, mockupId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

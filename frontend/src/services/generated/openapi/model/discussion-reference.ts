@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { CourseReference } from './course-reference';
+import { BuildingBlockReference } from './building-block-reference';
 // May contain unused imports in some cases
 // @ts-ignore
 import { MockupReference } from './mockup-reference';
@@ -27,6 +27,6 @@ import { PageReference } from './page-reference';
  * @type DiscussionReference
  * @export
  */
-export type DiscussionReference = CourseReference | MockupReference | PageReference;
+export type DiscussionReference = BuildingBlockReference | MockupReference | PageReference;
 
 

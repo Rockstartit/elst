@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 
 @Repository
-public interface CourseReferences extends JpaRepository<CourseReference, DiscussionReferenceId> {
-    Collection<CourseReference> findAllByDiscussionId(DiscussionId discussionId);
+public interface CourseReferences extends JpaRepository<BuildingBlockReference, DiscussionReferenceId> {
+    Collection<BuildingBlockReference> findAllByDiscussionId(DiscussionId discussionId);
 }

@@ -4,9 +4,12 @@
       <q-icon name="mdi-file-outline" />
     </q-item-section>
     <q-item-section>
-      <q-item-label> Mockup </q-item-label>
-      <q-item-label v-if="mockup.description" caption>
-        {{ mockup.description }}
+      <q-item-label>
+        {{
+          mockup.description && mockup.description.length > 0
+            ? mockup.description
+            : 'Designvorschlag'
+        }}
       </q-item-label>
     </q-item-section>
 

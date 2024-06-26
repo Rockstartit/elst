@@ -1,16 +1,17 @@
 package edu.kit.elst.rest_api;
 
-import edu.kit.elst.collaboration.CourseReference;
+import edu.kit.elst.building_blocks.BuildingBlock;
+import edu.kit.elst.building_blocks.BuildingBlockAppService;
+import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.collaboration.BuildingBlockReference;
 import edu.kit.elst.collaboration.MockupReference;
 import edu.kit.elst.collaboration.PageReference;
 import edu.kit.elst.collaboration.*;
 import edu.kit.elst.core.shared.*;
-import edu.kit.elst.course_conceptualization.Course;
-import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.course_conceptualization.Page;
-import edu.kit.elst.course_conceptualization.*;
-import edu.kit.elst.lesson_planning.Lesson;
-import edu.kit.elst.lesson_planning.LessonAppService;
+import edu.kit.elst.course_conceptualization.PageAppService;
+import edu.kit.elst.course_conceptualization.PageMockup;
+import edu.kit.elst.course_conceptualization.PageMockupAppService;
 import edu.kit.elst.users.User;
 import edu.kit.elst.users.UserAppService;
 import lombok.AllArgsConstructor;
@@ -27,20 +28,19 @@ import java.util.stream.Collectors;
 public class DiscussionController implements DiscussionApi {
     private final UserAppService userAppService;
     private final PageAppService pageAppService;
-    private final CourseAppService courseAppService;
-    private final LessonAppService lessonAppService;
     private final PageMockupAppService pageMockupAppService;
     private final DiscussionAppService discussionAppService;
+    private final BuildingBlockAppService buildingBlockAppService;
     private final DiscussionReferenceAppService discussionReferenceAppService;
 
     @Override
     public ResponseEntity<UUID> startDiscussion(StartDiscussionRequest body) {
         DiscussionId discussionId = discussionAppService.startDiscussion(body.getTitle());
 
-        if (body.getCourseId() != null) {
-            CourseId courseId = new CourseId(body.getCourseId());
+        if (body.getBuildingBlockId() != null) {
+            BuildingBlockId buildingBlockId = new BuildingBlockId(body.getBuildingBlockId());
 
-            discussionReferenceAppService.createReference(discussionId, courseId);
+            discussionReferenceAppService.createReference(discussionId, buildingBlockId);
         }
 
         if (body.getPageId() != null) {
@@ -81,13 +81,13 @@ public class DiscussionController implements DiscussionApi {
     }
 
     @Override
-    public ResponseEntity<List<DiscussionOverview>> getAllDiscussions(UUID courseId, UUID pageId, UUID mockupId) {
+    public ResponseEntity<List<DiscussionOverview>> getAllDiscussions(UUID buildingBlockId, UUID pageId, UUID mockupId) {
         Set<DiscussionId> discussionIds = new HashSet<>();
 
-        if (courseId != null) {
-            CourseId aCourseId = new CourseId(courseId);
+        if (buildingBlockId != null) {
+            BuildingBlockId aBuildingBlockId = new BuildingBlockId(buildingBlockId);
 
-            discussionIds.addAll(discussionReferenceAppService.discussions(aCourseId));
+            discussionIds.addAll(discussionReferenceAppService.discussions(aBuildingBlockId));
         }
 
         if (pageId != null) {
@@ -126,7 +126,7 @@ public class DiscussionController implements DiscussionApi {
 
         ReferencesToDiscussion references = discussionReferenceAppService.references(aDiscussionId);
 
-        Map<CourseId, Lesson> courseToLessonMap = getCourseToLessonMap(references.courseReferences());
+        Map<BuildingBlockId, BuildingBlock> buildingBlockMap = getBuildingBlockMap(references.buildingBlockReferences());
         Map<PageId, Page> pageMap = getPageMap(references.pageReferences());
         Map<MockupId, PageMockup> mockupMap = getMockupMap(references.mockupReferences());
 
@@ -134,7 +134,7 @@ public class DiscussionController implements DiscussionApi {
                 discussion,
                 createdBy,
                 references,
-                courseToLessonMap,
+                buildingBlockMap,
                 pageMap,
                 mockupMap
         ));
@@ -203,21 +203,12 @@ public class DiscussionController implements DiscussionApi {
                 .collect(Collectors.toMap(Page::id, Function.identity()));
     }
 
-    private Map<CourseId, Lesson> getCourseToLessonMap(Collection<CourseReference> courseReferences) {
-        Set<CourseId> courseIds = courseReferences.stream()
-                .map(CourseReference::courseId)
+    private Map<BuildingBlockId, BuildingBlock> getBuildingBlockMap(Collection<BuildingBlockReference> buildingBlockReferences) {
+        Set<BuildingBlockId> buildingBlockIds = buildingBlockReferences.stream()
+                .map(BuildingBlockReference::buildingBlockId)
                 .collect(Collectors.toSet());
 
-        Collection<Course> courses = courseAppService.courses(courseIds);
-
-        Set<LessonId> lessonIds = courses.stream()
-                .map(Course::lessonId)
-                .collect(Collectors.toSet());
-
-        Map<LessonId, Lesson> lessonMap = lessonAppService.lessons(lessonIds).stream()
-                .collect(Collectors.toMap(Lesson::id, Function.identity()));
-
-        return courses.stream()
-                .collect(Collectors.toMap(Course::id, course -> lessonMap.get(course.lessonId())));
+        return buildingBlockAppService.buildingBlocks(buildingBlockIds).stream()
+                .collect(Collectors.toMap(BuildingBlock::id, Function.identity()));
     }
 }

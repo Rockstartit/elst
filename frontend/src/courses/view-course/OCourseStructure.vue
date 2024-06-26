@@ -21,6 +21,18 @@
 
         <template v-slot:after>
           <q-scroll-area style="height: calc(100dvh - 200px)">
+            <p
+              v-if="!selectedPage && pages.length === 0"
+              class="text-grey-7 text-body1 text-center q-mt-xl">
+              Erstelle eine neue Seite, um mit der Kursplanung zu beginnen.
+            </p>
+
+            <p
+              v-if="!selectedPage && pages.length > 0"
+              class="text-grey-7 text-body1 text-center q-mt-xl">
+              Wähle eine Seite aus, um die Kursplanung fortzuführen.
+            </p>
+
             <OPage
               v-if="selectedPage"
               v-model="selectedPage"
@@ -34,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { CourseTeachingUnit, Page } from 'src/services/generated/openapi';
 import OCourseStructureTree from 'src/courses/view-course/OCourseStructureTree.vue';
 import OPage from 'src/courses/view-course/OPage.vue';
@@ -54,13 +66,15 @@ const splitterModel = ref(400);
 const selectedPageId = ref<string>('');
 const selectedPage = ref<Page>();
 
-onMounted(() => {
-  const pages = courseTeachingUnits.value
+const pages = computed(() =>
+  courseTeachingUnits.value
     .flatMap((teachingUnit) => teachingUnit.teachingPhases)
-    .flatMap((teachingPhase) => teachingPhase.pages);
+    .flatMap((teachingPhase) => teachingPhase.pages)
+);
 
-  if (pages.length > 0) {
-    selectPage(pages[0].id);
+onMounted(() => {
+  if (pages.value.length > 0) {
+    selectPage(pages.value[0].id);
   }
 });
 
@@ -71,9 +85,8 @@ function selectPage(pageId: string | undefined) {
     selectedPage.value = undefined;
   }
 
-  selectedPage.value = courseTeachingUnits.value
-    .flatMap((teachingUnit) => teachingUnit.teachingPhases)
-    .flatMap((teachingPhase) => teachingPhase.pages)
-    .find((page) => page.id === selectedPageId.value);
+  selectedPage.value = pages.value.find(
+    (page) => page.id === selectedPageId.value
+  );
 }
 </script>

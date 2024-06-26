@@ -37,7 +37,7 @@ export interface StartDiscussionRequest {
      * @type {string}
      * @memberof StartDiscussionRequest
      */
-    'courseId'?: string;
+    'buildingBlockId'?: string;
     /**
      * 
      * @type {string}

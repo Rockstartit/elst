@@ -15,9 +15,9 @@ paths:
       summary: Get all discussions
       operationId: getAllDiscussions
       parameters:
-        - name: courseId
+        - name: buildingBlockId
           in: query
-          description: Id of course
+          description: Id of building block
           schema:
             $ref: '#/components/schemas/EntityId'
         - name: pageId
@@ -300,20 +300,20 @@ components:
             $ref: '#/components/schemas/DiscussionReference'
     DiscussionReference:
       oneOf:
-        - $ref: '#/components/schemas/CourseReference'
+        - $ref: '#/components/schemas/BuildingBlockReference'
         - $ref: '#/components/schemas/PageReference'
         - $ref: '#/components/schemas/MockupReference'
-    CourseReference:
+    BuildingBlockReference:
       type: object
       required:
-        - courseId
-        - topic
+        - buildingBlockId
+        - name
       properties:
-        courseId:
+        buildingBlockId:
           $ref: '#/components/schemas/EntityId'
-        topic:
+        name:
           type: string
-          example: Bienen
+          example: Text
     PageReference:
       type: object
       required:
@@ -351,7 +351,7 @@ components:
         comment:
           type: string
           example: Sieht gut aus.
-        courseId:
+        buildingBlockId:
           $ref: '#/components/schemas/EntityId'
         pageId:
           $ref: '#/components/schemas/EntityId'

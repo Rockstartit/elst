@@ -2,7 +2,7 @@
   <div>
     <ODiscussions
       v-if="!selectedDiscussionId"
-      :course-id="courseId"
+      :building-block-id="buildingBlockId"
       :page-id="pageId"
       :mockup-id="mockupId"
       @select="selectDiscussion" />
@@ -30,7 +30,7 @@ import ODiscussions from 'src/discussions/ODiscussions.vue';
 import { ref } from 'vue';
 
 defineProps<{
-  courseId?: string;
+  buildingBlockId?: string;
   pageId?: string;
   mockupId?: string;
 }>();

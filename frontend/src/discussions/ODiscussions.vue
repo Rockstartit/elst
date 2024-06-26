@@ -64,7 +64,7 @@ const notifications = useNotifications();
 const authStore = useAuthenticationStore();
 
 const props = defineProps<{
-  courseId?: string;
+  buildingBlockId?: string;
   pageId?: string;
   mockupId?: string;
 }>();
@@ -81,7 +81,7 @@ const performingStartDiscussion = ref(false);
 
 watch(
   () =>
-    [props.courseId, props.pageId, props.mockupId].filter(
+    [props.buildingBlockId, props.pageId, props.mockupId].filter(
       (value) => value !== undefined
     ),
   () => {
@@ -97,7 +97,7 @@ watch(
 function fetchDiscussions() {
   return withLoading(
     discussionApi
-      .getAllDiscussions(props.courseId, props.pageId, props.mockupId)
+      .getAllDiscussions(props.buildingBlockId, props.pageId, props.mockupId)
       .then((response) => {
         discussions.value = response.data;
       }),
@@ -126,7 +126,7 @@ function openStartDiscussionDialog() {
         discussionApi
           .startDiscussion({
             title,
-            courseId: props.courseId,
+            buildingBlockId: props.buildingBlockId,
             pageId: props.pageId,
             mockupId: props.mockupId,
           })

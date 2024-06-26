@@ -1,5 +1,6 @@
 package edu.kit.elst.collaboration;
 
+import edu.kit.elst.building_blocks.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +23,7 @@ interface DiscussionReferences extends JpaRepository<DiscussionReference, Discus
             "where reference.pageId = :pageId")
     Set<DiscussionId> findAllDiscussions(PageId pageId);
 
-    @Query("select reference.discussion.id from CourseReference reference " +
-            "where reference.courseId = :courseId")
-    Set<DiscussionId> findAllDiscussions(CourseId courseId);
+    @Query("select reference.discussion.id from BuildingBlockReference reference " +
+            "where reference.buildingBlockId = :buildingBlockId")
+    Set<DiscussionId> findAllDiscussions(BuildingBlockId buildingBlockId);
 }

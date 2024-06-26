@@ -25,10 +25,10 @@ model/add-building-block-to-page-request.ts
 model/add-comment-request.ts
 model/building-block-property-type.ts
 model/building-block-property.ts
+model/building-block-reference.ts
 model/building-block.ts
 model/comment.ts
 model/course-overview.ts
-model/course-reference.ts
 model/course-teaching-phase.ts
 model/course-teaching-unit.ts
 model/course.ts

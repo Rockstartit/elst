@@ -1,5 +1,8 @@
 package edu.kit.elst.rest_api;
 
+import edu.kit.elst.building_blocks.BuildingBlock;
+import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.collaboration.BuildingBlockReference;
 import edu.kit.elst.collaboration.Comment;
 import edu.kit.elst.collaboration.ReferencesToDiscussion;
 import edu.kit.elst.core.shared.CourseId;
@@ -31,7 +34,7 @@ public class DiscussionMapper {
     public static Discussion mapToDiscussion(edu.kit.elst.collaboration.Discussion discussion,
                                              edu.kit.elst.users.User createdBy,
                                              ReferencesToDiscussion references,
-                                             Map<CourseId, edu.kit.elst.lesson_planning.Lesson> lessonMap,
+                                             Map<BuildingBlockId, BuildingBlock> buildingBlockMap,
                                              Map<PageId, edu.kit.elst.course_conceptualization.Page> pageMap,
                                              Map<MockupId, PageMockup> mockupMap) {
         Discussion dto = new Discussion();
@@ -44,8 +47,8 @@ public class DiscussionMapper {
         discussion.resolvedAt().ifPresent(resolvedAt -> dto.setResolvedAt(resolvedAt.atOffset(ZoneOffset.UTC)));
 
         List<DiscussionReference> referenceDTOs = new ArrayList<>();
-        referenceDTOs.addAll(references.courseReferences().stream()
-                .map(reference -> mapToCourseReference(reference, lessonMap.get(reference.courseId())))
+        referenceDTOs.addAll(references.buildingBlockReferences().stream()
+                .map(reference -> mapToBuildingBlockReference(reference, buildingBlockMap.get(reference.buildingBlockId())))
                 .toList());
         referenceDTOs.addAll(references.pageReferences().stream()
                 .map(reference -> mapToPageReference(reference, pageMap.get(reference.pageId())))
@@ -77,11 +80,11 @@ public class DiscussionMapper {
         return dto;
     }
 
-    private static edu.kit.elst.rest_api.CourseReference mapToCourseReference(edu.kit.elst.collaboration.CourseReference reference, Lesson lesson) {
-        edu.kit.elst.rest_api.CourseReference dto = new edu.kit.elst.rest_api.CourseReference();
+    private static edu.kit.elst.rest_api.BuildingBlockReference mapToBuildingBlockReference(BuildingBlockReference reference, BuildingBlock buildingBlock) {
+        edu.kit.elst.rest_api.BuildingBlockReference dto = new edu.kit.elst.rest_api.BuildingBlockReference();
 
-        dto.setCourseId(reference.courseId().value());
-        dto.setTopic(lesson.topic().value());
+        dto.setBuildingBlockId(reference.buildingBlockId().value());
+        dto.setName(buildingBlock.details().name());
 
         return dto;
     }
