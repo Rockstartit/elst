@@ -59,8 +59,7 @@
     <q-tabs v-model="tab" no-caps dense align="left" class="q-mt-xs">
       <q-tab name="overview"> Übersicht </q-tab>
       <q-tab name="properties"> Konfigurationsmöglichkeiten </q-tab>
-      <q-tab name="issues"> Issues </q-tab>
-      <q-tab name="discussion"> Diskussionen </q-tab>
+      <q-tab name="discussion"> Probleme und Diskussionen </q-tab>
     </q-tabs>
 
     <q-separator />
@@ -70,13 +69,7 @@
 <script lang="ts" setup>
 import MHoverable from 'src/core/MHoverable.vue';
 
-export type BuildingBlockHeaderTab =
-  | 'overview'
-  | 'issues'
-  | 'requirements'
-  | 'mockups'
-  | 'diagrams'
-  | 'discussion';
+export type BuildingBlockHeaderTab = 'overview' | 'properties' | 'discussion';
 
 defineProps<{
   name: string;
