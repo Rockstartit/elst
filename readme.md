@@ -43,3 +43,7 @@ Build images:
 Run application stack:
 
     docker compose up
+
+If memory is a problem:
+
+    docker system prune -a
