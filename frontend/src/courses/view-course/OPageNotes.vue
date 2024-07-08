@@ -3,7 +3,7 @@
     <p class="text-body2 text-weight-medium"> Umsetzungshinweise </p>
     <AToggleInput class="full-width">
       <template #display>
-        <p v-if="page.notes" class="text-body2">
+        <p v-if="page.notes" class="text-body2 preserve-line-breaks">
           {{ page.notes }}
         </p>
         <p v-else class="text-body2 text-grey-7"> Keine Angabe </p>
