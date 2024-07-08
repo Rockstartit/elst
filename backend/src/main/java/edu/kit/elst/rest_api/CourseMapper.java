@@ -65,6 +65,7 @@ public class CourseMapper {
 
         dto.setId(page.id().value());
         dto.setTitle(page.title());
+        dto.setNotes(page.notes());
         dto.setImplementationStatus(page.implementationStatus());
         dto.setOrder(UtilMapper.mapToBigDecimal(page.order()));
         dto.setTeachingPhaseId(page.teachingPhaseId().value());
