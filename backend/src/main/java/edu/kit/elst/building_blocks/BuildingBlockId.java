@@ -15,7 +15,7 @@ import java.util.UUID;
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class BuildingBlockId implements Serializable {
-    @Column(name = "building_block_id", nullable = false)
+    @Column(name = "building_block_id")
     private final UUID value;
 
     public BuildingBlockId(UUID value) {

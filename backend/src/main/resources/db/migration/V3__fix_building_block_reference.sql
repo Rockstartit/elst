@@ -1,0 +1,1 @@
+alter table discussion_references modify column building_block_id binary(16);
