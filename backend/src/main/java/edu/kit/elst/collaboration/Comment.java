@@ -27,6 +27,8 @@ public class Comment {
 
     private final Instant createdAt;
 
+    @Lob
+    @Column(length = 256)
     private String content;
 
     public Comment(Discussion discussion, UserId createdBy, Instant createdAt, String content) {

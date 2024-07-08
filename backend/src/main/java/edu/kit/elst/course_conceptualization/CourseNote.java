@@ -2,10 +2,7 @@ package edu.kit.elst.course_conceptualization;
 
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.core.shared.CourseId;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,24 +18,25 @@ public class CourseNote {
     private final CourseId courseId;
 
     @Lob
-    private byte[] content;
+    @Column(length = 65536)
+    private String content;
 
     public CourseNote(CourseId courseId) {
         this.courseId = courseId;
-        this.content = new byte[0];
+        this.content = "";
     }
 
     public void data(String content) {
         Guards.notNull(content, "content");
 
-        this.content = content.getBytes(StandardCharsets.UTF_8);
+        this.content = content;
     }
 
     public void content(String content) {
-        this.content = content.getBytes();
+        this.content = content;
     }
 
     public String content() {
-        return new String(content);
+        return content;
     }
 }

@@ -1,8 +1,8 @@
 package edu.kit.elst.lesson_planning;
 
-import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Lob;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class AcquiredCompetences {
-    @Column(name = "acquired_competences", length = 1024)
+
+    @Lob
+    @Column(name = "acquired_competences", length = 65536)
     private final String value;
 
     public AcquiredCompetences(String value) {

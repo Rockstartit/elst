@@ -28,6 +28,8 @@ public class LearningMaterial {
 
     private String name;
 
+    @Lob
+    @Column(length = 256)
     private String description;
 
     public LearningMaterial(TeachingPhase teachingPhase, FileId fileId, String name) {

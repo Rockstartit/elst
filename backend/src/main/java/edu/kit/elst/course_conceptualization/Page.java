@@ -28,6 +28,8 @@ public class Page {
 
     private String title;
 
+    @Lob
+    @Column(length = 65536)
     private String notes;
 
     @Enumerated(EnumType.ORDINAL)

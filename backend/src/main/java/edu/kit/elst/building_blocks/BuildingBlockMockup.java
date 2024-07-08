@@ -26,6 +26,8 @@ public class BuildingBlockMockup {
     @AttributeOverride(name = "value", column = @Column(name = "created_by"))
     private UserId createdBy;
 
+    @Lob
+    @Column(length = 256)
     private String description;
 
     public BuildingBlockMockup(BuildingBlockId buildingBlockId, FileId fileId, UserId createdBy) {

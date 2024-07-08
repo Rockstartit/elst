@@ -17,6 +17,9 @@ public class BuildingBlockProperty {
     private final BuildingBlockPropertyId id;
 
     private String displayName;
+
+    @Lob
+    @Column(length = 256)
     private String description;
 
     @Column(name = "order_index")

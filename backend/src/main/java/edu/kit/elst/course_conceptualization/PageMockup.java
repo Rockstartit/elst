@@ -26,6 +26,8 @@ public class PageMockup {
     @AttributeOverride(name = "value", column = @Column(name = "created_by"))
     private UserId createdBy;
 
+    @Lob
+    @Column(length = 256)
     private String description;
 
     public PageMockup(PageId pageId, FileId fileId, UserId createdBy) {

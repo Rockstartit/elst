@@ -3,6 +3,7 @@ package edu.kit.elst.building_blocks;
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Lob;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,8 @@ public class BuildingBlockDetails {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    @Lob
+    @Column(length = 256)
     private String description;
 
     public BuildingBlockDetails(String name, String description) {
