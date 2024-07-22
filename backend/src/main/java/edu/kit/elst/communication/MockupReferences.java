@@ -1,4 +1,4 @@
-package edu.kit.elst.collaboration;
+package edu.kit.elst.communication;
 
 import edu.kit.elst.core.shared.DiscussionId;
 import edu.kit.elst.core.shared.DiscussionReferenceId;

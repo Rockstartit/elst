@@ -3,10 +3,10 @@ package edu.kit.elst.rest_api;
 import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.core.shared.BuildingBlockId;
-import edu.kit.elst.collaboration.BuildingBlockReference;
-import edu.kit.elst.collaboration.MockupReference;
-import edu.kit.elst.collaboration.PageReference;
-import edu.kit.elst.collaboration.*;
+import edu.kit.elst.communication.BuildingBlockReference;
+import edu.kit.elst.communication.MockupReference;
+import edu.kit.elst.communication.PageReference;
+import edu.kit.elst.communication.*;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.Page;
 import edu.kit.elst.course_conceptualization.PageAppService;
@@ -102,9 +102,9 @@ public class DiscussionController implements DiscussionApi {
             discussionIds.addAll(discussionReferenceAppService.discussions(aMockupId));
         }
 
-        Collection<edu.kit.elst.collaboration.Discussion> discussions = discussionAppService.discussions(discussionIds);
+        Collection<edu.kit.elst.communication.Discussion> discussions = discussionAppService.discussions(discussionIds);
         Set<UserId> userIds = discussions.stream()
-                .map(edu.kit.elst.collaboration.Discussion::createdBy)
+                .map(edu.kit.elst.communication.Discussion::createdBy)
                 .collect(Collectors.toSet());
 
         Map<UserId, User> userMap = userAppService.users(userIds).stream()
@@ -119,7 +119,7 @@ public class DiscussionController implements DiscussionApi {
     public ResponseEntity<Discussion> getDiscussion(UUID discussionId) {
         DiscussionId aDiscussionId = new DiscussionId(discussionId);
 
-        edu.kit.elst.collaboration.Discussion discussion = discussionAppService.discussion(aDiscussionId)
+        edu.kit.elst.communication.Discussion discussion = discussionAppService.discussion(aDiscussionId)
                 .orElseThrow(() -> new DiscussionNotFoundException(aDiscussionId));
 
         User createdBy = userAppService.user(discussion.createdBy());
@@ -171,10 +171,10 @@ public class DiscussionController implements DiscussionApi {
     public ResponseEntity<List<Comment>> getAllComments(UUID discussionId) {
         DiscussionId aDiscussionId = new DiscussionId(discussionId);
 
-        List<edu.kit.elst.collaboration.Comment> comments = discussionAppService.orderedComments(aDiscussionId);
+        List<edu.kit.elst.communication.Comment> comments = discussionAppService.orderedComments(aDiscussionId);
 
         Set<UserId> userIds = comments.stream()
-                .map(edu.kit.elst.collaboration.Comment::createdBy)
+                .map(edu.kit.elst.communication.Comment::createdBy)
                 .collect(Collectors.toSet());
 
         Map<UserId, User> userMap = userAppService.users(userIds).stream()

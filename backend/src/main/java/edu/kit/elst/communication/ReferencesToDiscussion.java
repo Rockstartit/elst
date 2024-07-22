@@ -1,4 +1,4 @@
-package edu.kit.elst.collaboration;
+package edu.kit.elst.communication;
 
 import java.util.Collection;
 

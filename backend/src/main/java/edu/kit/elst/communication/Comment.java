@@ -1,4 +1,4 @@
-package edu.kit.elst.collaboration;
+package edu.kit.elst.communication;
 
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.core.shared.CommentId;

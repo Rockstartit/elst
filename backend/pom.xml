@@ -182,7 +182,7 @@
                             <importMappings>
                                 <importMapping>ReleaseStatus=edu.kit.elst.building_blocks.ReleaseStatus</importMapping>
                                 <importMapping>LearningCyclePhase=edu.kit.elst.lesson_planning.LearningCyclePhase</importMapping>
-                                <importMapping>DiscussionState=edu.kit.elst.collaboration.DiscussionState</importMapping>
+                                <importMapping>DiscussionState=edu.kit.elst.communication.DiscussionState</importMapping>
                                 <importMapping>BuildingBlockPropertyType=edu.kit.elst.building_blocks.BuildingBlockPropertyType</importMapping>
                                 <importMapping>ImplementationStatus=edu.kit.elst.course_conceptualization.ImplementationStatus</importMapping>
                                 <importMapping>TeacherPresence=edu.kit.elst.lesson_planning.TeacherPresence</importMapping>

@@ -2,9 +2,9 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.core.shared.BuildingBlockId;
-import edu.kit.elst.collaboration.BuildingBlockReference;
-import edu.kit.elst.collaboration.Comment;
-import edu.kit.elst.collaboration.ReferencesToDiscussion;
+import edu.kit.elst.communication.BuildingBlockReference;
+import edu.kit.elst.communication.Comment;
+import edu.kit.elst.communication.ReferencesToDiscussion;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.course_conceptualization.PageMockup;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DiscussionMapper {
-    public static DiscussionOverview mapToDiscussionOverview(edu.kit.elst.collaboration.Discussion discussion, edu.kit.elst.users.User createdBy) {
+    public static DiscussionOverview mapToDiscussionOverview(edu.kit.elst.communication.Discussion discussion, edu.kit.elst.users.User createdBy) {
         DiscussionOverview dto = new DiscussionOverview();
 
         dto.setId(discussion.id().value());
@@ -29,7 +29,7 @@ public class DiscussionMapper {
         return dto;
     }
 
-    public static Discussion mapToDiscussion(edu.kit.elst.collaboration.Discussion discussion,
+    public static Discussion mapToDiscussion(edu.kit.elst.communication.Discussion discussion,
                                              edu.kit.elst.users.User createdBy,
                                              ReferencesToDiscussion references,
                                              Map<BuildingBlockId, BuildingBlock> buildingBlockMap,
@@ -60,7 +60,7 @@ public class DiscussionMapper {
         return dto;
     }
 
-    private static edu.kit.elst.rest_api.MockupReference mapToMockupReference(edu.kit.elst.collaboration.MockupReference reference, PageMockup mockup) {
+    private static edu.kit.elst.rest_api.MockupReference mapToMockupReference(edu.kit.elst.communication.MockupReference reference, PageMockup mockup) {
         edu.kit.elst.rest_api.MockupReference dto = new edu.kit.elst.rest_api.MockupReference();
 
         dto.setMockupId(reference.mockupId().value());
@@ -69,7 +69,7 @@ public class DiscussionMapper {
         return dto;
     }
 
-    private static edu.kit.elst.rest_api.PageReference mapToPageReference(edu.kit.elst.collaboration.PageReference reference, Page page) {
+    private static edu.kit.elst.rest_api.PageReference mapToPageReference(edu.kit.elst.communication.PageReference reference, Page page) {
         edu.kit.elst.rest_api.PageReference dto = new edu.kit.elst.rest_api.PageReference();
 
         dto.setPageId(reference.pageId().value());
