@@ -2,7 +2,7 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockAppService;
-import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import edu.kit.elst.course_conceptualization.*;
 import edu.kit.elst.course_conceptualization.PageBuildingBlock;

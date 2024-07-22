@@ -1,10 +1,10 @@
 package edu.kit.elst.building_blocks;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.UserId;
-import edu.kit.elst.course_conceptualization.PageMockups;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

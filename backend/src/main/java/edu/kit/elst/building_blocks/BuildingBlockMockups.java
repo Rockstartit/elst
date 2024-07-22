@@ -1,5 +1,6 @@
 package edu.kit.elst.building_blocks;
 
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.core.shared.MockupId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,16 +1,14 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
-import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.collaboration.BuildingBlockReference;
 import edu.kit.elst.collaboration.Comment;
 import edu.kit.elst.collaboration.ReferencesToDiscussion;
-import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.course_conceptualization.PageMockup;
 import edu.kit.elst.course_conceptualization.Page;
-import edu.kit.elst.lesson_planning.Lesson;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;

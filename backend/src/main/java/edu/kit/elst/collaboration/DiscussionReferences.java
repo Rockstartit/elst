@@ -1,6 +1,6 @@
 package edu.kit.elst.collaboration;
 
-import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

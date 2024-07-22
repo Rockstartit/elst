@@ -1,7 +1,7 @@
 package edu.kit.elst.rest_api;
 
 import edu.kit.elst.building_blocks.BuildingBlock;
-import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.building_blocks.BuildingBlockProperty;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;

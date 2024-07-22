@@ -2,6 +2,7 @@ package edu.kit.elst.building_blocks;
 
 import edu.kit.elst.content_upload.StorageService;
 import edu.kit.elst.core.UserContext;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.core.shared.FileId;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.MockupNotFoundException;

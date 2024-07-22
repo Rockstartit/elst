@@ -1,4 +1,4 @@
-package edu.kit.elst.building_blocks;
+package edu.kit.elst.core.shared;
 
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;

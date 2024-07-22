@@ -1,6 +1,8 @@
 package edu.kit.elst.building_blocks;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.BuildingBlockId;
+import edu.kit.elst.core.shared.BuildingBlockPropertyId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

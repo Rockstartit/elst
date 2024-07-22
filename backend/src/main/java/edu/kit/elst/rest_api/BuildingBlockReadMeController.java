@@ -1,6 +1,6 @@
 package edu.kit.elst.rest_api;
 
-import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.building_blocks.ReadMeAppService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

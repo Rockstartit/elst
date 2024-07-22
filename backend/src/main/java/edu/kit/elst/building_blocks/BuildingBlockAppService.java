@@ -1,5 +1,6 @@
 package edu.kit.elst.building_blocks;
 
+import edu.kit.elst.core.shared.BuildingBlockId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

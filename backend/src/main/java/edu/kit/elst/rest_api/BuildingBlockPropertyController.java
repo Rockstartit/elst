@@ -1,8 +1,8 @@
 package edu.kit.elst.rest_api;
 
-import edu.kit.elst.building_blocks.BuildingBlockId;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.building_blocks.BuildingBlockPropertyAppService;
-import edu.kit.elst.building_blocks.BuildingBlockPropertyId;
+import edu.kit.elst.core.shared.BuildingBlockPropertyId;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

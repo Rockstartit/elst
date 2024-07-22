@@ -1,6 +1,7 @@
 package edu.kit.elst.building_blocks;
 
 import edu.kit.elst.core.Guards;
+import edu.kit.elst.core.shared.BuildingBlockId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
