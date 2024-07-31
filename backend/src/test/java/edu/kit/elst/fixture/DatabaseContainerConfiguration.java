@@ -1,4 +1,4 @@
-package edu.kit.elst;
+package edu.kit.elst.fixture;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -11,6 +11,7 @@ public class DatabaseContainerConfiguration {
     @ServiceConnection
     public MySQLContainer mySQLContainer() {
         return new MySQLContainer<>("mysql:8.0")
-                .withDatabaseName("elst");
+                .withDatabaseName("elst")
+                .withReuse(true);
     }
 }
