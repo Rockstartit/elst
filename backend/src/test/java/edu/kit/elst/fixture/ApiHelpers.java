@@ -15,4 +15,9 @@ public class ApiHelpers {
     public UserApiHelper userApiHelper(MockMvc mockMvc) {
         return new UserApiHelper(mockMvc);
     }
+
+    @Bean
+    public LessonApiHelper lessonApiHelper(MockMvc mockMvc) {
+        return new LessonApiHelper(mockMvc);
+    }
 }
