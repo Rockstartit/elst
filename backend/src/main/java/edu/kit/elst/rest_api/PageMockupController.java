@@ -2,7 +2,7 @@ package edu.kit.elst.rest_api;
 
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
-import edu.kit.elst.course_conceptualization.PageMockupAppService;
+import edu.kit.elst.course_planning.PageMockupAppService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

@@ -7,8 +7,8 @@ import edu.kit.elst.communication.Comment;
 import edu.kit.elst.communication.ReferencesToDiscussion;
 import edu.kit.elst.core.shared.MockupId;
 import edu.kit.elst.core.shared.PageId;
-import edu.kit.elst.course_conceptualization.PageMockup;
-import edu.kit.elst.course_conceptualization.Page;
+import edu.kit.elst.course_planning.PageMockup;
+import edu.kit.elst.course_planning.Page;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class DiscussionMapper {
                                              edu.kit.elst.users.User createdBy,
                                              ReferencesToDiscussion references,
                                              Map<BuildingBlockId, BuildingBlock> buildingBlockMap,
-                                             Map<PageId, edu.kit.elst.course_conceptualization.Page> pageMap,
+                                             Map<PageId, edu.kit.elst.course_planning.Page> pageMap,
                                              Map<MockupId, PageMockup> mockupMap) {
         Discussion dto = new Discussion();
 

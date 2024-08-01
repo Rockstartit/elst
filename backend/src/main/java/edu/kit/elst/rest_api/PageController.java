@@ -4,9 +4,9 @@ import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
-import edu.kit.elst.course_conceptualization.*;
-import edu.kit.elst.course_conceptualization.PageBuildingBlock;
-import edu.kit.elst.course_conceptualization.PageLink;
+import edu.kit.elst.course_planning.*;
+import edu.kit.elst.course_planning.PageBuildingBlock;
+import edu.kit.elst.course_planning.PageLink;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +65,7 @@ public class PageController implements PageApi {
     public ResponseEntity<Page> getPage(UUID pageId) {
         PageId aPageId = new PageId(pageId);
 
-        edu.kit.elst.course_conceptualization.Page page = pageAppService.page(aPageId)
+        edu.kit.elst.course_planning.Page page = pageAppService.page(aPageId)
                 .orElseThrow(() -> new PageNotFoundException(aPageId));
 
         Collection<PageBuildingBlock> pageBuildingBlocks = pageBuildingBlockAppService.pageBuildingBlocks(aPageId);
@@ -79,8 +79,8 @@ public class PageController implements PageApi {
 
         Collection<PageLink> pageLinks = pageAppService.pageLinks(aPageId);
         Set<PageId> linkedPageIds = pageLinks.stream().map(PageLink::targetPageId).collect(Collectors.toSet());
-        Map<PageId, edu.kit.elst.course_conceptualization.Page> linkedPagesMap = pageAppService.pages(linkedPageIds).stream()
-                .collect(Collectors.toMap(edu.kit.elst.course_conceptualization.Page::id, Function.identity()));
+        Map<PageId, edu.kit.elst.course_planning.Page> linkedPagesMap = pageAppService.pages(linkedPageIds).stream()
+                .collect(Collectors.toMap(edu.kit.elst.course_planning.Page::id, Function.identity()));
 
         return ResponseEntity.ok(CourseMapper.mapToPage(page, pageLinks, linkedPagesMap, mockups, pageBuildingBlocks, buildingBlockMap));
     }
@@ -89,7 +89,7 @@ public class PageController implements PageApi {
     public ResponseEntity<List<PageOverview>> getPages(UUID courseId) {
         CourseId aCourseId = new CourseId(courseId);
 
-        Collection<edu.kit.elst.course_conceptualization.Page> pages
+        Collection<edu.kit.elst.course_planning.Page> pages
                 = pageAppService.pages(aCourseId);
 
         return ResponseEntity.ok(pages.stream()

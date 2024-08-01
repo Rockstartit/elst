@@ -1,4 +1,4 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.course_planning;
 
 import edu.kit.elst.core.shared.PageBuildingBlockId;
 import org.springframework.data.jpa.repository.JpaRepository;

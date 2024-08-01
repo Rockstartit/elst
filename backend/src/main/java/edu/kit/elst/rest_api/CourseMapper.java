@@ -5,16 +5,16 @@ import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.building_blocks.BuildingBlockProperty;
 import edu.kit.elst.core.shared.PageId;
 import edu.kit.elst.core.shared.TeachingPhaseId;
-import edu.kit.elst.course_conceptualization.CourseNote;
-import edu.kit.elst.course_conceptualization.PageBuildingBlockPropertyValue;
-import edu.kit.elst.course_conceptualization.PageMockup;
+import edu.kit.elst.course_planning.CourseNote;
+import edu.kit.elst.course_planning.PageBuildingBlockPropertyValue;
+import edu.kit.elst.course_planning.PageMockup;
 import edu.kit.elst.lesson_planning.TeachingPhase;
 import edu.kit.elst.lesson_planning.TeachingUnit;
 
 import java.util.*;
 
 public class CourseMapper {
-    public static Course mapToCourse(edu.kit.elst.course_conceptualization.Course course, CourseNote notes) {
+    public static Course mapToCourse(edu.kit.elst.course_planning.Course course, CourseNote notes) {
         Course dto = new Course();
 
         dto.setId(course.id().value());
@@ -25,7 +25,7 @@ public class CourseMapper {
         return dto;
     }
 
-    public static CourseOverview mapToCourseOverview(edu.kit.elst.course_conceptualization.Course course) {
+    public static CourseOverview mapToCourseOverview(edu.kit.elst.course_planning.Course course) {
         CourseOverview dto = new CourseOverview();
 
         dto.setId(course.id().value());
@@ -55,11 +55,11 @@ public class CourseMapper {
         return dto;
     }
 
-    public static Page mapToPage(edu.kit.elst.course_conceptualization.Page page,
-                                 Collection<edu.kit.elst.course_conceptualization.PageLink> pageLinks,
-                                 Map<PageId, edu.kit.elst.course_conceptualization.Page> linkedPagesMap,
+    public static Page mapToPage(edu.kit.elst.course_planning.Page page,
+                                 Collection<edu.kit.elst.course_planning.PageLink> pageLinks,
+                                 Map<PageId, edu.kit.elst.course_planning.Page> linkedPagesMap,
                                  Collection<PageMockup> mockups,
-                                 Collection<edu.kit.elst.course_conceptualization.PageBuildingBlock> pageBuildingBlocks,
+                                 Collection<edu.kit.elst.course_planning.PageBuildingBlock> pageBuildingBlocks,
                                  Map<BuildingBlockId, edu.kit.elst.building_blocks.BuildingBlock> buildingBlockMap) {
         Page dto = new Page();
 
@@ -83,7 +83,7 @@ public class CourseMapper {
         return dto;
     }
 
-    private static PageLink mapToPageLink(edu.kit.elst.course_conceptualization.PageLink pageLink, edu.kit.elst.course_conceptualization.Page page) {
+    private static PageLink mapToPageLink(edu.kit.elst.course_planning.PageLink pageLink, edu.kit.elst.course_planning.Page page) {
         PageLink dto = new PageLink();
 
         dto.setTargetPageId(pageLink.targetPageId().value());
@@ -93,7 +93,7 @@ public class CourseMapper {
         return dto;
     }
 
-    public static edu.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(edu.kit.elst.course_conceptualization.PageBuildingBlock pageBuildingBlock, BuildingBlock buildingBlock) {
+    public static edu.kit.elst.rest_api.PageBuildingBlock mapToPageBuildingBlock(edu.kit.elst.course_planning.PageBuildingBlock pageBuildingBlock, BuildingBlock buildingBlock) {
         edu.kit.elst.rest_api.PageBuildingBlock dto = new edu.kit.elst.rest_api.PageBuildingBlock();
 
         dto.setPageBuildingBlockId(pageBuildingBlock.id().value());
@@ -124,7 +124,7 @@ public class CourseMapper {
         return dto;
     }
 
-    public static PageOverview mapToPageOverview(edu.kit.elst.course_conceptualization.Page page) {
+    public static PageOverview mapToPageOverview(edu.kit.elst.course_planning.Page page) {
         PageOverview dto = new PageOverview();
 
         dto.setId(page.id().value());
@@ -139,11 +139,11 @@ public class CourseMapper {
     public static CourseTeachingUnit mapToCourseTeachingUnit(TeachingUnit teachingUnit,
                                                              List<edu.kit.elst.lesson_planning.TeachingPhase> teachingPhases,
                                                              Map<TeachingPhaseId, List<edu.kit.elst.lesson_planning.LearningMaterial>> learningMaterialsMap,
-                                                             Map<TeachingPhaseId, List<edu.kit.elst.course_conceptualization.Page>> pagesMap,
+                                                             Map<TeachingPhaseId, List<edu.kit.elst.course_planning.Page>> pagesMap,
                                                              Map<PageId, List<PageMockup>> mockupsMap,
-                                                             Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
-                                                             Map<PageId, Collection<edu.kit.elst.course_conceptualization.PageLink>> pageLinksMap,
-                                                             Map<PageId, edu.kit.elst.course_conceptualization.Page> linkedPagesMap,
+                                                             Map<PageId, List<edu.kit.elst.course_planning.PageBuildingBlock>> pageBuildingBlocksMap,
+                                                             Map<PageId, Collection<edu.kit.elst.course_planning.PageLink>> pageLinksMap,
+                                                             Map<PageId, edu.kit.elst.course_planning.Page> linkedPagesMap,
                                                              Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {
         CourseTeachingUnit dto = new CourseTeachingUnit();
 
@@ -168,11 +168,11 @@ public class CourseMapper {
 
     public static CourseTeachingPhase mapToCourseTeachingPhase(TeachingPhase teachingPhase,
                                                                List<edu.kit.elst.lesson_planning.LearningMaterial> learningMaterials,
-                                                               List<edu.kit.elst.course_conceptualization.Page> pages,
+                                                               List<edu.kit.elst.course_planning.Page> pages,
                                                                Map<PageId, List<PageMockup>> mockupsMap,
-                                                               Map<PageId, List<edu.kit.elst.course_conceptualization.PageBuildingBlock>> pageBuildingBlocksMap,
-                                                               Map<PageId, Collection<edu.kit.elst.course_conceptualization.PageLink>> pageLinksMap,
-                                                               Map<PageId, edu.kit.elst.course_conceptualization.Page> linkedPagesMap,
+                                                               Map<PageId, List<edu.kit.elst.course_planning.PageBuildingBlock>> pageBuildingBlocksMap,
+                                                               Map<PageId, Collection<edu.kit.elst.course_planning.PageLink>> pageLinksMap,
+                                                               Map<PageId, edu.kit.elst.course_planning.Page> linkedPagesMap,
                                                                Map<BuildingBlockId, BuildingBlock> buildingBlockMap) {
         CourseTeachingPhase dto = new CourseTeachingPhase();
 
@@ -188,7 +188,7 @@ public class CourseMapper {
                 .toList());
 
         dto.setPages(pages.stream()
-                .sorted(Comparator.comparing(edu.kit.elst.course_conceptualization.Page::order))
+                .sorted(Comparator.comparing(edu.kit.elst.course_planning.Page::order))
                 .map(page -> CourseMapper.mapToPage(
                         page,
                         pageLinksMap.getOrDefault(page.id(), Collections.emptyList()),

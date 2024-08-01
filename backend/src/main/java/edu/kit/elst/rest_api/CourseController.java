@@ -4,11 +4,11 @@ import edu.kit.elst.building_blocks.BuildingBlock;
 import edu.kit.elst.building_blocks.BuildingBlockAppService;
 import edu.kit.elst.core.shared.BuildingBlockId;
 import edu.kit.elst.core.shared.*;
-import edu.kit.elst.course_conceptualization.*;
-import edu.kit.elst.course_conceptualization.PageLink;
-import edu.kit.elst.course_conceptualization.PageMockup;
-import edu.kit.elst.course_conceptualization.Page;
-import edu.kit.elst.course_conceptualization.PageBuildingBlock;
+import edu.kit.elst.course_planning.*;
+import edu.kit.elst.course_planning.PageLink;
+import edu.kit.elst.course_planning.PageMockup;
+import edu.kit.elst.course_planning.Page;
+import edu.kit.elst.course_planning.PageBuildingBlock;
 import edu.kit.elst.lesson_planning.*;
 import edu.kit.elst.lesson_planning.LearningMaterial;
 import edu.kit.elst.lesson_planning.TeachingPhase;
@@ -71,7 +71,7 @@ public class CourseController implements CourseApi {
 
     @Override
     public ResponseEntity<List<CourseOverview>> getAllCourses(UUID lessonId) {
-        Collection<edu.kit.elst.course_conceptualization.Course> courses;
+        Collection<edu.kit.elst.course_planning.Course> courses;
 
         if (lessonId != null) {
             LessonId aLessonId = new LessonId(lessonId);
@@ -90,7 +90,7 @@ public class CourseController implements CourseApi {
     public ResponseEntity<Course> getCourse(UUID courseId) {
         CourseId aCourseId = new CourseId(courseId);
 
-        edu.kit.elst.course_conceptualization.Course course = courseAppService.course(aCourseId)
+        edu.kit.elst.course_planning.Course course = courseAppService.course(aCourseId)
                 .orElseThrow(() -> new CourseNotFoundException(aCourseId));
 
         CourseNote notes = courseAppService.courseNote(aCourseId);
@@ -102,7 +102,7 @@ public class CourseController implements CourseApi {
     public ResponseEntity<List<CourseTeachingUnit>> getCourseStructure(UUID courseId) {
         CourseId aCourseId = new CourseId(courseId);
 
-        edu.kit.elst.course_conceptualization.Course course = courseAppService.course(aCourseId)
+        edu.kit.elst.course_planning.Course course = courseAppService.course(aCourseId)
                 .orElseThrow(() -> new CourseNotFoundException(aCourseId));
 
         Collection<TeachingUnit> teachingUnits = teachingUnitAppService.teachingUnits(course.lessonId());

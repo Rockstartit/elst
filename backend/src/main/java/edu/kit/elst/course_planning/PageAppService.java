@@ -1,4 +1,4 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.course_planning;
 
 import edu.kit.elst.core.shared.CourseId;
 import edu.kit.elst.core.shared.PageId;

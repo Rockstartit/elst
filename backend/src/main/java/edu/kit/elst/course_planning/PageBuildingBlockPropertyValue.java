@@ -1,4 +1,4 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.course_planning;
 
 import edu.kit.elst.core.Guards;
 import jakarta.persistence.Column;

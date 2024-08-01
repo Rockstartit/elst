@@ -1,4 +1,4 @@
-package edu.kit.elst.course_conceptualization;
+package edu.kit.elst.course_planning;
 
 import edu.kit.elst.core.Guards;
 import edu.kit.elst.core.shared.CourseId;
@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.nio.charset.StandardCharsets;
 
 @Entity
 @Getter
