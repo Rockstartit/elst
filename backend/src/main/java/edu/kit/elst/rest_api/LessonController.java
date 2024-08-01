@@ -116,6 +116,7 @@ public class LessonController implements LessonApi {
         lesson.learningPrerequisites().map(LearningPrerequisites::value).ifPresent(dto::setLearningPrerequisites);
         lesson.thematicAreas().map(ThematicAreas::value).ifPresent(dto::setThematicAreas);
         lesson.license().map(License::value).ifPresent(dto::setLicense);
+        lesson.schedule().map(Schedule::value).ifPresent(dto::setSchedule);
 
         dto.setTeachingUnits(teachingUnits.stream()
                 .map(this::mapToTeachingUnitOverview)

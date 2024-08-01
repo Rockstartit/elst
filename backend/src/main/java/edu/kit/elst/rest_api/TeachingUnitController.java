@@ -56,7 +56,7 @@ public class TeachingUnitController implements TeachingUnitApi {
         }
 
         if (body.getDidacticConsiderations() != null) {
-            DidacticConsideration didacticConsideration = new DidacticConsideration(body.getRoughContentAnalysis());
+            DidacticConsideration didacticConsideration = new DidacticConsideration(body.getDidacticConsiderations());
 
             teachingUnitAppService.editDidacticConsideration(aTeachingUnitId, didacticConsideration);
         }
