@@ -1,7 +1,7 @@
 package edu.kit.elst.lesson_planning;
 
 import edu.kit.elst.fixture.ELSTIntegrationTest;
-import edu.kit.elst.fixture.LessonApiHelper;
+import edu.kit.elst.fixture.LessonPlanningApiHelper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class TeachingUnitTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private LessonApiHelper lessonApiHelper;
+    private LessonPlanningApiHelper lessonApiHelper;
 
     @Test
     @SneakyThrows

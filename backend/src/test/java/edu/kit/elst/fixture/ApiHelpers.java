@@ -17,7 +17,12 @@ public class ApiHelpers {
     }
 
     @Bean
-    public LessonApiHelper lessonApiHelper(MockMvc mockMvc) {
-        return new LessonApiHelper(mockMvc);
+    public LessonPlanningApiHelper lessonApiHelper(MockMvc mockMvc) {
+        return new LessonPlanningApiHelper(mockMvc);
+    }
+
+    @Bean
+    public CoursePlanningApiHelper courseApiHelper(MockMvc mockMvc) {
+        return new CoursePlanningApiHelper(mockMvc);
     }
 }

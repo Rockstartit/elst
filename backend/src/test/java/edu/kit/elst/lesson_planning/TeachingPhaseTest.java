@@ -1,7 +1,7 @@
 package edu.kit.elst.lesson_planning;
 
 import edu.kit.elst.fixture.ELSTIntegrationTest;
-import edu.kit.elst.fixture.LessonApiHelper;
+import edu.kit.elst.fixture.LessonPlanningApiHelper;
 import edu.kit.elst.rest_api.LearningCyclePhase;
 import edu.kit.elst.rest_api.TeacherPresence;
 import lombok.SneakyThrows;
@@ -21,7 +21,7 @@ public class TeachingPhaseTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private LessonApiHelper lessonApiHelper;
+    private LessonPlanningApiHelper lessonApiHelper;
 
     @Test
     @SneakyThrows
